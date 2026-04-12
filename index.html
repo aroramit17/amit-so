@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amit Arora — GTM Strategist, Builder, AI Tinkerer</title>
+  <meta name="description" content="Amit Arora — Strategic GTM Consultant, Salesforce Architect, AI Workflow Builder. RevOps operator by day, builder by night.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber: #F4A261;
+      --violet: #6B2FA0;
+      --coral: #E76F51;
+      --indigo: #1A0A2E;
+      --cream: #FFF8F0;
+      --magenta: #C77DFF;
+      --deep-purple: #2D1854;
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'Titillium Web', sans-serif;
+      background: var(--indigo);
+      color: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ========== AMBIENT BACKGROUND ========== */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bg-glow .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      animation: float 20s ease-in-out infinite;
+    }
+    .bg-glow .orb:nth-child(1) {
+      width: 600px; height: 600px;
+      background: var(--violet);
+      top: -10%; left: -10%;
+      animation-delay: 0s;
+    }
+    .bg-glow .orb:nth-child(2) {
+      width: 500px; height: 500px;
+      background: var(--coral);
+      top: 40%; right: -15%;
+      animation-delay: -7s;
+    }
+    .bg-glow .orb:nth-child(3) {
+      width: 400px; height: 400px;
+      background: var(--amber);
+      bottom: -5%; left: 30%;
+      animation-delay: -14s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -40px) scale(1.05); }
+      66% { transform: translate(-20px, 30px) scale(0.95); }
+    }
+
+    /* ========== NOISE TEXTURE ========== */
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(26, 10, 46, 0.7);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .nav-logo {
+      font-family: 'Titillium Web', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.7;
+      transition: opacity 0.3s, color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--amber);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { opacity: 1; color: var(--amber); }
+    .nav-links a.active::after { width: 100%; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--cream);
+      transition: all 0.3s;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--amber);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    /* ========== HERO ========== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      font-size: 0.8rem;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+      width: fit-content;
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--coral);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--amber) 50%, var(--coral) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: rgba(255, 248, 240, 0.7);
+      max-width: 650px;
+      margin-bottom: 0.75rem;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255, 248, 240, 0.5);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .hero-headshot {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 3px solid var(--amber);
+      box-shadow: 0 0 40px rgba(244, 162, 97, 0.2);
+      flex-shrink: 0;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      color: var(--indigo);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(244, 162, 97, 0.3);
+    }
+
+    .btn-ghost {
+      background: var(--glass);
+      color: var(--cream);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ========== ABOUT ========== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: rgba(255, 248, 240, 0.75);
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .stat-card {
+      padding: 1.5rem;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--amber);
+    }
+    .stat-number {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgba(255, 248, 240, 0.5);
+      margin-top: 0.25rem;
+    }
+
+    /* ========== SKILLS / COMPETENCIES ========== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      padding: 2rem;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--magenta);
+      box-shadow: 0 8px 40px rgba(199, 125, 255, 0.1);
+    }
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .skill-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--cream);
+    }
+    .skill-card p {
+      font-size: 0.9rem;
+      color: rgba(255, 248, 240, 0.6);
+      line-height: 1.5;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .skill-tag {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(199, 125, 255, 0.15);
+      color: var(--magenta);
+      border: 1px solid rgba(199, 125, 255, 0.2);
+    }
+
+    /* ========== EXPERIENCE TIMELINE ========== */
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--violet), var(--amber), var(--coral));
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+    .timeline-item:hover {
+      border-color: var(--amber);
+      box-shadow: 0 8px 40px rgba(244, 162, 97, 0.08);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -3rem;
+      top: 2.25rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--amber);
+      border: 3px solid var(--indigo);
+      transform: translateX(calc(-50% + 1px));
+    }
+    .timeline-item:first-child .timeline-dot {
+      background: var(--coral);
+      box-shadow: 0 0 20px rgba(231, 111, 81, 0.5);
+    }
+    .timeline-header-line {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .timeline-header-line .company-name {
+      color: var(--cream);
+    }
+    .timeline-header-line .date-range {
+      color: var(--amber);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .timeline-role {
+      font-size: 1rem;
+      color: var(--magenta);
+      margin-bottom: 1rem;
+    }
+    .timeline-details {
+      list-style: none;
+      display: none;
+    }
+    .timeline-details.open {
+      display: block;
+    }
+    .timeline-details li {
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      color: rgba(255, 248, 240, 0.65);
+      line-height: 1.5;
+    }
+    .timeline-details li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: 0.6;
+    }
+    .timeline-toggle {
+      background: none;
+      border: none;
+      color: var(--amber);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      padding: 0;
+      transition: color 0.3s;
+    }
+    .timeline-toggle:hover { color: var(--coral); }
+
+    /* ========== WEBAI CATEGORY HEADINGS ========== */
+    .webai-categories {
+      display: none;
+      margin-top: 1rem;
+    }
+    .webai-categories.open {
+      display: block;
+    }
+    .webai-category {
+      margin-bottom: 0.75rem;
+    }
+    .webai-category-toggle {
+      background: none;
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      padding: 0.6rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+    .webai-category-toggle:hover { color: var(--amber); }
+    .webai-category-toggle .cat-arrow {
+      transition: transform 0.3s;
+      font-size: 0.7rem;
+      color: var(--amber);
+    }
+    .webai-category-toggle.expanded .cat-arrow {
+      transform: rotate(90deg);
+    }
+    .webai-category-items {
+      list-style: none;
+      display: none;
+      padding-left: 0.5rem;
+      border-left: 2px solid rgba(199, 125, 255, 0.2);
+      margin-left: 0.5rem;
+    }
+    .webai-category-items.open {
+      display: block;
+    }
+    .webai-category-items li {
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      color: rgba(255, 248, 240, 0.65);
+      line-height: 1.5;
+    }
+    .webai-category-items li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: 0.6;
+    }
+
+    /* ========== CERTIFICATIONS ========== */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .cert-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+    .cert-card:hover {
+      border-color: var(--amber);
+      transform: translateY(-2px);
+    }
+    .cert-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--violet), var(--magenta));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .cert-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+
+    /* ========== AI / CONTENT ========== */
+    .content-card {
+      padding: 3rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(107, 47, 160, 0.2), rgba(231, 111, 81, 0.1));
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .content-info h3 {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .content-info h3 span {
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .content-info p {
+      color: rgba(255, 248, 240, 0.7);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .content-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .content-tools span {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(244, 162, 97, 0.15);
+      color: var(--amber);
+      border: 1px solid rgba(244, 162, 97, 0.25);
+    }
+    .content-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .yt-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: block;
+    }
+    .yt-embed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .yt-embed .yt-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      transition: background 0.3s;
+    }
+    .yt-embed:hover .yt-play {
+      background: rgba(0,0,0,0.15);
+    }
+    .yt-play-btn {
+      width: 68px;
+      height: 48px;
+      background: rgba(231, 111, 81, 0.95);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .yt-embed:hover .yt-play-btn {
+      transform: scale(1.1);
+      background: var(--coral);
+    }
+    .yt-play-btn::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 0 10px 18px;
+      border-color: transparent transparent transparent white;
+      margin-left: 3px;
+    }
+    .yt-embed:hover {
+      border-color: var(--coral);
+      box-shadow: 0 8px 40px rgba(231, 111, 81, 0.15);
+    }
+
+    /* ========== FUN PROJECTS ========== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      padding: 2rem;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--cream);
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--amber);
+      box-shadow: 0 8px 40px rgba(244, 162, 97, 0.1);
+    }
+    .project-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .project-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .project-card .project-type {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--magenta);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: rgba(255, 248, 240, 0.6);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .project-link {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--amber);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* ========== INTERACTIVE CAREER TIMELINE ========== */
+    .career-timeline-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .career-tl-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      padding: 3rem 0 2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+    .career-tl-track::-webkit-scrollbar { display: none; }
+    .career-tl-track::before {
+      content: '';
+      position: absolute;
+      top: calc(3rem + 8px);
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--violet), var(--amber), var(--coral), var(--magenta));
+      z-index: 0;
+      min-width: 100%;
+      pointer-events: none;
+    }
+    .tl-node {
+      flex: 0 0 220px;
+      scroll-snap-align: center;
+      position: relative;
+      padding-top: 2.5rem;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .tl-node-dot {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--deep-purple);
+      border: 3px solid var(--amber);
+      transition: all 0.3s;
+      z-index: 2;
+    }
+    .tl-node:hover .tl-node-dot,
+    .tl-node.active .tl-node-dot {
+      background: var(--amber);
+      box-shadow: 0 0 20px rgba(244, 162, 97, 0.5);
+      transform: translateX(-50%) scale(1.3);
+    }
+    .tl-node-content {
+      text-align: center;
+      padding: 1rem 0.75rem;
+    }
+    .tl-node-year {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 1px;
+      margin-bottom: 0.35rem;
+    }
+    .tl-node-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+    }
+    .tl-node-sub {
+      font-size: 0.75rem;
+      color: rgba(255,248,240,0.5);
+    }
+    .tl-detail-panel {
+      margin-top: 1.5rem;
+      padding: 2rem;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      min-height: 120px;
+      transition: all 0.4s;
+    }
+    .tl-detail-panel h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .tl-detail-panel .tl-detail-role {
+      color: var(--magenta);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    .tl-detail-panel p {
+      font-size: 0.9rem;
+      color: rgba(255,248,240,0.65);
+      line-height: 1.6;
+    }
+    .tl-detail-panel .tl-detail-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(244,162,97,0.15);
+      color: var(--amber);
+      border: 1px solid rgba(244,162,97,0.25);
+      margin-right: 0.4rem;
+      margin-top: 0.75rem;
+    }
+    .tl-scroll-hint {
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255,248,240,0.35);
+      margin-top: 1rem;
+    }
+    .tl-arrows {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .tl-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    .tl-arrow:hover {
+      border-color: var(--amber);
+      background: rgba(244,162,97,0.15);
+    }
+
+    /* Timeline company colors */
+    .tl-node[data-company="avangrid"] .tl-node-dot { border-color: #4ade80; }
+    .tl-node[data-company="avangrid"].active .tl-node-dot,
+    .tl-node[data-company="avangrid"]:hover .tl-node-dot { background: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.5); }
+    .tl-node[data-company="avangrid"] .tl-node-year { color: #4ade80; }
+
+    .tl-node[data-company="slalom"] .tl-node-dot { border-color: #60a5fa; }
+    .tl-node[data-company="slalom"].active .tl-node-dot,
+    .tl-node[data-company="slalom"]:hover .tl-node-dot { background: #60a5fa; box-shadow: 0 0 20px rgba(96,165,250,0.5); }
+    .tl-node[data-company="slalom"] .tl-node-year { color: #60a5fa; }
+
+    .tl-node[data-company="dhi"] .tl-node-dot { border-color: #a78bfa; }
+    .tl-node[data-company="dhi"].active .tl-node-dot,
+    .tl-node[data-company="dhi"]:hover .tl-node-dot { background: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.5); }
+    .tl-node[data-company="dhi"] .tl-node-year { color: #a78bfa; }
+
+    .tl-node[data-company="content"] .tl-node-dot { border-color: #E76F51; }
+    .tl-node[data-company="content"].active .tl-node-dot,
+    .tl-node[data-company="content"]:hover .tl-node-dot { background: #E76F51; box-shadow: 0 0 20px rgba(231,111,81,0.5); }
+    .tl-node[data-company="content"] .tl-node-year { color: #E76F51; }
+
+    .tl-node[data-company="webai"] .tl-node-dot { border-color: #f472b6; }
+    .tl-node[data-company="webai"].active .tl-node-dot,
+    .tl-node[data-company="webai"]:hover .tl-node-dot { background: #f472b6; box-shadow: 0 0 20px rgba(244,114,182,0.5); }
+    .tl-node[data-company="webai"] .tl-node-year { color: #f472b6; }
+
+    /* Timeline node logos */
+    .tl-node-dot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 0;
+      line-height: 1;
+      overflow: hidden;
+    }
+    .tl-node.active .tl-node-dot,
+    .tl-node:hover .tl-node-dot {
+      width: 32px;
+      height: 32px;
+      font-size: 0.6rem;
+      margin-top: -7px;
+    }
+
+    /* ========== CONTACT / FOOTER ========== */
+    #contact {
+      text-align: center;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .contact-link:hover {
+      border-color: var(--amber);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(244, 162, 97, 0.15);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: rgba(255, 248, 240, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ========== SCROLL ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== CURSOR GLOW ========== */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 162, 97, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.25rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .content-card { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(26, 10, 46, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+      .hero-top { flex-direction: column; text-align: center; gap: 1.5rem; }
+      .hero-headshot { width: 140px; height: 140px; }
+      .hero-cta { justify-content: center; }
+      .timeline { padding-left: 2rem; }
+      .timeline-dot { left: -2rem; }
+      .cert-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient Background -->
+  <div class="bg-glow">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="noise"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <span class="nav-logo">amit.so</span>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#ai-content">AI & Content</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#career-timeline">Timeline</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="interview.html" class="btn btn-primary" style="padding: 0.5rem 1.1rem; font-size: 0.85rem;">Interview Me</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-top">
+        <img src="headshot.jpg" alt="Amit Arora" class="hero-headshot">
+        <div>
+          <h1 class="hero-name">Amit Arora</h1>
+      <p class="hero-tagline">Strategic GTM Consultant &middot; Salesforce Architect &middot; AI Workflow Builder</p>
+      <p class="hero-sub">"RevOps operator by day, builder by night, husband, dad, and always tinkering. Somewhere between Salesforce flows, AI experiments, and coffee (more like beer), I'm chasing the next idea worth launching."</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn btn-ghost">View Experience</a>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <span class="section-label">About Me</span>
+          <h2 class="section-title">10+ years driving GTM transformation</h2>
+          <p>Strategic GTM program leader with deep expertise in owning outcomes across client-facing consulting and enterprise technology environments. I build trusted executive relationships and translate complex technical and revenue concepts into actionable strategy.</p>
+          <p>Deep fluency across Salesforce, HubSpot, Clay, AI agents, and automation platforms — combined with cross-functional program leadership that aligns Sales, Marketing, Customer Success, and Finance around shared business objectives.</p>
+          <p>Track record of improving forecasting accuracy, designing scalable go-to-market operating systems, and delivering board-ready insights that drive predictable growth.</p>
+        </div>
+        <div class="about-stats reveal">
+          <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Years of Experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8x</div>
+            <div class="stat-label">Salesforce Certified</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">25%</div>
+            <div class="stat-label">Forecast Accuracy Gain</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" style="font-size: 1.6rem;">A &amp; B</div>
+            <div class="stat-label">Series A-B Startup Specialist</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <span class="section-label reveal">Core Competencies</span>
+      <h2 class="section-title reveal">What I Bring to the Table</h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#9878;</div>
+          <h3>Program Strategy & Ownership</h3>
+          <p>End-to-end program leadership, client objective alignment, structured delivery, and outcome accountability.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Program Leadership</span>
+            <span class="skill-tag">Delivery</span>
+            <span class="skill-tag">Accountability</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#9733;</div>
+          <h3>Executive Storytelling</h3>
+          <p>Board-ready reporting, translating GTM and technical concepts into actionable direction for senior stakeholders.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Board Reporting</span>
+            <span class="skill-tag">Data Viz</span>
+            <span class="skill-tag">Stakeholders</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#9881;</div>
+          <h3>GTM Transformation</h3>
+          <p>Sales process design, lifecycle stages, lead routing, pipeline and forecast frameworks, and deal velocity optimization.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Pipeline</span>
+            <span class="skill-tag">Forecasting</span>
+            <span class="skill-tag">Lead Routing</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#10070;</div>
+          <h3>Cross-Functional Collaboration</h3>
+          <p>Aligning Sales, Marketing, CS, and Finance teams with stakeholder management across programs and accounts.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Sales</span>
+            <span class="skill-tag">Marketing</span>
+            <span class="skill-tag">CS</span>
+            <span class="skill-tag">Finance</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#9889;</div>
+          <h3>AI & Automation</h3>
+          <p>Building and teaching real-world AI workflow automation with LLMs, AI agents, and modern automation platforms.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Clay</span>
+            <span class="skill-tag">n8n</span>
+            <span class="skill-tag">Claude Code</span>
+            <span class="skill-tag">AI Agents</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">&#9741;</div>
+          <h3>Revenue Technology</h3>
+          <p>Deep expertise across the modern revenue tech stack powering GTM operations at scale.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Salesforce</span>
+            <span class="skill-tag">HubSpot</span>
+            <span class="skill-tag">Apollo</span>
+            <span class="skill-tag">Tableau</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <span class="section-label reveal">Career</span>
+      <h2 class="section-title reveal">Where I've Made Impact</h2>
+      <div class="timeline">
+        <!-- webAI -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header-line"><span class="company-name">webAI, Inc.</span> <span class="date-range">| Mar 2025 &mdash; Apr 2026</span></div>
+          <div class="timeline-role">Revenue Operations Manager</div>
+          <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Led the full CRM transition from HubSpot to Salesforce. Built a pipeline hygiene engine using Clay and implemented ICP personas in Clay to uncover high-value leads.</p>
+          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <div class="webai-categories">
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Revenue Operations &amp; Automation Impact</button>
+              <ul class="webai-category-items">
+                <li>Designed and implemented a custom NDA workflow in Salesforce integrating DocuSign and Slack, reducing legal turnaround time and enabling seamless redlining via Word-based document generation.</li>
+                <li>Built end-to-end Salesforce automation (Flows + validation logic) to standardize opportunity naming, enforce pipeline hygiene, and dynamically update records based on deal changes (stage, term, renewal status).</li>
+                <li>Created Slack-integrated workflows from Salesforce, enabling real-time deal alerts, NDA requests, and improved cross-functional visibility across Sales, Legal, and Ops teams.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> AI-Powered GTM Systems &amp; Outbound</button>
+              <ul class="webai-category-items">
+                <li>Architected an AI-driven outbound engine leveraging Clay, n8n, Instantly, and HeyReach to automate prospect research, personalization, and multi-channel outreach at scale.</li>
+                <li>Developed structured AI personalization frameworks (JSON-based outputs) to generate highly relevant "reasons-to-reach-out," improving reply rates and outbound efficiency.</li>
+                <li>Built AI-assisted research workflows within HubSpot, enabling sales reps to instantly access deep company insights and improve call preparedness.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Pipeline Visibility &amp; Forecasting</button>
+              <ul class="webai-category-items">
+                <li>Introduced new pipeline stage taxonomy (including MQL &rarr; Qualified segmentation) and aligned reporting structures across Salesforce and Tableau for improved funnel visibility.</li>
+                <li>Built logic for identifying "At-Risk" deals based on time-to-close and stage progression, enabling proactive intervention and improving forecast accuracy.</li>
+                <li>Enhanced reporting with multi-stage segmentation (Early vs Qualified pipeline) to support executive-level decision making.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Systems Integration &amp; Troubleshooting</button>
+              <ul class="webai-category-items">
+                <li>Investigated and resolved unexpected system behaviors (e.g., auto-created Contacts) by tracing managed package flows, integrations, and audit logs across multiple connected apps.</li>
+                <li>Managed integrations across tools including Salesforce, DocuSign, Apollo, and data ingestion tools, ensuring data integrity and operational reliability.</li>
+                <li>Reduced operational friction by replacing manual processes with automated workflows, improving data accuracy and team productivity.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Sales Productivity &amp; Enablement</button>
+              <ul class="webai-category-items">
+                <li>Built internal tools and workflows to streamline rep workflows, including automated contact selection, Slack notifications, and dynamic record linking.</li>
+                <li>Improved sales enablement through automation + AI, reducing manual research time and allowing reps to focus on high-value selling activities.</li>
+                <li>Standardized CRM usage across teams through process design, validation rules, and system guardrails.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Strategic Impact</button>
+              <ul class="webai-category-items">
+                <li>Led initiatives at the intersection of RevOps, AI, and automation, positioning GTM systems to scale efficiently with minimal manual overhead.</li>
+                <li>Created repeatable, testable, and scalable automation frameworks, ensuring long-term system reliability and adaptability.</li>
+                <li>Acted as a central connector across Sales, Marketing, Legal, and Ops, aligning systems and processes to drive revenue growth.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DHI -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header-line"><span class="company-name">DHI Group Inc</span> <span class="date-range">| Oct 2021 &mdash; Jul 2024</span></div>
+          <div class="timeline-role">Director, Business Systems</div>
+          <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Owned the full GTM tech stack as strategic program leader, building pipeline and forecasting frameworks from scratch and delivering board-ready executive reporting.</p>
+          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <div class="webai-categories">
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> GTM Tech Stack &amp; Platform Ownership</button>
+              <ul class="webai-category-items">
+                <li>Owned and managed the full revenue tech stack — Salesforce, HubSpot, and Clay — ensuring seamless data flow and system scalability across the entire revenue organization.</li>
+                <li>Evaluated, selected, and integrated new tools into the GTM ecosystem, aligning technology investments with business growth objectives.</li>
+                <li>Served as the strategic bridge between business stakeholders and technical teams, translating revenue goals into system architecture decisions.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Pipeline, Forecasting &amp; Lifecycle Design</button>
+              <ul class="webai-category-items">
+                <li>Designed and implemented pipeline, forecasting, and lifecycle tracking frameworks from scratch, improving forecasting accuracy by 25%.</li>
+                <li>Defined lead routing rules, lifecycle stage definitions, and handoff protocols between Marketing, SDR, and Sales teams to reduce lead leakage.</li>
+                <li>Created standardized opportunity stage criteria and exit requirements, ensuring pipeline data consistency and improving win-rate analysis.</li>
+                <li>Aligned compensation structures with lifecycle stages in partnership with Finance, driving rep behavior toward higher-quality pipeline.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Executive Reporting &amp; Data Insights</button>
+              <ul class="webai-category-items">
+                <li>Built automated executive dashboards visualizing CAC, LTV, ARR, and funnel metrics, enabling data-driven board reporting and leadership decision-making.</li>
+                <li>Supported executive business reviews and board reporting through accurate, data-backed storytelling and strategic insights.</li>
+                <li>Created segmented reporting views by product line, region, and rep to surface performance patterns and inform resource allocation.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Funnel Optimization &amp; Deal Velocity</button>
+              <ul class="webai-category-items">
+                <li>Identified funnel bottlenecks through data analysis and optimized workflows for faster deal velocity, improved data hygiene, and consistent execution.</li>
+                <li>Reduced stage-to-stage cycle times by implementing automated follow-up sequences and SLA-based escalation alerts.</li>
+                <li>Partnered with Sales leadership to implement deal inspection cadences informed by real-time pipeline data and risk scoring.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Slalom -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header-line"><span class="company-name">Slalom LLC</span> <span class="date-range">| May 2018 &mdash; Oct 2021</span></div>
+          <div class="timeline-role">Salesforce Consultant</div>
+          <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Delivered enterprise Salesforce solutions in Financial Services as the client's trusted program partner, with a 95% project success rate and 98% client satisfaction.</p>
+          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <div class="webai-categories">
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Enterprise CRM Delivery</button>
+              <ul class="webai-category-items">
+                <li>Delivered enterprise Salesforce solutions in Financial Services, reducing project turnaround by 30% and increasing client satisfaction by 25%.</li>
+                <li>Designed and implemented Sales Cloud, Service Cloud, and Community Cloud solutions tailored to complex financial services workflows and compliance requirements.</li>
+                <li>Managed end-to-end project delivery from discovery through go-live, including requirements gathering, solution design, configuration, UAT, and production deployment.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Client Engagement &amp; Executive Relationships</button>
+              <ul class="webai-category-items">
+                <li>Acted as the primary client point of contact, building trusted relationships with executives and translating business requirements into technical strategy and actionable project plans.</li>
+                <li>Facilitated stakeholder workshops and design sessions, aligning cross-functional teams on priorities and ensuring solution buy-in from both business and IT leadership.</li>
+                <li>Managed competing priorities across multiple concurrent engagements while maintaining the highest client satisfaction standards.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Team Leadership &amp; Project Execution</button>
+              <ul class="webai-category-items">
+                <li>Led cross-functional teams in high-pressure consulting environments, completing complex enterprise projects with a 95% success rate.</li>
+                <li>Mentored junior consultants on Salesforce best practices, solution architecture, and client communication skills.</li>
+                <li>Established repeatable delivery frameworks and documentation standards that accelerated onboarding for new team members.</li>
+              </ul>
+            </div>
+
+            <div class="webai-category">
+              <button class="webai-category-toggle" onclick="toggleCat(this)"><span class="cat-arrow">&#9654;</span> Salesforce Expertise &amp; Certifications</button>
+              <ul class="webai-category-items">
+                <li>Earned multiple Salesforce certifications during tenure — Sales Cloud Consultant, Service Cloud Consultant, and Community Cloud — driving a 20% improvement in solution design quality.</li>
+                <li>Applied deep platform knowledge to architect scalable solutions including custom objects, process automation (Process Builder, Flows), and integration patterns.</li>
+                <li>Served as a Salesforce subject matter expert within the practice, contributing to pre-sales technical assessments and RFP responses.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Avangrid -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header-line"><span class="company-name">Avangrid</span> <span class="date-range">| Jun 2015 &mdash; May 2018</span></div>
+          <div class="timeline-role">Sr. Salesforce Administrator</div>
+          <button class="timeline-toggle" onclick="toggleDetails(this)">Show details +</button>
+          <ul class="timeline-details">
+            <li>Led $750K Salesforce migration for two gas corporations — 30% efficiency gain</li>
+            <li>Designed custom dashboards tracking KPIs for energy production and distribution</li>
+            <li>Facilitated requirements workshops translating energy sector needs into Salesforce features</li>
+            <li>Delivered solutions improving process efficiency by 20%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+      <span class="section-label reveal">Credentials</span>
+      <h2 class="section-title reveal">Salesforce Certifications</h2>
+      <div class="cert-grid">
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9729;</div>
+          <span class="cert-name">Platform Administrator</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9993;</div>
+          <span class="cert-name">Marketing Cloud Email Specialist</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9778;</div>
+          <span class="cert-name">Experience Cloud Consultant</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9881;</div>
+          <span class="cert-name">Platform App Builder</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9733;</div>
+          <span class="cert-name">Sales Cloud Consultant</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#10047;</div>
+          <span class="cert-name">Service Cloud Consultant</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9889;</div>
+          <span class="cert-name">Agentforce Specialist</span>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-badge">&#9906;</div>
+          <span class="cert-name">Salesforce Maps Accredited</span>
+        </div>
+        <a href="https://trailhead.salesforce.com/en/credentials/certification-detail-print/?searchString=SZgnwby3hjCPXqXQAJAsIhO5b4jBy5xdT2PKJyhf8rzHiTeKfCzZrxUQhLd9bPEQ" target="_blank" rel="noopener" class="cert-card reveal" style="text-decoration:none;justify-content:center;border-color:var(--amber);background:rgba(244,162,97,0.08);">
+          <div class="cert-badge" style="background:linear-gradient(135deg, var(--amber), var(--coral));">&#9745;</div>
+          <span class="cert-name" style="color:var(--amber);font-weight:700;">Verify Certifications</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- AI & CONTENT -->
+    <section id="ai-content">
+      <span class="section-label reveal">Builder Mode</span>
+      <h2 class="section-title reveal">AI & Content Leadership</h2>
+      <div class="content-card reveal">
+        <div class="content-info">
+          <h3><span>AI with Amit</span> / YouTube Channel</h3>
+          <p>Teaching SMBs and solopreneurs how to implement AI agent workflows. From Clay prospecting automations to multi-agent systems with n8n and Claude Code — practical builds for real business impact.</p>
+          <div class="content-tools">
+            <span>Claude Code</span>
+            <span>Paperclip AI</span>
+            <span>OpenClaw</span>
+          </div>
+        </div>
+        <div class="content-visual">
+          <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--glass-border);"><iframe src="https://player.mediadelivery.net/embed/636222/d51ab2a2-8277-436e-a722-ac1e4dd5b943?autoplay=true&loop=true&muted=true&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+          <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content: center;">
+            Visit Channel &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUN PROJECTS -->
+    <section id="projects">
+      <span class="section-label reveal">Side Quests</span>
+      <h2 class="section-title reveal">Fun Projects & Experiments</h2>
+      <div class="projects-grid">
+
+        <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="project-card reveal">
+          <div class="project-emoji">&#127909;</div>
+          <div class="project-type">YouTube Channel</div>
+          <h3>AI with Amit</h3>
+          <p>Teaching SMBs and solopreneurs how to implement AI agent workflows — from Clay prospecting automations to multi-agent systems with n8n and Claude Code. Practical builds for real business impact.</p>
+          <span class="project-link">Watch on YouTube &rarr;</span>
+        </a>
+
+        <a href="https://thedailyskill.com" target="_blank" rel="noopener" class="project-card reveal">
+          <div class="project-emoji">&#129302;</div>
+          <div class="project-type">AI-Powered Website</div>
+          <h3>The Daily Skill</h3>
+          <p>A daily briefing platform for AI agent developers — "Teaching AI new tricks, one skill file at a time." Entirely run by my OpenClaw agent, publishing copy-paste-ready skill files and agent architecture insights daily.</p>
+          <span class="project-link">Visit thedailyskill.com &rarr;</span>
+        </a>
+
+        <a href="https://medium.com/gptcommands" target="_blank" rel="noopener" class="project-card reveal">
+          <div class="project-emoji">&#128172;</div>
+          <div class="project-type">Blog / Publication</div>
+          <h3>GPTcommands</h3>
+          <p>A Medium publication teaching readers how to use ChatGPT to its full potential — step-by-step guides and tips to save hours by asking the right questions. Prompt engineering made practical.</p>
+          <span class="project-link">Read on Medium &rarr;</span>
+        </a>
+
+        <a href="https://medium.com/sfdcmastery" target="_blank" rel="noopener" class="project-card reveal">
+          <div class="project-emoji">&#9729;&#65039;</div>
+          <div class="project-type">Blog / Publication</div>
+          <h3>SFDC Mastery</h3>
+          <p>Tips and tricks for Salesforce Admins — covering Process Builder, workflow automation, Sales Cloud features, and productivity optimization. A knowledge hub for the Salesforce community.</p>
+          <span class="project-link">Read on Medium &rarr;</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- INTERACTIVE CAREER TIMELINE -->
+    <section id="career-timeline">
+      <span class="section-label reveal">The Journey</span>
+      <h2 class="section-title reveal">Career Milestones</h2>
+      <div class="career-timeline-wrap reveal">
+        <div class="career-tl-track" id="tlTrack">
+          <div class="tl-node active" data-idx="0" data-company="avangrid">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2015</div>
+              <div class="tl-node-title">Entered Salesforce</div>
+              <div class="tl-node-sub">Avangrid</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="1" data-company="avangrid">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2016</div>
+              <div class="tl-node-title">$750K Migration</div>
+              <div class="tl-node-sub">Led dual-corp migration</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="2" data-company="slalom">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2018</div>
+              <div class="tl-node-title">Joined Slalom</div>
+              <div class="tl-node-sub">Enterprise Consulting</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="3" data-company="slalom">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2019</div>
+              <div class="tl-node-title">Multi-Cert Year</div>
+              <div class="tl-node-sub">Sales, Service, Community</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="4" data-company="slalom">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2020</div>
+              <div class="tl-node-title">98% Satisfaction</div>
+              <div class="tl-node-sub">Financial Services wins</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="5" data-company="dhi">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2021</div>
+              <div class="tl-node-title">Director, Biz Systems</div>
+              <div class="tl-node-sub">DHI Group Inc</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="6" data-company="dhi">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2022</div>
+              <div class="tl-node-title">25% Forecast Boost</div>
+              <div class="tl-node-sub">Pipeline frameworks</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="7" data-company="dhi">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2023</div>
+              <div class="tl-node-title">Board Dashboards</div>
+              <div class="tl-node-sub">CAC, LTV, ARR reporting</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="8" data-company="content">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2024</div>
+              <div class="tl-node-title">AI with Amit</div>
+              <div class="tl-node-sub">YouTube &amp; content launch</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="9" data-company="webai">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2025</div>
+              <div class="tl-node-title">RevOps @ webAI</div>
+              <div class="tl-node-sub">HubSpot &rarr; Salesforce</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="10" data-company="webai">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2025</div>
+              <div class="tl-node-title">AI GTM Engine</div>
+              <div class="tl-node-sub">Clay + n8n + AI agents</div>
+            </div>
+          </div>
+          <div class="tl-node" data-idx="11" data-company="webai">
+            <div class="tl-node-dot"></div>
+            <div class="tl-node-content">
+              <div class="tl-node-year">2026</div>
+              <div class="tl-node-title">8x SF Certified</div>
+              <div class="tl-node-sub">Agentforce + Maps</div>
+            </div>
+          </div>
+        </div>
+        <div class="tl-arrows">
+          <button class="tl-arrow" onclick="scrollTL(-1)" aria-label="Previous">&larr;</button>
+          <button class="tl-arrow" onclick="scrollTL(1)" aria-label="Next">&rarr;</button>
+        </div>
+        <div class="tl-detail-panel" id="tlDetail">
+          <h3>Sr. Salesforce Administrator</h3>
+          <div class="tl-detail-role">Avangrid &middot; Jun 2015</div>
+          <p>Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations. Built the technical foundation that would define a decade-long Salesforce career.</p>
+          <span class="tl-detail-tag">Salesforce</span>
+          <span class="tl-detail-tag">Energy</span>
+          <span class="tl-detail-tag">CRM</span>
+        </div>
+        <div class="tl-scroll-hint">Click a milestone or use arrows to explore &middot; Drag to scroll</div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2 class="section-title reveal">Let's Connect</h2>
+      <p class="reveal" style="color: rgba(255,248,240,0.6); max-width: 500px; margin: 0 auto 1rem;">
+        Whether it's GTM strategy, Salesforce architecture, or AI workflow automation — let's talk.
+      </p>
+      <div class="contact-links reveal">
+        <a href="mailto:aroramit.17@gmail.com" class="btn btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem;">&#9993; Contact Me</a>
+        <a href="interview.html" class="btn btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--violet), var(--magenta));">&#128197; Schedule Interview</a>
+        <a href="https://www.linkedin.com/in/amit-arora17/" target="_blank" rel="noopener" class="contact-link">in &nbsp;LinkedIn</a>
+        <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="contact-link">&#9654; YouTube</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; Built with <a href="https://claude.ai/code" target="_blank" rel="noopener" style="color: var(--amber); text-decoration: none;">Claude Code</a> and <a href="https://handy.computer" target="_blank" rel="noopener" style="color: var(--amber); text-decoration: none;">handy.computer</a>
+  </footer>
+
+  <script>
+    /* ===== Cursor Glow ===== */
+    const glow = document.getElementById('cursorGlow');
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    function animateGlow() {
+      glowX += (mouseX - glowX) * 0.1;
+      glowY += (mouseY - glowY) * 0.1;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+
+    /* ===== Scroll Reveal ===== */
+    const reveals = document.querySelectorAll('.reveal');
+    let revealDelay = 0;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          revealDelay++;
+          setTimeout(() => entry.target.classList.add('visible'), revealDelay * 100);
+          setTimeout(() => { revealDelay = 0; }, 800);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    /* ===== Active Nav Link ===== */
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => sectionObserver.observe(s));
+
+    /* ===== Hamburger ===== */
+    const hamburger = document.getElementById('hamburger');
+    const navLinksEl = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinksEl.classList.toggle('open');
+    });
+    navLinksEl.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinksEl.classList.remove('open');
+      });
+    });
+
+    /* ===== Timeline Toggle ===== */
+    function toggleDetails(btn) {
+      const details = btn.nextElementSibling;
+      details.classList.toggle('open');
+      btn.textContent = details.classList.contains('open') ? 'Hide details −' : 'Show details +';
+    }
+
+    /* ===== WebAI Expandable Categories ===== */
+    function toggleWebAI(btn) {
+      const categories = btn.nextElementSibling;
+      categories.classList.toggle('open');
+      btn.textContent = categories.classList.contains('open') ? 'Hide details −' : 'Show details +';
+    }
+
+    function toggleCat(btn) {
+      btn.classList.toggle('expanded');
+      const items = btn.nextElementSibling;
+      items.classList.toggle('open');
+    }
+
+    /* ===== Interactive Career Timeline ===== */
+    const companyColors = { avangrid: '#4ade80', slalom: '#60a5fa', dhi: '#a78bfa', content: '#E76F51', webai: '#f472b6' };
+    const companyLabels = { avangrid: 'AVG', slalom: 'SLM', dhi: 'DHI', content: 'AI', webai: 'wAI' };
+    const tlData = [
+      { title: 'Sr. Salesforce Administrator', role: 'Avangrid \u00b7 Jun 2015', desc: 'Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations. Built the technical foundation that would define a decade-long Salesforce career.', tags: ['Salesforce', 'Energy', 'CRM'], co: 'avangrid' },
+      { title: '$750K Salesforce Migration', role: 'Avangrid \u00b7 2016', desc: 'Led a $750K Salesforce migration for two gas corporations, enhancing operational efficiency by 30% and improving stakeholder engagement by 25%. Designed KPI dashboards for energy production and distribution.', tags: ['Migration', '$750K', '30% Efficiency'], co: 'avangrid' },
+      { title: 'Joined Slalom LLC', role: 'Salesforce Consultant \u00b7 May 2018', desc: 'Moved into enterprise consulting at Slalom, delivering Salesforce solutions in Financial Services. Immediately began working on high-profile client engagements with complex requirements.', tags: ['Consulting', 'Financial Services', 'Enterprise'], co: 'slalom' },
+      { title: 'Multi-Certification Year', role: 'Slalom \u00b7 2019', desc: 'Earned Sales Cloud, Service Cloud, and Community Cloud certifications \u2014 driving a 20% improvement in solution design outcomes and establishing deep platform expertise across clouds.', tags: ['Sales Cloud', 'Service Cloud', 'Community Cloud'], co: 'slalom' },
+      { title: '98% Client Satisfaction', role: 'Slalom \u00b7 2020', desc: 'Led cross-functional teams to a 95% project success rate and 98% client satisfaction rating. Became the primary client point of contact, building trusted executive relationships in Financial Services.', tags: ['98% CSAT', '95% Success', 'Executive Trust'], co: 'slalom' },
+      { title: 'Director, Business Systems', role: 'DHI Group Inc \u00b7 Oct 2021', desc: 'Stepped into a leadership role owning the full GTM tech stack \u2014 Salesforce, HubSpot, and Clay \u2014 as a strategic program leader driving revenue operations at scale.', tags: ['Director', 'GTM Stack', 'Leadership'], co: 'dhi' },
+      { title: '25% Forecast Accuracy Boost', role: 'DHI Group \u00b7 2022', desc: 'Designed and implemented pipeline, forecasting, and lifecycle tracking frameworks from scratch. Improved forecasting accuracy by 25% and defined lead routing and lifecycle stages across the revenue org.', tags: ['Forecasting', 'Pipeline', '+25% Accuracy'], co: 'dhi' },
+      { title: 'Board-Ready Dashboards', role: 'DHI Group \u00b7 2023', desc: 'Built automated executive dashboards visualizing CAC, LTV, ARR, and funnel metrics. Supported executive business reviews and board reporting through data-backed storytelling.', tags: ['CAC', 'LTV', 'ARR', 'Board Reports'], co: 'dhi' },
+      { title: 'AI with Amit — YouTube Launch', role: 'Content Creator \u00b7 2024', desc: 'Launched the "AI with Amit" YouTube channel, teaching SMBs and solopreneurs how to implement AI agent workflows using Clay, n8n, Claude Code, and more. Began building in public.', tags: ['YouTube', 'AI Agents', 'Content'], co: 'content' },
+      { title: 'RevOps Manager @ webAI', role: 'webAI, Inc. \u00b7 Mar 2025', desc: 'Joined a VC-backed AI startup to stand up the RevOps function from scratch. Led the full CRM transition from HubSpot to Salesforce and built pipeline hygiene systems with Clay.', tags: ['Startup', 'HubSpot \u2192 SF', 'RevOps'], co: 'webai' },
+      { title: 'AI-Powered GTM Engine', role: 'webAI \u00b7 2025', desc: 'Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built ICP persona models in Clay to uncover high-value leads and automated multi-channel outreach at scale.', tags: ['Clay', 'n8n', 'AI Outbound', 'ICP'], co: 'webai' },
+      { title: '8x Salesforce Certified', role: 'Agentforce + Maps \u00b7 2026', desc: 'Reached 8x Salesforce Certified status with Agentforce Specialist and Salesforce Maps Accredited credentials \u2014 staying at the cutting edge of the platform\'s AI and territory planning capabilities.', tags: ['Agentforce', 'Maps', '8x Certified'], co: 'webai' }
+    ];
+
+    const tlNodes = document.querySelectorAll('.tl-node');
+    const tlDetail = document.getElementById('tlDetail');
+    const tlTrack = document.getElementById('tlTrack');
+
+    // Add company labels to dots
+    tlNodes.forEach((node, i) => {
+      const co = tlData[i].co;
+      node.querySelector('.tl-node-dot').textContent = companyLabels[co];
+    });
+
+    function showTLDetail(idx) {
+      tlNodes.forEach(n => n.classList.remove('active'));
+      tlNodes[idx].classList.add('active');
+      const d = tlData[idx];
+      const c = companyColors[d.co];
+      tlDetail.style.borderColor = c + '40';
+      tlDetail.innerHTML = '<h3>' + d.title + '</h3><div class="tl-detail-role" style="color:' + c + '">' + d.role + '</div><p>' + d.desc + '</p>' + d.tags.map(t => '<span class="tl-detail-tag" style="background:' + c + '20;color:' + c + ';border-color:' + c + '40">' + t + '</span>').join('');
+    }
+
+    tlNodes.forEach((node, i) => {
+      node.addEventListener('click', () => showTLDetail(i));
+    });
+
+    // Show first detail on load with color
+    showTLDetail(0);
+
+    function scrollTL(dir) {
+      const activeNode = document.querySelector('.tl-node.active');
+      const idx = parseInt(activeNode.dataset.idx);
+      const next = Math.max(0, Math.min(tlData.length - 1, idx + dir));
+      showTLDetail(next);
+      tlNodes[next].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    /* Drag to scroll */
+    let isDragging = false, startX, scrollLeft;
+    tlTrack.addEventListener('mousedown', e => { isDragging = true; startX = e.pageX - tlTrack.offsetLeft; scrollLeft = tlTrack.scrollLeft; tlTrack.style.cursor = 'grabbing'; });
+    tlTrack.addEventListener('mouseleave', () => { isDragging = false; tlTrack.style.cursor = 'grab'; });
+    tlTrack.addEventListener('mouseup', () => { isDragging = false; tlTrack.style.cursor = 'grab'; });
+    tlTrack.addEventListener('mousemove', e => { if (!isDragging) return; e.preventDefault(); const x = e.pageX - tlTrack.offsetLeft; tlTrack.scrollLeft = scrollLeft - (x - startX); });
+  </script>
+</body>
+</html>
