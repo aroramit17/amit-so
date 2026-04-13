@@ -352,11 +352,12 @@
     .workflow-canvas {
       position: relative;
       padding: 3rem 1rem;
+      padding-top: 5rem;
       border-radius: 20px;
       background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(10px);
-      overflow: hidden;
+      overflow: visible;
       min-height: 320px;
     }
     .workflow-nodes {
@@ -926,197 +927,195 @@
       gap: 0.35rem;
     }
 
-    /* ========== INTERACTIVE CAREER TIMELINE ========== */
-    .career-timeline-wrap {
+    /* ========== MIND MAP CAREER MILESTONES ========== */
+    .mindmap-wrap {
       position: relative;
-      overflow: hidden;
+      padding: 2rem 0;
     }
-    .career-tl-track {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      position: relative;
-      padding: 3rem 0 2rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      cursor: grab;
-    }
-    .career-tl-track::-webkit-scrollbar { display: none; }
-    .career-tl-track::before {
-      content: '';
-      position: absolute;
-      top: calc(3rem + 8px);
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--violet), var(--amber), var(--coral), var(--magenta));
-      z-index: 0;
-      min-width: 100%;
-      pointer-events: none;
-    }
-    .tl-node {
-      flex: 0 0 220px;
-      scroll-snap-align: center;
-      position: relative;
-      padding-top: 2.5rem;
-      cursor: pointer;
-      z-index: 1;
-    }
-    .tl-node-dot {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--deep-purple);
-      border: 3px solid var(--amber);
-      transition: all 0.3s;
-      z-index: 2;
-    }
-    .tl-node:hover .tl-node-dot,
-    .tl-node.active .tl-node-dot {
-      background: var(--amber);
-      box-shadow: 0 0 20px rgba(244, 162, 97, 0.5);
-      transform: translateX(-50%) scale(1.3);
-    }
-    .tl-node-content {
+    .mindmap-center {
       text-align: center;
-      padding: 1rem 0.75rem;
+      margin-bottom: 2rem;
     }
-    .tl-node-year {
-      font-size: 0.75rem;
+    .mindmap-hub {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(244,162,97,0.15), rgba(231,111,81,0.1));
+      border: 2px solid var(--amber);
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--amber);
-      letter-spacing: 1px;
-      margin-bottom: 0.35rem;
     }
-    .tl-node-title {
-      font-size: 0.85rem;
+    .mindmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .mm-card {
+      padding: 1.25rem;
+      border-radius: 14px;
+      background: var(--glass);
+      border: 2px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .mm-card::before {
+      content: '';
+      position: absolute;
+      top: -1rem;
+      left: 50%;
+      width: 2px;
+      height: 1rem;
+      background: var(--glass-border);
+    }
+    .mm-card:hover, .mm-card.active {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .mm-card .mm-year {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+    .mm-card .mm-title {
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--cream);
       line-height: 1.3;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
-    .tl-node-sub {
+    .mm-card .mm-sub {
       font-size: 0.75rem;
       color: rgba(255,248,240,0.5);
     }
-    .tl-detail-panel {
+    .mm-card .mm-co-label {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.4rem;
+      opacity: 0.8;
+    }
+    /* Company colors for mindmap */
+    .mm-card[data-co="avangrid"] { border-color: rgba(74,222,128,0.3); }
+    .mm-card[data-co="avangrid"]:hover, .mm-card[data-co="avangrid"].active { border-color: #4ade80; box-shadow: 0 8px 30px rgba(74,222,128,0.15); }
+    .mm-card[data-co="avangrid"] .mm-year { color: #4ade80; }
+    .mm-card[data-co="avangrid"] .mm-co-label { background: rgba(74,222,128,0.15); color: #4ade80; }
+
+    .mm-card[data-co="slalom"] { border-color: rgba(96,165,250,0.3); }
+    .mm-card[data-co="slalom"]:hover, .mm-card[data-co="slalom"].active { border-color: #60a5fa; box-shadow: 0 8px 30px rgba(96,165,250,0.15); }
+    .mm-card[data-co="slalom"] .mm-year { color: #60a5fa; }
+    .mm-card[data-co="slalom"] .mm-co-label { background: rgba(96,165,250,0.15); color: #60a5fa; }
+
+    .mm-card[data-co="dhi"] { border-color: rgba(167,139,250,0.3); }
+    .mm-card[data-co="dhi"]:hover, .mm-card[data-co="dhi"].active { border-color: #a78bfa; box-shadow: 0 8px 30px rgba(167,139,250,0.15); }
+    .mm-card[data-co="dhi"] .mm-year { color: #a78bfa; }
+    .mm-card[data-co="dhi"] .mm-co-label { background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+    .mm-card[data-co="content"] { border-color: rgba(231,111,81,0.3); }
+    .mm-card[data-co="content"]:hover, .mm-card[data-co="content"].active { border-color: #E76F51; box-shadow: 0 8px 30px rgba(231,111,81,0.15); }
+    .mm-card[data-co="content"] .mm-year { color: #E76F51; }
+    .mm-card[data-co="content"] .mm-co-label { background: rgba(231,111,81,0.15); color: #E76F51; }
+
+    .mm-card[data-co="webai"] { border-color: rgba(244,114,182,0.3); }
+    .mm-card[data-co="webai"]:hover, .mm-card[data-co="webai"].active { border-color: #f472b6; box-shadow: 0 8px 30px rgba(244,114,182,0.15); }
+    .mm-card[data-co="webai"] .mm-year { color: #f472b6; }
+    .mm-card[data-co="webai"] .mm-co-label { background: rgba(244,114,182,0.15); color: #f472b6; }
+
+    .mm-detail {
       margin-top: 1.5rem;
       padding: 2rem;
       border-radius: 16px;
       background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(10px);
-      min-height: 120px;
+      min-height: 100px;
       transition: all 0.4s;
     }
-    .tl-detail-panel h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .tl-detail-panel .tl-detail-role {
-      color: var(--magenta);
-      font-size: 0.9rem;
-      margin-bottom: 0.75rem;
-    }
-    .tl-detail-panel p {
-      font-size: 0.9rem;
-      color: rgba(255,248,240,0.65);
-      line-height: 1.6;
-    }
-    .tl-detail-panel .tl-detail-tag {
+    .mm-detail h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .mm-detail .mm-detail-role { font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .mm-detail p { font-size: 0.9rem; color: rgba(255,248,240,0.65); line-height: 1.6; }
+    .mm-detail .mm-dtag {
       display: inline-block;
       font-size: 0.75rem;
       padding: 0.25rem 0.65rem;
       border-radius: 999px;
-      background: rgba(244,162,97,0.15);
-      color: var(--amber);
-      border: 1px solid rgba(244,162,97,0.25);
       margin-right: 0.4rem;
       margin-top: 0.75rem;
     }
-    .tl-scroll-hint {
-      text-align: center;
-      font-size: 0.8rem;
-      color: rgba(255,248,240,0.35);
-      margin-top: 1rem;
-    }
-    .tl-arrows {
+    .mm-legend {
       display: flex;
-      justify-content: center;
+      flex-wrap: wrap;
       gap: 1rem;
-      margin-top: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
     }
-    .tl-arrow {
-      width: 40px;
-      height: 40px;
+    .mm-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: rgba(255,248,240,0.5);
+    }
+    .mm-legend-dot {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      border: 1px solid var(--glass-border);
-      background: var(--glass);
+    }
+
+    /* ========== INTERACTIVE SKILL EXPLORER ========== */
+    .skill-explorer {
+      padding: 4rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .skill-bars {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .skill-bar-row {
+      margin-bottom: 1.25rem;
+    }
+    .skill-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
       color: var(--cream);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: all 0.3s;
     }
-    .tl-arrow:hover {
-      border-color: var(--amber);
-      background: rgba(244,162,97,0.15);
-    }
-
-    /* Timeline company colors */
-    .tl-node[data-company="avangrid"] .tl-node-dot { border-color: #4ade80; }
-    .tl-node[data-company="avangrid"].active .tl-node-dot,
-    .tl-node[data-company="avangrid"]:hover .tl-node-dot { background: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.5); }
-    .tl-node[data-company="avangrid"] .tl-node-year { color: #4ade80; }
-
-    .tl-node[data-company="slalom"] .tl-node-dot { border-color: #60a5fa; }
-    .tl-node[data-company="slalom"].active .tl-node-dot,
-    .tl-node[data-company="slalom"]:hover .tl-node-dot { background: #60a5fa; box-shadow: 0 0 20px rgba(96,165,250,0.5); }
-    .tl-node[data-company="slalom"] .tl-node-year { color: #60a5fa; }
-
-    .tl-node[data-company="dhi"] .tl-node-dot { border-color: #a78bfa; }
-    .tl-node[data-company="dhi"].active .tl-node-dot,
-    .tl-node[data-company="dhi"]:hover .tl-node-dot { background: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.5); }
-    .tl-node[data-company="dhi"] .tl-node-year { color: #a78bfa; }
-
-    .tl-node[data-company="content"] .tl-node-dot { border-color: #E76F51; }
-    .tl-node[data-company="content"].active .tl-node-dot,
-    .tl-node[data-company="content"]:hover .tl-node-dot { background: #E76F51; box-shadow: 0 0 20px rgba(231,111,81,0.5); }
-    .tl-node[data-company="content"] .tl-node-year { color: #E76F51; }
-
-    .tl-node[data-company="webai"] .tl-node-dot { border-color: #f472b6; }
-    .tl-node[data-company="webai"].active .tl-node-dot,
-    .tl-node[data-company="webai"]:hover .tl-node-dot { background: #f472b6; box-shadow: 0 0 20px rgba(244,114,182,0.5); }
-    .tl-node[data-company="webai"] .tl-node-year { color: #f472b6; }
-
-    /* Timeline node logos */
-    .tl-node-dot {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.55rem;
+    .skill-bar-label span:last-child {
+      color: var(--amber);
       font-weight: 700;
-      color: var(--cream);
-      letter-spacing: 0;
-      line-height: 1;
+    }
+    .skill-bar-track {
+      height: 10px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.08);
       overflow: hidden;
     }
-    .tl-node.active .tl-node-dot,
-    .tl-node:hover .tl-node-dot {
-      width: 32px;
-      height: 32px;
-      font-size: 0.6rem;
-      margin-top: -7px;
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      width: 0;
+      transition: width 1.5s ease-out;
     }
+    .skill-bar-fill.animated { /* width set by JS */ }
+    .skill-bar-row:nth-child(1) .skill-bar-fill { background: linear-gradient(90deg, var(--amber), var(--coral)); }
+    .skill-bar-row:nth-child(2) .skill-bar-fill { background: linear-gradient(90deg, #60a5fa, #818cf8); }
+    .skill-bar-row:nth-child(3) .skill-bar-fill { background: linear-gradient(90deg, #4ade80, #22d3ee); }
+    .skill-bar-row:nth-child(4) .skill-bar-fill { background: linear-gradient(90deg, var(--magenta), #f472b6); }
+    .skill-bar-row:nth-child(5) .skill-bar-fill { background: linear-gradient(90deg, var(--coral), #fbbf24); }
+    .skill-bar-row:nth-child(6) .skill-bar-fill { background: linear-gradient(90deg, #a78bfa, #6366f1); }
 
     /* ========== CONTACT / FOOTER ========== */
     #contact {
@@ -1252,8 +1251,7 @@
       <p class="hero-tagline">Strategic GTM Consultant &middot; Salesforce Architect &middot; AI Workflow Builder</p>
       <p class="hero-sub">"RevOps operator by day, builder by night, husband, dad, and always tinkering. Somewhere between Salesforce flows, AI experiments, and coffee (more like beer), I'm chasing the next idea worth launching."</p>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">Get in Touch</a>
-        <a href="#experience" class="btn btn-ghost">View Experience</a>
+        <a href="#experience" class="btn btn-primary">View Experience</a>
       </div>
       <div class="scroll-chevron">
         <a href="#about" aria-label="Scroll down">&#8964;</a>
@@ -1697,14 +1695,6 @@
       <h2 class="section-title reveal">Fun Projects & Experiments</h2>
       <div class="projects-grid">
 
-        <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="project-card reveal">
-          <div class="project-emoji">&#127909;</div>
-          <div class="project-type">YouTube Channel</div>
-          <h3>AI with Amit</h3>
-          <p>Teaching SMBs and solopreneurs how to implement AI agent workflows — from Clay prospecting automations to multi-agent systems with n8n and Claude Code. Practical builds for real business impact.</p>
-          <span class="project-link">Watch on YouTube &rarr;</span>
-        </a>
-
         <a href="https://thedailyskill.com" target="_blank" rel="noopener" class="project-card reveal">
           <div class="project-emoji">&#129302;</div>
           <div class="project-type">AI-Powered Website</div>
@@ -1737,122 +1727,118 @@
       <a href="interview.html" class="btn btn-primary">&#128197; Interested? Schedule a Call &rarr;</a>
     </div>
 
-    <!-- INTERACTIVE CAREER TIMELINE -->
+    <!-- CAREER MIND MAP -->
     <section id="career-timeline">
       <span class="section-label reveal">The Journey</span>
       <h2 class="section-title reveal">Career Milestones</h2>
-      <div class="career-timeline-wrap reveal">
-        <div class="career-tl-track" id="tlTrack">
-          <div class="tl-node active" data-idx="0" data-company="avangrid">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2015</div>
-              <div class="tl-node-title">Entered Salesforce</div>
-              <div class="tl-node-sub">Avangrid</div>
-            </div>
+      <div class="mindmap-wrap reveal">
+        <div class="mindmap-center">
+          <div class="mindmap-hub">&#9878; Amit Arora &mdash; 10+ Year Journey</div>
+        </div>
+        <div class="mindmap-grid" id="mmGrid">
+          <div class="mm-card active" data-idx="0" data-co="avangrid" onclick="showMM(0)">
+            <div class="mm-year">2015</div>
+            <div class="mm-title">Entered Salesforce</div>
+            <div class="mm-sub">Avangrid</div>
+            <span class="mm-co-label">AVG</span>
           </div>
-          <div class="tl-node" data-idx="1" data-company="avangrid">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2016</div>
-              <div class="tl-node-title">$750K Migration</div>
-              <div class="tl-node-sub">Led dual-corp migration</div>
-            </div>
+          <div class="mm-card" data-idx="1" data-co="avangrid" onclick="showMM(1)">
+            <div class="mm-year">2016</div>
+            <div class="mm-title">$750K Migration</div>
+            <div class="mm-sub">Dual-corp migration</div>
+            <span class="mm-co-label">AVG</span>
           </div>
-          <div class="tl-node" data-idx="2" data-company="slalom">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2018</div>
-              <div class="tl-node-title">Joined Slalom</div>
-              <div class="tl-node-sub">Enterprise Consulting</div>
-            </div>
+          <div class="mm-card" data-idx="2" data-co="slalom" onclick="showMM(2)">
+            <div class="mm-year">2018</div>
+            <div class="mm-title">Joined Slalom</div>
+            <div class="mm-sub">Enterprise Consulting</div>
+            <span class="mm-co-label">SLM</span>
           </div>
-          <div class="tl-node" data-idx="3" data-company="slalom">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2019</div>
-              <div class="tl-node-title">Multi-Cert Year</div>
-              <div class="tl-node-sub">Sales, Service, Community</div>
-            </div>
+          <div class="mm-card" data-idx="3" data-co="slalom" onclick="showMM(3)">
+            <div class="mm-year">2019</div>
+            <div class="mm-title">Multi-Cert Year</div>
+            <div class="mm-sub">Sales, Service, Community</div>
+            <span class="mm-co-label">SLM</span>
           </div>
-          <div class="tl-node" data-idx="4" data-company="slalom">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2020</div>
-              <div class="tl-node-title">98% Satisfaction</div>
-              <div class="tl-node-sub">Financial Services wins</div>
-            </div>
+          <div class="mm-card" data-idx="4" data-co="slalom" onclick="showMM(4)">
+            <div class="mm-year">2020</div>
+            <div class="mm-title">98% Satisfaction</div>
+            <div class="mm-sub">Financial Services wins</div>
+            <span class="mm-co-label">SLM</span>
           </div>
-          <div class="tl-node" data-idx="5" data-company="dhi">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2021</div>
-              <div class="tl-node-title">Director, Biz Systems</div>
-              <div class="tl-node-sub">DHI Group Inc</div>
-            </div>
+          <div class="mm-card" data-idx="5" data-co="dhi" onclick="showMM(5)">
+            <div class="mm-year">2021</div>
+            <div class="mm-title">Director, Biz Systems</div>
+            <div class="mm-sub">DHI Group Inc</div>
+            <span class="mm-co-label">DHI</span>
           </div>
-          <div class="tl-node" data-idx="6" data-company="dhi">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2022</div>
-              <div class="tl-node-title">25% Forecast Boost</div>
-              <div class="tl-node-sub">Pipeline frameworks</div>
-            </div>
+          <div class="mm-card" data-idx="6" data-co="dhi" onclick="showMM(6)">
+            <div class="mm-year">2022</div>
+            <div class="mm-title">25% Forecast Boost</div>
+            <div class="mm-sub">Pipeline frameworks</div>
+            <span class="mm-co-label">DHI</span>
           </div>
-          <div class="tl-node" data-idx="7" data-company="dhi">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2023</div>
-              <div class="tl-node-title">Board Dashboards</div>
-              <div class="tl-node-sub">CAC, LTV, ARR reporting</div>
-            </div>
+          <div class="mm-card" data-idx="7" data-co="dhi" onclick="showMM(7)">
+            <div class="mm-year">2023</div>
+            <div class="mm-title">Board Dashboards</div>
+            <div class="mm-sub">CAC, LTV, ARR</div>
+            <span class="mm-co-label">DHI</span>
           </div>
-          <div class="tl-node" data-idx="8" data-company="content">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2024</div>
-              <div class="tl-node-title">AI with Amit</div>
-              <div class="tl-node-sub">YouTube &amp; content launch</div>
-            </div>
+          <div class="mm-card" data-idx="8" data-co="content" onclick="showMM(8)">
+            <div class="mm-year">2024</div>
+            <div class="mm-title">AI with Amit</div>
+            <div class="mm-sub">YouTube launch</div>
+            <span class="mm-co-label">AI</span>
           </div>
-          <div class="tl-node" data-idx="9" data-company="webai">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2025</div>
-              <div class="tl-node-title">RevOps @ webAI</div>
-              <div class="tl-node-sub">HubSpot &rarr; Salesforce</div>
-            </div>
+          <div class="mm-card" data-idx="9" data-co="webai" onclick="showMM(9)">
+            <div class="mm-year">2025</div>
+            <div class="mm-title">RevOps @ webAI</div>
+            <div class="mm-sub">HubSpot &rarr; Salesforce</div>
+            <span class="mm-co-label">wAI</span>
           </div>
-          <div class="tl-node" data-idx="10" data-company="webai">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2025</div>
-              <div class="tl-node-title">AI GTM Engine</div>
-              <div class="tl-node-sub">Clay + n8n + AI agents</div>
-            </div>
+          <div class="mm-card" data-idx="10" data-co="webai" onclick="showMM(10)">
+            <div class="mm-year">2025</div>
+            <div class="mm-title">AI GTM Engine</div>
+            <div class="mm-sub">Clay + n8n + AI agents</div>
+            <span class="mm-co-label">wAI</span>
           </div>
-          <div class="tl-node" data-idx="11" data-company="webai">
-            <div class="tl-node-dot"></div>
-            <div class="tl-node-content">
-              <div class="tl-node-year">2026</div>
-              <div class="tl-node-title">8x SF Certified</div>
-              <div class="tl-node-sub">Agentforce + Maps</div>
-            </div>
+          <div class="mm-card" data-idx="11" data-co="webai" onclick="showMM(11)">
+            <div class="mm-year">2026</div>
+            <div class="mm-title">8x SF Certified</div>
+            <div class="mm-sub">Agentforce + Maps</div>
+            <span class="mm-co-label">wAI</span>
           </div>
         </div>
-        <div class="tl-arrows">
-          <button class="tl-arrow" onclick="scrollTL(-1)" aria-label="Previous">&larr;</button>
-          <button class="tl-arrow" onclick="scrollTL(1)" aria-label="Next">&rarr;</button>
-        </div>
-        <div class="tl-detail-panel" id="tlDetail">
+        <div class="mm-detail" id="mmDetail">
           <h3>Sr. Salesforce Administrator</h3>
-          <div class="tl-detail-role">Avangrid &middot; Jun 2015</div>
+          <div class="mm-detail-role" style="color:#4ade80">Avangrid &middot; Jun 2015</div>
           <p>Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations. Built the technical foundation that would define a decade-long Salesforce career.</p>
-          <span class="tl-detail-tag">Salesforce</span>
-          <span class="tl-detail-tag">Energy</span>
-          <span class="tl-detail-tag">CRM</span>
+          <span class="mm-dtag" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)">Salesforce</span>
+          <span class="mm-dtag" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)">Energy</span>
+          <span class="mm-dtag" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)">CRM</span>
         </div>
-        <div class="tl-scroll-hint">Click a milestone or use arrows to explore &middot; Drag to scroll</div>
+        <div class="mm-legend">
+          <div class="mm-legend-item"><div class="mm-legend-dot" style="background:#4ade80"></div> Avangrid</div>
+          <div class="mm-legend-item"><div class="mm-legend-dot" style="background:#60a5fa"></div> Slalom</div>
+          <div class="mm-legend-item"><div class="mm-legend-dot" style="background:#a78bfa"></div> DHI Group</div>
+          <div class="mm-legend-item"><div class="mm-legend-dot" style="background:#E76F51"></div> AI Content</div>
+          <div class="mm-legend-item"><div class="mm-legend-dot" style="background:#f472b6"></div> webAI</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE SKILL EXPLORER -->
+    <section class="skill-explorer" id="skill-explorer">
+      <span class="section-label reveal">Interactive</span>
+      <h2 class="section-title reveal">Expertise at a Glance</h2>
+      <p class="reveal" style="color:rgba(255,248,240,0.6);margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;">Hover or scroll into view to see my skill proficiency levels animate.</p>
+      <div class="skill-bars reveal" id="skillBars">
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>Salesforce (Admin, Sales, Service, Experience Cloud)</span><span>98%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="98%"></div></div></div>
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>RevOps &amp; GTM Strategy</span><span>95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="95%"></div></div></div>
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>AI Automation (Clay, n8n, Claude Code)</span><span>90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90%"></div></div></div>
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>Executive Reporting &amp; Data Viz</span><span>92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92%"></div></div></div>
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>Pipeline &amp; Forecasting Frameworks</span><span>93%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="93%"></div></div></div>
+        <div class="skill-bar-row"><div class="skill-bar-label"><span>Cross-Functional Leadership</span><span>96%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="96%"></div></div></div>
       </div>
     </section>
 
@@ -1953,14 +1939,13 @@
       items.classList.toggle('open');
     }
 
-    /* ===== Interactive Career Timeline ===== */
-    const companyColors = { avangrid: '#4ade80', slalom: '#60a5fa', dhi: '#a78bfa', content: '#E76F51', webai: '#f472b6' };
-    const companyLabels = { avangrid: 'AVG', slalom: 'SLM', dhi: 'DHI', content: 'AI', webai: 'wAI' };
-    const tlData = [
-      { title: 'Sr. Salesforce Administrator', role: 'Avangrid \u00b7 Jun 2015', desc: 'Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations. Built the technical foundation that would define a decade-long Salesforce career.', tags: ['Salesforce', 'Energy', 'CRM'], co: 'avangrid' },
-      { title: '$750K Salesforce Migration', role: 'Avangrid \u00b7 2016', desc: 'Led a $750K Salesforce migration for two gas corporations, enhancing operational efficiency by 30% and improving stakeholder engagement by 25%. Designed KPI dashboards for energy production and distribution.', tags: ['Migration', '$750K', '30% Efficiency'], co: 'avangrid' },
-      { title: 'Joined Slalom LLC', role: 'Salesforce Consultant \u00b7 May 2018', desc: 'Moved into enterprise consulting at Slalom, delivering Salesforce solutions in Financial Services. Immediately began working on high-profile client engagements with complex requirements.', tags: ['Consulting', 'Financial Services', 'Enterprise'], co: 'slalom' },
-      { title: 'Multi-Certification Year', role: 'Slalom \u00b7 2019', desc: 'Earned Sales Cloud, Service Cloud, and Community Cloud certifications \u2014 driving a 20% improvement in solution design outcomes and establishing deep platform expertise across clouds.', tags: ['Sales Cloud', 'Service Cloud', 'Community Cloud'], co: 'slalom' },
+    /* ===== Mind Map Career Milestones ===== */
+    const mmColors = { avangrid: '#4ade80', slalom: '#60a5fa', dhi: '#a78bfa', content: '#E76F51', webai: '#f472b6' };
+    const mmData = [
+      { title: 'Sr. Salesforce Administrator', role: 'Avangrid \u00b7 Jun 2015', desc: 'Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations.', tags: ['Salesforce', 'Energy', 'CRM'], co: 'avangrid' },
+      { title: '$750K Salesforce Migration', role: 'Avangrid \u00b7 2016', desc: 'Led a $750K Salesforce migration for two gas corporations, enhancing operational efficiency by 30%.', tags: ['Migration', '$750K', '30% Efficiency'], co: 'avangrid' },
+      { title: 'Joined Slalom LLC', role: 'Salesforce Consultant \u00b7 May 2018', desc: 'Moved into enterprise consulting at Slalom, delivering Salesforce solutions in Financial Services.', tags: ['Consulting', 'Financial Services', 'Enterprise'], co: 'slalom' },
+      { title: 'Multi-Certification Year', role: 'Slalom \u00b7 2019', desc: 'Earned Sales Cloud, Service Cloud, and Community Cloud certifications \u2014 driving a 20% improvement in solution design.', tags: ['Sales Cloud', 'Service Cloud', 'Community Cloud'], co: 'slalom' },
       { title: '98% Client Satisfaction', role: 'Slalom \u00b7 2020', desc: 'Led cross-functional teams to a 95% project success rate and 98% client satisfaction rating. Became the primary client point of contact, building trusted executive relationships in Financial Services.', tags: ['98% CSAT', '95% Success', 'Executive Trust'], co: 'slalom' },
       { title: 'Director, Business Systems', role: 'DHI Group Inc \u00b7 Oct 2021', desc: 'Stepped into a leadership role owning the full GTM tech stack \u2014 Salesforce, HubSpot, and Clay \u2014 as a strategic program leader driving revenue operations at scale.', tags: ['Director', 'GTM Stack', 'Leadership'], co: 'dhi' },
       { title: '25% Forecast Accuracy Boost', role: 'DHI Group \u00b7 2022', desc: 'Designed and implemented pipeline, forecasting, and lifecycle tracking frameworks from scratch. Improved forecasting accuracy by 25% and defined lead routing and lifecycle stages across the revenue org.', tags: ['Forecasting', 'Pipeline', '+25% Accuracy'], co: 'dhi' },
@@ -1971,46 +1956,31 @@
       { title: '8x Salesforce Certified', role: 'Agentforce + Maps \u00b7 2026', desc: 'Reached 8x Salesforce Certified status with Agentforce Specialist and Salesforce Maps Accredited credentials \u2014 staying at the cutting edge of the platform\'s AI and territory planning capabilities.', tags: ['Agentforce', 'Maps', '8x Certified'], co: 'webai' }
     ];
 
-    const tlNodes = document.querySelectorAll('.tl-node');
-    const tlDetail = document.getElementById('tlDetail');
-    const tlTrack = document.getElementById('tlTrack');
+    const mmCards = document.querySelectorAll('.mm-card');
+    const mmDetail = document.getElementById('mmDetail');
 
-    // Add company labels to dots
-    tlNodes.forEach((node, i) => {
-      const co = tlData[i].co;
-      node.querySelector('.tl-node-dot').textContent = companyLabels[co];
-    });
-
-    function showTLDetail(idx) {
-      tlNodes.forEach(n => n.classList.remove('active'));
-      tlNodes[idx].classList.add('active');
-      const d = tlData[idx];
-      const c = companyColors[d.co];
-      tlDetail.style.borderColor = c + '40';
-      tlDetail.innerHTML = '<h3>' + d.title + '</h3><div class="tl-detail-role" style="color:' + c + '">' + d.role + '</div><p>' + d.desc + '</p>' + d.tags.map(t => '<span class="tl-detail-tag" style="background:' + c + '20;color:' + c + ';border-color:' + c + '40">' + t + '</span>').join('');
+    function showMM(idx) {
+      mmCards.forEach(c => c.classList.remove('active'));
+      mmCards[idx].classList.add('active');
+      const d = mmData[idx];
+      const c = mmColors[d.co];
+      mmDetail.style.borderColor = c + '40';
+      mmDetail.innerHTML = '<h3>' + d.title + '</h3><div class="mm-detail-role" style="color:' + c + '">' + d.role + '</div><p>' + d.desc + '</p>' + d.tags.map(t => '<span class="mm-dtag" style="background:' + c + '20;color:' + c + ';border:1px solid ' + c + '40">' + t + '</span>').join('');
     }
 
-    tlNodes.forEach((node, i) => {
-      node.addEventListener('click', () => showTLDetail(i));
-    });
-
-    // Show first detail on load with color
-    showTLDetail(0);
-
-    function scrollTL(dir) {
-      const activeNode = document.querySelector('.tl-node.active');
-      const idx = parseInt(activeNode.dataset.idx);
-      const next = Math.max(0, Math.min(tlData.length - 1, idx + dir));
-      showTLDetail(next);
-      tlNodes[next].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-
-    /* Drag to scroll */
-    let isDragging = false, startX, scrollLeft;
-    tlTrack.addEventListener('mousedown', e => { isDragging = true; startX = e.pageX - tlTrack.offsetLeft; scrollLeft = tlTrack.scrollLeft; tlTrack.style.cursor = 'grabbing'; });
-    tlTrack.addEventListener('mouseleave', () => { isDragging = false; tlTrack.style.cursor = 'grab'; });
-    tlTrack.addEventListener('mouseup', () => { isDragging = false; tlTrack.style.cursor = 'grab'; });
-    tlTrack.addEventListener('mousemove', e => { if (!isDragging) return; e.preventDefault(); const x = e.pageX - tlTrack.offsetLeft; tlTrack.scrollLeft = scrollLeft - (x - startX); });
+    /* ===== Interactive Skill Bars ===== */
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
+            setTimeout(() => { bar.style.width = bar.dataset.width; }, i * 200);
+          });
+          skillObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    const skillBars = document.getElementById('skillBars');
+    if (skillBars) skillObserver.observe(skillBars);
   </script>
 </body>
 </html>
