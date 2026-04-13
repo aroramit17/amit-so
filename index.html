@@ -1083,13 +1083,13 @@
       text-align: left;
     }
     .career-bar-row {
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
     .career-bar-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
     .career-bar-company {
       font-size: 1rem;
@@ -1103,21 +1103,22 @@
     .career-bar-role {
       font-size: 0.8rem;
       color: rgba(255,248,240,0.5);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .career-bar-track {
-      height: 14px;
-      border-radius: 7px;
+      height: 16px;
+      border-radius: 8px;
       background: rgba(255,255,255,0.06);
-      overflow: hidden;
       position: relative;
     }
     .career-bar-fill {
       height: 100%;
-      border-radius: 7px;
+      border-radius: 8px;
       width: 0;
-      transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .career-bar-fill::after {
       content: '';
@@ -1125,9 +1126,9 @@
       right: 0;
       top: 0;
       bottom: 0;
-      width: 30px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25));
-      border-radius: 0 7px 7px 0;
+      width: 20px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
+      border-radius: 0 8px 8px 0;
     }
     .career-bar-scale {
       display: flex;
@@ -1137,14 +1138,14 @@
       color: rgba(255,248,240,0.25);
     }
     /* Company colors */
-    .career-bar-row:nth-child(1) .career-bar-fill { background: linear-gradient(90deg, #f472b6, #ec4899); }
-    .career-bar-row:nth-child(1) .career-bar-years { color: #f472b6; }
-    .career-bar-row:nth-child(2) .career-bar-fill { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
-    .career-bar-row:nth-child(2) .career-bar-years { color: #a78bfa; }
-    .career-bar-row:nth-child(3) .career-bar-fill { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
-    .career-bar-row:nth-child(3) .career-bar-years { color: #60a5fa; }
-    .career-bar-row:nth-child(4) .career-bar-fill { background: linear-gradient(90deg, #4ade80, #16a34a); }
-    .career-bar-row:nth-child(4) .career-bar-years { color: #4ade80; }
+    .cb-avangrid { background: linear-gradient(90deg, #4ade80, #16a34a); }
+    .cb-slalom { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+    .cb-dhi { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+    .cb-webai { background: linear-gradient(90deg, #f472b6, #ec4899); }
+    .career-bar-row:nth-child(1) .career-bar-years { color: #4ade80; }
+    .career-bar-row:nth-child(2) .career-bar-years { color: #60a5fa; }
+    .career-bar-row:nth-child(3) .career-bar-years { color: #a78bfa; }
+    .career-bar-row:nth-child(4) .career-bar-years { color: #f472b6; }
 
     /* ========== CONTACT / FOOTER ========== */
     #contact {
@@ -1860,27 +1861,17 @@
     <section class="career-glance" id="career-glance">
       <span class="section-label reveal">Interactive</span>
       <h2 class="section-title reveal">Career at a Glance</h2>
-      <p class="reveal" style="color:rgba(255,248,240,0.6);margin-bottom:2.5rem;max-width:550px;margin-left:auto;margin-right:auto;">10+ years across enterprise consulting, business systems leadership, and startup RevOps. Each bar represents tenure on a 10-year scale.</p>
+      <p class="reveal" style="color:rgba(255,248,240,0.6);margin-bottom:2.5rem;max-width:550px;margin-left:auto;margin-right:auto;">10+ years across enterprise consulting, business systems leadership, and startup RevOps. Each bar starts where the previous role ended.</p>
       <div class="career-bars reveal" id="careerBars">
 
         <div class="career-bar-row">
           <div class="career-bar-header">
-            <span class="career-bar-company">webAI, Inc.</span>
-            <span class="career-bar-years">1.1 years</span>
+            <span class="career-bar-company">Avangrid</span>
+            <span class="career-bar-years">3 years</span>
           </div>
-          <div class="career-bar-role">Revenue Operations Manager &middot; Mar 2025 &mdash; Apr 2026</div>
-          <div class="career-bar-track"><div class="career-bar-fill" data-width="11%"></div></div>
-          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
-        </div>
-
-        <div class="career-bar-row">
-          <div class="career-bar-header">
-            <span class="career-bar-company">DHI Group Inc</span>
-            <span class="career-bar-years">2.75 years</span>
-          </div>
-          <div class="career-bar-role">Director, Business Systems &middot; Oct 2021 &mdash; Jul 2024</div>
-          <div class="career-bar-track"><div class="career-bar-fill" data-width="27.5%"></div></div>
-          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+          <div class="career-bar-role">Sr. Salesforce Administrator &middot; Jun 2015 &mdash; May 2018</div>
+          <div class="career-bar-track"><div class="career-bar-fill cb-avangrid" data-width="27.6%" data-left="0%"></div></div>
+          <div class="career-bar-scale"><span>2015</span><span>'17</span><span>'19</span><span>'21</span><span>'23</span><span>'25</span><span>2026</span></div>
         </div>
 
         <div class="career-bar-row">
@@ -1889,18 +1880,28 @@
             <span class="career-bar-years">3.4 years</span>
           </div>
           <div class="career-bar-role">Salesforce Consultant &middot; May 2018 &mdash; Oct 2021</div>
-          <div class="career-bar-track"><div class="career-bar-fill" data-width="34%"></div></div>
-          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+          <div class="career-bar-track"><div class="career-bar-fill cb-slalom" data-width="31.3%" data-left="27.6%"></div></div>
+          <div class="career-bar-scale"><span>2015</span><span>'17</span><span>'19</span><span>'21</span><span>'23</span><span>'25</span><span>2026</span></div>
         </div>
 
         <div class="career-bar-row">
           <div class="career-bar-header">
-            <span class="career-bar-company">Avangrid</span>
-            <span class="career-bar-years">3 years</span>
+            <span class="career-bar-company">DHI Group Inc</span>
+            <span class="career-bar-years">2.75 years</span>
           </div>
-          <div class="career-bar-role">Sr. Salesforce Administrator &middot; Jun 2015 &mdash; May 2018</div>
-          <div class="career-bar-track"><div class="career-bar-fill" data-width="30%"></div></div>
-          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+          <div class="career-bar-role">Director, Business Systems &middot; Oct 2021 &mdash; Jul 2024</div>
+          <div class="career-bar-track"><div class="career-bar-fill cb-dhi" data-width="25.3%" data-left="58.9%"></div></div>
+          <div class="career-bar-scale"><span>2015</span><span>'17</span><span>'19</span><span>'21</span><span>'23</span><span>'25</span><span>2026</span></div>
+        </div>
+
+        <div class="career-bar-row">
+          <div class="career-bar-header">
+            <span class="career-bar-company">webAI, Inc.</span>
+            <span class="career-bar-years">1.1 years</span>
+          </div>
+          <div class="career-bar-role">Revenue Operations Manager &middot; Mar 2025 &mdash; Apr 2026</div>
+          <div class="career-bar-track"><div class="career-bar-fill cb-webai" data-width="10.1%" data-left="89.9%"></div></div>
+          <div class="career-bar-scale"><span>2015</span><span>'17</span><span>'19</span><span>'21</span><span>'23</span><span>'25</span><span>2026</span></div>
         </div>
 
       </div>
@@ -2037,12 +2038,15 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.querySelectorAll('.career-bar-fill').forEach((bar, i) => {
-            setTimeout(() => { bar.style.width = bar.dataset.width; }, i * 350);
+            setTimeout(() => {
+              bar.style.left = bar.dataset.left;
+              bar.style.width = bar.dataset.width;
+            }, i * 400);
           });
           careerObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     const careerBars = document.getElementById('careerBars');
     if (careerBars) careerObserver.observe(careerBars);
   </script>
