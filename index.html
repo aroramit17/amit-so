@@ -302,6 +302,170 @@
       transform: translateY(-2px);
     }
 
+    /* ========== SCROLL CHEVRON ========== */
+    .scroll-chevron {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.5rem;
+      animation: bounceDown 2s ease-in-out infinite;
+    }
+    .scroll-chevron a {
+      color: var(--amber);
+      opacity: 0.5;
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: opacity 0.3s;
+    }
+    .scroll-chevron a:hover { opacity: 1; }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    /* ========== PULSING TOGGLE ========== */
+    .timeline-toggle.pulse-hint {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 0 transparent; }
+      50% { text-shadow: 0 0 12px rgba(244,162,97,0.6); }
+    }
+
+    /* ========== INLINE INTERVIEW CTA ========== */
+    .inline-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .inline-cta .btn-primary {
+      font-size: 1.05rem;
+      padding: 1rem 2.5rem;
+    }
+
+    /* ========== WORKFLOW VISUALIZATION ========== */
+    .workflow-section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .workflow-canvas {
+      position: relative;
+      padding: 3rem 1rem;
+      border-radius: 20px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      min-height: 320px;
+    }
+    .workflow-nodes {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+    }
+    .wf-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      cursor: pointer;
+      flex: 1;
+      min-width: 90px;
+      padding: 0.75rem 0.25rem;
+      transition: transform 0.3s;
+    }
+    .wf-node:hover { transform: translateY(-4px); }
+    .wf-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      border: 2px solid var(--glass-border);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .wf-node:hover .wf-icon {
+      border-color: var(--amber);
+      box-shadow: 0 0 20px rgba(244,162,97,0.25);
+    }
+    .wf-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+      color: rgba(255,248,240,0.6);
+      line-height: 1.2;
+    }
+    .wf-connector {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      padding: 0 0.15rem;
+    }
+    .wf-connector svg {
+      width: 30px;
+      height: 12px;
+    }
+    .wf-connector svg line {
+      stroke: var(--amber);
+      stroke-width: 2;
+      stroke-dasharray: 4 4;
+      animation: dashFlow 1s linear infinite;
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -8; }
+    }
+    .wf-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--deep-purple);
+      border: 1px solid var(--amber);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--cream);
+      line-height: 1.4;
+      width: 200px;
+      text-align: center;
+      z-index: 10;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      pointer-events: none;
+    }
+    .wf-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--amber);
+    }
+    .wf-node:hover .wf-tooltip { display: block; }
+    .wf-node .wf-icon.form { background: rgba(96,165,250,0.15); color: #60a5fa; }
+    .wf-node .wf-icon.hubspot { background: rgba(255,122,89,0.15); color: #ff7a59; }
+    .wf-node .wf-icon.clay { background: rgba(167,139,250,0.15); color: #a78bfa; }
+    .wf-node .wf-icon.enrich { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .wf-node .wf-icon.email { background: rgba(244,162,97,0.15); color: var(--amber); }
+    .wf-node .wf-icon.reps { background: rgba(244,114,182,0.15); color: #f472b6; }
+
+    @media (max-width: 768px) {
+      .workflow-nodes { flex-direction: column; gap: 0; }
+      .wf-connector { transform: rotate(90deg); padding: 0.25rem 0; }
+      .wf-tooltip { left: auto; right: -60px; transform: none; }
+    }
+
     /* ========== ABOUT ========== */
     .about-grid {
       display: grid;
@@ -1068,12 +1232,8 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#hero" class="active">Home</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#certifications">Certs</a></li>
-      <li><a href="#ai-content">AI & Content</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#career-timeline">Timeline</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="interview.html" class="btn btn-primary" style="padding: 0.5rem 1.1rem; font-size: 0.85rem;">Interview Me</a></li>
     </ul>
@@ -1094,6 +1254,9 @@
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">Get in Touch</a>
         <a href="#experience" class="btn btn-ghost">View Experience</a>
+      </div>
+      <div class="scroll-chevron">
+        <a href="#about" aria-label="Scroll down">&#8964;</a>
       </div>
         </div>
       </div>
@@ -1212,7 +1375,7 @@
           <div class="timeline-header-line"><span class="company-name">webAI, Inc.</span> <span class="date-range">| Mar 2025 &mdash; Apr 2026</span></div>
           <div class="timeline-role">Revenue Operations Manager</div>
           <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Led the full CRM transition from HubSpot to Salesforce. Built a pipeline hygiene engine using Clay and implemented ICP personas in Clay to uncover high-value leads.</p>
-          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <button class="timeline-toggle pulse-hint" onclick="toggleWebAI(this)">Show details +</button>
           <div class="webai-categories">
 
             <div class="webai-category">
@@ -1278,7 +1441,7 @@
           <div class="timeline-header-line"><span class="company-name">DHI Group Inc</span> <span class="date-range">| Oct 2021 &mdash; Jul 2024</span></div>
           <div class="timeline-role">Director, Business Systems</div>
           <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Owned the full GTM tech stack as strategic program leader, building pipeline and forecasting frameworks from scratch and delivering board-ready executive reporting.</p>
-          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <button class="timeline-toggle pulse-hint" onclick="toggleWebAI(this)">Show details +</button>
           <div class="webai-categories">
 
             <div class="webai-category">
@@ -1327,7 +1490,7 @@
           <div class="timeline-header-line"><span class="company-name">Slalom LLC</span> <span class="date-range">| May 2018 &mdash; Oct 2021</span></div>
           <div class="timeline-role">Salesforce Consultant</div>
           <p style="font-size: 0.9rem; color: rgba(255,248,240,0.65); margin-bottom: 0.5rem;">Delivered enterprise Salesforce solutions in Financial Services as the client's trusted program partner, with a 95% project success rate and 98% client satisfaction.</p>
-          <button class="timeline-toggle" onclick="toggleWebAI(this)">Show details +</button>
+          <button class="timeline-toggle pulse-hint" onclick="toggleWebAI(this)">Show details +</button>
           <div class="webai-categories">
 
             <div class="webai-category">
@@ -1429,6 +1592,11 @@
       </div>
     </section>
 
+    <!-- INLINE CTA 2 -->
+    <div class="inline-cta reveal">
+      <a href="interview.html" class="btn btn-primary">&#128197; Let's Talk &mdash; Book a Time &rarr;</a>
+    </div>
+
     <!-- AI & CONTENT -->
     <section id="ai-content">
       <span class="section-label reveal">Builder Mode</span>
@@ -1448,6 +1616,77 @@
           <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content: center;">
             Visit Channel &rarr;
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INLINE CTA 1 -->
+    <div class="inline-cta reveal">
+      <a href="interview.html" class="btn btn-primary">&#128197; Schedule an Interview &rarr;</a>
+    </div>
+
+    <!-- WORKFLOW VISUALIZATION -->
+    <section class="workflow-section" id="workflow">
+      <span class="section-label reveal">How I Build GTM Engines</span>
+      <h2 class="section-title reveal">Lead Enrichment &amp; Qualification Workflow</h2>
+      <p class="reveal" style="color: rgba(255,248,240,0.6); margin-bottom: 2rem; max-width: 700px;">An end-to-end system I architected: from inbound form fill to enriched, scored, and personalized outreach &mdash; fully automated.</p>
+      <div class="workflow-canvas reveal">
+        <div class="workflow-nodes">
+
+          <div class="wf-node">
+            <div class="wf-icon form">&#9998;</div>
+            <div class="wf-label">Web Form</div>
+            <div class="wf-tooltip">Lead fills out a web form &mdash; name, email, company. Data captured and sent to CRM in real time.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon hubspot">H</div>
+            <div class="wf-label">HubSpot</div>
+            <div class="wf-tooltip">Lead lands in HubSpot as a new contact. Triggers an automated workflow that sends the record to Clay for enrichment.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon clay">C</div>
+            <div class="wf-label">Clay<br>Enrichment</div>
+            <div class="wf-tooltip">Clay receives the lead and enriches: validates email, pulls LinkedIn profile URL, and identifies the person's company and role.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon enrich">&#9875;</div>
+            <div class="wf-label">LinkedIn +<br>Company</div>
+            <div class="wf-tooltip">Deep enrichment layer: scrapes LinkedIn data, pulls company info (size, industry, funding), and scores against ICP criteria to determine fit.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon clay">&#10003;</div>
+            <div class="wf-label">ICP Match<br>&amp; Personalize</div>
+            <div class="wf-tooltip">If the lead matches ICP criteria, Clay generates a personalized email using AI &mdash; tailored "reason to reach out" based on company signals.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon hubspot">H</div>
+            <div class="wf-label">Back to<br>HubSpot</div>
+            <div class="wf-tooltip">Enriched data, ICP score, and personalized email draft flow back into HubSpot &mdash; attached to the contact record for rep action.</div>
+          </div>
+
+          <div class="wf-connector"><svg><line x1="0" y1="6" x2="30" y2="6"/></svg></div>
+
+          <div class="wf-node">
+            <div class="wf-icon reps">&#9733;</div>
+            <div class="wf-label">Sales Reps<br>Take Action</div>
+            <div class="wf-tooltip">Reps see enriched leads with ICP scores and ready-to-send personalized emails. They review, tweak if needed, and hit send.</div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1492,6 +1731,11 @@
 
       </div>
     </section>
+
+    <!-- INLINE CTA 3 -->
+    <div class="inline-cta reveal">
+      <a href="interview.html" class="btn btn-primary">&#128197; Interested? Schedule a Call &rarr;</a>
+    </div>
 
     <!-- INTERACTIVE CAREER TIMELINE -->
     <section id="career-timeline">
@@ -1697,6 +1941,7 @@
 
     /* ===== WebAI Expandable Categories ===== */
     function toggleWebAI(btn) {
+      btn.classList.remove('pulse-hint');
       const categories = btn.nextElementSibling;
       categories.classList.toggle('open');
       btn.textContent = categories.classList.contains('open') ? 'Hide details −' : 'Show details +';
