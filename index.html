@@ -1070,52 +1070,81 @@
       border-radius: 50%;
     }
 
-    /* ========== INTERACTIVE SKILL EXPLORER ========== */
-    .skill-explorer {
+    /* ========== CAREER AT A GLANCE ========== */
+    .career-glance {
       padding: 4rem 2rem;
       max-width: 1100px;
       margin: 0 auto;
       text-align: center;
     }
-    .skill-bars {
-      max-width: 600px;
+    .career-bars {
+      max-width: 700px;
       margin: 0 auto;
       text-align: left;
     }
-    .skill-bar-row {
-      margin-bottom: 1.25rem;
+    .career-bar-row {
+      margin-bottom: 2rem;
     }
-    .skill-bar-label {
+    .career-bar-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+    .career-bar-company {
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--cream);
     }
-    .skill-bar-label span:last-child {
-      color: var(--amber);
+    .career-bar-years {
+      font-size: 0.85rem;
       font-weight: 700;
     }
-    .skill-bar-track {
-      height: 10px;
-      border-radius: 5px;
-      background: rgba(255,255,255,0.08);
+    .career-bar-role {
+      font-size: 0.8rem;
+      color: rgba(255,248,240,0.5);
+      margin-bottom: 0.5rem;
+    }
+    .career-bar-track {
+      height: 14px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.06);
       overflow: hidden;
+      position: relative;
     }
-    .skill-bar-fill {
+    .career-bar-fill {
       height: 100%;
-      border-radius: 5px;
+      border-radius: 7px;
       width: 0;
-      transition: width 1.5s ease-out;
+      transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
     }
-    .skill-bar-fill.animated { /* width set by JS */ }
-    .skill-bar-row:nth-child(1) .skill-bar-fill { background: linear-gradient(90deg, var(--amber), var(--coral)); }
-    .skill-bar-row:nth-child(2) .skill-bar-fill { background: linear-gradient(90deg, #60a5fa, #818cf8); }
-    .skill-bar-row:nth-child(3) .skill-bar-fill { background: linear-gradient(90deg, #4ade80, #22d3ee); }
-    .skill-bar-row:nth-child(4) .skill-bar-fill { background: linear-gradient(90deg, var(--magenta), #f472b6); }
-    .skill-bar-row:nth-child(5) .skill-bar-fill { background: linear-gradient(90deg, var(--coral), #fbbf24); }
-    .skill-bar-row:nth-child(6) .skill-bar-fill { background: linear-gradient(90deg, #a78bfa, #6366f1); }
+    .career-bar-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25));
+      border-radius: 0 7px 7px 0;
+    }
+    .career-bar-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.3rem;
+      font-size: 0.65rem;
+      color: rgba(255,248,240,0.25);
+    }
+    /* Company colors */
+    .career-bar-row:nth-child(1) .career-bar-fill { background: linear-gradient(90deg, #f472b6, #ec4899); }
+    .career-bar-row:nth-child(1) .career-bar-years { color: #f472b6; }
+    .career-bar-row:nth-child(2) .career-bar-fill { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+    .career-bar-row:nth-child(2) .career-bar-years { color: #a78bfa; }
+    .career-bar-row:nth-child(3) .career-bar-fill { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+    .career-bar-row:nth-child(3) .career-bar-years { color: #60a5fa; }
+    .career-bar-row:nth-child(4) .career-bar-fill { background: linear-gradient(90deg, #4ade80, #16a34a); }
+    .career-bar-row:nth-child(4) .career-bar-years { color: #4ade80; }
 
     /* ========== CONTACT / FOOTER ========== */
     #contact {
@@ -1827,18 +1856,53 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE SKILL EXPLORER -->
-    <section class="skill-explorer" id="skill-explorer">
+    <!-- CAREER AT A GLANCE -->
+    <section class="career-glance" id="career-glance">
       <span class="section-label reveal">Interactive</span>
-      <h2 class="section-title reveal">Expertise at a Glance</h2>
-      <p class="reveal" style="color:rgba(255,248,240,0.6);margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;">Hover or scroll into view to see my skill proficiency levels animate.</p>
-      <div class="skill-bars reveal" id="skillBars">
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>Salesforce (Admin, Sales, Service, Experience Cloud)</span><span>98%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="98%"></div></div></div>
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>RevOps &amp; GTM Strategy</span><span>95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="95%"></div></div></div>
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>AI Automation (Clay, n8n, Claude Code)</span><span>90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90%"></div></div></div>
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>Executive Reporting &amp; Data Viz</span><span>92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92%"></div></div></div>
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>Pipeline &amp; Forecasting Frameworks</span><span>93%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="93%"></div></div></div>
-        <div class="skill-bar-row"><div class="skill-bar-label"><span>Cross-Functional Leadership</span><span>96%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="96%"></div></div></div>
+      <h2 class="section-title reveal">Career at a Glance</h2>
+      <p class="reveal" style="color:rgba(255,248,240,0.6);margin-bottom:2.5rem;max-width:550px;margin-left:auto;margin-right:auto;">10+ years across enterprise consulting, business systems leadership, and startup RevOps. Each bar represents tenure on a 10-year scale.</p>
+      <div class="career-bars reveal" id="careerBars">
+
+        <div class="career-bar-row">
+          <div class="career-bar-header">
+            <span class="career-bar-company">webAI, Inc.</span>
+            <span class="career-bar-years">1.1 years</span>
+          </div>
+          <div class="career-bar-role">Revenue Operations Manager &middot; Mar 2025 &mdash; Apr 2026</div>
+          <div class="career-bar-track"><div class="career-bar-fill" data-width="11%"></div></div>
+          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+        </div>
+
+        <div class="career-bar-row">
+          <div class="career-bar-header">
+            <span class="career-bar-company">DHI Group Inc</span>
+            <span class="career-bar-years">2.75 years</span>
+          </div>
+          <div class="career-bar-role">Director, Business Systems &middot; Oct 2021 &mdash; Jul 2024</div>
+          <div class="career-bar-track"><div class="career-bar-fill" data-width="27.5%"></div></div>
+          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+        </div>
+
+        <div class="career-bar-row">
+          <div class="career-bar-header">
+            <span class="career-bar-company">Slalom LLC</span>
+            <span class="career-bar-years">3.4 years</span>
+          </div>
+          <div class="career-bar-role">Salesforce Consultant &middot; May 2018 &mdash; Oct 2021</div>
+          <div class="career-bar-track"><div class="career-bar-fill" data-width="34%"></div></div>
+          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+        </div>
+
+        <div class="career-bar-row">
+          <div class="career-bar-header">
+            <span class="career-bar-company">Avangrid</span>
+            <span class="career-bar-years">3 years</span>
+          </div>
+          <div class="career-bar-role">Sr. Salesforce Administrator &middot; Jun 2015 &mdash; May 2018</div>
+          <div class="career-bar-track"><div class="career-bar-fill" data-width="30%"></div></div>
+          <div class="career-bar-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 yrs</span></div>
+        </div>
+
       </div>
     </section>
 
@@ -1968,19 +2032,19 @@
       mmDetail.innerHTML = '<h3>' + d.title + '</h3><div class="mm-detail-role" style="color:' + c + '">' + d.role + '</div><p>' + d.desc + '</p>' + d.tags.map(t => '<span class="mm-dtag" style="background:' + c + '20;color:' + c + ';border:1px solid ' + c + '40">' + t + '</span>').join('');
     }
 
-    /* ===== Interactive Skill Bars ===== */
-    const skillObserver = new IntersectionObserver((entries) => {
+    /* ===== Career Bars Animation ===== */
+    const careerObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
-            setTimeout(() => { bar.style.width = bar.dataset.width; }, i * 200);
+          entry.target.querySelectorAll('.career-bar-fill').forEach((bar, i) => {
+            setTimeout(() => { bar.style.width = bar.dataset.width; }, i * 350);
           });
-          skillObserver.unobserve(entry.target);
+          careerObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.3 });
-    const skillBars = document.getElementById('skillBars');
-    if (skillBars) skillObserver.observe(skillBars);
+    const careerBars = document.getElementById('careerBars');
+    if (careerBars) careerObserver.observe(careerBars);
   </script>
 </body>
 </html>
