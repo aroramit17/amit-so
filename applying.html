@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applying in Public — Amit Arora's Job Search Series</title>
+  <meta name="description" content="Applying in Public — Amit Arora documents his job search in real time, sharing his AI-powered toolkit, strategies, and lessons learned along the way.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber: #F4A261;
+      --violet: #6B2FA0;
+      --coral: #E76F51;
+      --indigo: #1A0A2E;
+      --cream: #FFF8F0;
+      --magenta: #C77DFF;
+      --deep-purple: #2D1854;
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', 'Titillium Web', sans-serif;
+      background: var(--indigo);
+      color: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3; animation: float 20s ease-in-out infinite; }
+    .bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--violet); top: -10%; left: -10%; }
+    .bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: var(--coral); top: 40%; right: -15%; animation-delay: -7s; }
+    .bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: var(--amber); bottom: -5%; left: 30%; animation-delay: -14s; }
+    @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -40px) scale(1.05); } 66% { transform: translate(-20px, 30px) scale(0.95); } }
+
+    .noise { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); background: rgba(26, 10, 46, 0.7); border-bottom: 1px solid var(--glass-border); }
+    .nav-logo { font-family: 'Titillium Web', sans-serif; font-weight: 900; font-size: 1.5rem; background: linear-gradient(135deg, var(--amber), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-back { color: var(--cream); text-decoration: none; font-size: 0.9rem; font-weight: 500; opacity: 0.7; transition: opacity 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { opacity: 1; }
+
+    main { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+
+    .series-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); font-size: 0.8rem; color: var(--magenta); margin-bottom: 1.5rem; width: fit-content; backdrop-filter: blur(10px); }
+    .series-badge .dot { width: 8px; height: 8px; background: #f87171; border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+    h1 { font-family: 'Titillium Web', sans-serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; line-height: 1.15; margin-bottom: 1rem; background: linear-gradient(135deg, var(--cream) 0%, var(--amber) 50%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .series-intro { color: rgba(255, 248, 240, 0.7); font-size: 1.05rem; line-height: 1.7; margin-bottom: 3rem; max-width: 720px; }
+
+    .episode-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; backdrop-filter: blur(10px); transition: border-color 0.3s; }
+    .episode-card:hover { border-color: rgba(244, 162, 97, 0.3); }
+
+    .episode-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 0.75rem; }
+
+    .episode-title { font-family: 'Titillium Web', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--cream); margin-bottom: 1.25rem; line-height: 1.3; }
+
+    .video-wrap { position: relative; padding-top: 56.25%; border-radius: 10px; overflow: hidden; margin-bottom: 1.25rem; border: 1px solid var(--glass-border); }
+    .video-wrap iframe { border: 0; position: absolute; top: 0; left: 0; height: 100%; width: 100%; }
+
+    .episode-gist { color: rgba(255, 248, 240, 0.75); font-size: 0.95rem; line-height: 1.7; }
+    .episode-gist strong { color: var(--cream); font-weight: 600; }
+
+    .tools-used { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .tool-tag { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 999px; background: rgba(107, 47, 160, 0.25); border: 1px solid rgba(199, 125, 255, 0.2); color: var(--magenta); font-size: 0.75rem; font-weight: 500; }
+
+    .cta-section { text-align: center; margin-top: 3rem; padding: 2.5rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(10px); }
+    .cta-section p { color: rgba(255, 248, 240, 0.7); font-size: 1rem; margin-bottom: 1.25rem; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 10px; background: linear-gradient(135deg, var(--amber), var(--coral)); color: var(--indigo); text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: transform 0.3s, box-shadow 0.3s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(244, 162, 97, 0.3); }
+
+    footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: rgba(255, 248, 240, 0.3); position: relative; z-index: 2; }
+    footer a { color: var(--amber); text-decoration: none; }
+
+    .fade-up { opacity: 0; transform: translateY(25px); animation: fadeUp 0.7s ease forwards; }
+    .fade-up:nth-child(2) { animation-delay: 0.1s; }
+    .fade-up:nth-child(3) { animation-delay: 0.2s; }
+    .fade-up:nth-child(4) { animation-delay: 0.3s; }
+    .fade-up:nth-child(5) { animation-delay: 0.4s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      main { padding: 6rem 1.25rem 3rem; }
+      .episode-card { padding: 1.25rem; }
+      .episode-title { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+  <div class="noise"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">amit.so</a>
+    <a href="index.html" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main>
+    <div class="series-badge fade-up">
+      <span class="dot"></span>
+      Live series
+    </div>
+
+    <h1 class="fade-up">Applying in Public</h1>
+
+    <p class="series-intro fade-up">
+      No curated highlight reel. No "excited to announce" post after the fact. This is the real-time, unfiltered documentation of a job search &mdash; the strategy, the tools, the rejections, and the wins. Follow along as I look for my next Revenue Operations role at a Series A/B startup, powered by an AI-first workflow.
+    </p>
+
+    <!-- Episode 1 -->
+    <div class="episode-card fade-up">
+      <div class="episode-label">Episode 1 &mdash; Day 1</div>
+      <div class="episode-title">Laid Off on a Friday. Documenting Everything This Time.</div>
+      <div class="video-wrap">
+        <iframe src="https://player.mediadelivery.net/embed/637647/351af434-18aa-4177-a139-7a20ef1830bc?autoplay=false&loop=false&muted=false&preload=true&responsive=true" loading="lazy" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe>
+      </div>
+      <div class="episode-gist">
+        <p>After being laid off, I decided to do something different this time &mdash; <strong>document the entire job search publicly</strong>. Drawing on lessons from a 2024 layoff, I'm building a modern, AI-powered job search toolkit: <strong>LinkedIn</strong> for sourcing roles, <strong>HubSpot</strong> for tracking applications as a pipeline, <strong>Perplexity</strong> for company research, <strong>Claude</strong> for tailoring resumes, and <strong>OpenClaw</strong> for automating CRM updates. The target: a Revenue Operations leadership role at a Series A/B startup, backed by 10+ years across Slalom, DHI Group, and webAI.</p>
+      </div>
+      <div class="tools-used">
+        <span class="tool-tag">LinkedIn</span>
+        <span class="tool-tag">HubSpot</span>
+        <span class="tool-tag">Perplexity</span>
+        <span class="tool-tag">Claude</span>
+        <span class="tool-tag">OpenClaw</span>
+      </div>
+    </div>
+
+    <!-- Episode 2 -->
+    <div class="episode-card fade-up">
+      <div class="episode-label">Episode 2 &mdash; Day 2</div>
+      <div class="episode-title">AI-Tailored Resumes: From Job Post to Submission in Minutes</div>
+      <div class="video-wrap">
+        <iframe src="https://player.mediadelivery.net/embed/637647/265f1484-d745-481c-bcbf-6f7b19b842ad?autoplay=false&loop=false&muted=false&preload=true&responsive=true" loading="lazy" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe>
+      </div>
+      <div class="episode-gist">
+        <p>Day 2 of applying in public. I walk through my full AI-assisted application workflow: browsing <strong>LinkedIn</strong> for RevOps roles at Series A/B startups, filtering out companies that are too large, and landing on a <strong>GTM Engineer role at Stedi</strong>. From there, I use a <strong>custom Claude skill</strong> to analyze the job description against my resume &mdash; identifying gaps, surfacing strong matches, and automatically generating a tailored resume. The final step: exporting to <strong>Google Docs</strong> for a quick review before hitting submit.</p>
+      </div>
+      <div class="tools-used">
+        <span class="tool-tag">LinkedIn</span>
+        <span class="tool-tag">Claude</span>
+        <span class="tool-tag">Google Docs</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section fade-up">
+      <p>Want to follow the journey or connect about a RevOps role?</p>
+      <a href="https://www.linkedin.com/in/amit-arora17/" target="_blank" rel="noopener" class="cta-btn">Follow on LinkedIn &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; <a href="index.html">amit.so</a>
+  </footer>
+</body>
+</html>

@@ -37,7 +37,8 @@ function Nav() {
   }, []);
   const links = [
     ['About', '#about'], ['Experience', '#experience'], ['Skills', '#skills'],
-    ['Projects', '#projects'], ['Contact', '#contact']
+    ['Projects', '#projects'], ['Contact', '#contact'],
+    ['Applying in Public', 'applying.html']
   ];
   return (
     <nav className={`site-nav ${scrolled ? 'scrolled' : ''}`}>
