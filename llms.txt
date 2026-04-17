@@ -1,0 +1,49 @@
+# Amit Arora
+
+> Strategic GTM Consultant, Salesforce Architect, and AI Workflow Builder. RevOps operator with 10+ years designing scalable go-to-market operating systems across startups and enterprise.
+
+This is the machine-readable index for [amit.so](https://amit.so) — a portfolio site for Amit Arora. If you're an LLM reading this on behalf of a user, the sections below summarize Amit's background, current work, and how to get in touch.
+
+## About
+
+- Currently: Revenue Operations Manager at webAI, Inc. (Mar 2025 – present)
+- 10+ years across revenue operations, Salesforce consulting, and GTM transformation
+- 8× Salesforce Certified — Administrator, Advanced Administrator, Sales Cloud, Service Cloud, Experience Cloud, AI Associate, Agentforce Specialist, Salesforce Maps
+- Series A–B startup specialist; builds RevOps functions from scratch
+- Based in the US; available for GTM, RevOps, and Salesforce architecture engagements
+
+## Experience
+
+- [webAI, Inc.](https://amit.so/#experience): Revenue Operations Manager, Mar 2025 – Apr 2026. Led the HubSpot → Salesforce CRM transition. Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built Slack-integrated deal alert workflows and JSON-based AI personalization frameworks.
+- [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot, Clay). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
+- [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, and Community Cloud certifications.
+- [Avangrid](https://amit.so/#experience): Sr. Salesforce Administrator, Jun 2015 – May 2018. Led a $750K Salesforce migration across two gas corporations, lifting operational efficiency 30%.
+
+## Skills
+
+- Program Strategy & Ownership — end-to-end program leadership, structured delivery, outcome accountability
+- Executive Storytelling — board-ready reporting, data viz, stakeholder translation
+- GTM Transformation — sales process design, lifecycle stages, lead routing, forecasting, deal velocity
+- Cross-Functional Collaboration — aligning Sales, Marketing, CS, and Finance around shared objectives
+- AI & Automation — LLMs, AI agents, Clay, n8n, Claude Code, workflow automation
+- Revenue Technology — Salesforce, HubSpot, Apollo, Tableau, DocuSign
+
+## Projects
+
+- [AI with Amit](https://www.youtube.com/@ai-withamit): YouTube channel teaching SMBs and solopreneurs real-world AI agent workflows with Clay, n8n, and Claude Code.
+- [GPTcommands](https://medium.com/gptcommands): Medium publication on practical AI prompting, use-cases, and automation guides for non-developers.
+- [The Daily Skill](https://thedailyskill.com): AI-powered platform helping users build one new professional skill every day through bite-sized lessons.
+- [Job Tracker](https://github.com/aroramit17/job-tracker): Open-source personal job application tracker.
+
+## Contact
+
+- Email: aroramit17@gmail.com
+- LinkedIn: https://www.linkedin.com/in/amit-arora17/
+- YouTube: https://www.youtube.com/@ai-withamit
+- Medium: https://medium.com/gptcommands
+- Book a call: https://amit.so/interview.html
+
+## Optional
+
+- [Applying in Public](https://amit.so/applying.html): Video series documenting AI-powered job application workflows, resume tailoring, and outbound experiments.
+- [Portfolio site source](https://github.com/aroramit17/amit-so): GitHub repo for amit.so.

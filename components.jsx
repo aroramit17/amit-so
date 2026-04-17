@@ -385,6 +385,8 @@ function Footer() {
   return (
     <footer className="site-footer">
       <span>© 2026 Amit Arora · amit.so</span>
+      <span className="footer-sep"> · </span>
+      <a href="/llms.txt" className="footer-link">llms.txt</a>
     </footer>
   );
 }
