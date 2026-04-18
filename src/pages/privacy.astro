@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/privacy.css';
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy Policy",
+  "url": "https://amit.so/privacy",
+  "description": "Privacy Policy for amit.so — how cookies, tracking technologies, and online data partners are used on this site, and how visitors can opt out.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "about": {
+    "@type": "Person",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  }
+});
+---
+<BaseLayout
+  title="Privacy Policy | Amit Arora"
+  description="Privacy Policy for amit.so — how cookies, tracking technologies, and online data partners are used on this site, and how visitors can opt out."
+  canonical="https://amit.so/privacy"
+  jsonLd={jsonLd}
+>
+  <div class="grain"></div>
+
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main>
+    <div class="eyebrow">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: April 17, 2026</p>
+
+    <p>This Privacy Policy describes how information is collected when you visit <strong>amit.so</strong> (the &ldquo;Site&rdquo;). By using the Site, you agree to the practices described below.</p>
+
+    <h2>Tracking Technologies &amp; Online Data Partners</h2>
+    <p>When you visit or log in to our website, cookies and similar technologies may be used by our online data partners or vendors to associate these activities with other personal information they or others have about you, including by association with your email. We (or service providers on our behalf) may then send communications and marketing to these email addresses. You may opt out of receiving this advertising by visiting <a class="inline" href="https://app.retention.com/optout" target="_blank" rel="noopener">https://app.retention.com/optout</a>.</p>
+
+    <h2>Contact</h2>
+    <p>For questions about this Privacy Policy or how your data is handled, reach out at <a class="inline" href="mailto:aroramit.17@gmail.com">aroramit.17@gmail.com</a>.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  </footer>
+</BaseLayout>

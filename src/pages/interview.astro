@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/interview.css';
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "name": "Interview Amit Arora — Book a Call",
+      "url": "https://amit.so/interview",
+      "description": "Book a 30-minute call with Amit Arora — Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach. For hiring managers and GTM teams.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Amit Arora",
+        "url": "https://amit.so"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Amit Arora",
+      "url": "https://amit.so",
+      "image": "https://amit.so/amit-headshot.png",
+      "jobTitle": "Revenue Operations Leader & Claude Code Coach",
+      "email": "mailto:aroramit17@gmail.com",
+      "sameAs": [
+        "https://linkedin.com/in/amit-arora17",
+        "https://youtube.com/@ai-withamit"
+      ]
+    }
+  ]
+});
+---
+<BaseLayout
+  title="Interview Amit Arora — Book a Call | Amit Arora"
+  description="Book a 30-minute call with Amit Arora — Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach. For hiring managers and GTM teams."
+  canonical="https://amit.so/interview"
+  jsonLd={jsonLd}
+>
+  <div class="grain"></div>
+
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main>
+    <div class="interview-badge fade-up">Open to opportunities</div>
+
+    <h1 class="fade-up">Meet with Amit Arora &mdash; Revenue Operations &amp; GTM Leader</h1>
+
+    <div class="cal-embed-wrap fade-up">
+      <div id="my-cal-inline-interview-amit"></div>
+    </div>
+
+    <div class="interview-body fade-up">
+      <p>I help companies build the revenue engine that turns pipeline into predictable growth.</p>
+
+      <p>With <strong>10+ years in Revenue Operations, GTM strategy, and Salesforce consulting</strong>, I&rsquo;ve built and scaled the systems that high-growth companies run on &mdash; CRM architecture, pipeline and forecasting frameworks, executive reporting, and the cross-functional processes that align Sales, Marketing, CS, and Finance around shared outcomes.</p>
+
+      <p>Most recently, I stood up the RevOps function from scratch at a <strong>VC-backed AI startup</strong>, and before that led Business Systems at <strong>DHI Group</strong>, where I improved forecasting accuracy by 25% and built the dashboards leadership used for board reporting. As a <strong>Salesforce Consultant at Slalom</strong>, I delivered enterprise CRM solutions in Financial Services with a 98% client satisfaction rating.</p>
+
+      <p>I&rsquo;m an <strong>8&times; Salesforce Certified</strong> professional with deep hands-on experience across HubSpot, Clay, Tableau, and modern AI automation tools. I also run the <strong>&ldquo;AI with Amit&rdquo;</strong> YouTube channel, where I teach real-world AI workflow automation for GTM teams and solopreneurs.</p>
+
+      <p>I&rsquo;m currently exploring new opportunities and would love to connect. <strong>Pick a time above</strong> and let&rsquo;s talk about how I can help your team build a scalable, data-driven go-to-market operation.</p>
+    </div>
+
+    <div class="social-links fade-up">
+      <a href="https://www.linkedin.com/in/amit-arora17/" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+      <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="social-link">YouTube</a>
+      <a href="https://medium.com/gptcommands" target="_blank" rel="noopener" class="social-link">GPTcommands</a>
+      <a href="https://thedailyskill.com" target="_blank" rel="noopener" class="social-link">The Daily Skill</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  </footer>
+
+  <script is:inline type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "interview-amit", {origin:"https://app.cal.com"});
+    Cal.ns["interview-amit"]("inline", {
+      elementOrSelector: "#my-cal-inline-interview-amit",
+      config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+      calLink: "amit-arora/interview-amit",
+    });
+    Cal.ns["interview-amit"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+  </script>
+</BaseLayout>

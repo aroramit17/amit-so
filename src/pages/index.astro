@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import App from '../components/Sections.jsx';
+import '../styles/home.css';
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Amit Arora",
+  "url": "https://amit.so",
+  "image": "https://amit.so/amit-headshot.png",
+  "jobTitle": "Revenue Operations Leader & Claude Code Coach",
+  "description": "Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace Clay, n8n, and Zapier stacks with Claude Code workflows.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Aubrey",
+    "addressRegion": "TX",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://linkedin.com/in/amit-arora17",
+    "https://youtube.com/@ai-withamit",
+    "https://medium.com/gptcommands",
+    "https://github.com/aroramit17"
+  ],
+  "knowsAbout": [
+    "Revenue Operations",
+    "Go-to-Market Strategy",
+    "Salesforce Architecture",
+    "Claude Code",
+    "AI Workflow Automation",
+    "HubSpot",
+    "Clay",
+    "n8n"
+  ]
+});
+---
+<BaseLayout
+  title="Amit Arora — Revenue Operations Leader & Claude Code Coach"
+  description="Amit Arora — Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace Clay, n8n, and Zapier stacks with Claude Code workflows."
+  canonical="https://amit.so/"
+  jsonLd={jsonLd}
+>
+  <App client:load />
+</BaseLayout>
