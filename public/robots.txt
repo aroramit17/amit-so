@@ -1,0 +1,29 @@
+# amit.so — robots.txt
+
+User-agent: *
+Allow: /
+
+# Block scratch/private directories
+Disallow: /scraps/
+Disallow: /uploads/
+
+# Explicitly allow AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://amit.so/sitemap.xml
