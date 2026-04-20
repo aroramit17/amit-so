@@ -213,7 +213,7 @@ const SITE_DATA = {
       role: "Revenue Operations Manager",
       company: "webAI, Inc.",
       timeline: "First six months (Mar – Aug 2025)",
-      stack: ["HubSpot", "Clay", "Salesforce", "Slack"],
+      stack: ["HubSpot", "Clay", "Apify", "Claude"],
       outcome: "Every inbound lead scored, enriched, and routed the same day.",
       context: [
         "webAI's inbound was arriving in HubSpot with almost no context. Sales was burning cycles on manual firmographic research and ICP judgment calls, and speed-to-first-touch was slipping as inbound volume grew.",
@@ -221,10 +221,11 @@ const SITE_DATA = {
       ],
       approachSteps: [
         { n: 1, title: "Capture", body: "New inbound lead lands in HubSpot CRM — whether via form, meeting booking, or API." },
-        { n: 2, title: "Enrich", body: "Lead is pushed to Clay for firmographic, technographic, and contact enrichment." },
-        { n: 3, title: "Sync back", body: "Clay writes the enriched record back to HubSpot, mapped to typed properties." },
-        { n: 4, title: "Score", body: "A HubSpot workflow evaluates the enriched lead against the ICP rubric (segment, size, stack, intent signals) and assigns an ICP tier." },
-        { n: 5, title: "Route", body: "In-ICP leads auto-assign to the right AE based on segment and territory. Out-of-ICP leads route to nurture." }
+        { n: 2, title: "Discover emails", body: "Lead is pushed into Clay, which runs a layered waterfall of email-discovery providers to surface verified contacts on the lead's organization." },
+        { n: 3, title: "Add firmographic context", body: "Apify runs inside Clay to pull firmographic data — industry, size, intent signals, and related context — on top of the contact layer." },
+        { n: 4, title: "AI cleanup with Claude", body: "Claude runs inside Clay to clean up the enriched record: normalize company names, deduplicate against existing HubSpot data, and reliably identify the headquarters location." },
+        { n: 5, title: "Sync back", body: "The fully enriched record is written back to HubSpot, mapped to typed properties so downstream workflows can act on it." },
+        { n: 6, title: "Score & route", body: "HubSpot workflow rules evaluate the enriched lead against the ICP rubric, assign an ICP tier, and auto-route in-fit leads to the right AE. Out-of-ICP leads route to nurture." }
       ],
       result: [
         "Consistent ICP application across every inbound lead, measurable speed-to-first-touch improvement, and a sales team that stopped doing the research work.",
@@ -239,7 +240,7 @@ const SITE_DATA = {
       role: "Director, Business Systems",
       company: "DHI Group Inc.",
       timeline: "2021 – 2024",
-      stack: ["Salesforce (Classic → Lightning)", "HubSpot", "Tableau", "DocuSign"],
+      stack: ["Salesforce (Classic → Lightning)", "End-to-end process mapping", "Process improvement"],
       outcome: "+25% forecasting accuracy, automated renewals, board-ready dashboards.",
       context: [
         "DHI was operating on legacy Salesforce Classic with weak pipeline hygiene, manual renewals, and forecast numbers that Sales and Finance couldn't trust. The UI was due to be sunsetted, but the real opportunity was rebuilding the business processes underneath — not just flipping a UI switch.",
