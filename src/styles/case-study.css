@@ -228,6 +228,66 @@ strong { color: var(--cream); font-weight: 600; }
   font-size: 1rem;
 }
 
+.cs-meta-outcome { flex-basis: 100%; }
+.cs-meta-outcome .cs-meta-value {
+  color: var(--accent2);
+  font-weight: 500;
+}
+
+.cs-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  counter-reset: cs-step-counter;
+}
+.cs-step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  border-radius: 12px;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.cs-step:hover { border-color: color-mix(in oklch, var(--accent), transparent 60%); transform: translateX(2px); }
+.cs-step-num {
+  flex-shrink: 0;
+  width: 2.15rem;
+  height: 2.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--accent);
+  border: 1px solid color-mix(in oklch, var(--accent), transparent 60%);
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--accent), transparent 90%);
+  font-weight: 400;
+}
+.cs-step-body { flex: 1; }
+.cs-step-title {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--cream);
+  font-weight: 600;
+  margin: 0.1rem 0 0.35rem;
+}
+.cs-step-text {
+  font-size: 0.9rem;
+  color: var(--cream-dim);
+  line-height: 1.65;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .cs-step { padding: 1rem 1.1rem; gap: 1rem; }
+  .cs-step-num { width: 1.9rem; height: 1.9rem; font-size: 1rem; }
+}
+
 footer {
   text-align: center;
   padding: 2.5rem;

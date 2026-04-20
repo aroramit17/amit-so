@@ -59,36 +59,44 @@ const jsonLd = JSON.stringify({
     <div class="cs-meta">
       <div class="cs-meta-item">
         <span class="cs-meta-label">Role</span>
-        <span class="cs-meta-value">—</span>
+        <span class="cs-meta-value">{study.role}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Company</span>
+        <span class="cs-meta-value">{study.company}</span>
       </div>
       <div class="cs-meta-item">
         <span class="cs-meta-label">Timeline</span>
-        <span class="cs-meta-value">—</span>
+        <span class="cs-meta-value">{study.timeline}</span>
       </div>
       <div class="cs-meta-item">
         <span class="cs-meta-label">Stack</span>
-        <span class="cs-meta-value">—</span>
+        <span class="cs-meta-value">{study.stack.join(' · ')}</span>
       </div>
-      <div class="cs-meta-item">
+      <div class="cs-meta-item cs-meta-outcome">
         <span class="cs-meta-label">Outcome</span>
-        <span class="cs-meta-value">—</span>
+        <span class="cs-meta-value">{study.outcome}</span>
       </div>
     </div>
 
     <h2>Context</h2>
-    <div class="cs-placeholder">
-      <em>Placeholder — replace with the situation and constraints.</em>
-    </div>
+    {study.context.map((p) => <p>{p}</p>)}
 
     <h2>Approach</h2>
-    <div class="cs-placeholder">
-      <em>Placeholder — replace with the specific steps taken and why.</em>
-    </div>
+    <ol class="cs-steps">
+      {study.approachSteps.map((step) => (
+        <li class="cs-step">
+          <span class="cs-step-num">{step.n}</span>
+          <div class="cs-step-body">
+            <h3 class="cs-step-title">{step.title}</h3>
+            <p class="cs-step-text">{step.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
 
-    <h2>Outcome</h2>
-    <div class="cs-placeholder">
-      <em>Placeholder — replace with the measured result and what changed.</em>
-    </div>
+    <h2>Result</h2>
+    {study.result.map((p) => <p>{p}</p>)}
 
     <div class="cs-cta">
       <h3>Want to talk through your own version of this?</h3>

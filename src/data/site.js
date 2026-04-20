@@ -207,15 +207,56 @@ const SITE_DATA = {
   caseStudies: [
     {
       slug: "case-study-1",
-      title: "Case Study One — coming soon",
+      title: "Automated ICP scoring engine at webAI",
       tag: "Revenue Operations",
-      blurb: "A placeholder for the first case study. Replace with the real story, metrics, and outcomes when content is ready."
+      blurb: "Inside the first six months at a VC-backed AI startup, stood up a closed-loop ICP scoring engine that enriches and routes every inbound lead automatically.",
+      role: "Revenue Operations Manager",
+      company: "webAI, Inc.",
+      timeline: "First six months (Mar – Aug 2025)",
+      stack: ["HubSpot", "Clay", "Salesforce", "Slack"],
+      outcome: "Every inbound lead scored, enriched, and routed the same day.",
+      context: [
+        "webAI's inbound was arriving in HubSpot with almost no context. Sales was burning cycles on manual firmographic research and ICP judgment calls, and speed-to-first-touch was slipping as inbound volume grew.",
+        "There was no standardized ICP rubric, which meant routing depended on tribal knowledge and lead quality couldn't be compared across reps or campaigns."
+      ],
+      approachSteps: [
+        { n: 1, title: "Capture", body: "New inbound lead lands in HubSpot CRM — whether via form, meeting booking, or API." },
+        { n: 2, title: "Enrich", body: "Lead is pushed to Clay for firmographic, technographic, and contact enrichment." },
+        { n: 3, title: "Sync back", body: "Clay writes the enriched record back to HubSpot, mapped to typed properties." },
+        { n: 4, title: "Score", body: "A HubSpot workflow evaluates the enriched lead against the ICP rubric (segment, size, stack, intent signals) and assigns an ICP tier." },
+        { n: 5, title: "Route", body: "In-ICP leads auto-assign to the right AE based on segment and territory. Out-of-ICP leads route to nurture." }
+      ],
+      result: [
+        "Consistent ICP application across every inbound lead, measurable speed-to-first-touch improvement, and a sales team that stopped doing the research work.",
+        "The same enrichment layer became the source-of-truth for downstream outbound, reporting, and forecasting — one model, fed once, reused everywhere."
+      ]
     },
     {
       slug: "case-study-2",
-      title: "Case Study Two — coming soon",
-      tag: "AI Workflow Design",
-      blurb: "A placeholder for the second case study. Replace with the real story, metrics, and outcomes when content is ready."
+      title: "Lead-to-cash transformation at DHI Group",
+      tag: "GTM Systems & Business Transformation",
+      blurb: "Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process — pipeline taxonomy, forecasting, and automated opportunity renewals included.",
+      role: "Director, Business Systems",
+      company: "DHI Group Inc.",
+      timeline: "2021 – 2024",
+      stack: ["Salesforce (Classic → Lightning)", "HubSpot", "Tableau", "DocuSign"],
+      outcome: "+25% forecasting accuracy, automated renewals, board-ready dashboards.",
+      context: [
+        "DHI was operating on legacy Salesforce Classic with weak pipeline hygiene, manual renewals, and forecast numbers that Sales and Finance couldn't trust. The UI was due to be sunsetted, but the real opportunity was rebuilding the business processes underneath — not just flipping a UI switch.",
+        "The mandate was simple: do both at once. Migrate to Lightning and take the org through a single, structured change instead of two."
+      ],
+      approachSteps: [
+        { n: 1, title: "Interview the org", body: "Structured interviews across Sales, Marketing, CS, and Finance to surface the real (not documented) process and the top pain points." },
+        { n: 2, title: "Map current → future state", body: "Documented the existing lead-to-cash flow, then designed a future-state that tightened CRM rigor and added the controls leadership had been asking for." },
+        { n: 3, title: "Lift & reshape", body: "Migrated Classic → Lightning while implementing the new process model in the same cutover — avoiding a second round of change management." },
+        { n: 4, title: "Pipeline taxonomy", body: "Rebuilt pipeline stages, lead-routing rules, lifecycle definitions, and SDR → AE handoff criteria." },
+        { n: 5, title: "Automated renewals", body: "Built opportunity-renewal automation to enforce consistent revenue recognition across the renewal book." },
+        { n: 6, title: "Board-ready reporting", body: "Stood up executive dashboards (CAC, LTV, ARR, funnel) pulling from the new pipeline stage model." }
+      ],
+      result: [
+        "A 25% improvement in forecasting accuracy, significantly stronger pipeline visibility, and a predictable, auditable renewal motion.",
+        "Dashboards leadership actually used for board reporting — not ones the team built and then ignored."
+      ]
     }
   ]
 };

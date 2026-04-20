@@ -229,105 +229,251 @@ function Certifications() {
   );
 }
 
-// ─── Career Flow ───
-const FLOW_GROUPS = [
-  { co: 'avangrid', label: 'Avangrid',  range: '2015 – 2018', role: 'Sr. Salesforce Administrator',   color: '#5bdb82' },
-  { co: 'slalom',   label: 'Slalom',    range: '2018 – 2021', role: 'Salesforce Consultant',          color: '#5b9cf5' },
-  { co: 'dhi',      label: 'DHI Group', range: '2021 – 2024', role: 'Director, Business Systems',     color: '#9b87f5' },
-  { co: 'content',  label: 'Creator',   range: '2024 – now',  role: 'AI with Amit · YouTube',         color: '#d4725c' },
-  { co: 'webai',    label: 'webAI',     range: '2025 – 2026', role: 'Revenue Operations Manager',     color: '#e8657a' },
+// ─── Career Mind-Map ───
+// Branch positions in a 1000 x 560 SVG viewBox. Leaves arranged along the
+// outside edge (x ≈ 80 left side / 920 right side).
+const BRANCHES = [
+  {
+    co: 'avangrid', label: 'Avangrid', range: '2015 – 2018',
+    role: 'Sr. Salesforce Administrator', color: '#5bdb82',
+    pos: { x: 225, y: 110 }, side: 'left',
+    leafYs: [50, 170],
+  },
+  {
+    co: 'slalom', label: 'Slalom', range: '2018 – 2021',
+    role: 'Salesforce Consultant', color: '#5b9cf5',
+    pos: { x: 225, y: 450 }, side: 'left',
+    leafYs: [390, 450, 510],
+  },
+  {
+    co: 'dhi', label: 'DHI Group', range: '2021 – 2024',
+    role: 'Director, Business Systems', color: '#9b87f5',
+    pos: { x: 775, y: 95 }, side: 'right',
+    leafYs: [40, 100, 160],
+  },
+  {
+    co: 'content', label: 'Creator', range: '2024 – now',
+    role: 'AI with Amit · Writing', color: '#d4725c',
+    pos: { x: 860, y: 280 }, side: 'right',
+    leafYs: [225, 280, 335],
+  },
+  {
+    co: 'webai', label: 'webAI', range: '2025 – 2026',
+    role: 'Revenue Operations Manager', color: '#e8657a',
+    pos: { x: 775, y: 465 }, side: 'right',
+    leafYs: [405, 465, 525],
+  },
 ];
+const CENTER = { x: 500, y: 280 };
+const LEAF_X_LEFT = 85;
+const LEAF_X_RIGHT = 915;
+const PILL_BRANCH = { w: 150, h: 36 };
+const PILL_LEAF = { w: 170, h: 28 };
+const PILL_CENTER = { w: 190, h: 58 };
 
-function CareerFlow() {
+function centerBranchPath(bx, by) {
+  const cx = CENTER.x, cy = CENTER.y;
+  const cp1x = cx + (bx - cx) * 0.45;
+  const cp1y = cy;
+  const cp2x = bx;
+  const cp2y = cy + (by - cy) * 0.55;
+  return `M ${cx},${cy} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${bx},${by}`;
+}
+
+function branchLeafPath(bx, by, lx, ly) {
+  const cp1x = bx + (lx - bx) * 0.6;
+  const cp1y = by;
+  const cp2x = lx;
+  const cp2y = by + (ly - by) * 0.4;
+  return `M ${bx},${by} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${lx},${ly}`;
+}
+
+function shortenLeaf(title) {
+  if (title.length <= 28) return title;
+  return title.slice(0, 26).trimEnd() + '…';
+}
+
+function CareerMindMap() {
   const [active, setActive] = useState(null);
   const milestones = SITE_DATA.milestones;
+  const projects = SITE_DATA.projects || [];
 
-  const activeGroup = active !== null ? FLOW_GROUPS[active] : null;
-  const activeMilestones = activeGroup
-    ? milestones.filter(m => m.co === activeGroup.co)
-    : [];
+  // Build per-branch leaves: milestones filtered by `co`. The Creator branch
+  // is enriched with selected projects so it doesn't look visually thin.
+  const leavesByCo = {};
+  BRANCHES.forEach((b) => {
+    leavesByCo[b.co] = milestones.filter((m) => m.co === b.co);
+  });
+  const creatorExtras = projects
+    .filter((p) => p.title === 'GPTcommands' || p.title === 'The Daily Skill')
+    .map((p) => ({
+      title: p.title,
+      role: `Creator · ${p.type}`,
+      desc: p.desc,
+      tags: [p.type],
+      co: 'content',
+      external: p.link,
+    }));
+  leavesByCo.content = [...leavesByCo.content, ...creatorExtras];
 
-  // Node centers in viewBox coordinates (1000 wide, 100 tall).
-  // Columns at 10, 30, 50, 70, 90 percent; node cards occupy the lower half.
-  const nodeX = [100, 300, 500, 700, 900];
-  const connectorY = 14;
-  const pathFor = (a, b) => {
-    const x1 = nodeX[a];
-    const x2 = nodeX[b];
-    const mid = (x1 + x2) / 2;
-    return `M ${x1} ${connectorY} C ${mid} ${connectorY}, ${mid} ${connectorY}, ${x2} ${connectorY}`;
-  };
+  const activeBranch = active !== null ? BRANCHES[active] : null;
+  const activeLeaves = activeBranch ? leavesByCo[activeBranch.co] : [];
+
+  const onToggle = (i) => setActive(active === i ? null : i);
 
   return (
-    <section id="milestones" className="flow-section">
+    <section id="milestones" className="mind-section">
       <Reveal><span className="label">Journey</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Career Flow</h2></Reveal>
+      <Reveal delay={0.05}><h2 className="section-heading">Career Map</h2></Reveal>
       <Reveal delay={0.08}>
-        <p className="flow-hint">Tap a company to open the key milestones for that chapter.</p>
+        <p className="mind-hint">Tap a company to open the milestones for that chapter.</p>
       </Reveal>
 
       <Reveal delay={0.1}>
-        <div className="flow-wrap">
-          <div className="flow-scroller">
-            <div className="flow-inner">
-              <svg
-                className="flow-connectors"
-                viewBox="0 0 1000 28"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path d={pathFor(0, 1)} className={`flow-path ${active === 0 || active === 1 ? 'active' : ''}`} />
-                <path d={pathFor(1, 2)} className={`flow-path ${active === 1 || active === 2 ? 'active' : ''}`} />
-                <path d={pathFor(2, 3)} className={`flow-path ${active === 2 || active === 3 ? 'active' : ''}`} />
-                <path d={pathFor(3, 4)} className={`flow-path ${active === 3 || active === 4 ? 'active' : ''}`} />
-              </svg>
+        <div className="mind-wrap">
+          {/* Desktop: radial SVG */}
+          <div className="mind-radial" role="img" aria-labelledby="mind-caption">
+            <span id="mind-caption" className="mind-caption">
+              Career map: central node "Amit's Career" with five branches — Avangrid, Slalom, DHI Group, Creator, and webAI — each connected to its milestone leaves.
+            </span>
+            <svg
+              className="mind-svg"
+              viewBox="0 0 1000 560"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Center → branch connectors */}
+              {BRANCHES.map((b, i) => (
+                <path
+                  key={`c-${b.co}`}
+                  d={centerBranchPath(b.pos.x, b.pos.y)}
+                  className={`mind-path ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                  style={{ '--co': b.color }}
+                />
+              ))}
+              {/* Branch → leaf connectors */}
+              {BRANCHES.map((b, i) => {
+                const leaves = leavesByCo[b.co];
+                const lx = b.side === 'left' ? LEAF_X_LEFT : LEAF_X_RIGHT;
+                return leaves.map((_, j) => (
+                  <path
+                    key={`l-${b.co}-${j}`}
+                    d={branchLeafPath(b.pos.x, b.pos.y, lx, b.leafYs[j] ?? b.pos.y)}
+                    className={`mind-path mind-path--leaf ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                    style={{ '--co': b.color }}
+                  />
+                ));
+              })}
 
-              <div className="flow-row">
-                {FLOW_GROUPS.map((g, i) => (
+              {/* Center pill */}
+              <foreignObject
+                x={CENTER.x - PILL_CENTER.w / 2}
+                y={CENTER.y - PILL_CENTER.h / 2}
+                width={PILL_CENTER.w}
+                height={PILL_CENTER.h}
+              >
+                <div xmlns="http://www.w3.org/1999/xhtml" className="mind-center">
+                  Amit's Career
+                </div>
+              </foreignObject>
+
+              {/* Branch pills */}
+              {BRANCHES.map((b, i) => (
+                <foreignObject
+                  key={`b-${b.co}`}
+                  x={b.pos.x - PILL_BRANCH.w / 2}
+                  y={b.pos.y - PILL_BRANCH.h / 2}
+                  width={PILL_BRANCH.w}
+                  height={PILL_BRANCH.h}
+                >
                   <button
-                    key={g.co}
+                    xmlns="http://www.w3.org/1999/xhtml"
                     type="button"
-                    className={`flow-node ${active === i ? 'active' : ''}`}
-                    onClick={() => setActive(active === i ? null : i)}
-                    style={{ '--co': g.color }}
+                    className={`mind-branch ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                    onClick={() => onToggle(i)}
+                    style={{ '--co': b.color }}
                     aria-expanded={active === i}
-                    aria-label={`${g.label}, ${g.range}, ${g.role}`}
+                    aria-controls="mind-detail-panel"
+                    aria-label={`${b.label}, ${b.range}, ${b.role}`}
                   >
-                    <span className="flow-node-range">{g.range}</span>
-                    <div className="flow-node-card">
-                      <span className="flow-node-dot" />
-                      <span className="flow-node-name">{g.label}</span>
-                      <span className="flow-node-role">{g.role}</span>
-                    </div>
+                    {b.label}
                   </button>
-                ))}
-              </div>
-            </div>
+                </foreignObject>
+              ))}
+
+              {/* Leaf pills */}
+              {BRANCHES.map((b, i) => {
+                const leaves = leavesByCo[b.co];
+                const lx = b.side === 'left' ? LEAF_X_LEFT : LEAF_X_RIGHT;
+                return leaves.map((m, j) => (
+                  <foreignObject
+                    key={`lf-${b.co}-${j}`}
+                    x={lx - PILL_LEAF.w / 2}
+                    y={(b.leafYs[j] ?? b.pos.y) - PILL_LEAF.h / 2}
+                    width={PILL_LEAF.w}
+                    height={PILL_LEAF.h}
+                  >
+                    <div
+                      xmlns="http://www.w3.org/1999/xhtml"
+                      className={`mind-leaf ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                      style={{ '--co': b.color }}
+                      title={m.title}
+                    >
+                      {shortenLeaf(m.title)}
+                    </div>
+                  </foreignObject>
+                ));
+              })}
+            </svg>
           </div>
 
-          {activeGroup && (
-            <div className="flow-detail" style={{ '--co': activeGroup.color }}>
-              <div className="flow-detail-head">
+          {/* Mobile: vertical accordion */}
+          <div className="mind-vertical">
+            {BRANCHES.map((b, i) => (
+              <button
+                key={`mv-${b.co}`}
+                type="button"
+                className={`mind-vnode ${active === i ? 'active' : ''}`}
+                onClick={() => onToggle(i)}
+                style={{ '--co': b.color }}
+                aria-expanded={active === i}
+                aria-controls="mind-detail-panel"
+              >
+                <div className="mind-vnode-head">
+                  <span className="mind-vnode-name">{b.label}</span>
+                  <span className="mind-vnode-range">{b.range}</span>
+                </div>
+                <div className="mind-vnode-role">{b.role}</div>
+              </button>
+            ))}
+          </div>
+
+          {activeBranch && (
+            <div
+              id="mind-detail-panel"
+              className="mind-detail"
+              style={{ '--co': activeBranch.color }}
+            >
+              <div className="mind-detail-head">
                 <div>
-                  <div className="flow-detail-title">{activeGroup.label}</div>
-                  <div className="flow-detail-sub">{activeGroup.range} · {activeGroup.role}</div>
+                  <div className="mind-detail-title">{activeBranch.label}</div>
+                  <div className="mind-detail-sub">{activeBranch.range} · {activeBranch.role}</div>
                 </div>
                 <button
                   type="button"
-                  className="flow-detail-close"
+                  className="mind-detail-close"
                   onClick={() => setActive(null)}
                   aria-label="Close milestone detail"
                 >✕ Close</button>
               </div>
-              <div className="flow-detail-grid">
-                {activeMilestones.map((m, i) => (
-                  <div key={i} className="flow-milestone">
+              <div className="mind-detail-grid">
+                {activeLeaves.map((m, j) => (
+                  <div key={j} className="mind-milestone">
                     <h4>{m.title}</h4>
-                    <div className="flow-milestone-role">{m.role}</div>
+                    <div className="mind-milestone-role">{m.role}</div>
                     <p>{m.desc}</p>
-                    <div className="flow-milestone-tags">
-                      {m.tags.map((t, j) => (
-                        <span key={j} className="flow-mstag">{t}</span>
+                    <div className="mind-milestone-tags">
+                      {m.tags.map((t, k) => (
+                        <span key={k} className="mind-mstag">{t}</span>
                       ))}
                     </div>
                   </div>
@@ -454,7 +600,7 @@ export default function App() {
       <Experience />
       <Skills />
       <Certifications />
-      <CareerFlow />
+      <CareerMindMap />
       <CaseStudies />
       <Projects />
       <Contact />
