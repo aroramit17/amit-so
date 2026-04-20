@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SITE_DATA from '../../data/site.js';
+import '../../styles/case-study.css';
+
+export function getStaticPaths() {
+  const studies = SITE_DATA.caseStudies || [];
+  return studies.map((c) => ({
+    params: { slug: c.slug },
+    props: { study: c }
+  }));
+}
+
+const { study } = Astro.props;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": study.title,
+  "url": `https://amit.so/case-studies/${study.slug}`,
+  "description": study.blurb,
+  "about": study.tag,
+  "author": {
+    "@type": "Person",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "isPartOf": {
+    "@type": "CollectionPage",
+    "name": "Case Studies",
+    "url": "https://amit.so/case-studies"
+  }
+});
+---
+<BaseLayout
+  title={`${study.title} | Case Study | Amit Arora`}
+  description={study.blurb}
+  canonical={`https://amit.so/case-studies/${study.slug}`}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <div class="grain"></div>
+
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/case-studies" class="nav-back">&larr; All case studies</a>
+  </nav>
+
+  <main>
+    <div class="eyebrow">{study.tag}</div>
+    <h1>{study.title}</h1>
+    <p class="cs-sub">{study.blurb}</p>
+
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Role</span>
+        <span class="cs-meta-value">—</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">—</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Stack</span>
+        <span class="cs-meta-value">—</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Outcome</span>
+        <span class="cs-meta-value">—</span>
+      </div>
+    </div>
+
+    <h2>Context</h2>
+    <div class="cs-placeholder">
+      <em>Placeholder — replace with the situation and constraints.</em>
+    </div>
+
+    <h2>Approach</h2>
+    <div class="cs-placeholder">
+      <em>Placeholder — replace with the specific steps taken and why.</em>
+    </div>
+
+    <h2>Outcome</h2>
+    <div class="cs-placeholder">
+      <em>Placeholder — replace with the measured result and what changed.</em>
+    </div>
+
+    <div class="cs-cta">
+      <h3>Want to talk through your own version of this?</h3>
+      <p>Happy to trade notes or scope an engagement — whichever is more useful.</p>
+      <a href="/interview" class="cs-cta-btn">Book a Call &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/case-studies">Case Studies</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  </footer>
+</BaseLayout>

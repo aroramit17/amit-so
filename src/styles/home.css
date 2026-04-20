@@ -147,12 +147,13 @@
 
     /* ─── Hero ─── */
     .hero {
-      min-height: 100vh;
+      min-height: 88vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
       padding-top: 100px;
+      padding-bottom: 4rem;
     }
     .hero-inner { max-width: 720px; }
     .hero-badge {
@@ -194,13 +195,13 @@
       max-width: 600px;
     }
     .hero-sub {
-      font-size: 0.92rem;
-      color: rgba(232, 224, 212, 0.35);
-      font-style: italic;
-      font-family: var(--serif);
-      max-width: 560px;
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      color: rgba(232, 224, 212, 0.72);
+      font-family: var(--sans);
+      font-weight: 300;
+      max-width: 600px;
       margin-bottom: 2.5rem;
-      line-height: 1.7;
+      line-height: 1.65;
     }
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
     .hero-scroll-hint {
@@ -659,157 +660,312 @@
     .ms-legend-item.active { border-color: var(--cream-dim); color: var(--cream); }
     .ms-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-    /* ─── Iridescent Milestone Cards ─── */
-    .irid-filters {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-      margin-bottom: 2rem;
+    /* ─── Career Flow ─── */
+    .flow-hint {
+      font-size: 0.75rem;
+      color: var(--cream-dim);
+      margin: 0.25rem 0 2rem;
+      letter-spacing: 0.3px;
     }
-    .irid-filter-btn {
-      display: flex; align-items: center; gap: 0.4rem;
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      color: var(--cream-dim); padding: 0.45rem 0.9rem;
-      border-radius: 999px; cursor: pointer;
-      font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
-      transition: all 0.3s;
-    }
-    .irid-filter-btn:hover { border-color: var(--cream-dim); color: var(--cream); }
-    .irid-filter-btn.active { border-color: var(--co, var(--accent)); color: var(--cream); background: color-mix(in oklch, var(--co, var(--accent)), transparent 88%); }
-    .irid-filter-dot { width: 7px; height: 7px; border-radius: 50%; }
-
-    .irid-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .irid-card-wrap {
-      perspective: 800px;
-    }
-
-    .irid-card {
+    .flow-wrap {
       position: relative;
-      border-radius: 16px;
-      background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
-      border: 1px solid var(--card-border);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow 0.4s;
-      transform-style: preserve-3d;
-      will-change: transform;
-      min-height: 240px;
+      margin: 1rem 0 1.75rem;
+      padding: 1.75rem 0 1.25rem;
     }
-    .irid-card:hover {
-      border-color: color-mix(in oklch, var(--co), transparent 40%);
+    .flow-scroller {
+      overflow-x: auto;
+      overflow-y: visible;
+      padding: 0 0.25rem;
+      scrollbar-width: thin;
     }
-    .irid-card.active {
-      border-color: var(--co);
+    .flow-scroller::-webkit-scrollbar { height: 6px; }
+    .flow-scroller::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+    .flow-inner {
+      position: relative;
+      min-width: 760px;
     }
-
-    .irid-sheen {
-      position: absolute; inset: 0; z-index: 1;
-      pointer-events: none;
-      border-radius: 16px;
-      transition: opacity 0.5s;
-      mix-blend-mode: color-dodge;
-    }
-
-    .irid-specular {
-      position: absolute; inset: 0; z-index: 2;
-      pointer-events: none;
-      border-radius: 16px;
-      transition: background 0.15s;
-    }
-
-    .irid-noise {
-      position: absolute; inset: 0; z-index: 3;
-      pointer-events: none;
-      border-radius: 16px;
-      opacity: 0.06;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 128px 128px;
-    }
-
-    .irid-edge-glow {
-      position: absolute; inset: 0; z-index: 0;
-      border-radius: 16px;
-      pointer-events: none;
-      transition: box-shadow 0.4s;
-    }
-
-    .irid-content {
-      position: relative; z-index: 4;
-      padding: 1.5rem;
-      display: flex; flex-direction: column;
+    .flow-connectors {
+      position: absolute;
+      inset: 0;
+      width: 100%;
       height: 100%;
+      pointer-events: none;
     }
-
-    .irid-top-row {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 1rem;
+    .flow-path {
+      fill: none;
+      stroke: var(--rule);
+      stroke-width: 1.6;
+      stroke-linecap: round;
     }
-    .irid-index {
-      font-family: var(--serif);
-      font-size: 0.85rem;
-      color: rgba(232,224,212,0.25);
-      font-style: italic;
+    .flow-path.active {
+      stroke: var(--accent);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 6px color-mix(in oklch, var(--accent), transparent 55%));
     }
-    .irid-co-badge {
-      font-size: 0.62rem;
+    .flow-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+    }
+    .flow-node {
+      all: unset;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.45rem;
+      text-align: center;
+      transition: transform 0.25s ease;
+      outline: none;
+    }
+    .flow-node:hover { transform: translateY(-2px); }
+    .flow-node:focus-visible .flow-node-card {
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .flow-node-range {
+      font-size: 0.7rem;
+      color: var(--cream-dim);
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 700;
-      color: var(--co);
-      background: color-mix(in oklch, var(--co), transparent 85%);
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      border: 1px solid color-mix(in oklch, var(--co), transparent 70%);
+      letter-spacing: 1.6px;
+      font-weight: 500;
+      font-family: var(--sans);
     }
-
-    .irid-dot-row {
-      display: flex; align-items: center; gap: 0.5rem;
-      margin-bottom: 0.5rem;
+    .flow-node-card {
+      position: relative;
+      padding: 1.1rem 0.85rem 0.95rem;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      border-radius: 12px;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
     }
-    .irid-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      box-shadow: 0 0 8px currentColor;
+    .flow-node.active .flow-node-card {
+      background: color-mix(in oklch, var(--co), transparent 86%);
+      border-color: var(--co);
+      box-shadow: 0 6px 28px color-mix(in oklch, var(--co), transparent 78%);
     }
-    .irid-year {
-      font-size: 0.72rem; font-weight: 700;
-      color: var(--co);
-      letter-spacing: 0.5px;
+    .flow-node-dot {
+      position: absolute;
+      top: -6px; left: 50%;
+      transform: translateX(-50%);
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--co);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--co);
     }
-
-    .irid-title {
+    .flow-node-name {
       font-family: var(--serif);
-      font-size: 1.2rem;
-      font-weight: 400;
-      margin-bottom: 0.6rem;
-      line-height: 1.25;
+      font-size: 1.15rem;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
     }
-
-    .irid-desc {
-      font-size: 0.82rem;
+    .flow-node-role {
+      font-size: 0.72rem;
+      color: var(--cream-dim);
+      line-height: 1.4;
+    }
+    .flow-detail {
+      margin-top: 1.25rem;
+      padding: 1.75rem;
+      border: 1px solid color-mix(in oklch, var(--co), transparent 55%);
+      background: color-mix(in oklch, var(--co), transparent 94%);
+      border-radius: 14px;
+      animation: flowFade 0.3s ease;
+    }
+    .flow-detail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .flow-detail-title {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      color: var(--cream);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .flow-detail-sub {
+      font-size: 0.78rem;
+      color: var(--cream-dim);
+      letter-spacing: 0.5px;
+      margin-top: 0.25rem;
+    }
+    .flow-detail-close {
+      all: unset;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--cream-dim);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .flow-detail-close:hover { color: var(--cream); background: rgba(232, 224, 212, 0.05); }
+    .flow-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .flow-milestone h4 {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      color: var(--cream);
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+    .flow-milestone-role {
+      font-size: 0.7rem;
+      color: color-mix(in oklch, var(--co), white 25%);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .flow-milestone p {
+      font-size: 0.85rem;
       color: var(--cream-dim);
       line-height: 1.6;
-      flex: 1;
+      margin-bottom: 0.65rem;
     }
-
-    .irid-tags {
+    .flow-milestone-tags {
       display: flex; flex-wrap: wrap; gap: 0.35rem;
-      margin-top: 1rem;
     }
-    .irid-tag {
+    .flow-mstag {
       font-size: 0.65rem;
       padding: 0.2rem 0.55rem;
-      border-radius: 999px;
+      border: 1px solid color-mix(in oklch, var(--co), transparent 70%);
+      color: color-mix(in oklch, var(--co), white 20%);
       background: color-mix(in oklch, var(--co), transparent 88%);
-      color: var(--co);
-      border: 1px solid color-mix(in oklch, var(--co), transparent 75%);
+      border-radius: 999px;
       letter-spacing: 0.3px;
+    }
+    @keyframes flowFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 768px) {
-      .irid-grid { grid-template-columns: 1fr; }
+      .flow-wrap { padding: 1rem 0 0.75rem; }
+      .flow-inner { min-width: 0; }
+      .flow-connectors { display: none; }
+      .flow-row {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        padding-top: 0;
+        padding-left: 1.75rem;
+        position: relative;
+      }
+      .flow-row::before {
+        content: '';
+        position: absolute;
+        left: 5px; top: 12px; bottom: 12px;
+        width: 2px;
+        background: linear-gradient(to bottom, transparent, var(--rule) 10%, var(--rule) 90%, transparent);
+      }
+      .flow-node { gap: 0; position: relative; }
+      .flow-node-range {
+        position: absolute;
+        top: 0.45rem; right: 0.85rem;
+        font-size: 0.62rem;
+        letter-spacing: 1px;
+      }
+      .flow-node-card {
+        min-height: 0;
+        text-align: left;
+        padding: 0.85rem 1rem 0.9rem;
+        padding-right: 5.25rem;
+      }
+      .flow-node-dot {
+        top: 50%;
+        left: -1.75rem;
+        transform: translateY(-50%);
+        width: 14px; height: 14px;
+      }
+      .flow-node-name { font-size: 1rem; }
+      .flow-detail { padding: 1.25rem; }
+      .flow-detail-title { font-size: 1.2rem; }
+    }
+
+    /* ─── Case Studies ─── */
+    .case-studies-section { border-top: 1px solid var(--rule); }
+    .cs-heading-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .cs-view-all {
+      font-size: 0.82rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: opacity 0.25s;
+    }
+    .cs-view-all:hover { opacity: 0.75; }
+    .cs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    .cs-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background: var(--card-bg);
+      text-decoration: none;
+      color: var(--cream);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .cs-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+    .cs-tag {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.3px;
+    }
+    .cs-blurb {
+      font-size: 0.9rem;
+      color: var(--cream-dim);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+    .cs-arrow {
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    @media (max-width: 768px) {
+      .cs-grid { grid-template-columns: 1fr; }
+      .cs-title { font-size: 1.25rem; }
     }
 
     /* ─── Projects ─── */
@@ -927,7 +1083,11 @@
       .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .skills-grid { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
-      .hero-name { letter-spacing: -1px; }
+      .hero { min-height: auto; padding-top: 6.5rem; padding-bottom: 2.5rem; }
+      .hero-name { letter-spacing: -1px; margin-bottom: 1rem; }
+      .hero-badge { margin-bottom: 1.25rem; }
+      .hero-sub { margin-bottom: 1.75rem; }
+      .hero-scroll-hint { display: none; }
       .ms-track { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
     }
 

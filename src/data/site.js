@@ -203,7 +203,21 @@ const SITE_DATA = {
     medium: "https://medium.com/gptcommands",
     dailyskill: "https://thedailyskill.com",
     email: "aroramit17@gmail.com"
-  }
+  },
+  caseStudies: [
+    {
+      slug: "case-study-1",
+      title: "Case Study One — coming soon",
+      tag: "Revenue Operations",
+      blurb: "A placeholder for the first case study. Replace with the real story, metrics, and outcomes when content is ready."
+    },
+    {
+      slug: "case-study-2",
+      title: "Case Study Two — coming soon",
+      tag: "AI Workflow Design",
+      blurb: "A placeholder for the second case study. Replace with the real story, metrics, and outcomes when content is ready."
+    }
+  ]
 };
 
 export default SITE_DATA;
