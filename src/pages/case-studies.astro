@@ -19,7 +19,7 @@ const jsonLd = JSON.stringify({
   "hasPart": caseStudies.map((c) => ({
     "@type": "CreativeWork",
     "name": c.title,
-    "url": `https://amit.so/case-studies/${c.slug}`,
+    "url": `https://amit.so/${c.slug}`,
     "about": c.tag
   }))
 });
@@ -44,7 +44,7 @@ const jsonLd = JSON.stringify({
 
     <div class="cs-list">
       {caseStudies.map((c) => (
-        <a href={`/case-studies/${c.slug}`} class="cs-list-card">
+        <a href={`/${c.slug}`} class="cs-list-card">
           <span class="cs-list-tag">{c.tag}</span>
           <h2 class="cs-list-title">{c.title}</h2>
           <p class="cs-list-blurb">{c.blurb}</p>

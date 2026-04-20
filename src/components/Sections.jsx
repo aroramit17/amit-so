@@ -576,7 +576,7 @@ function CaseStudies() {
       <div className="cs-grid">
         {d.map((c, i) => (
           <Reveal key={c.slug} delay={0.08 + i * 0.06}>
-            <a href={`/case-studies/${c.slug}`} className="cs-card">
+            <a href={`/${c.slug}`} className="cs-card">
               <span className="cs-tag">{c.tag}</span>
               <h3 className="cs-title">{c.title}</h3>
               <p className="cs-blurb">{c.blurb}</p>

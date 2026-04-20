@@ -206,7 +206,7 @@ const SITE_DATA = {
   },
   caseStudies: [
     {
-      slug: "case-study-1",
+      slug: "webai-case-study",
       title: "Automated ICP scoring engine at webAI",
       tag: "Revenue Operations",
       blurb: "Inside the first six months at a VC-backed AI startup, stood up a closed-loop ICP scoring engine that enriches and routes every inbound lead automatically.",
@@ -233,7 +233,7 @@ const SITE_DATA = {
       ]
     },
     {
-      slug: "case-study-2",
+      slug: "dhi-case-study",
       title: "Lead-to-cash transformation at DHI Group",
       tag: "GTM Systems & Business Transformation",
       blurb: "Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process — pipeline taxonomy, forecasting, and automated opportunity renewals included.",
