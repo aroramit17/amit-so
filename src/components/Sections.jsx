@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SITE_DATA from '../data/site.js';
 
 // ─── Reveal on scroll hook ───
@@ -45,8 +45,8 @@ function Nav() {
     return () => window.removeEventListener('scroll', h);
   }, []);
   const links = [
-    ['About', '#about'], ['Experience', '#experience'], ['Skills', '#skills'],
-    ['Projects', '#projects'], ['Contact', '#contact'],
+    ['About', '#about'], ['Experience', '#experience'],
+    ['Case Studies', '/case-studies'], ['Projects', '#projects'],
     ['Applying in Public', '/applying']
   ];
   return (
@@ -229,151 +229,114 @@ function Certifications() {
   );
 }
 
-// ─── Iridescent Milestones ───
-const msCoColors = { avangrid: '#5bdb82', slalom: '#5b9cf5', dhi: '#9b87f5', content: '#d4725c', webai: '#e8657a' };
-const msCoLabels = { avangrid: 'Avangrid', slalom: 'Slalom', dhi: 'DHI Group', content: 'Creator', webai: 'webAI' };
+// ─── Career Flow ───
+const FLOW_GROUPS = [
+  { co: 'avangrid', label: 'Avangrid',  range: '2015 – 2018', role: 'Sr. Salesforce Administrator',   color: '#5bdb82' },
+  { co: 'slalom',   label: 'Slalom',    range: '2018 – 2021', role: 'Salesforce Consultant',          color: '#5b9cf5' },
+  { co: 'dhi',      label: 'DHI Group', range: '2021 – 2024', role: 'Director, Business Systems',     color: '#9b87f5' },
+  { co: 'content',  label: 'Creator',   range: '2024 – now',  role: 'AI with Amit · YouTube',         color: '#d4725c' },
+  { co: 'webai',    label: 'webAI',     range: '2025 – 2026', role: 'Revenue Operations Manager',     color: '#e8657a' },
+];
 
-function IridescentCard({ milestone, index, isActive, onClick }) {
-  const cardRef = useRef(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
-  const [isHovering, setIsHovering] = useState(false);
-  const co = msCoColors[milestone.co];
+function CareerFlow() {
+  const [active, setActive] = useState(null);
+  const milestones = SITE_DATA.milestones;
 
-  const handleMouseMove = useCallback((e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const tiltX = (y - 0.5) * 24;
-    const tiltY = (x - 0.5) * -24;
-    setTilt({ x: tiltX, y: tiltY });
-    setGlowPos({ x: x * 100, y: y * 100 });
-  }, []);
+  const activeGroup = active !== null ? FLOW_GROUPS[active] : null;
+  const activeMilestones = activeGroup
+    ? milestones.filter(m => m.co === activeGroup.co)
+    : [];
 
-  const handleMouseEnter = () => setIsHovering(true);
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setTilt({ x: 0, y: 0 });
-    setGlowPos({ x: 50, y: 50 });
+  // Node centers in viewBox coordinates (1000 wide, 100 tall).
+  // Columns at 10, 30, 50, 70, 90 percent; node cards occupy the lower half.
+  const nodeX = [100, 300, 500, 700, 900];
+  const connectorY = 14;
+  const pathFor = (a, b) => {
+    const x1 = nodeX[a];
+    const x2 = nodeX[b];
+    const mid = (x1 + x2) / 2;
+    return `M ${x1} ${connectorY} C ${mid} ${connectorY}, ${mid} ${connectorY}, ${x2} ${connectorY}`;
   };
 
-  const iridAngle = glowPos.x * 3.6;
-  const iridX = glowPos.x;
-  const iridY = glowPos.y;
-
   return (
-    <div className="irid-card-wrap" style={{ perspective: '800px' }}>
-      <div
-        ref={cardRef}
-        className={`irid-card ${isActive ? 'active' : ''} ${isHovering ? 'hovering' : ''}`}
-        onClick={onClick}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          '--co': co,
-          '--tiltX': `${tilt.x}deg`,
-          '--tiltY': `${tilt.y}deg`,
-          '--glowX': `${glowPos.x}%`,
-          '--glowY': `${glowPos.y}%`,
-          '--iridAngle': `${iridAngle}deg`,
-          transform: isHovering
-            ? `rotateX(var(--tiltX)) rotateY(var(--tiltY)) scale(1.05)`
-            : 'rotateX(0) rotateY(0) scale(1)',
-        }}
-      >
-        <div className="irid-sheen" style={{
-          background: isHovering
-            ? `linear-gradient(${iridAngle}deg,
-                rgba(255,0,150,0.13) 0%,
-                rgba(0,255,200,0.13) 20%,
-                rgba(100,100,255,0.18) 40%,
-                rgba(255,200,0,0.13) 60%,
-                rgba(255,0,100,0.13) 80%,
-                rgba(0,200,255,0.13) 100%)`
-            : 'none',
-          opacity: isHovering ? 1 : 0,
-        }} />
-        <div className="irid-specular" style={{
-          background: `radial-gradient(circle at ${iridX}% ${iridY}%, rgba(255,255,255,${isHovering ? 0.25 : 0}) 0%, transparent 60%)`,
-        }} />
-        <div className="irid-noise" />
-        <div className="irid-content">
-          <div className="irid-top-row">
-            <span className="irid-index">#{String(index + 1).padStart(2, '0')}</span>
-            <span className="irid-co-badge" style={{ '--co': co }}>{msCoLabels[milestone.co]}</span>
-          </div>
-          <div className="irid-dot-row">
-            <span className="irid-dot" style={{ background: co }} />
-            <span className="irid-year">{milestone.role.split('·')[1]?.trim() || ''}</span>
-          </div>
-          <h3 className="irid-title">{milestone.title}</h3>
-          <p className="irid-desc">{milestone.desc}</p>
-          <div className="irid-tags">
-            {milestone.tags.map((t, i) => (
-              <span key={i} className="irid-tag" style={{ '--co': co }}>{t}</span>
-            ))}
-          </div>
-        </div>
-        <div className="irid-edge-glow" style={{
-          boxShadow: isHovering
-            ? `0 0 30px color-mix(in oklch, ${co}, transparent 60%),
-               0 20px 60px rgba(0,0,0,0.4),
-               inset 0 0 60px rgba(255,255,255,0.03)`
-            : '0 4px 20px rgba(0,0,0,0.3)',
-        }} />
-      </div>
-    </div>
-  );
-}
-
-function IridescentMilestones() {
-  const d = SITE_DATA.milestones;
-  const [active, setActive] = useState(null);
-  const [filter, setFilter] = useState('all');
-
-  const filtered = filter === 'all' ? d : d.filter(m => m.co === filter);
-
-  return (
-    <section id="milestones" className="milestones-section">
+    <section id="milestones" className="flow-section">
       <Reveal><span className="label">Journey</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Career Milestones</h2></Reveal>
-
-      <Reveal delay={0.1}>
-        <div className="irid-filters">
-          <button className={`irid-filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
-            All
-          </button>
-          {Object.entries(msCoLabels).map(([k, v]) => (
-            <button key={k}
-              className={`irid-filter-btn ${filter === k ? 'active' : ''}`}
-              onClick={() => setFilter(k)}
-              style={{ '--co': msCoColors[k] }}
-            >
-              <span className="irid-filter-dot" style={{ background: msCoColors[k] }} />
-              {v}
-            </button>
-          ))}
-        </div>
+      <Reveal delay={0.05}><h2 className="section-heading">Career Flow</h2></Reveal>
+      <Reveal delay={0.08}>
+        <p className="flow-hint">Tap a company to open the key milestones for that chapter.</p>
       </Reveal>
 
-      <div className="irid-grid">
-        {filtered.map((m, i) => {
-          const realIdx = d.indexOf(m);
-          return (
-            <Reveal key={realIdx} delay={i * 0.05}>
-              <IridescentCard
-                milestone={m}
-                index={realIdx}
-                isActive={active === realIdx}
-                onClick={() => setActive(active === realIdx ? null : realIdx)}
-              />
-            </Reveal>
-          );
-        })}
-      </div>
+      <Reveal delay={0.1}>
+        <div className="flow-wrap">
+          <div className="flow-scroller">
+            <div className="flow-inner">
+              <svg
+                className="flow-connectors"
+                viewBox="0 0 1000 28"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d={pathFor(0, 1)} className={`flow-path ${active === 0 || active === 1 ? 'active' : ''}`} />
+                <path d={pathFor(1, 2)} className={`flow-path ${active === 1 || active === 2 ? 'active' : ''}`} />
+                <path d={pathFor(2, 3)} className={`flow-path ${active === 2 || active === 3 ? 'active' : ''}`} />
+                <path d={pathFor(3, 4)} className={`flow-path ${active === 3 || active === 4 ? 'active' : ''}`} />
+              </svg>
+
+              <div className="flow-row">
+                {FLOW_GROUPS.map((g, i) => (
+                  <button
+                    key={g.co}
+                    type="button"
+                    className={`flow-node ${active === i ? 'active' : ''}`}
+                    onClick={() => setActive(active === i ? null : i)}
+                    style={{ '--co': g.color }}
+                    aria-expanded={active === i}
+                    aria-label={`${g.label}, ${g.range}, ${g.role}`}
+                  >
+                    <span className="flow-node-range">{g.range}</span>
+                    <div className="flow-node-card">
+                      <span className="flow-node-dot" />
+                      <span className="flow-node-name">{g.label}</span>
+                      <span className="flow-node-role">{g.role}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {activeGroup && (
+            <div className="flow-detail" style={{ '--co': activeGroup.color }}>
+              <div className="flow-detail-head">
+                <div>
+                  <div className="flow-detail-title">{activeGroup.label}</div>
+                  <div className="flow-detail-sub">{activeGroup.range} · {activeGroup.role}</div>
+                </div>
+                <button
+                  type="button"
+                  className="flow-detail-close"
+                  onClick={() => setActive(null)}
+                  aria-label="Close milestone detail"
+                >✕ Close</button>
+              </div>
+              <div className="flow-detail-grid">
+                {activeMilestones.map((m, i) => (
+                  <div key={i} className="flow-milestone">
+                    <h4>{m.title}</h4>
+                    <div className="flow-milestone-role">{m.role}</div>
+                    <p>{m.desc}</p>
+                    <div className="flow-milestone-tags">
+                      {m.tags.map((t, j) => (
+                        <span key={j} className="flow-mstag">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -451,6 +414,35 @@ function Footer() {
   );
 }
 
+// ─── Case Studies (home preview) ───
+function CaseStudies() {
+  const d = SITE_DATA.caseStudies || [];
+  if (!d.length) return null;
+  return (
+    <section id="case-studies" className="case-studies-section">
+      <Reveal><span className="label">Selected Work</span></Reveal>
+      <Reveal delay={0.05}>
+        <div className="cs-heading-row">
+          <h2 className="section-heading" style={{ marginBottom: 0 }}>Case Studies</h2>
+          <a href="/case-studies" className="cs-view-all">View all →</a>
+        </div>
+      </Reveal>
+      <div className="cs-grid">
+        {d.map((c, i) => (
+          <Reveal key={c.slug} delay={0.08 + i * 0.06}>
+            <a href={`/case-studies/${c.slug}`} className="cs-card">
+              <span className="cs-tag">{c.tag}</span>
+              <h3 className="cs-title">{c.title}</h3>
+              <p className="cs-blurb">{c.blurb}</p>
+              <span className="cs-arrow">Read the story →</span>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── App ───
 export default function App() {
   return (
@@ -462,7 +454,8 @@ export default function App() {
       <Experience />
       <Skills />
       <Certifications />
-      <IridescentMilestones />
+      <CareerFlow />
+      <CaseStudies />
       <Projects />
       <Contact />
       <Footer />
