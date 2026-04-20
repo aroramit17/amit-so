@@ -219,6 +219,24 @@ const SITE_DATA = {
         "webAI's inbound was arriving in HubSpot with almost no context. Sales was burning cycles on manual firmographic research and ICP judgment calls, and speed-to-first-touch was slipping as inbound volume grew.",
         "There was no standardized ICP rubric, which meant routing depended on tribal knowledge and lead quality couldn't be compared across reps or campaigns."
       ],
+      flow: {
+        title: "How data flowed",
+        overview: "Every inbound lead rides the same loop: capture in HubSpot, enrich through Clay with Apify and Claude, write the enriched record back, score, route. Hover a tool to see its job.",
+        nodes: [
+          { id: "hubspot", label: "HubSpot",  role: "CRM of record. Captures every inbound lead, takes the enriched record back for ICP scoring, and routes to an AE or nurture.", x: 160, y: 230 },
+          { id: "clay",    label: "Clay",     role: "Orchestration hub. Runs the enrichment waterfall and decides what each lead needs next.", x: 500, y: 230 },
+          { id: "apify",   label: "Apify",    role: "Firmographic scraper. Pulls industry, company size, and intent signals on the organization.", x: 840, y: 120 },
+          { id: "claude",  label: "Claude",   role: "AI cleanup. Normalizes company names, dedupes against existing HubSpot data, and resolves HQ location.", x: 840, y: 340 }
+        ],
+        edges: [
+          { from: "hubspot", to: "clay",    label: "New lead",                                      curvature:  45 },
+          { from: "clay",    to: "apify",   label: "Enrichment request",                            curvature:  35 },
+          { from: "apify",   to: "clay",    label: "Firmographics",                                 curvature: -35 },
+          { from: "clay",    to: "claude",  label: "Raw record",                                    curvature: -35 },
+          { from: "claude",  to: "clay",    label: "Cleaned record",                                curvature:  35 },
+          { from: "clay",    to: "hubspot", label: "Enriched writeback → ICP scoring and routing", curvature: -45 }
+        ]
+      },
       approachSteps: [
         { n: 1, title: "Capture", body: "New inbound lead lands in HubSpot CRM — whether via form, meeting booking, or API." },
         { n: 2, title: "Discover emails", body: "Lead is pushed into Clay, which runs a layered waterfall of email-discovery providers to surface verified contacts on the lead's organization." },
@@ -246,6 +264,25 @@ const SITE_DATA = {
         "DHI was operating on legacy Salesforce Classic with weak pipeline hygiene, manual renewals, and forecast numbers that Sales and Finance couldn't trust. The UI was due to be sunsetted, but the real opportunity was rebuilding the business processes underneath — not just flipping a UI switch.",
         "The mandate was simple: do both at once. Migrate to Lightning and take the org through a single, structured change instead of two."
       ],
+      flow: {
+        title: "How the transformation flowed",
+        overview: "One sequenced motion — listen to the org, reshape the process on paper, then lift Classic into Lightning with the new model built in. Hover a stage to see what it meant.",
+        nodes: [
+          { id: "interviews", label: "Interviews",           role: "Structured conversations across Sales, Marketing, CS, and Finance to surface the real process and the top pain points.",     x: 150, y: 130, width: 180 },
+          { id: "mapping",    label: "Process Map",          role: "Current-state and future-state maps of the lead-to-cash flow, tightened for CRM rigor and the controls leadership wanted.",   x: 500, y: 130, width: 180 },
+          { id: "migration",  label: "Lightning Migration",  role: "Salesforce Classic → Lightning cutover carrying the new process model in the same move — one change event for the org, not two.", x: 850, y: 130, width: 210 },
+          { id: "pipeline",   label: "Pipeline Taxonomy",    role: "Rebuilt pipeline stages, lead routing, lifecycle definitions, and the SDR → AE handoff criteria.",                             x: 850, y: 340, width: 210 },
+          { id: "renewals",   label: "Renewal Automation",   role: "Opportunity-renewal automation enforcing consistent revenue recognition across the renewal book.",                             x: 500, y: 340, width: 200 },
+          { id: "dashboards", label: "Board Dashboards",     role: "Executive dashboards — CAC, LTV, ARR, funnel — pulling from the new pipeline stage model.",                                    x: 150, y: 340, width: 180 }
+        ],
+        edges: [
+          { from: "interviews", to: "mapping",    label: "Findings",            curvature: 0 },
+          { from: "mapping",    to: "migration",  label: "Future-state design", curvature: 0 },
+          { from: "migration",  to: "pipeline",   label: "New structure",       curvature: 0 },
+          { from: "pipeline",   to: "renewals",   label: "Cleaner stages",      curvature: 0 },
+          { from: "renewals",   to: "dashboards", label: "Trusted numbers",     curvature: 0 }
+        ]
+      },
       approachSteps: [
         { n: 1, title: "Interview the org", body: "Structured interviews across Sales, Marketing, CS, and Finance to surface the real (not documented) process and the top pain points." },
         { n: 2, title: "Map current → future state", body: "Documented the existing lead-to-cash flow, then designed a future-state that tightened CRM rigor and added the controls leadership had been asking for." },

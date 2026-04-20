@@ -309,3 +309,150 @@ footer a:hover { color: var(--accent); }
   h1 { letter-spacing: -1px; }
   .cs-cta { padding: 1.75rem 1.25rem; }
 }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+.cs-flow {
+  margin: 2.75rem 0 0.5rem;
+  padding: 0;
+}
+.cs-flow-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.2px;
+  margin: 0 0 0.5rem;
+}
+.cs-flow-overview {
+  color: var(--cream-dim);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+  max-width: 680px;
+}
+
+.cs-flow-viz {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 1.25rem 1rem 1rem;
+}
+
+.cs-flow-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  overflow: visible;
+}
+
+.cs-flow-edge {
+  stroke: color-mix(in oklch, var(--cream), transparent 72%);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+  opacity: 0.9;
+  transition: stroke 0.25s ease, stroke-width 0.25s ease, opacity 0.25s ease;
+  animation: cs-flow-dash 24s linear infinite;
+}
+@keyframes cs-flow-dash {
+  to { stroke-dashoffset: -200; }
+}
+.cs-flow-edge[data-highlight] {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px color-mix(in oklch, var(--accent), transparent 55%));
+}
+.cs-flow-edge[data-dim] {
+  opacity: 0.22;
+}
+.cs-flow-arrowhead {
+  fill: color-mix(in oklch, var(--cream), transparent 55%);
+  transition: fill 0.25s ease;
+}
+.cs-flow-edge[data-highlight] + .cs-flow-arrowhead,
+[data-has-active] .cs-flow-arrowhead { /* fallback: markers don't inherit parent state */ }
+
+.cs-flow-dot {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 4px color-mix(in oklch, var(--accent), transparent 40%));
+  opacity: 0.85;
+}
+
+.cs-flow-node {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--cream);
+  background: color-mix(in oklch, var(--bg), var(--cream) 8%);
+  border: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
+  border-radius: 10px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1.1;
+  text-align: center;
+}
+.cs-flow-node:hover,
+.cs-flow-node:focus-visible,
+.cs-flow-node[data-active] {
+  background: color-mix(in oklch, var(--accent), transparent 78%);
+  border-color: var(--accent);
+  color: var(--cream);
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.28), 0 0 0 2px color-mix(in oklch, var(--accent), transparent 70%);
+}
+.cs-flow-node[data-dim] {
+  opacity: 0.35;
+}
+
+.cs-flow-detail {
+  margin-top: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--rule);
+  min-height: 64px;
+}
+.cs-flow-detail-label {
+  display: block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+[data-has-active] .cs-flow-detail-label { color: var(--accent); }
+.cs-flow-detail-text {
+  color: var(--cream);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-flow-edge { animation: none; }
+  .cs-flow-dot { visibility: hidden; }
+}
+
+@media (max-width: 768px) {
+  .cs-flow-viz { display: none; }
+  .cs-flow-title { font-size: 1.2rem; }
+  .cs-flow-overview { margin-bottom: 0.5rem; }
+}
