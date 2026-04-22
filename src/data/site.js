@@ -202,7 +202,7 @@ const SITE_DATA = {
     youtube: "https://www.youtube.com/@ai-withamit",
     medium: "https://medium.com/gptcommands",
     dailyskill: "https://thedailyskill.com",
-    email: "aroramit17@gmail.com"
+    email: "me@amit.so"
   },
   caseStudies: [
     {
