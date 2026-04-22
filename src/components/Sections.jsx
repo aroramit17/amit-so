@@ -531,8 +531,8 @@ function Contact() {
         <a href="/interview" className="btn-filled contact-primary-cta">Book a Call →</a>
       </Reveal>
       <Reveal delay={0.2}>
-        <p className="contact-email">
-          Or email <a href={`mailto:${s.email}`}>{s.email}</a>
+        <p className="contact-secondary-line">
+          Prefer email? <a href={`mailto:${s.email}`} className="contact-email-link" aria-label="Send Amit an email">Email me</a>
         </p>
       </Reveal>
       <Reveal delay={0.25}>
