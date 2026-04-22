@@ -155,7 +155,44 @@
       padding-top: 100px;
       padding-bottom: 4rem;
     }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+      width: 100%;
+    }
     .hero-inner { max-width: 720px; }
+    .hero-portrait-wrap { justify-self: end; }
+    .hero-portrait {
+      width: clamp(220px, 22vw, 320px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
+      box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.45),
+        0 0 0 6px color-mix(in oklch, var(--accent), transparent 88%);
+    }
+    .hero-portrait::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 30% 25%,
+        color-mix(in oklch, var(--accent), transparent 88%) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+    .hero-portrait img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
     .hero-badge {
       display: inline-block;
       font-size: 0.72rem;
@@ -1152,6 +1189,18 @@
       .hero-badge { margin-bottom: 1.25rem; }
       .hero-sub { margin-bottom: 1.75rem; }
       .hero-scroll-hint { display: none; }
+      .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      .hero-portrait-wrap {
+        justify-self: center;
+        order: 2;
+      }
+      .hero-portrait {
+        width: clamp(160px, 48vw, 240px);
+      }
       .ms-track { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
     }
 

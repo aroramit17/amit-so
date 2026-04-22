@@ -70,23 +70,37 @@ function Hero() {
   const d = SITE_DATA;
   return (
     <section id="hero" className="hero">
-      <div className="hero-inner">
-        <Reveal>
-          <div className="hero-badge">Open to opportunities</div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h1 className="hero-name">{d.name}</h1>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="hero-tagline">{d.tagline}</p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="hero-sub">{d.sub}</p>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <div className="hero-actions">
-            <a href="/interview" className="btn-filled">Book a Call</a>
-            <a href="#case-studies" className="btn-outline">See What I've Built</a>
+      <div className="hero-layout">
+        <div className="hero-inner">
+          <Reveal>
+            <div className="hero-badge">Open to opportunities</div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="hero-name">{d.name}</h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="hero-tagline">{d.tagline}</p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <p className="hero-sub">{d.sub}</p>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="hero-actions">
+              <a href="/interview" className="btn-filled">Book a Call</a>
+              <a href="#case-studies" className="btn-outline">See What I've Built</a>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal delay={0.2} className="hero-portrait-wrap">
+          <div className="hero-portrait">
+            <img
+              src="/amit-headshot.png"
+              alt="Portrait of Amit Arora"
+              width="320"
+              height="320"
+              loading="eager"
+              fetchpriority="high"
+            />
           </div>
         </Reveal>
       </div>
