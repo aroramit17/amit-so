@@ -1,17 +1,17 @@
 const SITE_DATA = {
   name: "Amit Arora",
-  tagline: "Strategic GTM Consultant · Salesforce Architect · AI Workflow Builder",
-  sub: "RevOps operator by day, builder by night, husband, dad, and always tinkering. Somewhere between Salesforce flows, AI experiments, and coffee (more like beer), I'm chasing the next idea worth launching.",
+  tagline: "I build the GTM operating system your revenue team is missing.",
+  sub: "10+ years designing Salesforce architecture, pipeline and forecasting frameworks, and AI-powered workflows — for Series A startups through public companies. 8× Salesforce Certified.",
   about: [
-    "Strategic GTM program leader with deep expertise in owning outcomes across client-facing consulting and enterprise technology environments. I build trusted executive relationships and translate complex technical and revenue concepts into actionable strategy.",
-    "Deep fluency across Salesforce, HubSpot, Clay, AI agents, and automation platforms — combined with cross-functional program leadership that aligns Sales, Marketing, Customer Success, and Finance around shared business objectives.",
-    "Track record of improving forecasting accuracy, designing scalable go-to-market operating systems, and delivering board-ready insights that drive predictable growth."
+    "Your revenue data is in five places and nobody trusts the forecast. Your pipeline looks healthy on the dashboard but stalls in the board meeting. Sales, Marketing, CS, and Finance each have their own definition of a qualified deal. That is the work I come in and fix.",
+    "Deep fluency across Salesforce, HubSpot, Clay, and the modern AI/automation stack — combined with the cross-functional program leadership to align Sales, Marketing, CS, and Finance around one GTM operating model.",
+    "10+ years of track record: +25% forecasting accuracy at DHI Group, 98% client satisfaction across enterprise Salesforce delivery at Slalom, a $750K CRM migration at Avangrid, and the first RevOps function stood up from scratch at a VC-backed AI startup. Honest numbers that board meetings get run on."
   ],
   stats: [
     { number: "10+", label: "Years of Experience" },
     { number: "8×", label: "Salesforce Certified" },
     { number: "25%", label: "Forecast Accuracy Gain" },
-    { number: "A & B", label: "Series A–B Startup Specialist" }
+    { number: "A – B", label: "Series A–B Startup Experience" }
   ],
   skills: [
     {
@@ -50,7 +50,7 @@ const SITE_DATA = {
       company: "webAI, Inc.",
       dates: "Mar 2025 — Apr 2026",
       role: "Revenue Operations Manager",
-      summary: "Led the full CRM transition from HubSpot to Salesforce. Built a pipeline hygiene engine using Clay and implemented ICP personas to uncover high-value leads.",
+      summary: "Stood up the RevOps function from scratch at a VC-backed AI startup. Owned the HubSpot → Salesforce transition, built a closed-loop ICP scoring engine (HubSpot + Clay + Apify + Claude) that enriches and routes every inbound lead the same day, and designed the pipeline taxonomy, forecasting logic, and executive reporting that Sales and Finance now run on.",
       categories: [
         {
           name: "Revenue Operations & Automation",
@@ -83,7 +83,7 @@ const SITE_DATA = {
       company: "DHI Group Inc",
       dates: "Oct 2021 — Jul 2024",
       role: "Director, Business Systems",
-      summary: "Owned the full GTM tech stack as strategic program leader, building pipeline and forecasting frameworks from scratch and delivering board-ready executive reporting.",
+      summary: "Owned the full GTM tech stack (Salesforce, HubSpot, Clay) and led a Classic → Lightning migration while re-engineering the lead-to-cash process. Built pipeline and forecasting frameworks from scratch — +25% forecasting accuracy and the board dashboards leadership actually used.",
       categories: [
         {
           name: "GTM Tech Stack Ownership",
@@ -116,7 +116,7 @@ const SITE_DATA = {
       company: "Slalom LLC",
       dates: "May 2018 — Oct 2021",
       role: "Salesforce Consultant",
-      summary: "Delivered enterprise Salesforce solutions in Financial Services with a 98% client satisfaction rating and 95% project success rate.",
+      summary: "Delivered enterprise Salesforce solutions in Financial Services — 98% client satisfaction, 95% project success rate, and Sales/Service/Community Cloud certifications earned on the job. Primary client point of contact on multi-cloud programs.",
       categories: [
         {
           name: "Enterprise Delivery",
@@ -133,7 +133,7 @@ const SITE_DATA = {
       company: "Avangrid",
       dates: "Jun 2015 — May 2018",
       role: "Sr. Salesforce Administrator",
-      summary: "Took ownership of CRM operations for energy corporations. Led a $750K Salesforce migration enhancing operational efficiency by 20%.",
+      summary: "Owned CRM operations across the energy portfolio. Led a $750K Salesforce migration for two gas corporations — +30% operational efficiency — and established the foundational admin practices the org still runs on.",
       categories: [
         {
           name: "CRM Operations",

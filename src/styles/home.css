@@ -1089,6 +1089,25 @@
       transition: all 0.3s;
     }
     .contact-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .contact-primary-cta {
+      display: inline-flex !important;
+      margin: 0 auto 1.25rem;
+      font-size: 0.95rem;
+      padding: 0.95rem 2rem;
+    }
+    .contact-email {
+      font-size: 0.88rem;
+      color: var(--cream-dim);
+      margin: 0 0 2rem;
+    }
+    .contact-email a {
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
+      padding-bottom: 1px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .contact-email a:hover { color: var(--accent); border-color: var(--accent); }
 
     /* ─── Footer ─── */
     .site-footer {

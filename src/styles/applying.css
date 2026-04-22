@@ -197,22 +197,52 @@
       font-size: 0.95rem;
       margin-bottom: 1.25rem;
     }
+    .cta-heading {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--cream) !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .cta-body {
+      max-width: 580px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      line-height: 1.65;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
     .cta-btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.85rem 1.75rem;
       border-radius: 8px;
-      background: var(--accent);
-      color: var(--bg);
       text-decoration: none;
       font-family: var(--sans);
       font-weight: 600;
       font-size: 0.88rem;
       letter-spacing: 0.3px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, border-color 0.3s;
     }
-    .cta-btn:hover {
+    .cta-btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .cta-btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 30px rgba(212, 114, 92, 0.25);
+    }
+    .cta-btn-secondary {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid var(--card-border);
+    }
+    .cta-btn-secondary:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
     /* ─── Footer ─── */

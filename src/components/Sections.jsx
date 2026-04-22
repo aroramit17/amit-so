@@ -45,8 +45,8 @@ function Nav() {
     return () => window.removeEventListener('scroll', h);
   }, []);
   const links = [
-    ['About', '#about'], ['Experience', '#experience'],
-    ['Case Studies', '/case-studies'], ['Projects', '#projects'],
+    ['About', '#about'], ['Case Studies', '#case-studies'],
+    ['Experience', '#experience'], ['Projects', '#projects'],
     ['Applying in Public', '/applying']
   ];
   return (
@@ -56,7 +56,7 @@ function Nav() {
         {links.map(([label, href]) => (
           <a key={href} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
         ))}
-        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Interview Me</a>
+        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Book a Call</a>
       </div>
       <button className={`nav-hamburger ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
         <span /><span /><span />
@@ -85,8 +85,8 @@ function Hero() {
         </Reveal>
         <Reveal delay={0.4}>
           <div className="hero-actions">
-            <a href="#experience" className="btn-filled">View Experience</a>
-            <a href="#contact" className="btn-outline">Get in Touch</a>
+            <a href="/interview" className="btn-filled">Book a Call</a>
+            <a href="#case-studies" className="btn-outline">See What I've Built</a>
           </div>
         </Reveal>
       </div>
@@ -513,27 +513,34 @@ function Projects() {
 // ─── Contact ───
 function Contact() {
   const s = SITE_DATA.social;
-  const links = [
+  const secondary = [
     { label: 'LinkedIn', href: s.linkedin },
     { label: 'YouTube', href: s.youtube },
-    { label: 'Medium', href: s.medium },
-    { label: 'The Daily Skill', href: s.dailyskill },
-    { label: 'Email', href: `mailto:${s.email}` }
+    { label: 'Medium', href: s.medium }
   ];
   return (
     <section id="contact" className="contact-section">
       <Reveal><span className="label">Connect</span></Reveal>
       <Reveal delay={0.05}><h2 className="section-heading">Let's Talk</h2></Reveal>
-      <Reveal delay={0.1}><p className="contact-sub">I'm exploring new opportunities and would love to connect about how I can help your team build a scalable, data-driven go-to-market operation.</p></Reveal>
+      <Reveal delay={0.1}>
+        <p className="contact-sub">
+          If your team needs someone to own the GTM operating system end to end — from Salesforce architecture to pipeline, forecasting, and AI-powered automation — book 15 minutes. No pitch, just a conversation about what you actually need.
+        </p>
+      </Reveal>
       <Reveal delay={0.15}>
+        <a href="/interview" className="btn-filled contact-primary-cta">Book a Call →</a>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <p className="contact-email">
+          Or email <a href={`mailto:${s.email}`}>{s.email}</a>
+        </p>
+      </Reveal>
+      <Reveal delay={0.25}>
         <div className="contact-links">
-          {links.map((l, i) => (
+          {secondary.map((l, i) => (
             <a key={i} href={l.href} target="_blank" rel="noopener" className="contact-chip">{l.label}</a>
           ))}
         </div>
-      </Reveal>
-      <Reveal delay={0.2}>
-        <a href="/interview" className="btn-filled" style={{ marginTop: '2rem', display: 'inline-flex' }}>Book a Call</a>
       </Reveal>
     </section>
   );
@@ -597,11 +604,10 @@ export default function App() {
       <Nav />
       <Hero />
       <About />
+      <CaseStudies />
       <Experience />
-      <Skills />
       <Certifications />
       <CareerMindMap />
-      <CaseStudies />
       <Projects />
       <Contact />
       <Footer />
