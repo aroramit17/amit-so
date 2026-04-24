@@ -1,17 +1,17 @@
 const SITE_DATA = {
   name: "Amit Arora",
-  tagline: "Strategic GTM Consultant · Salesforce Architect · AI Workflow Builder",
-  sub: "RevOps operator by day, builder by night, husband, dad, and always tinkering. Somewhere between Salesforce flows, AI experiments, and coffee (more like beer), I'm chasing the next idea worth launching.",
+  tagline: "I build the GTM operating system your revenue team is missing.",
+  sub: "10+ years designing Salesforce architecture, pipeline and forecasting frameworks, and AI-powered workflows — for Series A startups through public companies. 8× Salesforce Certified.",
   about: [
-    "Strategic GTM program leader with deep expertise in owning outcomes across client-facing consulting and enterprise technology environments. I build trusted executive relationships and translate complex technical and revenue concepts into actionable strategy.",
-    "Deep fluency across Salesforce, HubSpot, Clay, AI agents, and automation platforms — combined with cross-functional program leadership that aligns Sales, Marketing, Customer Success, and Finance around shared business objectives.",
-    "Track record of improving forecasting accuracy, designing scalable go-to-market operating systems, and delivering board-ready insights that drive predictable growth."
+    "Your revenue data is in five places and nobody trusts the forecast. Your pipeline looks healthy on the dashboard but stalls in the board meeting. Sales, Marketing, CS, and Finance each have their own definition of a qualified deal. That is the work I come in and fix.",
+    "Deep fluency across Salesforce, HubSpot, Clay, and the modern AI/automation stack — combined with the cross-functional program leadership to align Sales, Marketing, CS, and Finance around one GTM operating model.",
+    "10+ years of track record: +25% forecasting accuracy at DHI Group, 98% client satisfaction across enterprise Salesforce delivery at Slalom, a $750K CRM migration at Avangrid, and the first RevOps function stood up from scratch at a VC-backed AI startup. Honest numbers that board meetings get run on."
   ],
   stats: [
     { number: "10+", label: "Years of Experience" },
     { number: "8×", label: "Salesforce Certified" },
     { number: "25%", label: "Forecast Accuracy Gain" },
-    { number: "A & B", label: "Series A–B Startup Specialist" }
+    { number: "A – B", label: "Series A–B Startup Experience" }
   ],
   skills: [
     {
@@ -50,7 +50,7 @@ const SITE_DATA = {
       company: "webAI, Inc.",
       dates: "Mar 2025 — Apr 2026",
       role: "Revenue Operations Manager",
-      summary: "Led the full CRM transition from HubSpot to Salesforce. Built a pipeline hygiene engine using Clay and implemented ICP personas to uncover high-value leads.",
+      summary: "Stood up the RevOps function from scratch at a VC-backed AI startup. Owned the HubSpot → Salesforce transition, built a closed-loop ICP scoring engine (HubSpot + Clay + Apify + Claude) that enriches and routes every inbound lead the same day, and designed the pipeline taxonomy, forecasting logic, and executive reporting that Sales and Finance now run on.",
       categories: [
         {
           name: "Revenue Operations & Automation",
@@ -83,7 +83,7 @@ const SITE_DATA = {
       company: "DHI Group Inc",
       dates: "Oct 2021 — Jul 2024",
       role: "Director, Business Systems",
-      summary: "Owned the full GTM tech stack as strategic program leader, building pipeline and forecasting frameworks from scratch and delivering board-ready executive reporting.",
+      summary: "Owned the full GTM tech stack (Salesforce, HubSpot, Clay) and led a Classic → Lightning migration while re-engineering the lead-to-cash process. Built pipeline and forecasting frameworks from scratch — +25% forecasting accuracy and the board dashboards leadership actually used.",
       categories: [
         {
           name: "GTM Tech Stack Ownership",
@@ -116,7 +116,7 @@ const SITE_DATA = {
       company: "Slalom LLC",
       dates: "May 2018 — Oct 2021",
       role: "Salesforce Consultant",
-      summary: "Delivered enterprise Salesforce solutions in Financial Services with a 98% client satisfaction rating and 95% project success rate.",
+      summary: "Delivered enterprise Salesforce solutions in Financial Services — 98% client satisfaction, 95% project success rate, and Sales/Service/Community Cloud certifications earned on the job. Primary client point of contact on multi-cloud programs.",
       categories: [
         {
           name: "Enterprise Delivery",
@@ -133,7 +133,7 @@ const SITE_DATA = {
       company: "Avangrid",
       dates: "Jun 2015 — May 2018",
       role: "Sr. Salesforce Administrator",
-      summary: "Took ownership of CRM operations for energy corporations. Led a $750K Salesforce migration enhancing operational efficiency by 20%.",
+      summary: "Owned CRM operations across the energy portfolio. Led a $750K Salesforce migration for two gas corporations — +30% operational efficiency — and established the foundational admin practices the org still runs on.",
       categories: [
         {
           name: "CRM Operations",
@@ -202,8 +202,101 @@ const SITE_DATA = {
     youtube: "https://www.youtube.com/@ai-withamit",
     medium: "https://medium.com/gptcommands",
     dailyskill: "https://thedailyskill.com",
-    email: "aroramit17@gmail.com"
-  }
+    email: "me@amit.so"
+  },
+  caseStudies: [
+    {
+      slug: "webai-case-study",
+      title: "Automated ICP scoring engine at webAI",
+      tag: "Revenue Operations",
+      blurb: "Inside the first six months at a VC-backed AI startup, stood up a closed-loop ICP scoring engine that enriches and routes every inbound lead automatically.",
+      role: "Revenue Operations Manager",
+      company: "webAI, Inc.",
+      timeline: "First six months (Mar – Aug 2025)",
+      stack: ["HubSpot", "Clay", "Apify", "Claude"],
+      outcome: "Every inbound lead scored, enriched, and routed the same day.",
+      context: [
+        "webAI's inbound was arriving in HubSpot with almost no context. Sales was burning cycles on manual firmographic research and ICP judgment calls, and speed-to-first-touch was slipping as inbound volume grew.",
+        "There was no standardized ICP rubric, which meant routing depended on tribal knowledge and lead quality couldn't be compared across reps or campaigns."
+      ],
+      flow: {
+        title: "How data flowed",
+        overview: "Every inbound lead rides the same loop: capture in HubSpot, enrich through Clay with Apify and Claude, write the enriched record back, score, route. Hover a tool to see its job.",
+        nodes: [
+          { id: "hubspot", label: "HubSpot",  role: "CRM of record. Captures every inbound lead, takes the enriched record back for ICP scoring, and routes to an AE or nurture.", x: 160, y: 230 },
+          { id: "clay",    label: "Clay",     role: "Orchestration hub. Runs the enrichment waterfall and decides what each lead needs next.", x: 500, y: 230 },
+          { id: "apify",   label: "Apify",    role: "Firmographic scraper. Pulls industry, company size, and intent signals on the organization.", x: 840, y: 120 },
+          { id: "claude",  label: "Claude",   role: "AI cleanup. Normalizes company names, dedupes against existing HubSpot data, and resolves HQ location.", x: 840, y: 340 }
+        ],
+        edges: [
+          { from: "hubspot", to: "clay",    label: "New lead",                                      curvature:  45 },
+          { from: "clay",    to: "apify",   label: "Enrichment request",                            curvature:  35 },
+          { from: "apify",   to: "clay",    label: "Firmographics",                                 curvature: -35 },
+          { from: "clay",    to: "claude",  label: "Raw record",                                    curvature: -35 },
+          { from: "claude",  to: "clay",    label: "Cleaned record",                                curvature:  35 },
+          { from: "clay",    to: "hubspot", label: "Enriched writeback → ICP scoring and routing", curvature: -45 }
+        ]
+      },
+      approachSteps: [
+        { n: 1, title: "Capture", body: "New inbound lead lands in HubSpot CRM — whether via form, meeting booking, or API." },
+        { n: 2, title: "Discover emails", body: "Lead is pushed into Clay, which runs a layered waterfall of email-discovery providers to surface verified contacts on the lead's organization." },
+        { n: 3, title: "Add firmographic context", body: "Apify runs inside Clay to pull firmographic data — industry, size, intent signals, and related context — on top of the contact layer." },
+        { n: 4, title: "AI cleanup with Claude", body: "Claude runs inside Clay to clean up the enriched record: normalize company names, deduplicate against existing HubSpot data, and reliably identify the headquarters location." },
+        { n: 5, title: "Sync back", body: "The fully enriched record is written back to HubSpot, mapped to typed properties so downstream workflows can act on it." },
+        { n: 6, title: "Score & route", body: "HubSpot workflow rules evaluate the enriched lead against the ICP rubric, assign an ICP tier, and auto-route in-fit leads to the right AE. Out-of-ICP leads route to nurture." }
+      ],
+      result: [
+        "Consistent ICP application across every inbound lead, measurable speed-to-first-touch improvement, and a sales team that stopped doing the research work.",
+        "The same enrichment layer became the source-of-truth for downstream outbound, reporting, and forecasting — one model, fed once, reused everywhere."
+      ]
+    },
+    {
+      slug: "dhi-case-study",
+      title: "Lead-to-cash transformation at DHI Group",
+      tag: "GTM Systems & Business Transformation",
+      blurb: "Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process — pipeline taxonomy, forecasting, and automated opportunity renewals included.",
+      role: "Director, Business Systems",
+      company: "DHI Group Inc.",
+      timeline: "2021 – 2024",
+      stack: ["Salesforce (Classic → Lightning)", "End-to-end process mapping", "Process improvement"],
+      outcome: "+25% forecasting accuracy, automated renewals, board-ready dashboards.",
+      context: [
+        "DHI was operating on legacy Salesforce Classic with weak pipeline hygiene, manual renewals, and forecast numbers that Sales and Finance couldn't trust. The UI was due to be sunsetted, but the real opportunity was rebuilding the business processes underneath — not just flipping a UI switch.",
+        "The mandate was simple: do both at once. Migrate to Lightning and take the org through a single, structured change instead of two."
+      ],
+      flow: {
+        title: "How the transformation flowed",
+        overview: "One sequenced motion — listen to the org, reshape the process on paper, then lift Classic into Lightning with the new model built in. Hover a stage to see what it meant.",
+        nodes: [
+          { id: "interviews", label: "Interviews",           role: "Structured conversations across Sales, Marketing, CS, and Finance to surface the real process and the top pain points.",     x: 150, y: 130, width: 180 },
+          { id: "mapping",    label: "Process Map",          role: "Current-state and future-state maps of the lead-to-cash flow, tightened for CRM rigor and the controls leadership wanted.",   x: 500, y: 130, width: 180 },
+          { id: "migration",  label: "Lightning Migration",  role: "Salesforce Classic → Lightning cutover carrying the new process model in the same move — one change event for the org, not two.", x: 850, y: 130, width: 210 },
+          { id: "pipeline",   label: "Pipeline Taxonomy",    role: "Rebuilt pipeline stages, lead routing, lifecycle definitions, and the SDR → AE handoff criteria.",                             x: 850, y: 340, width: 210 },
+          { id: "renewals",   label: "Renewal Automation",   role: "Opportunity-renewal automation enforcing consistent revenue recognition across the renewal book.",                             x: 500, y: 340, width: 200 },
+          { id: "dashboards", label: "Board Dashboards",     role: "Executive dashboards — CAC, LTV, ARR, funnel — pulling from the new pipeline stage model.",                                    x: 150, y: 340, width: 180 }
+        ],
+        edges: [
+          { from: "interviews", to: "mapping",    label: "Findings",            curvature: 0 },
+          { from: "mapping",    to: "migration",  label: "Future-state design", curvature: 0 },
+          { from: "migration",  to: "pipeline",   label: "New structure",       curvature: 0 },
+          { from: "pipeline",   to: "renewals",   label: "Cleaner stages",      curvature: 0 },
+          { from: "renewals",   to: "dashboards", label: "Trusted numbers",     curvature: 0 }
+        ]
+      },
+      approachSteps: [
+        { n: 1, title: "Interview the org", body: "Structured interviews across Sales, Marketing, CS, and Finance to surface the real (not documented) process and the top pain points." },
+        { n: 2, title: "Map current → future state", body: "Documented the existing lead-to-cash flow, then designed a future-state that tightened CRM rigor and added the controls leadership had been asking for." },
+        { n: 3, title: "Lift & reshape", body: "Migrated Classic → Lightning while implementing the new process model in the same cutover — avoiding a second round of change management." },
+        { n: 4, title: "Pipeline taxonomy", body: "Rebuilt pipeline stages, lead-routing rules, lifecycle definitions, and SDR → AE handoff criteria." },
+        { n: 5, title: "Automated renewals", body: "Built opportunity-renewal automation to enforce consistent revenue recognition across the renewal book." },
+        { n: 6, title: "Board-ready reporting", body: "Stood up executive dashboards (CAC, LTV, ARR, funnel) pulling from the new pipeline stage model." }
+      ],
+      result: [
+        "A 25% improvement in forecasting accuracy, significantly stronger pipeline visibility, and a predictable, auditable renewal motion.",
+        "Dashboards leadership actually used for board reporting — not ones the team built and then ignored."
+      ]
+    }
+  ]
 };
 
 export default SITE_DATA;

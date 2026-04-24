@@ -115,8 +115,31 @@
       width: 100%; height: 650px; overflow: scroll;
     }
 
+    /* ─── Lede above calendar ─── */
+    .interview-lede {
+      color: var(--cream-dim);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 620px;
+      margin: 0 0 2rem;
+    }
+
     /* ─── Body ─── */
     .interview-body { margin-bottom: 3rem; }
+    .interview-h2 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin: 0 0 1rem;
+      letter-spacing: -0.2px;
+    }
+    .interview-body a {
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
+    }
+    .interview-body a:hover { color: var(--accent); border-color: var(--accent); }
     .interview-body p {
       color: var(--cream-dim);
       font-size: 0.95rem;

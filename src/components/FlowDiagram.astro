@@ -1,0 +1,221 @@
+---
+export interface FlowNode {
+  id: string;
+  label: string;
+  role: string;
+  x: number;
+  y: number;
+  width?: number;
+}
+export interface FlowEdge {
+  from: string;
+  to: string;
+  label: string;
+  curvature?: number;
+}
+export interface Props {
+  flow: {
+    title: string;
+    overview: string;
+    nodes: FlowNode[];
+    edges: FlowEdge[];
+  };
+}
+
+const { flow } = Astro.props;
+
+const NODE_HEIGHT = 52;
+const DEFAULT_WIDTH = 160;
+const EXIT_GAP = 8;
+
+const nodeMap: Record<string, FlowNode> = Object.fromEntries(
+  flow.nodes.map((n) => [n.id, n])
+);
+
+function exitDistance(ux: number, uy: number, halfW: number, halfH: number) {
+  const dx = Math.abs(ux) > 1e-6 ? halfW / Math.abs(ux) : Infinity;
+  const dy = Math.abs(uy) > 1e-6 ? halfH / Math.abs(uy) : Infinity;
+  return Math.min(dx, dy);
+}
+
+function edgePath(from: FlowNode, to: FlowNode, curvature: number) {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+
+  const fromHW = (from.width ?? DEFAULT_WIDTH) / 2;
+  const toHW = (to.width ?? DEFAULT_WIDTH) / 2;
+  const halfH = NODE_HEIGHT / 2;
+
+  const fromPad = exitDistance(ux, uy, fromHW, halfH) + EXIT_GAP;
+  const toPad = exitDistance(ux, uy, toHW, halfH) + EXIT_GAP;
+
+  const fx = from.x + ux * fromPad;
+  const fy = from.y + uy * fromPad;
+  const tx = to.x - ux * toPad;
+  const ty = to.y - uy * toPad;
+
+  const mx = (fx + tx) / 2;
+  const my = (fy + ty) / 2;
+  // perpendicular to the direction vector
+  const px = -uy;
+  const py = ux;
+  const cx = mx + px * curvature;
+  const cy = my + py * curvature;
+
+  return `M ${fx.toFixed(2)} ${fy.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${tx.toFixed(2)} ${ty.toFixed(2)}`;
+}
+
+const slug = flow.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'flow';
+const arrowId = `cs-arrow-${slug}`;
+
+const edges = flow.edges.map((e, i) => ({
+  ...e,
+  id: `${slug}-edge-${i}`,
+  d: edgePath(nodeMap[e.from], nodeMap[e.to], e.curvature ?? 35),
+}));
+---
+<section class="cs-flow" data-flow-root>
+  <h3 class="cs-flow-title">{flow.title}</h3>
+  <p class="cs-flow-overview">{flow.overview}</p>
+
+  <div class="cs-flow-viz">
+    <svg
+      class="cs-flow-svg"
+      viewBox="0 0 1000 460"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      aria-label={flow.title}
+    >
+      <defs>
+        <marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" class="cs-flow-arrowhead" />
+        </marker>
+      </defs>
+
+      {edges.map((e) => (
+        <path
+          id={e.id}
+          d={e.d}
+          class="cs-flow-edge"
+          data-from={e.from}
+          data-to={e.to}
+          data-label={e.label}
+          fill="none"
+          marker-end={`url(#${arrowId})`}
+        />
+      ))}
+
+      {edges.map((e) => (
+        <circle r="3.5" class="cs-flow-dot">
+          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href={`#${e.id}`} />
+          </animateMotion>
+        </circle>
+      ))}
+
+      {flow.nodes.map((n) => {
+        const w = n.width ?? DEFAULT_WIDTH;
+        return (
+          <foreignObject
+            x={n.x - w / 2}
+            y={n.y - NODE_HEIGHT / 2}
+            width={w}
+            height={NODE_HEIGHT}
+          >
+            <button
+              type="button"
+              class="cs-flow-node"
+              data-node-id={n.id}
+              data-role={n.role}
+              aria-label={`${n.label}: ${n.role}`}
+            >{n.label}</button>
+          </foreignObject>
+        );
+      })}
+    </svg>
+
+    <aside class="cs-flow-detail" aria-live="polite" data-default={flow.overview}>
+      <span class="cs-flow-detail-label">Hover or tap a tool</span>
+      <p class="cs-flow-detail-text">{flow.overview}</p>
+    </aside>
+  </div>
+
+  <ol class="cs-flow-sr visually-hidden">
+    {edges.map((e) => (
+      <li>{nodeMap[e.from].label} sends {e.label.toLowerCase()} to {nodeMap[e.to].label}.</li>
+    ))}
+  </ol>
+</section>
+
+<script>
+  const roots = document.querySelectorAll('[data-flow-root]');
+  roots.forEach((root) => {
+    const detailLabel = root.querySelector('.cs-flow-detail-label') as HTMLElement | null;
+    const detailText = root.querySelector('.cs-flow-detail-text') as HTMLElement | null;
+    const detailPanel = root.querySelector('.cs-flow-detail') as HTMLElement | null;
+    if (!detailLabel || !detailText || !detailPanel) return;
+    const defaultText = detailPanel.dataset.default ?? '';
+    const edges = root.querySelectorAll<SVGPathElement>('.cs-flow-edge');
+    const nodes = root.querySelectorAll<HTMLButtonElement>('.cs-flow-node');
+
+    const setActive = (nodeId: string, label: string, role: string) => {
+      root.setAttribute('data-has-active', 'true');
+      edges.forEach((edge) => {
+        const related = edge.dataset.from === nodeId || edge.dataset.to === nodeId;
+        if (related) edge.setAttribute('data-highlight', 'true');
+        else edge.removeAttribute('data-highlight');
+        if (!related) edge.setAttribute('data-dim', 'true');
+        else edge.removeAttribute('data-dim');
+      });
+      nodes.forEach((n) => {
+        if (n.dataset.nodeId === nodeId) {
+          n.setAttribute('data-active', 'true');
+          n.removeAttribute('data-dim');
+        } else {
+          n.removeAttribute('data-active');
+          n.setAttribute('data-dim', 'true');
+        }
+      });
+      detailLabel.textContent = label;
+      detailText.textContent = role;
+    };
+
+    const clear = () => {
+      root.removeAttribute('data-has-active');
+      edges.forEach((e) => {
+        e.removeAttribute('data-highlight');
+        e.removeAttribute('data-dim');
+      });
+      nodes.forEach((n) => {
+        n.removeAttribute('data-active');
+        n.removeAttribute('data-dim');
+      });
+      detailLabel.textContent = 'Hover or tap a tool';
+      detailText.textContent = defaultText;
+    };
+
+    nodes.forEach((node) => {
+      const id = node.dataset.nodeId ?? '';
+      const label = node.textContent?.trim() ?? '';
+      const role = node.dataset.role ?? '';
+      node.addEventListener('mouseenter', () => setActive(id, label, role));
+      node.addEventListener('focus', () => setActive(id, label, role));
+      node.addEventListener('mouseleave', () => {
+        if (document.activeElement !== node) clear();
+      });
+      node.addEventListener('blur', clear);
+      node.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        if (node.getAttribute('data-active') === 'true') {
+          clear();
+          node.blur();
+        } else {
+          setActive(id, label, role);
+        }
+      });
+    });
+  });
+</script>

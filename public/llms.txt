@@ -8,9 +8,15 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 - [Homepage](https://amit.so/): Overview of Amit's work and positioning
 - [Interview with Amit](https://amit.so/interview): Book a call if you're hiring
+- [Case Studies](https://amit.so/case-studies): Deeper write-ups of selected engagements
 - [Applying in Public](https://amit.so/applying): Live documentation of the job search
 - Based in Aubrey, Texas; 10+ years across Revenue Operations, GTM systems, and Salesforce consulting
 - 8× Salesforce Certified — Administrator, Advanced Administrator, Sales Cloud, Service Cloud, Experience Cloud, AI Associate, Agentforce Specialist, Salesforce Maps
+
+## Case Studies
+
+- [Automated ICP scoring engine at webAI](https://amit.so/webai-case-study): In the first six months at webAI, stood up a closed-loop ICP scoring engine. Inbound leads land in HubSpot, Clay runs a layered email-discovery waterfall, Apify adds firmographic context, Claude (inside Clay) cleans up the data and identifies HQ location, and HubSpot workflow rules then score the enriched lead and auto-route it to the right AE.
+- [Lead-to-cash transformation at DHI Group](https://amit.so/dhi-case-study): Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process. End-to-end process mapping and process improvement across Sales, Marketing, CS, and Finance. Rebuilt pipeline taxonomy, automated opportunity renewals for consistent revenue recognition, and stood up board-ready dashboards. +25% forecasting accuracy.
 
 ## Experience
 
@@ -43,7 +49,6 @@ Amit was laid off from webAI on April 10, 2026. He is simultaneously job searchi
 
 ## Contact
 
-- Email: aroramit17@gmail.com
 - Book a call: https://amit.so/interview
 - LinkedIn: https://linkedin.com/in/amit-arora17
 - YouTube: https://youtube.com/@ai-withamit

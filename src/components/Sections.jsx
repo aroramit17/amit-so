@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SITE_DATA from '../data/site.js';
 
 // ─── Reveal on scroll hook ───
@@ -45,8 +45,8 @@ function Nav() {
     return () => window.removeEventListener('scroll', h);
   }, []);
   const links = [
-    ['About', '#about'], ['Experience', '#experience'], ['Skills', '#skills'],
-    ['Projects', '#projects'], ['Contact', '#contact'],
+    ['About', '#about'], ['Case Studies', '#case-studies'],
+    ['Experience', '#experience'], ['Projects', '#projects'],
     ['Applying in Public', '/applying']
   ];
   return (
@@ -56,7 +56,7 @@ function Nav() {
         {links.map(([label, href]) => (
           <a key={href} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
         ))}
-        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Interview Me</a>
+        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Book a Call</a>
       </div>
       <button className={`nav-hamburger ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
         <span /><span /><span />
@@ -65,34 +65,120 @@ function Nav() {
   );
 }
 
-// ─── Hero ───
+// ─── Hero (cinematic) ───
+const HERO_VIDEO_SRC = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_094145_4a271a6c-3869-4f1c-8aa7-aeb0cb227994.mp4";
+
+function IconSparkle(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" />
+    </svg>
+  );
+}
+function IconBriefcase(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M3 13h18" />
+    </svg>
+  );
+}
+function IconMapPin(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  );
+}
+function IconPlay(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+function IconArrow(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M5 12h14" />
+      <path d="M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 function Hero() {
   const d = SITE_DATA;
   return (
-    <section id="hero" className="hero">
-      <div className="hero-inner">
-        <Reveal>
-          <div className="hero-badge">Open to opportunities</div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h1 className="hero-name">{d.name}</h1>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="hero-tagline">{d.tagline}</p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="hero-sub">{d.sub}</p>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <div className="hero-actions">
-            <a href="#experience" className="btn-filled">View Experience</a>
-            <a href="#contact" className="btn-outline">Get in Touch</a>
+    <section id="hero" className="hero-cinema">
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src={HERO_VIDEO_SRC} type="video/mp4" />
+      </video>
+      <div className="hero-blur-overlay" aria-hidden="true" />
+
+      <div className="hero-cinema-content">
+        <div className="hero-cinema-left">
+          <div className="hero-meta animate-blur-fade-up" style={{ animationDelay: '300ms' }}>
+            <span className="hero-meta-item">
+              <IconSparkle /> <span>8× Salesforce Certified</span>
+            </span>
+            <span className="hero-meta-item">
+              <IconBriefcase /> <span>10+ yrs Revenue Ops</span>
+            </span>
+            <span className="hero-meta-item">
+              <IconMapPin /> <span>Aubrey, TX</span>
+            </span>
           </div>
-        </Reveal>
-      </div>
-      <div className="hero-scroll-hint">
-        <span>Scroll</span>
-        <div className="scroll-line" />
+
+          <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
+            {d.name}
+          </h1>
+
+          <p className="hero-cinema-desc animate-blur-fade-up" style={{ animationDelay: '500ms' }}>
+            {d.tagline}
+          </p>
+
+          <div className="hero-cinema-actions">
+            <a
+              href="/interview"
+              className="btn-watch animate-blur-fade-up"
+              style={{ animationDelay: '600ms' }}
+            >
+              <IconPlay /> <span>Book a Call</span>
+            </a>
+            <a
+              href="#case-studies"
+              className="btn-learn liquid-glass animate-blur-fade-up"
+              style={{ animationDelay: '700ms' }}
+            >
+              <span>See What I've Built</span>
+              <IconArrow />
+            </a>
+          </div>
+        </div>
+
+        <div
+          className="hero-cinema-portrait animate-blur-fade-up"
+          style={{ animationDelay: '450ms' }}
+        >
+          <img
+            src="/amit-headshot.png"
+            alt="Portrait of Amit Arora"
+            width="520"
+            height="520"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
       </div>
     </section>
   );
@@ -229,151 +315,260 @@ function Certifications() {
   );
 }
 
-// ─── Iridescent Milestones ───
-const msCoColors = { avangrid: '#5bdb82', slalom: '#5b9cf5', dhi: '#9b87f5', content: '#d4725c', webai: '#e8657a' };
-const msCoLabels = { avangrid: 'Avangrid', slalom: 'Slalom', dhi: 'DHI Group', content: 'Creator', webai: 'webAI' };
+// ─── Career Mind-Map ───
+// Branch positions in a 1000 x 560 SVG viewBox. Leaves arranged along the
+// outside edge (x ≈ 80 left side / 920 right side).
+const BRANCHES = [
+  {
+    co: 'avangrid', label: 'Avangrid', range: '2015 – 2018',
+    role: 'Sr. Salesforce Administrator', color: '#5bdb82',
+    pos: { x: 225, y: 110 }, side: 'left',
+    leafYs: [50, 170],
+  },
+  {
+    co: 'slalom', label: 'Slalom', range: '2018 – 2021',
+    role: 'Salesforce Consultant', color: '#5b9cf5',
+    pos: { x: 225, y: 450 }, side: 'left',
+    leafYs: [390, 450, 510],
+  },
+  {
+    co: 'dhi', label: 'DHI Group', range: '2021 – 2024',
+    role: 'Director, Business Systems', color: '#9b87f5',
+    pos: { x: 775, y: 95 }, side: 'right',
+    leafYs: [40, 100, 160],
+  },
+  {
+    co: 'content', label: 'Creator', range: '2024 – now',
+    role: 'AI with Amit · Writing', color: '#d4725c',
+    pos: { x: 860, y: 280 }, side: 'right',
+    leafYs: [225, 280, 335],
+  },
+  {
+    co: 'webai', label: 'webAI', range: '2025 – 2026',
+    role: 'Revenue Operations Manager', color: '#e8657a',
+    pos: { x: 775, y: 465 }, side: 'right',
+    leafYs: [405, 465, 525],
+  },
+];
+const CENTER = { x: 500, y: 280 };
+const LEAF_X_LEFT = 85;
+const LEAF_X_RIGHT = 915;
+const PILL_BRANCH = { w: 150, h: 36 };
+const PILL_LEAF = { w: 170, h: 28 };
+const PILL_CENTER = { w: 190, h: 58 };
 
-function IridescentCard({ milestone, index, isActive, onClick }) {
-  const cardRef = useRef(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
-  const [isHovering, setIsHovering] = useState(false);
-  const co = msCoColors[milestone.co];
-
-  const handleMouseMove = useCallback((e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const tiltX = (y - 0.5) * 24;
-    const tiltY = (x - 0.5) * -24;
-    setTilt({ x: tiltX, y: tiltY });
-    setGlowPos({ x: x * 100, y: y * 100 });
-  }, []);
-
-  const handleMouseEnter = () => setIsHovering(true);
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setTilt({ x: 0, y: 0 });
-    setGlowPos({ x: 50, y: 50 });
-  };
-
-  const iridAngle = glowPos.x * 3.6;
-  const iridX = glowPos.x;
-  const iridY = glowPos.y;
-
-  return (
-    <div className="irid-card-wrap" style={{ perspective: '800px' }}>
-      <div
-        ref={cardRef}
-        className={`irid-card ${isActive ? 'active' : ''} ${isHovering ? 'hovering' : ''}`}
-        onClick={onClick}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          '--co': co,
-          '--tiltX': `${tilt.x}deg`,
-          '--tiltY': `${tilt.y}deg`,
-          '--glowX': `${glowPos.x}%`,
-          '--glowY': `${glowPos.y}%`,
-          '--iridAngle': `${iridAngle}deg`,
-          transform: isHovering
-            ? `rotateX(var(--tiltX)) rotateY(var(--tiltY)) scale(1.05)`
-            : 'rotateX(0) rotateY(0) scale(1)',
-        }}
-      >
-        <div className="irid-sheen" style={{
-          background: isHovering
-            ? `linear-gradient(${iridAngle}deg,
-                rgba(255,0,150,0.13) 0%,
-                rgba(0,255,200,0.13) 20%,
-                rgba(100,100,255,0.18) 40%,
-                rgba(255,200,0,0.13) 60%,
-                rgba(255,0,100,0.13) 80%,
-                rgba(0,200,255,0.13) 100%)`
-            : 'none',
-          opacity: isHovering ? 1 : 0,
-        }} />
-        <div className="irid-specular" style={{
-          background: `radial-gradient(circle at ${iridX}% ${iridY}%, rgba(255,255,255,${isHovering ? 0.25 : 0}) 0%, transparent 60%)`,
-        }} />
-        <div className="irid-noise" />
-        <div className="irid-content">
-          <div className="irid-top-row">
-            <span className="irid-index">#{String(index + 1).padStart(2, '0')}</span>
-            <span className="irid-co-badge" style={{ '--co': co }}>{msCoLabels[milestone.co]}</span>
-          </div>
-          <div className="irid-dot-row">
-            <span className="irid-dot" style={{ background: co }} />
-            <span className="irid-year">{milestone.role.split('·')[1]?.trim() || ''}</span>
-          </div>
-          <h3 className="irid-title">{milestone.title}</h3>
-          <p className="irid-desc">{milestone.desc}</p>
-          <div className="irid-tags">
-            {milestone.tags.map((t, i) => (
-              <span key={i} className="irid-tag" style={{ '--co': co }}>{t}</span>
-            ))}
-          </div>
-        </div>
-        <div className="irid-edge-glow" style={{
-          boxShadow: isHovering
-            ? `0 0 30px color-mix(in oklch, ${co}, transparent 60%),
-               0 20px 60px rgba(0,0,0,0.4),
-               inset 0 0 60px rgba(255,255,255,0.03)`
-            : '0 4px 20px rgba(0,0,0,0.3)',
-        }} />
-      </div>
-    </div>
-  );
+function centerBranchPath(bx, by) {
+  const cx = CENTER.x, cy = CENTER.y;
+  const cp1x = cx + (bx - cx) * 0.45;
+  const cp1y = cy;
+  const cp2x = bx;
+  const cp2y = cy + (by - cy) * 0.55;
+  return `M ${cx},${cy} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${bx},${by}`;
 }
 
-function IridescentMilestones() {
-  const d = SITE_DATA.milestones;
-  const [active, setActive] = useState(null);
-  const [filter, setFilter] = useState('all');
+function branchLeafPath(bx, by, lx, ly) {
+  const cp1x = bx + (lx - bx) * 0.6;
+  const cp1y = by;
+  const cp2x = lx;
+  const cp2y = by + (ly - by) * 0.4;
+  return `M ${bx},${by} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${lx},${ly}`;
+}
 
-  const filtered = filter === 'all' ? d : d.filter(m => m.co === filter);
+function shortenLeaf(title) {
+  if (title.length <= 28) return title;
+  return title.slice(0, 26).trimEnd() + '…';
+}
+
+function CareerMindMap() {
+  const [active, setActive] = useState(null);
+  const milestones = SITE_DATA.milestones;
+  const projects = SITE_DATA.projects || [];
+
+  // Build per-branch leaves: milestones filtered by `co`. The Creator branch
+  // is enriched with selected projects so it doesn't look visually thin.
+  const leavesByCo = {};
+  BRANCHES.forEach((b) => {
+    leavesByCo[b.co] = milestones.filter((m) => m.co === b.co);
+  });
+  const creatorExtras = projects
+    .filter((p) => p.title === 'GPTcommands' || p.title === 'The Daily Skill')
+    .map((p) => ({
+      title: p.title,
+      role: `Creator · ${p.type}`,
+      desc: p.desc,
+      tags: [p.type],
+      co: 'content',
+      external: p.link,
+    }));
+  leavesByCo.content = [...leavesByCo.content, ...creatorExtras];
+
+  const activeBranch = active !== null ? BRANCHES[active] : null;
+  const activeLeaves = activeBranch ? leavesByCo[activeBranch.co] : [];
+
+  const onToggle = (i) => setActive(active === i ? null : i);
 
   return (
-    <section id="milestones" className="milestones-section">
+    <section id="milestones" className="mind-section">
       <Reveal><span className="label">Journey</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Career Milestones</h2></Reveal>
-
-      <Reveal delay={0.1}>
-        <div className="irid-filters">
-          <button className={`irid-filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
-            All
-          </button>
-          {Object.entries(msCoLabels).map(([k, v]) => (
-            <button key={k}
-              className={`irid-filter-btn ${filter === k ? 'active' : ''}`}
-              onClick={() => setFilter(k)}
-              style={{ '--co': msCoColors[k] }}
-            >
-              <span className="irid-filter-dot" style={{ background: msCoColors[k] }} />
-              {v}
-            </button>
-          ))}
-        </div>
+      <Reveal delay={0.05}><h2 className="section-heading">Career Map</h2></Reveal>
+      <Reveal delay={0.08}>
+        <p className="mind-hint">Tap a company to open the milestones for that chapter.</p>
       </Reveal>
 
-      <div className="irid-grid">
-        {filtered.map((m, i) => {
-          const realIdx = d.indexOf(m);
-          return (
-            <Reveal key={realIdx} delay={i * 0.05}>
-              <IridescentCard
-                milestone={m}
-                index={realIdx}
-                isActive={active === realIdx}
-                onClick={() => setActive(active === realIdx ? null : realIdx)}
-              />
-            </Reveal>
-          );
-        })}
-      </div>
+      <Reveal delay={0.1}>
+        <div className="mind-wrap">
+          {/* Desktop: radial SVG */}
+          <div className="mind-radial" role="img" aria-labelledby="mind-caption">
+            <span id="mind-caption" className="mind-caption">
+              Career map: central node "Amit's Career" with five branches — Avangrid, Slalom, DHI Group, Creator, and webAI — each connected to its milestone leaves.
+            </span>
+            <svg
+              className="mind-svg"
+              viewBox="0 0 1000 560"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Center → branch connectors */}
+              {BRANCHES.map((b, i) => (
+                <path
+                  key={`c-${b.co}`}
+                  d={centerBranchPath(b.pos.x, b.pos.y)}
+                  className={`mind-path ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                  style={{ '--co': b.color }}
+                />
+              ))}
+              {/* Branch → leaf connectors */}
+              {BRANCHES.map((b, i) => {
+                const leaves = leavesByCo[b.co];
+                const lx = b.side === 'left' ? LEAF_X_LEFT : LEAF_X_RIGHT;
+                return leaves.map((_, j) => (
+                  <path
+                    key={`l-${b.co}-${j}`}
+                    d={branchLeafPath(b.pos.x, b.pos.y, lx, b.leafYs[j] ?? b.pos.y)}
+                    className={`mind-path mind-path--leaf ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                    style={{ '--co': b.color }}
+                  />
+                ));
+              })}
+
+              {/* Center pill */}
+              <foreignObject
+                x={CENTER.x - PILL_CENTER.w / 2}
+                y={CENTER.y - PILL_CENTER.h / 2}
+                width={PILL_CENTER.w}
+                height={PILL_CENTER.h}
+              >
+                <div xmlns="http://www.w3.org/1999/xhtml" className="mind-center">
+                  Amit's Career
+                </div>
+              </foreignObject>
+
+              {/* Branch pills */}
+              {BRANCHES.map((b, i) => (
+                <foreignObject
+                  key={`b-${b.co}`}
+                  x={b.pos.x - PILL_BRANCH.w / 2}
+                  y={b.pos.y - PILL_BRANCH.h / 2}
+                  width={PILL_BRANCH.w}
+                  height={PILL_BRANCH.h}
+                >
+                  <button
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    type="button"
+                    className={`mind-branch ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                    onClick={() => onToggle(i)}
+                    style={{ '--co': b.color }}
+                    aria-expanded={active === i}
+                    aria-controls="mind-detail-panel"
+                    aria-label={`${b.label}, ${b.range}, ${b.role}`}
+                  >
+                    {b.label}
+                  </button>
+                </foreignObject>
+              ))}
+
+              {/* Leaf pills */}
+              {BRANCHES.map((b, i) => {
+                const leaves = leavesByCo[b.co];
+                const lx = b.side === 'left' ? LEAF_X_LEFT : LEAF_X_RIGHT;
+                return leaves.map((m, j) => (
+                  <foreignObject
+                    key={`lf-${b.co}-${j}`}
+                    x={lx - PILL_LEAF.w / 2}
+                    y={(b.leafYs[j] ?? b.pos.y) - PILL_LEAF.h / 2}
+                    width={PILL_LEAF.w}
+                    height={PILL_LEAF.h}
+                  >
+                    <div
+                      xmlns="http://www.w3.org/1999/xhtml"
+                      className={`mind-leaf ${active === i ? 'active' : ''} ${active !== null && active !== i ? 'fade' : ''}`}
+                      style={{ '--co': b.color }}
+                      title={m.title}
+                    >
+                      {shortenLeaf(m.title)}
+                    </div>
+                  </foreignObject>
+                ));
+              })}
+            </svg>
+          </div>
+
+          {/* Mobile: vertical accordion */}
+          <div className="mind-vertical">
+            {BRANCHES.map((b, i) => (
+              <button
+                key={`mv-${b.co}`}
+                type="button"
+                className={`mind-vnode ${active === i ? 'active' : ''}`}
+                onClick={() => onToggle(i)}
+                style={{ '--co': b.color }}
+                aria-expanded={active === i}
+                aria-controls="mind-detail-panel"
+              >
+                <div className="mind-vnode-head">
+                  <span className="mind-vnode-name">{b.label}</span>
+                  <span className="mind-vnode-range">{b.range}</span>
+                </div>
+                <div className="mind-vnode-role">{b.role}</div>
+              </button>
+            ))}
+          </div>
+
+          {activeBranch && (
+            <div
+              id="mind-detail-panel"
+              className="mind-detail"
+              style={{ '--co': activeBranch.color }}
+            >
+              <div className="mind-detail-head">
+                <div>
+                  <div className="mind-detail-title">{activeBranch.label}</div>
+                  <div className="mind-detail-sub">{activeBranch.range} · {activeBranch.role}</div>
+                </div>
+                <button
+                  type="button"
+                  className="mind-detail-close"
+                  onClick={() => setActive(null)}
+                  aria-label="Close milestone detail"
+                >✕ Close</button>
+              </div>
+              <div className="mind-detail-grid">
+                {activeLeaves.map((m, j) => (
+                  <div key={j} className="mind-milestone">
+                    <h4>{m.title}</h4>
+                    <div className="mind-milestone-role">{m.role}</div>
+                    <p>{m.desc}</p>
+                    <div className="mind-milestone-tags">
+                      {m.tags.map((t, k) => (
+                        <span key={k} className="mind-mstag">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -404,27 +599,34 @@ function Projects() {
 // ─── Contact ───
 function Contact() {
   const s = SITE_DATA.social;
-  const links = [
+  const secondary = [
     { label: 'LinkedIn', href: s.linkedin },
     { label: 'YouTube', href: s.youtube },
-    { label: 'Medium', href: s.medium },
-    { label: 'The Daily Skill', href: s.dailyskill },
-    { label: 'Email', href: `mailto:${s.email}` }
+    { label: 'Medium', href: s.medium }
   ];
   return (
     <section id="contact" className="contact-section">
       <Reveal><span className="label">Connect</span></Reveal>
       <Reveal delay={0.05}><h2 className="section-heading">Let's Talk</h2></Reveal>
-      <Reveal delay={0.1}><p className="contact-sub">I'm exploring new opportunities and would love to connect about how I can help your team build a scalable, data-driven go-to-market operation.</p></Reveal>
+      <Reveal delay={0.1}>
+        <p className="contact-sub">
+          If your team needs someone to own the GTM operating system end to end — from Salesforce architecture to pipeline, forecasting, and AI-powered automation — book 15 minutes. No pitch, just a conversation about what you actually need.
+        </p>
+      </Reveal>
       <Reveal delay={0.15}>
+        <a href="/interview" className="btn-filled contact-primary-cta">Book a Call →</a>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <p className="contact-secondary-line">
+          Prefer email? <a href={`mailto:${s.email}`} className="contact-email-link" aria-label="Send Amit an email">Email me</a>
+        </p>
+      </Reveal>
+      <Reveal delay={0.25}>
         <div className="contact-links">
-          {links.map((l, i) => (
+          {secondary.map((l, i) => (
             <a key={i} href={l.href} target="_blank" rel="noopener" className="contact-chip">{l.label}</a>
           ))}
         </div>
-      </Reveal>
-      <Reveal delay={0.2}>
-        <a href="/interview" className="btn-filled" style={{ marginTop: '2rem', display: 'inline-flex' }}>Book a Call</a>
       </Reveal>
     </section>
   );
@@ -451,6 +653,35 @@ function Footer() {
   );
 }
 
+// ─── Case Studies (home preview) ───
+function CaseStudies() {
+  const d = SITE_DATA.caseStudies || [];
+  if (!d.length) return null;
+  return (
+    <section id="case-studies" className="case-studies-section">
+      <Reveal><span className="label">Selected Work</span></Reveal>
+      <Reveal delay={0.05}>
+        <div className="cs-heading-row">
+          <h2 className="section-heading" style={{ marginBottom: 0 }}>Case Studies</h2>
+          <a href="/case-studies" className="cs-view-all">View all →</a>
+        </div>
+      </Reveal>
+      <div className="cs-grid">
+        {d.map((c, i) => (
+          <Reveal key={c.slug} delay={0.08 + i * 0.06}>
+            <a href={`/${c.slug}`} className="cs-card">
+              <span className="cs-tag">{c.tag}</span>
+              <h3 className="cs-title">{c.title}</h3>
+              <p className="cs-blurb">{c.blurb}</p>
+              <span className="cs-arrow">Read the story →</span>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── App ───
 export default function App() {
   return (
@@ -459,10 +690,10 @@ export default function App() {
       <Nav />
       <Hero />
       <About />
+      <CaseStudies />
       <Experience />
-      <Skills />
       <Certifications />
-      <IridescentMilestones />
+      <CareerMindMap />
       <Projects />
       <Contact />
       <Footer />
