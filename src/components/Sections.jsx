@@ -65,48 +65,104 @@ function Nav() {
   );
 }
 
-// ─── Hero ───
+// ─── Hero (cinematic) ───
+const HERO_VIDEO_SRC = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_094145_4a271a6c-3869-4f1c-8aa7-aeb0cb227994.mp4";
+
+function IconSparkle(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" />
+    </svg>
+  );
+}
+function IconBriefcase(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M3 13h18" />
+    </svg>
+  );
+}
+function IconMapPin(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  );
+}
+function IconPlay(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+function IconArrow(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M5 12h14" />
+      <path d="M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 function Hero() {
   const d = SITE_DATA;
   return (
-    <section id="hero" className="hero">
-      <div className="hero-layout">
-        <div className="hero-inner">
-          <Reveal>
-            <div className="hero-badge">Open to opportunities</div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h1 className="hero-name">{d.name}</h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="hero-tagline">{d.tagline}</p>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <p className="hero-sub">{d.sub}</p>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <div className="hero-actions">
-              <a href="/interview" className="btn-filled">Book a Call</a>
-              <a href="#case-studies" className="btn-outline">See What I've Built</a>
-            </div>
-          </Reveal>
+    <section id="hero" className="hero-cinema">
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src={HERO_VIDEO_SRC} type="video/mp4" />
+      </video>
+      <div className="hero-blur-overlay" aria-hidden="true" />
+
+      <div className="hero-cinema-content">
+        <div className="hero-meta animate-blur-fade-up" style={{ animationDelay: '300ms' }}>
+          <span className="hero-meta-item">
+            <IconSparkle /> <span>8× Salesforce Certified</span>
+          </span>
+          <span className="hero-meta-item">
+            <IconBriefcase /> <span>10+ yrs Revenue Ops</span>
+          </span>
+          <span className="hero-meta-item">
+            <IconMapPin /> <span>Aubrey, TX</span>
+          </span>
         </div>
-        <Reveal delay={0.2} className="hero-portrait-wrap">
-          <div className="hero-portrait">
-            <img
-              src="/amit-headshot.png"
-              alt="Portrait of Amit Arora"
-              width="320"
-              height="320"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-        </Reveal>
-      </div>
-      <div className="hero-scroll-hint">
-        <span>Scroll</span>
-        <div className="scroll-line" />
+
+        <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
+          {d.name}
+        </h1>
+
+        <p className="hero-cinema-desc animate-blur-fade-up" style={{ animationDelay: '500ms' }}>
+          {d.tagline}
+        </p>
+
+        <div className="hero-cinema-actions">
+          <a
+            href="/interview"
+            className="btn-watch animate-blur-fade-up"
+            style={{ animationDelay: '600ms' }}
+          >
+            <IconPlay /> <span>Book a Call</span>
+          </a>
+          <a
+            href="#case-studies"
+            className="btn-learn liquid-glass animate-blur-fade-up"
+            style={{ animationDelay: '700ms' }}
+          >
+            <span>See What I've Built</span>
+            <IconArrow />
+          </a>
+        </div>
       </div>
     </section>
   );

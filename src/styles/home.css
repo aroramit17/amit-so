@@ -261,6 +261,175 @@
     }
     @keyframes scrollPulse { 0%,100% { opacity: 1; height: 48px; } 50% { opacity: 0.4; height: 32px; } }
 
+    /* ─── Cinematic Hero ─── */
+    @keyframes blurFadeUp {
+      from { opacity: 0; filter: blur(20px); transform: translateY(40px); }
+      to   { opacity: 1; filter: blur(0);    transform: translateY(0); }
+    }
+    .animate-blur-fade-up {
+      opacity: 0;
+      animation: blurFadeUp 1s ease-out forwards;
+    }
+
+    .liquid-glass {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      border: none;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.15) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.15) 80%,
+        rgba(255, 255, 255, 0.45) 100%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Override the global `section` max-width/padding rules so the hero fills the viewport. */
+    section.hero-cinema {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      background: #000;
+      isolation: isolate;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-blur-overlay {
+      position: absolute;
+      inset: 0;
+      -webkit-backdrop-filter: blur(24px);
+              backdrop-filter: blur(24px);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 45%);
+              mask-image: linear-gradient(to top, black 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-cinema-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(2.5rem, 6vw, 5.5rem);
+      color: #fff;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.82);
+      letter-spacing: 0.02em;
+    }
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 500;
+    }
+    .hero-meta-item svg { opacity: 0.85; }
+
+    .hero-cinema-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-size: clamp(3rem, 9vw, 6.75rem);
+      margin-bottom: 1.25rem;
+      color: #fff;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+    }
+    .hero-cinema-desc {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 36rem;
+      margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+    }
+    .hero-cinema-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+    }
+    .btn-watch,
+    .btn-learn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+    }
+    .btn-watch {
+      background: #fff;
+      color: #0a0a0a;
+    }
+    .btn-watch:hover { background: #e5e5e5; transform: translateY(-1px); }
+    .btn-watch svg { fill: #0a0a0a; }
+
+    .btn-learn {
+      color: #fff;
+    }
+    .btn-learn:hover { transform: translateY(-1px); }
+    .btn-learn svg { transition: transform 0.25s ease; }
+    .btn-learn:hover svg { transform: translateX(3px); }
+
+    @media (max-width: 640px) {
+      .hero-meta { font-size: 0.78rem; gap: 0.75rem 1.15rem; }
+      .btn-watch, .btn-learn { padding: 0.7rem 1.25rem; font-size: 0.88rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-blur-fade-up {
+        animation: none;
+        opacity: 1;
+        filter: none;
+        transform: none;
+      }
+    }
+
     /* ─── About ─── */
     .about-section { border-top: 1px solid var(--rule); }
     .about-inner {
