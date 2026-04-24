@@ -375,13 +375,17 @@
     @media (max-width: 900px) {
       .hero-cinema-content {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
+        gap: 1.5rem;
       }
+      .hero-cinema-left { order: 1; }
       .hero-cinema-portrait {
-        order: -1;
+        order: 2;
         justify-self: start;
-        max-width: 200px;
+        max-width: 180px;
       }
+      /* Shift the video so the cloud animation on the side of the frame
+         is visible in portrait viewports (the center is the cliff gap). */
+      .hero-video { object-position: 72% center; }
     }
     .hero-meta {
       display: flex;
