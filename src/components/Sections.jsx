@@ -126,42 +126,58 @@ function Hero() {
       <div className="hero-blur-overlay" aria-hidden="true" />
 
       <div className="hero-cinema-content">
-        <div className="hero-meta animate-blur-fade-up" style={{ animationDelay: '300ms' }}>
-          <span className="hero-meta-item">
-            <IconSparkle /> <span>8× Salesforce Certified</span>
-          </span>
-          <span className="hero-meta-item">
-            <IconBriefcase /> <span>10+ yrs Revenue Ops</span>
-          </span>
-          <span className="hero-meta-item">
-            <IconMapPin /> <span>Aubrey, TX</span>
-          </span>
+        <div className="hero-cinema-left">
+          <div className="hero-meta animate-blur-fade-up" style={{ animationDelay: '300ms' }}>
+            <span className="hero-meta-item">
+              <IconSparkle /> <span>8× Salesforce Certified</span>
+            </span>
+            <span className="hero-meta-item">
+              <IconBriefcase /> <span>10+ yrs Revenue Ops</span>
+            </span>
+            <span className="hero-meta-item">
+              <IconMapPin /> <span>Aubrey, TX</span>
+            </span>
+          </div>
+
+          <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
+            {d.name}
+          </h1>
+
+          <p className="hero-cinema-desc animate-blur-fade-up" style={{ animationDelay: '500ms' }}>
+            {d.tagline}
+          </p>
+
+          <div className="hero-cinema-actions">
+            <a
+              href="/interview"
+              className="btn-watch animate-blur-fade-up"
+              style={{ animationDelay: '600ms' }}
+            >
+              <IconPlay /> <span>Book a Call</span>
+            </a>
+            <a
+              href="#case-studies"
+              className="btn-learn liquid-glass animate-blur-fade-up"
+              style={{ animationDelay: '700ms' }}
+            >
+              <span>See What I've Built</span>
+              <IconArrow />
+            </a>
+          </div>
         </div>
 
-        <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
-          {d.name}
-        </h1>
-
-        <p className="hero-cinema-desc animate-blur-fade-up" style={{ animationDelay: '500ms' }}>
-          {d.tagline}
-        </p>
-
-        <div className="hero-cinema-actions">
-          <a
-            href="/interview"
-            className="btn-watch animate-blur-fade-up"
-            style={{ animationDelay: '600ms' }}
-          >
-            <IconPlay /> <span>Book a Call</span>
-          </a>
-          <a
-            href="#case-studies"
-            className="btn-learn liquid-glass animate-blur-fade-up"
-            style={{ animationDelay: '700ms' }}
-          >
-            <span>See What I've Built</span>
-            <IconArrow />
-          </a>
+        <div
+          className="hero-cinema-portrait animate-blur-fade-up"
+          style={{ animationDelay: '450ms' }}
+        >
+          <img
+            src="/amit-headshot.png"
+            alt="Portrait of Amit Arora"
+            width="520"
+            height="520"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
       </div>
     </section>
