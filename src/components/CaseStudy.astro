@@ -1,5 +1,6 @@
 ---
 import FlowDiagram from './FlowDiagram.astro';
+import SITE_DATA from '../data/site.js';
 
 export interface Props {
   study: {
@@ -28,7 +29,7 @@ const { study } = Astro.props;
 <div class="grain"></div>
 
 <nav>
-  <a href="/" class="nav-brand">amit.so</a>
+  <a href="/" class="nav-brand">{SITE_DATA.domain}</a>
   <a href="/case-studies" class="nav-back">&larr; All case studies</a>
 </nav>
 
@@ -89,5 +90,5 @@ const { study } = Astro.props;
 </main>
 
 <footer>
-  &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/case-studies">Case Studies</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  &copy; {SITE_DATA.copyrightYear} {SITE_DATA.name} &middot; <a href="/">{SITE_DATA.domain}</a> &middot; <a href="/case-studies">Case Studies</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
 </footer>

@@ -1,88 +1,102 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SITE_DATA from '../data/site.js';
 import '../styles/interview.css';
+
+const siteUrl = `https://${SITE_DATA.domain}`;
+const calLink = SITE_DATA.calLink || '';
+const calNamespace = (calLink.split('/')[1] || 'intro').replace(/[^a-z0-9-]/gi, '-');
+const firstName = SITE_DATA.name.split(' ')[0];
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "ContactPage",
-      "name": "Book an interview with Amit Arora",
-      "url": "https://amit.so/interview",
-      "description": "Book a 15-minute interview with Amit Arora — 8x Salesforce Certified Revenue Operations leader and Claude Code Coach. Pick a time that works for you.",
+      "name": `Book a call with ${SITE_DATA.name}`,
+      "url": `${siteUrl}/interview`,
+      "description": SITE_DATA.interviewLede,
       "isPartOf": {
         "@type": "WebSite",
-        "name": "Amit Arora",
-        "url": "https://amit.so"
+        "name": SITE_DATA.name,
+        "url": siteUrl
       }
     },
     {
       "@type": "Person",
-      "name": "Amit Arora",
-      "url": "https://amit.so",
-      "image": "https://amit.so/amit-headshot.png",
-      "jobTitle": "Revenue Operations Leader & Claude Code Coach",
+      "name": SITE_DATA.name,
+      "url": siteUrl,
+      "image": `${siteUrl}/headshot.png`,
+      "jobTitle": SITE_DATA.experience?.[0]?.role || "",
       "sameAs": [
-        "https://linkedin.com/in/amit-arora17",
-        "https://youtube.com/@ai-withamit"
-      ]
+        SITE_DATA.social?.linkedin,
+        SITE_DATA.social?.youtube
+      ].filter(Boolean)
     }
   ]
 });
 ---
 <BaseLayout
-  title="Book an interview with Amit Arora | Amit Arora"
-  description="Book a 15-minute interview with Amit Arora — 8x Salesforce Certified Revenue Operations leader and Claude Code Coach. Pick a time that works for you."
-  canonical="https://amit.so/interview"
+  title={`Book a call with ${SITE_DATA.name}`}
+  description={SITE_DATA.interviewLede}
+  canonical={`${siteUrl}/interview`}
   jsonLd={jsonLd}
   showFloatingCta={false}
 >
   <div class="grain"></div>
 
   <nav>
-    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-brand">{SITE_DATA.domain}</a>
     <a href="/" class="nav-back">&larr; Back to Portfolio</a>
   </nav>
 
   <main>
-    <div class="interview-badge fade-up">Open to opportunities</div>
+    {SITE_DATA.interviewBadge && (
+      <div class="interview-badge fade-up">{SITE_DATA.interviewBadge}</div>
+    )}
 
-    <h1 class="fade-up">Book a call with Amit</h1>
+    <h1 class="fade-up">Book a call with {firstName}</h1>
 
-    <p class="interview-lede fade-up">
-      If you&rsquo;d like to interview me, feel free to book a time below that works best for you. 15 minutes, no prep on your end &mdash; we&rsquo;ll talk about the role, you can ask anything about my background, and we&rsquo;ll see if it&rsquo;s a fit worth taking further.
-    </p>
+    <p class="interview-lede fade-up">{SITE_DATA.interviewLede}</p>
 
-    <div class="cal-embed-wrap fade-up">
-      <div id="my-cal-inline-interview-amit"></div>
-    </div>
+    {calLink && (
+      <div class="cal-embed-wrap fade-up">
+        <div id={`my-cal-inline-${calNamespace}`}></div>
+      </div>
+    )}
 
     <div class="interview-body fade-up">
       <h2 class="interview-h2">Who you&rsquo;d be talking to</h2>
-      <p>10+ years in Revenue Operations, GTM strategy, and Salesforce consulting. Most recently stood up the RevOps function from scratch at a VC-backed AI startup (webAI). Before that, led Business Systems at <strong>DHI Group</strong> &mdash; +25% forecasting accuracy and the dashboards leadership used for board reporting &mdash; and delivered enterprise Salesforce at <strong>Slalom</strong> in Financial Services with a 98% client satisfaction rating.</p>
-
-      <p><strong>8&times; Salesforce Certified</strong>. Deep hands-on experience across HubSpot, Clay, Tableau, and modern AI automation tools. I also run <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener"><strong>&ldquo;AI with Amit&rdquo;</strong></a>, teaching real-world AI workflow automation for GTM teams.</p>
+      {(SITE_DATA.interviewBody || []).map((p) => <p set:html={p} />)}
     </div>
 
     <div class="social-links fade-up">
-      <a href="https://www.linkedin.com/in/amit-arora17/" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
-      <a href="https://www.youtube.com/@ai-withamit" target="_blank" rel="noopener" class="social-link">YouTube</a>
-      <a href="mailto:me@amit.so" class="social-link" aria-label="Send Amit an email">Email Me</a>
+      {SITE_DATA.social?.linkedin && (
+        <a href={SITE_DATA.social.linkedin} target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+      )}
+      {SITE_DATA.social?.youtube && (
+        <a href={SITE_DATA.social.youtube} target="_blank" rel="noopener" class="social-link">YouTube</a>
+      )}
+      {SITE_DATA.contactEmail && (
+        <a href={`mailto:${SITE_DATA.contactEmail}`} class="social-link" aria-label={`Send ${SITE_DATA.name} an email`}>Email Me</a>
+      )}
     </div>
   </main>
 
   <footer>
-    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+    &copy; {SITE_DATA.copyrightYear} {SITE_DATA.name} &middot; <a href="/">{SITE_DATA.domain}</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
   </footer>
 
-  <script is:inline type="text/javascript">
-    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-    Cal("init", "interview-amit", {origin:"https://app.cal.com"});
-    Cal.ns["interview-amit"]("inline", {
-      elementOrSelector: "#my-cal-inline-interview-amit",
-      config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-      calLink: "amit-arora/interview-amit",
-    });
-    Cal.ns["interview-amit"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-  </script>
+  {calLink && (
+    <script is:inline define:vars={{ calLink, calNamespace }} type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", calNamespace, {origin:"https://app.cal.com"});
+      Cal.ns[calNamespace]("inline", {
+        elementOrSelector: "#my-cal-inline-" + calNamespace,
+        config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+        calLink: calLink,
+      });
+      Cal.ns[calNamespace]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    </script>
+  )}
 </BaseLayout>

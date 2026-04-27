@@ -4,36 +4,38 @@ import SITE_DATA from '../data/site.js';
 import '../styles/case-study.css';
 
 const caseStudies = SITE_DATA.caseStudies || [];
+const siteUrl = `https://${SITE_DATA.domain}`;
+const description = `Selected case studies from ${SITE_DATA.name}'s work — each with context, approach, and outcomes.`;
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "Case Studies",
-  "url": "https://amit.so/case-studies",
-  "description": "Selected case studies from Amit Arora's Revenue Operations and GTM engineering work — each with context, approach, and outcomes.",
+  "url": `${siteUrl}/case-studies`,
+  "description": description,
   "isPartOf": {
     "@type": "WebSite",
-    "name": "Amit Arora",
-    "url": "https://amit.so"
+    "name": SITE_DATA.name,
+    "url": siteUrl
   },
   "hasPart": caseStudies.map((c) => ({
     "@type": "CreativeWork",
     "name": c.title,
-    "url": `https://amit.so/${c.slug}`,
+    "url": `${siteUrl}/${c.slug}`,
     "about": c.tag
   }))
 });
 ---
 <BaseLayout
-  title="Case Studies | Amit Arora"
-  description="Selected case studies from Amit Arora's Revenue Operations and GTM engineering work — each with the context, approach, and outcomes."
-  canonical="https://amit.so/case-studies"
+  title={`Case Studies | ${SITE_DATA.name}`}
+  description={description}
+  canonical={`${siteUrl}/case-studies`}
   jsonLd={jsonLd}
 >
   <div class="grain"></div>
 
   <nav>
-    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-brand">{SITE_DATA.domain}</a>
     <a href="/" class="nav-back">&larr; Back to Portfolio</a>
   </nav>
 
@@ -55,12 +57,12 @@ const jsonLd = JSON.stringify({
 
     <div class="cs-cta">
       <h3>Have a similar problem?</h3>
-      <p>If any of these engagements map to work you're scoping — in RevOps, GTM engineering, or Claude Code workflows — let's talk.</p>
+      <p>If any of these engagements map to work you're scoping, let's talk.</p>
       <a href="/interview" class="cs-cta-btn">Book a Call &rarr;</a>
     </div>
   </main>
 
   <footer>
-    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+    &copy; {SITE_DATA.copyrightYear} {SITE_DATA.name} &middot; <a href="/">{SITE_DATA.domain}</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
   </footer>
 </BaseLayout>

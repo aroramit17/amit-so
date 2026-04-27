@@ -1,4 +1,4 @@
-# amit.so — robots.txt
+# robots.txt — replace example.com with your domain
 
 User-agent: *
 Allow: /
@@ -26,4 +26,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://amit.so/sitemap.xml
+Sitemap: https://example.com/sitemap.xml

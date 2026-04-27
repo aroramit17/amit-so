@@ -1,8 +1,10 @@
 {
-  "name": "amit-so",
+  "name": "1-page-portfolio",
   "type": "module",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
+  "description": "A one-page personal site template (Astro). Drop your resume in, run a Claude Code prompt, ship a bot-readable, SEO-ready site to Vercel.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

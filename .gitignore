@@ -23,3 +23,10 @@ pnpm-debug.log*
 
 # astro
 .astro/
+
+# Claude Code local settings (per-user, not for the template)
+.claude/settings.local.json
+
+# Personal resume input (forkers drop their resume here for /populate-from-resume)
+input/*
+!input/README.md

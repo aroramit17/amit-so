@@ -1,4 +1,6 @@
 ---
+import SITE_DATA from '../data/site.js';
+
 export interface Props {
   title: string;
   description: string;
@@ -14,7 +16,7 @@ const {
   description,
   canonical,
   ogType = 'website',
-  ogImage = 'https://amit.so/amit-headshot.png',
+  ogImage = `https://${SITE_DATA.domain}/headshot.png`,
   jsonLd,
   showFloatingCta = true,
 } = Astro.props;

@@ -1,44 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import App from '../components/Sections.jsx';
+import SITE_DATA from '../data/site.js';
 import '../styles/home.css';
+
+const siteUrl = `https://${SITE_DATA.domain}`;
+const [city, region] = (SITE_DATA.location || '').split(',').map(s => s.trim());
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Amit Arora",
-  "url": "https://amit.so",
-  "image": "https://amit.so/amit-headshot.png",
-  "jobTitle": "Revenue Operations Leader & Claude Code Coach",
-  "description": "Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace Clay, n8n, and Zapier stacks with Claude Code workflows.",
-  "address": {
+  "name": SITE_DATA.name,
+  "url": siteUrl,
+  "image": `${siteUrl}/headshot.png`,
+  "jobTitle": SITE_DATA.experience?.[0]?.role || "",
+  "description": SITE_DATA.sub,
+  "address": city ? {
     "@type": "PostalAddress",
-    "addressLocality": "Aubrey",
-    "addressRegion": "TX",
+    "addressLocality": city,
+    "addressRegion": region || "",
     "addressCountry": "US"
-  },
+  } : undefined,
   "sameAs": [
-    "https://linkedin.com/in/amit-arora17",
-    "https://youtube.com/@ai-withamit",
-    "https://medium.com/gptcommands",
-    "https://github.com/aroramit17"
-  ],
-  "knowsAbout": [
-    "Revenue Operations",
-    "Go-to-Market Strategy",
-    "Salesforce Architecture",
-    "Claude Code",
-    "AI Workflow Automation",
-    "HubSpot",
-    "Clay",
-    "n8n"
-  ]
+    SITE_DATA.social?.linkedin,
+    SITE_DATA.social?.youtube,
+    SITE_DATA.social?.medium
+  ].filter(Boolean)
 });
+
+const pageTitle = `${SITE_DATA.name} — ${SITE_DATA.tagline}`;
 ---
 <BaseLayout
-  title="Amit Arora — Revenue Operations Leader & Claude Code Coach"
-  description="Amit Arora — Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace Clay, n8n, and Zapier stacks with Claude Code workflows."
-  canonical="https://amit.so/"
+  title={pageTitle}
+  description={SITE_DATA.sub}
+  canonical={`${siteUrl}/`}
   jsonLd={jsonLd}
 >
   <App client:load />

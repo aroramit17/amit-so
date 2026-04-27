@@ -1,35 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SITE_DATA from '../data/site.js';
 import '../styles/privacy.css';
+
+const siteUrl = `https://${SITE_DATA.domain}`;
+const description = `Privacy Policy for ${SITE_DATA.domain} — how cookies, tracking technologies, and online data partners are used on this site, and how visitors can opt out.`;
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Privacy Policy",
-  "url": "https://amit.so/privacy",
-  "description": "Privacy Policy for amit.so — how cookies, tracking technologies, and online data partners are used on this site, and how visitors can opt out.",
+  "url": `${siteUrl}/privacy`,
+  "description": description,
   "isPartOf": {
     "@type": "WebSite",
-    "name": "Amit Arora",
-    "url": "https://amit.so"
+    "name": SITE_DATA.name,
+    "url": siteUrl
   },
   "about": {
     "@type": "Person",
-    "name": "Amit Arora",
-    "url": "https://amit.so"
+    "name": SITE_DATA.name,
+    "url": siteUrl
   }
 });
 ---
 <BaseLayout
-  title="Privacy Policy | Amit Arora"
-  description="Privacy Policy for amit.so — how cookies, tracking technologies, and online data partners are used on this site, and how visitors can opt out."
-  canonical="https://amit.so/privacy"
+  title={`Privacy Policy | ${SITE_DATA.name}`}
+  description={description}
+  canonical={`${siteUrl}/privacy`}
   jsonLd={jsonLd}
 >
   <div class="grain"></div>
 
   <nav>
-    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-brand">{SITE_DATA.domain}</a>
     <a href="/" class="nav-back">&larr; Back to Portfolio</a>
   </nav>
 
@@ -38,7 +42,7 @@ const jsonLd = JSON.stringify({
     <h1>Privacy Policy</h1>
     <p class="updated">Last updated: April 23, 2026</p>
 
-    <p>This Privacy Policy describes how information is collected when you visit <strong>amit.so</strong> (the &ldquo;Site&rdquo;). By using the Site, you agree to the practices described below.</p>
+    <p>This Privacy Policy describes how information is collected when you visit <strong>{SITE_DATA.domain}</strong> (the &ldquo;Site&rdquo;). By using the Site, you agree to the practices described below.</p>
 
     <h2>Cookie Consent</h2>
     <p>When you first visit the Site, a banner asks whether you accept the use of cookies and similar analytics technologies. Nothing described in the sections below loads until you click <strong>Accept</strong>. If you click <strong>Decline</strong>, the Site continues to function normally without loading any third-party analytics or identification scripts.</p>
@@ -52,10 +56,10 @@ const jsonLd = JSON.stringify({
     <p>When you visit the Site, cookies and similar technologies may be used by our online data partners or vendors to associate these activities with other personal information they or others have about you, including by association with your email. We (or service providers on our behalf) may then send communications and marketing to these email addresses. You may opt out of receiving this advertising by visiting <a class="inline" href="https://app.retention.com/optout" target="_blank" rel="noopener">https://app.retention.com/optout</a>.</p>
 
     <h2>Contact</h2>
-    <p>For questions about this Privacy Policy or how your data is handled, reach out at <a class="inline" href="mailto:me@amit.so">me@amit.so</a>.</p>
+    <p>For questions about this Privacy Policy or how your data is handled, reach out at <a class="inline" href={`mailto:${SITE_DATA.contactEmail}`}>{SITE_DATA.contactEmail}</a>.</p>
   </main>
 
   <footer>
-    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+    &copy; {SITE_DATA.copyrightYear} {SITE_DATA.name} &middot; <a href="/">{SITE_DATA.domain}</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
   </footer>
 </BaseLayout>

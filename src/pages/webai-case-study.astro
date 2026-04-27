@@ -7,7 +7,8 @@ import '../styles/case-study.css';
 const study = SITE_DATA.caseStudies.find((c) => c.slug === 'webai-case-study');
 if (!study) throw new Error('Missing webai-case-study entry in SITE_DATA.caseStudies');
 
-const url = `https://amit.so/${study.slug}`;
+const siteUrl = `https://${SITE_DATA.domain}`;
+const url = `${siteUrl}/${study.slug}`;
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -18,23 +19,23 @@ const jsonLd = JSON.stringify({
   "about": study.tag,
   "author": {
     "@type": "Person",
-    "name": "Amit Arora",
-    "url": "https://amit.so"
+    "name": SITE_DATA.name,
+    "url": siteUrl
   },
   "publisher": {
     "@type": "Person",
-    "name": "Amit Arora",
-    "url": "https://amit.so"
+    "name": SITE_DATA.name,
+    "url": siteUrl
   },
   "isPartOf": {
     "@type": "CollectionPage",
     "name": "Case Studies",
-    "url": "https://amit.so/case-studies"
+    "url": `${siteUrl}/case-studies`
   }
 });
 ---
 <BaseLayout
-  title={`${study.title} | Case Study | Amit Arora`}
+  title={`${study.title} | Case Study | ${SITE_DATA.name}`}
   description={study.blurb}
   canonical={url}
   ogType="article"

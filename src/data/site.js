@@ -1,209 +1,237 @@
+// ============================================================================
+// site.js — your personal site config
+// ----------------------------------------------------------------------------
+// This is the only file you need to edit to make this template yours.
+// Everything else (pages, components, styling) reads from here.
+//
+// Quick start:
+//   1. Replace the placeholder values below with your own.
+//   2. Replace public/headshot.png with your portrait.
+//   3. Update astro.config.mjs `site` URL to your domain.
+//   4. Update public/sitemap.xml, public/robots.txt, public/llms.txt with your domain.
+//
+// Or: drop your resume in /input/resume.pdf and run `/populate-from-resume`
+// in Claude Code to have this file filled out for you.
+// ============================================================================
+
 const SITE_DATA = {
-  name: "Amit Arora",
-  tagline: "I build the GTM operating system your revenue team is missing.",
-  sub: "10+ years designing Salesforce architecture, pipeline and forecasting frameworks, and AI-powered workflows — for Series A startups through public companies. 8× Salesforce Certified.",
-  about: [
-    "Your revenue data is in five places and nobody trusts the forecast. Your pipeline looks healthy on the dashboard but stalls in the board meeting. Sales, Marketing, CS, and Finance each have their own definition of a qualified deal. That is the work I come in and fix.",
-    "Deep fluency across Salesforce, HubSpot, Clay, and the modern AI/automation stack — combined with the cross-functional program leadership to align Sales, Marketing, CS, and Finance around one GTM operating model.",
-    "10+ years of track record: +25% forecasting accuracy at DHI Group, 98% client satisfaction across enterprise Salesforce delivery at Slalom, a $750K CRM migration at Avangrid, and the first RevOps function stood up from scratch at a VC-backed AI startup. Honest numbers that board meetings get run on."
+  // --- Basics ---------------------------------------------------------------
+  name: "Jane Doe",
+  domain: "example.com",
+  tagline: "I help [target audience] solve [the specific problem you solve].",
+  sub: "One-to-two sentence summary of what you do, who you help, and the credentials that back it up. Keep it specific and concrete.",
+  location: "Your City, ST",
+  contactEmail: "you@example.com",
+  // Cal.com booking link in the format "username/event-type".
+  // The /interview page embeds this. Leave blank to hide the embed.
+  calLink: "your-handle/intro-call",
+  copyrightYear: 2026,
+
+  // --- Contact section copy ------------------------------------------------
+  contactBlurb: "If your team needs someone to own [the work you do] end to end, book 15 minutes. No pitch, just a conversation about what you actually need.",
+
+  // --- Interview / booking page copy ---------------------------------------
+  interviewBadge: "Open to opportunities",
+  interviewLede: "If you'd like to interview me, feel free to book a time below that works best for you. 15 minutes, no prep on your end — we'll talk about the role, you can ask anything about my background, and we'll see if it's a fit worth taking further.",
+  interviewBody: [
+    "Two-to-three sentences on your background, focus areas, and the kind of work you've shipped. Mention specific employers or programs that signal credibility for the role.",
+    "One sentence on credentials, fluency with key tools, and any audience-building you do (newsletter, YouTube, talks). Keep it tight — the booking widget is the point of the page."
   ],
+
+  // --- Hero badges (rendered next to the hero headline) -------------------
+  // Each item is `{ icon, text }`. `icon` must be one of: "sparkle", "briefcase", "mapPin".
+  heroMeta: [
+    { icon: "sparkle",   text: "5× Certified" },
+    { icon: "briefcase", text: "10+ yrs Experience" },
+    { icon: "mapPin",    text: "Your City, ST" }
+  ],
+
+  // --- About paragraphs (rendered in the About section) ---------------------
+  about: [
+    "Lead paragraph: the problem your audience has, in their own words. State it specifically. This is the line that earns the next ten seconds of their attention.",
+    "Middle paragraph: your fluency — the tools, methods, and domains you can move across. Make it concrete (named tools, named methodologies).",
+    "Closing paragraph: track record. Two or three quantified wins from real work. Honest numbers beat round numbers."
+  ],
+
+  // --- Stat tiles below the hero -------------------------------------------
   stats: [
     { number: "10+", label: "Years of Experience" },
-    { number: "8×", label: "Salesforce Certified" },
-    { number: "25%", label: "Forecast Accuracy Gain" },
-    { number: "A – B", label: "Series A–B Startup Experience" }
+    { number: "5×", label: "Certified" },
+    { number: "30%", label: "Quantified Outcome" },
+    { number: "B2B", label: "Industry / Segment" }
   ],
+
+  // --- Skill cards ---------------------------------------------------------
   skills: [
     {
-      title: "Program Strategy & Ownership",
-      desc: "End-to-end program leadership, client objective alignment, structured delivery, and outcome accountability.",
-      tags: ["Program Leadership", "Delivery", "Accountability"]
+      title: "Skill Area One",
+      desc: "One-line description of the skill area and how it shows up in your work.",
+      tags: ["Tag", "Tag", "Tag"]
     },
     {
-      title: "Executive Storytelling",
-      desc: "Board-ready reporting, translating GTM and technical concepts into actionable direction for senior stakeholders.",
-      tags: ["Board Reporting", "Data Viz", "Stakeholders"]
+      title: "Skill Area Two",
+      desc: "One-line description.",
+      tags: ["Tag", "Tag"]
     },
     {
-      title: "GTM Transformation",
-      desc: "Sales process design, lifecycle stages, lead routing, pipeline and forecast frameworks, and deal velocity optimization.",
-      tags: ["Pipeline", "Forecasting", "Lead Routing"]
+      title: "Skill Area Three",
+      desc: "One-line description.",
+      tags: ["Tag", "Tag", "Tag"]
     },
     {
-      title: "Cross-Functional Collaboration",
-      desc: "Aligning Sales, Marketing, CS, and Finance teams with stakeholder management across programs and accounts.",
-      tags: ["Sales", "Marketing", "CS", "Finance"]
+      title: "Skill Area Four",
+      desc: "One-line description.",
+      tags: ["Tag", "Tag"]
     },
     {
-      title: "AI & Automation",
-      desc: "Building and teaching real-world AI workflow automation with LLMs, AI agents, and modern automation platforms.",
-      tags: ["Clay", "n8n", "Claude Code", "AI Agents"]
+      title: "Skill Area Five",
+      desc: "One-line description.",
+      tags: ["Tag", "Tag", "Tag"]
     },
     {
-      title: "Revenue Technology",
-      desc: "Deep expertise across the modern revenue tech stack powering GTM operations at scale.",
-      tags: ["Salesforce", "HubSpot", "Apollo", "Tableau"]
+      title: "Skill Area Six",
+      desc: "One-line description.",
+      tags: ["Tag", "Tag"]
     }
   ],
+
+  // --- Experience timeline -------------------------------------------------
+  // `co` is a short identifier (used for color coding); pick anything unique.
+  // `color` controls the accent color in the timeline UI.
   experience: [
     {
-      company: "webAI, Inc.",
-      dates: "Mar 2025 — Apr 2026",
-      role: "Revenue Operations Manager",
-      summary: "Stood up the RevOps function from scratch at a VC-backed AI startup. Owned the HubSpot → Salesforce transition, built a closed-loop ICP scoring engine (HubSpot + Clay + Apify + Claude) that enriches and routes every inbound lead the same day, and designed the pipeline taxonomy, forecasting logic, and executive reporting that Sales and Finance now run on.",
+      company: "Most Recent Employer",
+      dates: "Mmm YYYY — Present",
+      role: "Your Title",
+      summary: "Two-to-three-sentence summary of what you owned, what you shipped, and the outcome. Lead with verbs and quantified results.",
       categories: [
         {
-          name: "Revenue Operations & Automation",
+          name: "Category of Work",
           items: [
-            "Designed custom NDA workflow in Salesforce integrating DocuSign and Slack, reducing legal turnaround time.",
-            "Built end-to-end Salesforce automation (Flows + validation logic) to standardize opportunity naming and enforce pipeline hygiene.",
-            "Created Slack-integrated workflows enabling real-time deal alerts and cross-functional visibility."
+            "Specific accomplishment with a verb at the front and a number where possible.",
+            "Another specific accomplishment.",
+            "A third one — keep these to one line each."
           ]
         },
         {
-          name: "AI-Powered GTM Systems",
+          name: "Another Category",
           items: [
-            "Architected an AI-driven outbound engine leveraging Clay, n8n, Instantly, and HeyReach for multi-channel outreach at scale.",
-            "Developed structured AI personalization frameworks (JSON-based) improving reply rates and outbound efficiency.",
-            "Built AI-assisted research workflows within HubSpot for instant company insights."
-          ]
-        },
-        {
-          name: "Pipeline & Forecasting",
-          items: [
-            "Introduced new pipeline stage taxonomy (MQL → Qualified) and aligned reporting across Salesforce and Tableau.",
-            "Built logic for identifying 'At-Risk' deals based on time-to-close and stage progression.",
-            "Enhanced reporting with multi-stage segmentation for executive-level decision making."
+            "Specific accomplishment.",
+            "Another specific accomplishment."
           ]
         }
       ],
       color: "#e8657a"
     },
     {
-      company: "DHI Group Inc",
-      dates: "Oct 2021 — Jul 2024",
-      role: "Director, Business Systems",
-      summary: "Owned the full GTM tech stack (Salesforce, HubSpot, Clay) and led a Classic → Lightning migration while re-engineering the lead-to-cash process. Built pipeline and forecasting frameworks from scratch — +25% forecasting accuracy and the board dashboards leadership actually used.",
+      company: "Previous Employer",
+      dates: "Mmm YYYY — Mmm YYYY",
+      role: "Your Title",
+      summary: "Summary paragraph.",
       categories: [
         {
-          name: "GTM Tech Stack Ownership",
+          name: "Category of Work",
           items: [
-            "Owned and managed the full revenue tech stack — Salesforce, HubSpot, and Clay — ensuring seamless data flow.",
-            "Served as strategic bridge between business stakeholders and technical teams.",
-            "Evaluated, selected, and integrated new tools into the GTM ecosystem."
-          ]
-        },
-        {
-          name: "Pipeline & Forecasting",
-          items: [
-            "Designed pipeline, forecasting, and lifecycle tracking frameworks from scratch, improving accuracy by 25%.",
-            "Defined lead routing rules, lifecycle stages, and handoff protocols between Marketing, SDR, and Sales.",
-            "Aligned compensation structures with lifecycle stages in partnership with Finance."
-          ]
-        },
-        {
-          name: "Executive Reporting",
-          items: [
-            "Built automated executive dashboards visualizing CAC, LTV, ARR, and funnel metrics.",
-            "Supported executive business reviews and board reporting through data-backed storytelling.",
-            "Improved cross-team alignment via shared KPI frameworks."
+            "Specific accomplishment.",
+            "Specific accomplishment."
           ]
         }
       ],
       color: "#9b87f5"
     },
     {
-      company: "Slalom LLC",
-      dates: "May 2018 — Oct 2021",
-      role: "Salesforce Consultant",
-      summary: "Delivered enterprise Salesforce solutions in Financial Services — 98% client satisfaction, 95% project success rate, and Sales/Service/Community Cloud certifications earned on the job. Primary client point of contact on multi-cloud programs.",
+      company: "Earlier Employer",
+      dates: "Mmm YYYY — Mmm YYYY",
+      role: "Your Title",
+      summary: "Summary paragraph.",
       categories: [
         {
-          name: "Enterprise Delivery",
+          name: "Category of Work",
           items: [
-            "Led cross-functional teams to a 95% project success rate and 98% client satisfaction rating.",
-            "Became primary client point of contact, building trusted executive relationships in Financial Services.",
-            "Earned Sales Cloud, Service Cloud, and Community Cloud certifications."
+            "Specific accomplishment."
           ]
         }
       ],
       color: "#5b9cf5"
-    },
-    {
-      company: "Avangrid",
-      dates: "Jun 2015 — May 2018",
-      role: "Sr. Salesforce Administrator",
-      summary: "Owned CRM operations across the energy portfolio. Led a $750K Salesforce migration for two gas corporations — +30% operational efficiency — and established the foundational admin practices the org still runs on.",
-      categories: [
-        {
-          name: "CRM Operations",
-          items: [
-            "Led a $750K Salesforce migration for two gas corporations, enhancing operational efficiency by 30%.",
-            "Took ownership of CRM operations across the energy portfolio.",
-            "Established foundational Salesforce administration practices."
-          ]
-        }
-      ],
-      color: "#5bdb82"
     }
   ],
+
+  // --- Certifications (just strings, rendered as a list) -------------------
   certifications: [
-    "Salesforce Administrator",
-    "Advanced Administrator",
-    "Sales Cloud Consultant",
-    "Service Cloud Consultant",
-    "Experience Cloud Consultant",
-    "AI Associate",
-    "Agentforce Specialist",
-    "Salesforce Maps Accredited"
+    "Certification One",
+    "Certification Two",
+    "Certification Three"
   ],
+
+  // --- Projects / external work --------------------------------------------
   projects: [
     {
-      title: "AI with Amit",
-      type: "YouTube Channel",
-      desc: "Teaching SMBs and solopreneurs how to implement AI agent workflows using Clay, n8n, Claude Code, and more.",
-      link: "https://www.youtube.com/@ai-withamit"
+      title: "Project Name",
+      type: "Type (e.g. YouTube Channel, Open Source, Side Project)",
+      desc: "One-sentence description of what this is and why it matters.",
+      link: "https://example.com/project"
     },
     {
-      title: "GPTcommands",
+      title: "Another Project",
       type: "Blog / Publication",
-      desc: "A Medium publication focused on real-world AI prompting, use-cases, and automation guides for non-developers.",
-      link: "https://medium.com/gptcommands"
-    },
-    {
-      title: "The Daily Skill",
-      type: "AI Learning Platform",
-      desc: "An AI-powered platform helping users build one new professional skill every day through bite-sized lessons.",
-      link: "https://thedailyskill.com"
-    },
-    {
-      title: "Job Tracker",
-      type: "Open Source Tool",
-      desc: "A personal job application tracker to organize the job search with status tracking and notes.",
-      link: "https://github.com/aroramit17/job-tracker"
+      desc: "One-sentence description.",
+      link: "https://example.com/blog"
     }
   ],
+
+  // --- Career mind-map milestones ------------------------------------------
+  // Each milestone is a node in the radial career flow. `co` groups by employer
+  // for color coding (use any short identifier — it just needs to be unique per group).
   milestones: [
-    { title: "Sr. Salesforce Administrator", role: "Avangrid · Jun 2015", desc: "Entered the Salesforce ecosystem at Avangrid, taking ownership of CRM operations for energy corporations.", tags: ["Salesforce", "Energy", "CRM"], co: "avangrid" },
-    { title: "$750K Salesforce Migration", role: "Avangrid · 2016", desc: "Led a $750K Salesforce migration for two gas corporations, enhancing operational efficiency by 30%.", tags: ["Migration", "$750K", "30% Efficiency"], co: "avangrid" },
-    { title: "Joined Slalom LLC", role: "Salesforce Consultant · May 2018", desc: "Moved into enterprise consulting at Slalom, delivering Salesforce solutions in Financial Services.", tags: ["Consulting", "Financial Services", "Enterprise"], co: "slalom" },
-    { title: "Multi-Certification Year", role: "Slalom · 2019", desc: "Earned Sales Cloud, Service Cloud, and Community Cloud certifications — driving a 20% improvement in solution design.", tags: ["Sales Cloud", "Service Cloud", "Community Cloud"], co: "slalom" },
-    { title: "98% Client Satisfaction", role: "Slalom · 2020", desc: "Led cross-functional teams to a 95% project success rate and 98% client satisfaction rating.", tags: ["98% CSAT", "95% Success", "Executive Trust"], co: "slalom" },
-    { title: "Director, Business Systems", role: "DHI Group Inc · Oct 2021", desc: "Stepped into a leadership role owning the full GTM tech stack as a strategic program leader.", tags: ["Director", "GTM Stack", "Leadership"], co: "dhi" },
-    { title: "25% Forecast Accuracy Boost", role: "DHI Group · 2022", desc: "Designed pipeline, forecasting, and lifecycle tracking frameworks from scratch. Improved accuracy by 25%.", tags: ["Forecasting", "Pipeline", "+25% Accuracy"], co: "dhi" },
-    { title: "Board-Ready Dashboards", role: "DHI Group · 2023", desc: "Built automated executive dashboards visualizing CAC, LTV, ARR, and funnel metrics for board reporting.", tags: ["CAC", "LTV", "ARR", "Board Reports"], co: "dhi" },
-    { title: "AI with Amit — YouTube", role: "Content Creator · 2024", desc: "Launched the 'AI with Amit' YouTube channel, teaching real-world AI agent workflows.", tags: ["YouTube", "AI Agents", "Content"], co: "content" },
-    { title: "RevOps @ webAI", role: "webAI, Inc. · Mar 2025", desc: "Joined a VC-backed AI startup to stand up the RevOps function from scratch.", tags: ["Startup", "HubSpot → SF", "RevOps"], co: "webai" },
-    { title: "AI-Powered GTM Engine", role: "webAI · 2025", desc: "Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach.", tags: ["Clay", "n8n", "AI Outbound", "ICP"], co: "webai" },
-    { title: "8x Salesforce Certified", role: "Agentforce + Maps · 2026", desc: "Reached 8× Salesforce Certified with Agentforce Specialist and Salesforce Maps credentials.", tags: ["Agentforce", "Maps", "8× Certified"], co: "webai" }
+    { title: "First Role Title", role: "Employer · Mmm YYYY", desc: "What this milestone represents in your career arc.", tags: ["Tag", "Tag"], co: "co1" },
+    { title: "Notable Win or Promotion", role: "Employer · YYYY", desc: "What you shipped or achieved.", tags: ["Tag", "Tag"], co: "co1" },
+    { title: "Job Change / Step Up", role: "Title · Mmm YYYY", desc: "Why this move mattered.", tags: ["Tag", "Tag"], co: "co2" },
+    { title: "Achievement", role: "Employer · YYYY", desc: "Specific outcome.", tags: ["Tag", "Tag"], co: "co2" },
+    { title: "Another Achievement", role: "Employer · YYYY", desc: "Specific outcome.", tags: ["Tag", "Tag"], co: "co2" },
+    { title: "Most Recent Role", role: "Employer · Mmm YYYY", desc: "What you're doing now.", tags: ["Tag", "Tag"], co: "co3" },
+    { title: "Current Outcome", role: "Employer · YYYY", desc: "Latest quantified result.", tags: ["Tag", "Tag"], co: "co3" }
   ],
+
+  // --- Career mind-map branches -------------------------------------------
+  // Each branch is one employer/era on the career mind-map. `co` must match
+  // the `co` value used in your milestones above (so the milestone leaves
+  // attach to the right branch). `pos` and `leafYs` control SVG layout —
+  // `leafYs` should have one entry per milestone in that branch.
+  careerBranches: [
+    {
+      co: "co1", label: "First Employer", range: "YYYY – YYYY",
+      role: "Your Title", color: "#5bdb82",
+      pos: { x: 225, y: 110 }, side: "left",
+      leafYs: [50, 170]
+    },
+    {
+      co: "co2", label: "Second Employer", range: "YYYY – YYYY",
+      role: "Your Title", color: "#5b9cf5",
+      pos: { x: 225, y: 450 }, side: "left",
+      leafYs: [390, 450, 510]
+    },
+    {
+      co: "co3", label: "Third Employer", range: "YYYY – Present",
+      role: "Your Title", color: "#e8657a",
+      pos: { x: 775, y: 280 }, side: "right",
+      leafYs: [220, 280, 340]
+    }
+  ],
+
+  // --- Social links --------------------------------------------------------
   social: {
-    linkedin: "https://www.linkedin.com/in/amit-arora17/",
-    youtube: "https://www.youtube.com/@ai-withamit",
-    medium: "https://medium.com/gptcommands",
-    dailyskill: "https://thedailyskill.com",
-    email: "me@amit.so"
+    linkedin: "https://www.linkedin.com/in/your-handle/",
+    youtube: "https://www.youtube.com/@your-channel",
+    medium: "https://medium.com/@your-handle",
+    dailyskill: "",
+    email: "you@example.com"
   },
+
+  // --- Case studies --------------------------------------------------------
+  // The case study below is the actual webAI example from amit.so — left intact
+  // as a reference for what a fully-populated case study looks like. To add
+  // your own, copy this object, change the `slug`, and create a matching page
+  // file at src/pages/<slug>.astro (use webai-case-study.astro as the template).
   caseStudies: [
     {
       slug: "webai-case-study",
@@ -248,52 +276,6 @@ const SITE_DATA = {
       result: [
         "Consistent ICP application across every inbound lead, measurable speed-to-first-touch improvement, and a sales team that stopped doing the research work.",
         "The same enrichment layer became the source-of-truth for downstream outbound, reporting, and forecasting — one model, fed once, reused everywhere."
-      ]
-    },
-    {
-      slug: "dhi-case-study",
-      title: "Lead-to-cash transformation at DHI Group",
-      tag: "GTM Systems & Business Transformation",
-      blurb: "Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process — pipeline taxonomy, forecasting, and automated opportunity renewals included.",
-      role: "Director, Business Systems",
-      company: "DHI Group Inc.",
-      timeline: "2021 – 2024",
-      stack: ["Salesforce (Classic → Lightning)", "End-to-end process mapping", "Process improvement"],
-      outcome: "+25% forecasting accuracy, automated renewals, board-ready dashboards.",
-      context: [
-        "DHI was operating on legacy Salesforce Classic with weak pipeline hygiene, manual renewals, and forecast numbers that Sales and Finance couldn't trust. The UI was due to be sunsetted, but the real opportunity was rebuilding the business processes underneath — not just flipping a UI switch.",
-        "The mandate was simple: do both at once. Migrate to Lightning and take the org through a single, structured change instead of two."
-      ],
-      flow: {
-        title: "How the transformation flowed",
-        overview: "One sequenced motion — listen to the org, reshape the process on paper, then lift Classic into Lightning with the new model built in. Hover a stage to see what it meant.",
-        nodes: [
-          { id: "interviews", label: "Interviews",           role: "Structured conversations across Sales, Marketing, CS, and Finance to surface the real process and the top pain points.",     x: 150, y: 130, width: 180 },
-          { id: "mapping",    label: "Process Map",          role: "Current-state and future-state maps of the lead-to-cash flow, tightened for CRM rigor and the controls leadership wanted.",   x: 500, y: 130, width: 180 },
-          { id: "migration",  label: "Lightning Migration",  role: "Salesforce Classic → Lightning cutover carrying the new process model in the same move — one change event for the org, not two.", x: 850, y: 130, width: 210 },
-          { id: "pipeline",   label: "Pipeline Taxonomy",    role: "Rebuilt pipeline stages, lead routing, lifecycle definitions, and the SDR → AE handoff criteria.",                             x: 850, y: 340, width: 210 },
-          { id: "renewals",   label: "Renewal Automation",   role: "Opportunity-renewal automation enforcing consistent revenue recognition across the renewal book.",                             x: 500, y: 340, width: 200 },
-          { id: "dashboards", label: "Board Dashboards",     role: "Executive dashboards — CAC, LTV, ARR, funnel — pulling from the new pipeline stage model.",                                    x: 150, y: 340, width: 180 }
-        ],
-        edges: [
-          { from: "interviews", to: "mapping",    label: "Findings",            curvature: 0 },
-          { from: "mapping",    to: "migration",  label: "Future-state design", curvature: 0 },
-          { from: "migration",  to: "pipeline",   label: "New structure",       curvature: 0 },
-          { from: "pipeline",   to: "renewals",   label: "Cleaner stages",      curvature: 0 },
-          { from: "renewals",   to: "dashboards", label: "Trusted numbers",     curvature: 0 }
-        ]
-      },
-      approachSteps: [
-        { n: 1, title: "Interview the org", body: "Structured interviews across Sales, Marketing, CS, and Finance to surface the real (not documented) process and the top pain points." },
-        { n: 2, title: "Map current → future state", body: "Documented the existing lead-to-cash flow, then designed a future-state that tightened CRM rigor and added the controls leadership had been asking for." },
-        { n: 3, title: "Lift & reshape", body: "Migrated Classic → Lightning while implementing the new process model in the same cutover — avoiding a second round of change management." },
-        { n: 4, title: "Pipeline taxonomy", body: "Rebuilt pipeline stages, lead-routing rules, lifecycle definitions, and SDR → AE handoff criteria." },
-        { n: 5, title: "Automated renewals", body: "Built opportunity-renewal automation to enforce consistent revenue recognition across the renewal book." },
-        { n: 6, title: "Board-ready reporting", body: "Stood up executive dashboards (CAC, LTV, ARR, funnel) pulling from the new pipeline stage model." }
-      ],
-      result: [
-        "A 25% improvement in forecasting accuracy, significantly stronger pipeline visibility, and a predictable, auditable renewal motion.",
-        "Dashboards leadership actually used for board reporting — not ones the team built and then ignored."
       ]
     }
   ]

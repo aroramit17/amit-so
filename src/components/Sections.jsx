@@ -46,12 +46,11 @@ function Nav() {
   }, []);
   const links = [
     ['About', '#about'], ['Case Studies', '#case-studies'],
-    ['Experience', '#experience'], ['Projects', '#projects'],
-    ['Applying in Public', '/applying']
+    ['Experience', '#experience'], ['Projects', '#projects']
   ];
   return (
     <nav className={`site-nav ${scrolled ? 'scrolled' : ''}`}>
-      <a href="#hero" className="nav-brand">amit.so</a>
+      <a href="#hero" className="nav-brand">{SITE_DATA.domain}</a>
       <div className={`nav-links ${mobileOpen ? 'open' : ''}`}>
         {links.map(([label, href]) => (
           <a key={href} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
@@ -128,15 +127,16 @@ function Hero() {
       <div className="hero-cinema-content">
         <div className="hero-cinema-left">
           <div className="hero-meta animate-blur-fade-up" style={{ animationDelay: '300ms' }}>
-            <span className="hero-meta-item">
-              <IconSparkle /> <span>8× Salesforce Certified</span>
-            </span>
-            <span className="hero-meta-item">
-              <IconBriefcase /> <span>10+ yrs Revenue Ops</span>
-            </span>
-            <span className="hero-meta-item">
-              <IconMapPin /> <span>Aubrey, TX</span>
-            </span>
+            {(d.heroMeta || []).map((item, i) => {
+              const Icon = item.icon === 'briefcase' ? IconBriefcase
+                : item.icon === 'mapPin' ? IconMapPin
+                : IconSparkle;
+              return (
+                <span key={i} className="hero-meta-item">
+                  <Icon /> <span>{item.text}</span>
+                </span>
+              );
+            })}
           </div>
 
           <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
@@ -171,8 +171,8 @@ function Hero() {
           style={{ animationDelay: '450ms' }}
         >
           <img
-            src="/amit-headshot.png"
-            alt="Portrait of Amit Arora"
+            src="/headshot.png"
+            alt={`Portrait of ${d.name}`}
             width="520"
             height="520"
             loading="eager"
@@ -318,38 +318,8 @@ function Certifications() {
 // ─── Career Mind-Map ───
 // Branch positions in a 1000 x 560 SVG viewBox. Leaves arranged along the
 // outside edge (x ≈ 80 left side / 920 right side).
-const BRANCHES = [
-  {
-    co: 'avangrid', label: 'Avangrid', range: '2015 – 2018',
-    role: 'Sr. Salesforce Administrator', color: '#5bdb82',
-    pos: { x: 225, y: 110 }, side: 'left',
-    leafYs: [50, 170],
-  },
-  {
-    co: 'slalom', label: 'Slalom', range: '2018 – 2021',
-    role: 'Salesforce Consultant', color: '#5b9cf5',
-    pos: { x: 225, y: 450 }, side: 'left',
-    leafYs: [390, 450, 510],
-  },
-  {
-    co: 'dhi', label: 'DHI Group', range: '2021 – 2024',
-    role: 'Director, Business Systems', color: '#9b87f5',
-    pos: { x: 775, y: 95 }, side: 'right',
-    leafYs: [40, 100, 160],
-  },
-  {
-    co: 'content', label: 'Creator', range: '2024 – now',
-    role: 'AI with Amit · Writing', color: '#d4725c',
-    pos: { x: 860, y: 280 }, side: 'right',
-    leafYs: [225, 280, 335],
-  },
-  {
-    co: 'webai', label: 'webAI', range: '2025 – 2026',
-    role: 'Revenue Operations Manager', color: '#e8657a',
-    pos: { x: 775, y: 465 }, side: 'right',
-    leafYs: [405, 465, 525],
-  },
-];
+// Branches come from site.js (`careerBranches`) so this file stays generic.
+const BRANCHES = SITE_DATA.careerBranches || [];
 const CENTER = { x: 500, y: 280 };
 const LEAF_X_LEFT = 85;
 const LEAF_X_RIGHT = 915;
@@ -382,25 +352,11 @@ function shortenLeaf(title) {
 function CareerMindMap() {
   const [active, setActive] = useState(null);
   const milestones = SITE_DATA.milestones;
-  const projects = SITE_DATA.projects || [];
-
-  // Build per-branch leaves: milestones filtered by `co`. The Creator branch
-  // is enriched with selected projects so it doesn't look visually thin.
+  // Build per-branch leaves: milestones filtered by `co`.
   const leavesByCo = {};
   BRANCHES.forEach((b) => {
     leavesByCo[b.co] = milestones.filter((m) => m.co === b.co);
   });
-  const creatorExtras = projects
-    .filter((p) => p.title === 'GPTcommands' || p.title === 'The Daily Skill')
-    .map((p) => ({
-      title: p.title,
-      role: `Creator · ${p.type}`,
-      desc: p.desc,
-      tags: [p.type],
-      co: 'content',
-      external: p.link,
-    }));
-  leavesByCo.content = [...leavesByCo.content, ...creatorExtras];
 
   const activeBranch = active !== null ? BRANCHES[active] : null;
   const activeLeaves = activeBranch ? leavesByCo[activeBranch.co] : [];
@@ -420,7 +376,7 @@ function CareerMindMap() {
           {/* Desktop: radial SVG */}
           <div className="mind-radial" role="img" aria-labelledby="mind-caption">
             <span id="mind-caption" className="mind-caption">
-              Career map: central node "Amit's Career" with five branches — Avangrid, Slalom, DHI Group, Creator, and webAI — each connected to its milestone leaves.
+              Career map: central node "{SITE_DATA.name}'s Career" with branches for each chapter, each connected to its milestone leaves.
             </span>
             <svg
               className="mind-svg"
@@ -458,7 +414,7 @@ function CareerMindMap() {
                 height={PILL_CENTER.h}
               >
                 <div xmlns="http://www.w3.org/1999/xhtml" className="mind-center">
-                  Amit's Career
+                  {SITE_DATA.name.split(' ')[0]}'s Career
                 </div>
               </foreignObject>
 
@@ -610,7 +566,7 @@ function Contact() {
       <Reveal delay={0.05}><h2 className="section-heading">Let's Talk</h2></Reveal>
       <Reveal delay={0.1}>
         <p className="contact-sub">
-          If your team needs someone to own the GTM operating system end to end — from Salesforce architecture to pipeline, forecasting, and AI-powered automation — book 15 minutes. No pitch, just a conversation about what you actually need.
+          {SITE_DATA.contactBlurb}
         </p>
       </Reveal>
       <Reveal delay={0.15}>
@@ -618,7 +574,7 @@ function Contact() {
       </Reveal>
       <Reveal delay={0.2}>
         <p className="contact-secondary-line">
-          Prefer email? <a href={`mailto:${s.email}`} className="contact-email-link" aria-label="Send Amit an email">Email me</a>
+          Prefer email? <a href={`mailto:${s.email}`} className="contact-email-link" aria-label={`Send ${SITE_DATA.name} an email`}>Email me</a>
         </p>
       </Reveal>
       <Reveal delay={0.25}>
@@ -642,7 +598,7 @@ function Footer() {
   };
   return (
     <footer className="site-footer">
-      <span>© 2026 Amit Arora · amit.so</span>
+      <span>© {SITE_DATA.copyrightYear} {SITE_DATA.name} · {SITE_DATA.domain}</span>
       <span className="footer-sep"> · </span>
       <a href="/llms.txt" className="footer-link">llms.txt</a>
       <span className="footer-sep"> · </span>
