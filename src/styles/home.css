@@ -78,6 +78,25 @@
       transition: transform 0.3s, box-shadow 0.3s !important;
     }
     .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45); }
+    .nav-actions {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .nav-icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      color: var(--cream);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+    }
+    .nav-icon-btn:hover {
+      background: #0a66c2;
+      border-color: #0a66c2;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
     .nav-hamburger {
       display: none; background: none; border: none; cursor: pointer;
       flex-direction: column; gap: 5px; padding: 4px;
