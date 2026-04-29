@@ -220,7 +220,7 @@ const SITE_DATA = {
 
   // --- Social links --------------------------------------------------------
   social: {
-    linkedin: "https://www.linkedin.com/in/your-handle/",
+    linkedin: "https://www.linkedin.com/in/amit-arora17",
     youtube: "https://www.youtube.com/@your-channel",
     medium: "https://medium.com/@your-handle",
     dailyskill: "",
