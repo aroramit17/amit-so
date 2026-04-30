@@ -148,8 +148,47 @@ function IconArrow(props) {
   );
 }
 
+function useRefractionReveal(threshold = 0.15) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dispMap = document.querySelector('#glass-refraction feDisplacementMap');
+    if (!dispMap || reduce) return;
+    let raf = 0;
+    let start = 0;
+    const DUR = 1400;
+    const run = (ts) => {
+      if (!start) start = ts;
+      const t = Math.min(1, (ts - start) / DUR);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const peak = Math.sin(eased * Math.PI);
+      dispMap.setAttribute('scale', (peak * 50).toFixed(2));
+      if (t < 1) {
+        raf = requestAnimationFrame(run);
+      } else {
+        dispMap.setAttribute('scale', '0');
+      }
+    };
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        raf = requestAnimationFrame(run);
+        obs.unobserve(el);
+      }
+    }, { threshold });
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [threshold]);
+  return ref;
+}
+
 function Hero() {
   const d = SITE_DATA;
+  const refractRef = useRefractionReveal(0.15);
   return (
     <section id="hero" className="hero-cinema">
       <video
@@ -179,11 +218,20 @@ function Hero() {
             </span>
           </div>
 
-          <h1 className="hero-cinema-title animate-blur-fade-up" style={{ animationDelay: '400ms' }}>
-            {d.name}
-          </h1>
+          <div className="refract-stage" ref={refractRef}>
+            <h1
+              className="hero-cinema-title refract-target animate-blur-fade-up"
+              style={{ animationDelay: '400ms' }}
+            >
+              {d.name}
+            </h1>
+            <span className="refract-panel" aria-hidden="true" />
+          </div>
 
-          <p className="hero-cinema-desc animate-blur-fade-up" style={{ animationDelay: '500ms' }}>
+          <p
+            className="hero-cinema-desc refract-blend animate-blur-fade-up"
+            style={{ animationDelay: '500ms' }}
+          >
             {d.tagline}
           </p>
 
@@ -614,22 +662,92 @@ function CareerMindMap() {
 }
 
 // ─── Projects ───
+function BentoCard({ project, sizeClass, delay = 0 }) {
+  const [revealRef, vis] = useReveal();
+  const cardRef = useRef(null);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    let raf = 0;
+    let targetX = 50, targetY = 50;
+    let curX = 50, curY = 50;
+    let active = false;
+    const tick = () => {
+      curX += (targetX - curX) * 0.1;
+      curY += (targetY - curY) * 0.1;
+      el.style.setProperty('--mouse-x', curX.toFixed(2) + '%');
+      el.style.setProperty('--mouse-y', curY.toFixed(2) + '%');
+      if (active || Math.abs(targetX - curX) > 0.2 || Math.abs(targetY - curY) > 0.2) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+    const onMove = (ev) => {
+      const r = el.getBoundingClientRect();
+      targetX = ((ev.clientX - r.left) / r.width) * 100;
+      targetY = ((ev.clientY - r.top) / r.height) * 100;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const onEnter = () => {
+      active = true;
+      el.classList.add('is-hover');
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const onLeave = () => {
+      active = false;
+      el.classList.remove('is-hover');
+    };
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mouseleave', onLeave);
+    return () => {
+      el.removeEventListener('mousemove', onMove);
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mouseleave', onLeave);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+  const setRef = (node) => {
+    cardRef.current = node;
+    if (revealRef) revealRef.current = node;
+  };
+  return (
+    <a
+      ref={setRef}
+      href={project.link}
+      target="_blank"
+      rel="noopener"
+      className={`bento-card glass-panel ${sizeClass}`}
+      style={{
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'translate3d(0,0,0)' : 'translate3d(0,32px,0)',
+        transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`
+      }}
+    >
+      <span className="bento-glow" aria-hidden="true" />
+      <div className="bento-inner">
+        <span className="project-type">{project.type}</span>
+        <h3>{project.title}</h3>
+        <p>{project.desc}</p>
+        <span className="project-arrow">→</span>
+      </div>
+    </a>
+  );
+}
+
 function Projects() {
-  const d = SITE_DATA.projects;
+  const d = SITE_DATA.projects || [];
+  const sizes = ['feat', 'small-a', 'small-b', 'wide'];
   return (
     <section id="projects" className="projects-section">
       <Reveal><span className="label">Building</span></Reveal>
       <Reveal delay={0.05}><h2 className="section-heading">Side Projects & Content</h2></Reveal>
-      <div className="projects-grid">
+      <div className="bento-grid">
         {d.map((p, i) => (
-          <Reveal key={i} delay={i * 0.08}>
-            <a href={p.link} target="_blank" rel="noopener" className="project-card">
-              <span className="project-type">{p.type}</span>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <span className="project-arrow">→</span>
-            </a>
-          </Reveal>
+          <BentoCard key={i} project={p} sizeClass={sizes[i] || 'small-a'} delay={i * 0.08} />
         ))}
       </div>
     </section>
