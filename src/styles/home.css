@@ -1,8 +1,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0e0e0e;
-      --bg2: #161616;
+      --bg: #080808;
+      --bg2: #111111;
       --cream: #e8e0d4;
       --cream-dim: rgba(232, 224, 212, 0.55);
       --accent: #d4725c;
@@ -10,8 +10,24 @@
       --rule: rgba(232, 224, 212, 0.1);
       --card-bg: rgba(232, 224, 212, 0.04);
       --card-border: rgba(232, 224, 212, 0.08);
-      --serif: 'Instrument Serif', Georgia, serif;
-      --sans: 'Sora', sans-serif;
+      --serif: 'Playfair Display', 'Instrument Serif', Georgia, serif;
+      --sans: 'Inter', 'Sora', system-ui, sans-serif;
+      --nav-blur: 10px;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(25px) saturate(160%);
+      -webkit-backdrop-filter: blur(25px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .display-xl {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 10vw, 12rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
     }
 
     html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -37,13 +53,17 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.25rem 3rem;
-      transition: all 0.4s;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(var(--nav-blur, 10px)) saturate(160%);
+      -webkit-backdrop-filter: blur(var(--nav-blur, 10px)) saturate(160%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: padding 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: backdrop-filter;
     }
     .site-nav.scrolled {
-      background: rgba(14, 14, 14, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--rule);
       padding: 0.9rem 3rem;
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
     .nav-brand {
       font-family: var(--serif);

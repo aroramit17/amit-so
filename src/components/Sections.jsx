@@ -40,9 +40,34 @@ function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', h, { passive: true });
-    return () => window.removeEventListener('scroll', h);
+    const MIN_BLUR = 10;
+    const MAX_BLUR = 30;
+    const RANGE = 240;
+    let target = MIN_BLUR;
+    let current = MIN_BLUR;
+    let raf = 0;
+    const tick = () => {
+      current += (target - current) * 0.1;
+      document.documentElement.style.setProperty('--nav-blur', current.toFixed(2) + 'px');
+      if (Math.abs(target - current) > 0.05) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      const t = Math.min(1, y / RANGE);
+      target = MIN_BLUR + (MAX_BLUR - MIN_BLUR) * t;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
   const links = [
     ['About', '#about'], ['Case Studies', '#case-studies'],
