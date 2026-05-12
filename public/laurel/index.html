@@ -95,6 +95,55 @@
     border:1px solid var(--rust);border-radius:999px;margin-bottom:14px;font-weight:500;letter-spacing:.14em;
   }
 
+  /* ─── Brief (problem / deliverable) ─── */
+  .brief{
+    display:grid;grid-template-columns: 1fr 1px 1fr;gap:0;
+    padding:48px 0 56px;border-bottom:1px solid var(--rule);
+  }
+  .brief .divider{background:var(--rule);width:1px;align-self:stretch}
+  .brief-col{padding:0 56px}
+  .brief-col:first-child{padding-left:0}
+  .brief-col:last-child{padding-right:0}
+  .brief-tag{
+    font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--rust);margin-bottom:18px;
+  }
+  .brief-h{
+    font-family:"Playfair Display",Georgia,serif;font-weight:500;
+    font-size:36px;line-height:1.08;letter-spacing:-.012em;margin:0 0 24px;color:var(--ink);
+  }
+  .brief-h em{font-style:italic;color:var(--rust);font-weight:500}
+  .brief-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+  .brief-list li{
+    position:relative;padding-left:24px;color:var(--ink);font-size:16px;line-height:1.55;
+  }
+  .brief-list li::before{
+    content:"";position:absolute;left:0;top:.65em;width:10px;height:1px;background:var(--rust);
+  }
+  .brief-list li b{color:var(--ink);font-weight:600}
+  .brief-deliverables{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+  .brief-deliverables li{
+    display:grid;grid-template-columns:48px 1fr;gap:14px;padding:16px 0;
+    border-top:1px solid var(--rule);align-items:start;
+  }
+  .brief-deliverables li:last-child{border-bottom:1px solid var(--rule)}
+  .brief-deliverables .num{
+    font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:500;
+    font-size:32px;color:var(--rust);line-height:1;letter-spacing:-.02em;padding-top:2px;
+  }
+  .brief-deliverables h4{
+    margin:0 0 4px;font-family:"Playfair Display",Georgia,serif;font-weight:500;
+    font-size:20px;line-height:1.25;letter-spacing:-.005em;color:var(--ink);
+  }
+  .brief-deliverables h4 em{font-style:italic;color:var(--rust);font-weight:500}
+  .brief-deliverables p{margin:0;color:var(--ink-2);font-size:15px;line-height:1.5}
+  @media (max-width:900px){
+    .brief{grid-template-columns:1fr;gap:0}
+    .brief .divider{display:none}
+    .brief-col{padding:0 0 28px;border-bottom:1px solid var(--rule);margin-bottom:28px}
+    .brief-col:last-child{padding-bottom:0;border-bottom:0;margin-bottom:0}
+  }
+
   /* ─── Lede ─── */
   .lede{
     display:grid;grid-template-columns: 280px 1fr;gap:60px;
@@ -438,16 +487,48 @@
     </div>
   </div>
 
-  <!-- ─── LEDE ─── -->
-  <div class="lede">
-    <div class="kicker">
-      The instinct
-      <span class="num">01</span>
+  <!-- ─── BRIEF ─── -->
+  <section class="brief">
+    <div class="brief-col">
+      <div class="brief-tag">The situation · week one</div>
+      <h2 class="brief-h">What I <em>walked into</em>.</h2>
+      <ul class="brief-list">
+        <li>Salesforce has incomplete data. Missing and duplicate account records across multiple business units. No clear logic around account ownership or pool management.</li>
+        <li>Duplicate fields with varying levels of accuracy. Self-serve reporting is impossible.</li>
+        <li>Outreach and Salesforce aren't syncing consistently. Some activities log. Some don't.</li>
+        <li>The CX team is manually tracking pipeline stages in a spreadsheet because they don't trust Salesforce data.</li>
+        <li>No documentation exists for any current workflow or integration.</li>
+      </ul>
     </div>
-    <p>
-      <span class="drop">T</span>he instinct walking into this is to start fixing things. That's the trap. With this much undocumented chaos, anything I "fix" before I understand the system breaks something I can't see. The plan below front-loads listening, stops the one active bleed, then moves to design and controlled cleanup. In that order.
-    </p>
-  </div>
+    <div class="divider"></div>
+    <div class="brief-col">
+      <div class="brief-tag">The deliverable</div>
+      <h2 class="brief-h">What I'm <em>handing back</em>.</h2>
+      <ol class="brief-deliverables">
+        <li>
+          <div class="num">01</div>
+          <div>
+            <h4>A prioritized <em>30-day action plan</em>.</h4>
+            <p>What I tackle first, why, and how I approach it.</p>
+          </div>
+        </li>
+        <li>
+          <div class="num">02</div>
+          <div>
+            <h4>A one-page <em>runbook</em>.</h4>
+            <p>For the Outreach ↔ Salesforce sync issue. Written so a new admin joining the team can troubleshoot from it.</p>
+          </div>
+        </li>
+        <li>
+          <div class="num">03</div>
+          <div>
+            <h4>How I'd use <em>AI to move faster</em>.</h4>
+            <p>Specific places it compresses the work, not a generic pitch.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
 
   <!-- ─── STICKY NAV ─── -->
   <nav class="nav" id="nav">
@@ -469,7 +550,7 @@
       </div>
       <div>
         <h2>Thirty days.<br><em>Four weeks</em>.</h2>
-        <p class="deck">Listen. Stop the bleed. Build the evidence base. Earn the air cover required to clean anything up without making it worse. Click a week for the moves.</p>
+        <p class="deck">The instinct walking into this is to start fixing things. That's the trap. With this much undocumented chaos, anything I "fix" before I understand the system breaks something I can't see. The plan below front-loads listening, stops the one active bleed, then moves to design and controlled cleanup. In that order. Click a week for the moves.</p>
       </div>
     </div>
 
