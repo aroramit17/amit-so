@@ -645,7 +645,7 @@
       <div>
         <h2>Outreach <em>↔</em> Salesforce<br>sync <em>troubleshooting</em>.</h2>
         <p class="deck">For when Outreach activities (calls, emails, meetings, sequences) aren't appearing in Salesforce, or vice versa. Owned by GTM Systems. Escalate to vendor only after steps 1&ndash;6. Each step expands.</p>
-        <p class="note"><b>Note:</b> I haven't run Outreach in production. I used Apollo.io at webAI and took these same steps to diagnose its Salesforce sync. The vendor-specific menu paths below are how it works in Outreach, but the diagnostic order (logs → user mapping → sync settings → SFDC side → locking → verify) is the same playbook I'd run on day one.</p>
+        <p class="note"><b>Note on provenance:</b> I haven't run Outreach in production &mdash; I used Apollo.io at webAI and ran this exact playbook against its Salesforce sync. The steps and error strings below are reconciled against Outreach's own published sync-failure documentation, so the order and the gotchas are vendor-accurate, not a guess.</p>
       </div>
     </div>
 
@@ -685,15 +685,16 @@
       <details class="step">
         <summary>
           <span class="snum"></span>
-          <h4>Verify the <em>user mapping</em>.</h4>
+          <h4>Verify the <em>Plugin Authentication User</em>.</h4>
           <span class="chev"></span>
         </summary>
         <div class="sbody">
-          Outreach → Admin → Users. Find the user, check the linked SFDC User ID. Common failures:
+          Outreach → Admin → Salesforce Plugin → Authentication. This is the SFDC user Outreach uses to write everything. Per Outreach's docs, it should have <code>Modify All Data</code> or at minimum full <code>Edit</code> on every field, Record Type, and related object in the mapping.
           <ul>
-            <li>User inactive in SFDC</li>
-            <li>Email mismatch</li>
-            <li>SFDC profile missing <code>API Enabled</code></li>
+            <li>Profile missing <code>API Enabled</code> &rarr; produces <code>API_DISABLED_FOR_ORG</code> on every write</li>
+            <li>User inactive in SFDC &rarr; nothing syncs at all</li>
+            <li>Email collision: an unmapped SFDC owner shares an email with an existing Outreach user &rarr; surfaces as <em>"A user with this email already exists"</em>. Reconcile owner mapping or merge the duplicate user.</li>
+            <li>Prospect sitting in the Outreach Recycle Bin &rarr; <em>"A prospect is in the recycle bin"</em>. Restore in Outreach, or permanently delete to allow a fresh sync from SFDC.</li>
           </ul>
           Fix, then trigger a manual sync on one test record and confirm.
         </div>
@@ -710,7 +711,9 @@
           <ul>
             <li><b>Activity type</b> (call / email / meeting) is enabled for sync</li>
             <li><b>Object</b> (Contact vs. Lead vs. Account) matches where the record actually lives</li>
-            <li><b>Field mappings</b> are intact. A renamed or deleted SFDC field silently breaks sync for that activity type</li>
+            <li><b>Field type:</b> Outreach only supports Text, Number, Picklist, URL, Phone, Date, and Checkbox. <b>Formula fields are not supported</b> &mdash; if one is mapped, that field will silently fail. Remove the mapping or compute the value upstream.</li>
+            <li><b>Deleted SFDC fields:</b> a mapping that points to a deleted field shows the raw API name (e.g. <code>Sales_Region__c</code>) in the UI instead of the friendly label. That's the tell. Remove or repoint the mapping &mdash; one stale mapping breaks sync for the whole object.</li>
+            <li><b>"Look for Name instead of Record ID":</b> only supported on <b>Lead Status</b> and <b>Opportunity Stage</b>. Enabled anywhere else (Accounts, Contacts, custom objects), sync fails.</li>
           </ul>
         </div>
       </details>
@@ -723,11 +726,14 @@
         </summary>
         <div class="sbody">
           <ul>
-            <li><b>Field-Level Security:</b> the syncing user's profile must have <code>Edit</code> on every field Outreach writes to (Task, Event, Contact, Lead). One missing FLS breaks the whole record.</li>
-            <li><b>Validation rules:</b> pull rules on the affected object. A rule expecting a value Outreach doesn't send blocks the write. Reproduce by manually creating the record in SFDC with the same payload.</li>
+            <li><b>Field-Level Security:</b> the Plugin Authentication User must have <code>Edit</code> on every field Outreach writes to (Task, Event, Contact, Lead). One missing FLS breaks the whole record &mdash; surfaces as <em>"You do not have permission..."</em>.</li>
+            <li><b>Record Type access:</b> if the object uses Record Types, the user's profile must have access to the specific Record Type Outreach is writing. Easy to miss.</li>
+            <li><b>Related-object access:</b> Lookup and Master-Detail fields require read access on the parent object. A missing parent permission breaks the child write.</li>
+            <li><b>Validation rules:</b> a rule expecting a value Outreach doesn't send blocks the write. Reproduce by manually creating the record in SFDC with the same payload.</li>
             <li><b>Required fields:</b> same logic. Outreach won't fill custom required fields.</li>
-            <li><b>Apex triggers:</b> check active triggers on Task / Event. An exception blocks the insert silently from Outreach's view.</li>
-            <li><b>API limits:</b> Setup → System Overview → API Usage. If exhausted, sync fails.</li>
+            <li><b>Apex triggers:</b> if a trigger fires on Task / Event, the Plugin Auth User needs access to the relevant Apex classes. Exception → silent insert failure.</li>
+            <li><b>Workflow side-effects:</b> if a workflow sends email on save, the user needs <code>Send Email</code> permission and access to the email template's folder. Missing either blocks the write.</li>
+            <li><b>API limits:</b> Setup → System Overview → API Usage. If exhausted, sync fails for everyone.</li>
           </ul>
         </div>
       </details>
@@ -739,7 +745,7 @@
           <span class="chev"></span>
         </summary>
         <div class="sbody">
-          On high-traffic objects, look for <code>UNABLE_TO_LOCK_ROW</code> in the Outreach log. Fix: stagger concurrent automations or configure Outreach to retry. Looks like a sync problem. It's a contention problem. The cure is upstream.
+          Outreach surfaces this as <em>"Unable to obtain exclusive access to this record"</em> &mdash; the underlying SFDC error is <code>UNABLE_TO_LOCK_ROW</code>. Per Outreach's docs, the lock is temporary (another user, integration, or trigger touched the record at the same moment) and usually clears in a few seconds. If the same record locks repeatedly, the fix is upstream: stagger the concurrent automations, or enable retry on Outreach's side. Looks like a sync problem. It's a contention problem.
         </div>
       </details>
 
@@ -756,17 +762,18 @@
     </div>
 
     <table class="errtbl">
-      <caption>Reference table <b>Common errors &amp; their fixes</b></caption>
+      <caption>Reference table <b>Common Outreach errors &amp; their fixes</b></caption>
       <thead>
-        <tr><th style="width:30%">Error</th><th style="width:40%">Cause</th><th>Fix</th></tr>
+        <tr><th style="width:34%">Error message</th><th style="width:36%">Primary cause</th><th>Fix</th></tr>
       </thead>
       <tbody>
-        <tr><td>INVALID_FIELD</td><td>SFDC field renamed or deleted</td><td>Update the field mapping in Outreach</td></tr>
-        <tr><td>FIELD_CUSTOM_VALIDATION_EXCEPTION</td><td>Validation rule blocking the write</td><td>Adjust the rule or pre-populate the field</td></tr>
-        <tr><td>INSUFFICIENT_ACCESS</td><td>Field-Level Security / profile</td><td>Grant Edit FLS on the field</td></tr>
-        <tr><td>DUPLICATE_VALUE</td><td>SFDC duplicate rule blocking</td><td>Set the rule to Allow + Report</td></tr>
-        <tr><td>UNABLE_TO_LOCK_ROW</td><td>Concurrent write conflict</td><td>Stagger the automations or enable retry</td></tr>
-        <tr><td>API_DISABLED_FOR_ORG</td><td>User lost API Enabled</td><td>Restore the profile permission</td></tr>
+        <tr><td>"You do not have permission..."</td><td>Plugin user missing Field-Level Security, Record Type access, or access to a referenced Apex class</td><td>Grant the specific permission on the Plugin Authentication User's profile</td></tr>
+        <tr><td>"Unable to obtain exclusive access to this record"</td><td>Temporary row lock &mdash; another user, integration, or trigger is touching the record</td><td>Wait a few seconds and retry. If persistent, stagger the upstream automation</td></tr>
+        <tr><td>"A user with this email already exists"</td><td>Unmapped SFDC owner shares an email with an existing Outreach user</td><td>Reconcile the owner mapping or merge the duplicate Outreach user</td></tr>
+        <tr><td>"A prospect is in the recycle bin"</td><td>The record exists in the Outreach Recycle Bin</td><td>Restore it in Outreach, or permanently delete to allow a fresh sync</td></tr>
+        <tr><td>API name (e.g. <code>Sales_Region__c</code>) showing in the mapping</td><td>The mapped SFDC field was deleted or renamed</td><td>Remove or repoint the mapping. One stale mapping breaks the whole object's sync</td></tr>
+        <tr><td>Formula field silently not writing</td><td>Outreach doesn't support Formula fields &mdash; only Text, Number, Picklist, URL, Phone, Date, Checkbox</td><td>Remove the mapping or compute the value upstream</td></tr>
+        <tr><td><code>API_DISABLED_FOR_ORG</code></td><td>Plugin user's profile lost API Enabled</td><td>Restore the profile permission</td></tr>
       </tbody>
     </table>
 
