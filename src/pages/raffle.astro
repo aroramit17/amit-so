@@ -1,0 +1,489 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const hosts = [
+  { name: 'Amit Arora', img: '/raffle/host-amit.webp', li: 'https://www.linkedin.com/in/amit-arora17' },
+  { name: 'Tyler Delano', img: '/raffle/host-tyler.webp', li: 'https://www.linkedin.com/in/tylerpdelano/' },
+  { name: 'Anjal Parikh', img: '/raffle/host-anjal.webp', li: 'https://www.linkedin.com/in/anjal-parikh/' },
+  { name: 'Jonathon Hasling', img: '/raffle/host-jonny.webp', li: 'https://www.linkedin.com/in/jonathon-h-0266a2409/' },
+];
+
+const linkedInPost = `Thrilled to be at this amazing meetup hosted by @ClawPlex at @25N Coworking in Frisco! 🚀
+
+Got to learn about Claude and network with some cool people.
+
+#FriscoTech #Coworking #Networking`;
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'Claude In The Wild Meetup',
+  startDate: '2026-05-15T14:00:00-05:00',
+  endDate: '2026-05-15T16:00:00-05:00',
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: '25N Coworking Frisco',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '9355 John W. Elliott Dr #25',
+      addressLocality: 'Frisco',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+    },
+  },
+  organizer: { '@type': 'Organization', name: 'ClawPlex' },
+  sponsor: { '@type': 'Organization', name: '25N Coworking Frisco' },
+});
+---
+<BaseLayout
+  title="Claude In The Wild Meetup — Frisco, May 15"
+  description="Unofficial Claude meetup in Frisco, hosted by ClawPlex and sponsored by 25N Coworking. Friday, May 15 · 2:00 – 4:00 PM CDT. Enter the raffle."
+  canonical="https://amit.so/raffle"
+  jsonLd={jsonLd}
+  showFloatingCta={false}
+>
+  <div class="raffle-root">
+    <nav class="r-nav" aria-label="Raffle page navigation">
+      <a href="/built" class="r-brand">amit <span aria-hidden="true">·</span> meetup</a>
+      <a href="/built" class="r-back">← Back to /built</a>
+    </nav>
+
+    <main class="r-main">
+      <header class="r-hero">
+        <span class="r-badge">Featured in Dallas</span>
+        <h1 class="r-title">
+          <span>Claude</span>
+          <span>In The Wild</span>
+          <span>Meetup</span>
+        </h1>
+        <p class="r-sub">Unofficial. Hosted by ClawPlex. Sponsored by 25N Coworking Frisco.</p>
+
+        <div class="r-event">
+          <p class="r-event-when">Friday, May 15 <span aria-hidden="true">·</span> 2:00 – 4:00 PM CDT</p>
+          <p class="r-event-where">25N Coworking Frisco <span aria-hidden="true">·</span> 9355 John W. Elliott Dr #25, Frisco, TX</p>
+        </div>
+
+        <div class="r-cta-row">
+          <a href="#raffle" class="r-btn r-btn-primary">Enter the raffle</a>
+          <a href="#share" class="r-btn">Share on LinkedIn</a>
+        </div>
+
+        <figure class="r-hero-figure">
+          <img src="/raffle/hero-meetup.jpg" alt="Claude Meetup poster art" width="1200" height="800" loading="eager" />
+        </figure>
+      </header>
+
+      <section class="r-about" aria-labelledby="about-h">
+        <h2 id="about-h" class="r-h2">About the meetup</h2>
+        <p>Join us for an informal Claude meetup in Frisco, where people are putting the model to work on real projects and sharing what actually helps in day-to-day use.</p>
+        <p>We'll hear from a few heavy token users who are deep in it — building workflows, automations, research helpers, writing tools, and other practical setups — plus plenty of conversation about what works, what breaks, and how to get better results from Claude.</p>
+        <p>Expect a relaxed afternoon with useful examples, honest takeaways, and a chance to connect with people experimenting with Claude in the wild.</p>
+      </section>
+
+      <section class="r-steps" aria-labelledby="steps-h">
+        <h2 id="steps-h" class="r-h2">How to enter the raffle</h2>
+        <p class="r-steps-sub">Two quick steps and you're in.</p>
+
+        <div class="r-steps-grid">
+          <article class="r-step">
+            <span class="r-step-n">1</span>
+            <h3 class="r-step-h">Share on LinkedIn</h3>
+            <p>Copy the post below, paste it into a new LinkedIn post, and publish. Take a screenshot of your published post.</p>
+            <a href="#share" class="r-step-link">Go to post →</a>
+          </article>
+          <article class="r-step">
+            <span class="r-step-n">2</span>
+            <h3 class="r-step-h">Upload your screenshot</h3>
+            <p>Submit your screenshot through the raffle form so we can verify your entry. That's it — you're entered to win.</p>
+            <a href="#raffle" class="r-step-link">Go to form →</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="share" class="r-share" aria-labelledby="share-h">
+        <div class="r-share-grid">
+          <div class="r-share-copy">
+            <p class="r-step-tag">Step 1</p>
+            <h2 id="share-h" class="r-h2">Share the meetup on LinkedIn</h2>
+            <pre class="r-share-post" id="li-post">{linkedInPost}</pre>
+            <div class="r-cta-row">
+              <button type="button" class="r-btn r-btn-primary" data-copy-target="li-post" id="copy-btn">Copy post</button>
+              <a href="https://www.linkedin.com/feed/?shareActive=true" target="_blank" rel="noopener noreferrer" class="r-btn">Open LinkedIn</a>
+            </div>
+          </div>
+          <figure class="r-share-figure">
+            <img src="/raffle/raffle-share.gif" alt="Animated example of sharing the meetup post on LinkedIn" loading="lazy" />
+          </figure>
+        </div>
+      </section>
+
+      <section id="raffle" class="r-raffle" aria-labelledby="raffle-h">
+        <p class="r-step-tag">Step 2</p>
+        <h2 id="raffle-h" class="r-h2">Enter the raffle</h2>
+        <p class="r-raffle-sub">Drop your name in for a chance to win some swag at the meetup.</p>
+
+        <form class="r-form" id="raffle-form" novalidate>
+          <label class="r-field">
+            <span>Your name</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Amit Arora" />
+          </label>
+          <label class="r-field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="you@domain.com" />
+          </label>
+          <label class="r-field r-field-file">
+            <span>LinkedIn screenshot</span>
+            <input type="file" name="screenshot" accept="image/*" required />
+          </label>
+          <button type="submit" class="r-btn r-btn-primary">Enter raffle</button>
+          <p class="r-form-note" id="form-note" hidden>Thanks! You're in. We'll draw at the event.</p>
+        </form>
+
+        <p class="r-live" aria-hidden="true">
+          <span>// live activity</span>
+          <span class="r-live-line">&gt; Vishnu stewing... at the event</span>
+        </p>
+      </section>
+
+      <section class="r-hosts" aria-labelledby="hosts-h">
+        <h2 id="hosts-h" class="r-h2">Hosted by</h2>
+        <ul class="r-hosts-grid" role="list">
+          {hosts.map((h) => (
+            <li class="r-host">
+              <a href={h.li} target="_blank" rel="noopener noreferrer">
+                <img src={h.img} alt={h.name} loading="lazy" width="160" height="160" />
+                <span class="r-host-name">{h.name}</span>
+                <span class="r-host-li">LinkedIn ↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="r-sponsor" aria-labelledby="sponsor-h">
+        <p class="r-step-tag">Sponsored by</p>
+        <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="r-sponsor-card">
+          <img src="/raffle/sponsor-25n.png" alt="25N Coworking" width="320" height="100" />
+          <p class="r-sponsor-line">25N Coworking Frisco — our home for the meetup.</p>
+        </a>
+      </section>
+    </main>
+
+    <footer class="r-footer">
+      <span>Built with Claude <span aria-hidden="true">·</span> Presented by ClawPlex</span>
+      <span class="r-footer-sep" aria-hidden="true">·</span>
+      <a href="/built">/built</a>
+      <span class="r-footer-sep" aria-hidden="true">·</span>
+      <a href="/">amit.so</a>
+    </footer>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var copyBtn = document.getElementById('copy-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          var el = document.getElementById(copyBtn.getAttribute('data-copy-target'));
+          if (!el) return;
+          var t = el.innerText;
+          var orig = copyBtn.innerText;
+          var done = function () {
+            copyBtn.innerText = 'Copied ✓';
+            setTimeout(function () { copyBtn.innerText = orig; }, 1800);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(t).then(done, function () { fallback(t, done); });
+          } else { fallback(t, done); }
+        });
+        function fallback(text, done) {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      }
+      var form = document.getElementById('raffle-form');
+      var note = document.getElementById('form-note');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+          if (note) note.hidden = false;
+          form.querySelector('button[type="submit"]').disabled = true;
+        });
+      }
+    })();
+  </script>
+
+  <style is:global>
+    .raffle-root .grain { display: none; }
+    .raffle-root {
+      --r-bg: #faf8f2;
+      --r-card: #ffffff;
+      --r-ink: #2a2520;
+      --r-ink-soft: #4d4640;
+      --r-mute: #7a7167;
+      --r-line: rgba(42, 37, 32, 0.12);
+      --r-line-soft: rgba(42, 37, 32, 0.06);
+      --r-accent: #d97757;
+      --r-accent-soft: rgba(217, 119, 87, 0.10);
+      --r-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      --r-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--r-bg);
+      color: var(--r-ink);
+      font-family: var(--r-sans);
+      line-height: 1.55;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .raffle-root *, .raffle-root *::before, .raffle-root *::after { box-sizing: border-box; }
+
+    .r-nav {
+      position: sticky; top: 0; z-index: 30;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(250, 248, 242, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--r-line-soft);
+    }
+    .r-brand { font-family: var(--r-mono); font-weight: 700; color: var(--r-ink); text-decoration: none; font-size: 1rem; }
+    .r-brand span { color: var(--r-accent); padding: 0 0.3rem; }
+    .r-back { font-family: var(--r-mono); font-size: 0.82rem; color: var(--r-mute); text-decoration: none; }
+    .r-back:hover { color: var(--r-accent); }
+
+    .r-main { max-width: 980px; margin: 0 auto; padding: 3.5rem 2rem 4rem; }
+
+    .r-hero { padding: 2rem 0 3rem; border-bottom: 1px solid var(--r-line); margin-bottom: 4rem; }
+    .r-badge {
+      display: inline-block;
+      font-family: var(--r-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--r-accent);
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--r-accent);
+      border-radius: 999px;
+      margin-bottom: 2rem;
+    }
+    .r-title {
+      font-family: var(--r-mono);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      color: var(--r-ink);
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .r-title span { display: block; }
+    .r-sub { font-size: 1.05rem; color: var(--r-ink-soft); margin-bottom: 1.75rem; max-width: 640px; }
+    .r-event { font-family: var(--r-mono); font-size: 0.9rem; color: var(--r-ink); margin-bottom: 2rem; }
+    .r-event-when { font-weight: 700; margin-bottom: 0.25rem; }
+    .r-event-where { color: var(--r-mute); }
+    .r-event span { color: var(--r-mute); padding: 0 0.4rem; }
+
+    .r-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
+    .r-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      font-family: var(--r-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      border: 1px solid var(--r-line);
+      background: var(--r-card);
+      color: var(--r-ink);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .r-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px -18px rgba(42, 37, 32, 0.25); border-color: var(--r-ink); }
+    .r-btn-primary { background: var(--r-accent); color: var(--r-bg); border-color: var(--r-accent); }
+    .r-btn-primary:hover { background: #c66948; border-color: #c66948; }
+
+    .r-hero-figure {
+      margin: 0 0 0;
+      border: 1px solid var(--r-line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--r-card);
+      box-shadow: 0 24px 50px -28px rgba(42, 37, 32, 0.25);
+    }
+    .r-hero-figure img { display: block; width: 100%; height: auto; }
+
+    .r-h2 {
+      font-family: var(--r-mono);
+      font-weight: 700;
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      letter-spacing: -0.01em;
+      color: var(--r-ink);
+      margin-bottom: 1.25rem;
+    }
+    .r-about { margin-bottom: 4rem; }
+    .r-about p { color: var(--r-ink-soft); margin-bottom: 1rem; font-size: 1.02rem; line-height: 1.7; max-width: 720px; }
+
+    .r-steps { margin-bottom: 4rem; }
+    .r-steps-sub { color: var(--r-mute); margin-bottom: 1.75rem; }
+    .r-steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .r-step {
+      padding: 1.5rem 1.6rem 1.75rem;
+      border: 1px solid var(--r-line);
+      border-radius: 16px;
+      background: var(--r-card);
+      box-shadow: 0 1px 0 rgba(42,37,32,0.03);
+    }
+    .r-step-n {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--r-accent); color: var(--r-bg);
+      font-family: var(--r-mono); font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .r-step-h { font-family: var(--r-mono); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .r-step p { color: var(--r-ink-soft); margin-bottom: 1rem; }
+    .r-step-link {
+      font-family: var(--r-mono); font-size: 0.85rem; color: var(--r-accent);
+      text-decoration: none; font-weight: 700;
+    }
+    .r-step-link:hover { text-decoration: underline; }
+
+    .r-step-tag {
+      font-family: var(--r-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--r-mute);
+      margin-bottom: 0.65rem;
+    }
+
+    .r-share { margin-bottom: 4rem; }
+    .r-share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    .r-share-post {
+      font-family: var(--r-mono);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--r-ink);
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--r-line);
+      border-radius: 12px;
+      background: var(--r-card);
+      white-space: pre-wrap;
+      margin-bottom: 1rem;
+    }
+    .r-share-figure { margin: 0; border: 1px solid var(--r-line); border-radius: 16px; overflow: hidden; background: var(--r-card); }
+    .r-share-figure img { display: block; width: 100%; height: auto; }
+
+    .r-raffle { margin-bottom: 4rem; }
+    .r-raffle-sub { color: var(--r-mute); margin-bottom: 1.5rem; }
+    .r-form {
+      display: grid; gap: 0.85rem;
+      padding: 1.5rem 1.6rem 1.75rem;
+      border: 1px solid var(--r-line);
+      border-radius: 16px;
+      background: var(--r-card);
+      max-width: 560px;
+    }
+    .r-field { display: grid; gap: 0.35rem; }
+    .r-field > span { font-family: var(--r-mono); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--r-mute); }
+    .r-field input {
+      font-family: var(--r-sans);
+      font-size: 0.95rem;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--r-line);
+      border-radius: 10px;
+      background: var(--r-bg);
+      color: var(--r-ink);
+    }
+    .r-field input:focus-visible {
+      outline: 2px solid var(--r-accent);
+      outline-offset: 1px;
+      background: var(--r-card);
+    }
+    .r-field-file input { padding: 0.5rem 0.6rem; background: var(--r-bg); }
+    .r-form button[type="submit"] { justify-self: start; margin-top: 0.25rem; }
+    .r-form-note { color: var(--r-accent); font-family: var(--r-mono); font-size: 0.85rem; }
+
+    .r-live {
+      margin-top: 1.5rem;
+      font-family: var(--r-mono);
+      font-size: 0.8rem;
+      color: var(--r-mute);
+      display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .r-live-line { color: var(--r-accent); }
+
+    .r-hosts { margin-bottom: 4rem; }
+    .r-hosts-grid {
+      list-style: none; padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .r-host a {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      padding: 1.2rem 1rem 1.3rem;
+      border: 1px solid var(--r-line);
+      border-radius: 16px;
+      background: var(--r-card);
+      color: var(--r-ink);
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .r-host a:hover { border-color: var(--r-accent); transform: translateY(-2px); }
+    .r-host img {
+      width: 88px; height: 88px; border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--r-line);
+    }
+    .r-host-name { font-family: var(--r-mono); font-weight: 700; font-size: 0.92rem; }
+    .r-host-li { font-family: var(--r-mono); font-size: 0.75rem; color: var(--r-accent); }
+
+    .r-sponsor { margin-bottom: 4rem; }
+    .r-sponsor-card {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 1.5rem 1.6rem;
+      border: 1px solid var(--r-line);
+      border-radius: 16px;
+      background: var(--r-card);
+      text-decoration: none;
+      color: var(--r-ink);
+      transition: border-color 0.2s ease;
+    }
+    .r-sponsor-card:hover { border-color: var(--r-accent); }
+    .r-sponsor-card img { width: 180px; height: auto; flex: none; }
+    .r-sponsor-line { color: var(--r-ink-soft); }
+
+    .r-footer {
+      max-width: 980px; margin: 0 auto;
+      padding: 2rem 2rem 3rem;
+      font-family: var(--r-mono);
+      font-size: 0.82rem;
+      color: var(--r-mute);
+      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+      border-top: 1px solid var(--r-line);
+    }
+    .r-footer a { color: var(--r-mute); text-decoration: none; }
+    .r-footer a:hover { color: var(--r-accent); }
+    .r-footer .r-footer-sep { color: var(--r-line); }
+
+    @media (max-width: 780px) {
+      .r-nav { padding: 0.85rem 1.25rem; }
+      .r-main { padding: 2rem 1.25rem 3rem; }
+      .r-hero { margin-bottom: 2.5rem; padding: 1rem 0 2rem; }
+      .r-steps-grid { grid-template-columns: 1fr; }
+      .r-share-grid { grid-template-columns: 1fr; }
+      .r-hosts-grid { grid-template-columns: repeat(2, 1fr); }
+      .r-sponsor-card { flex-direction: column; align-items: flex-start; }
+      .r-sponsor-card img { width: 140px; }
+      .r-footer { padding: 1.5rem 1.25rem 2.5rem; }
+    }
+  </style>
+</BaseLayout>
