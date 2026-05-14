@@ -35,6 +35,48 @@ export type BuiltSection = {
 
 export const BUILT_LAST_UPDATED = '2026-05-14';
 
+export type AgendaItem = {
+  num: string;
+  speaker: string;
+  role: string;
+  // Title italicizes one phrase via <em>
+  titleHtml: string;
+  blurbHtml: string;
+  tags: string[];
+  defaultOpen?: boolean;
+};
+
+export const AGENDA: AgendaItem[] = [
+  {
+    num: '01',
+    speaker: 'Anjan',
+    role: 'Opening · 15 min',
+    titleHtml: 'Claude Cowork and <em>Markdown vs HTML.</em>',
+    blurbHtml:
+      "How Cowork changes the loop between you and the model — and why Markdown beats HTML as the contract between humans and LLMs for almost every workflow you'd reach for a frontend to build.",
+    tags: ['Claude Cowork', 'Markdown', 'HTML', 'Workflow design'],
+    defaultOpen: true,
+  },
+  {
+    num: '02',
+    speaker: 'Anjal',
+    role: 'Builder · 15 min',
+    titleHtml: 'Claude best practices, <em>shipping at agency speed.</em>',
+    blurbHtml:
+      "How a working web-dev agency wires Claude into the daily build — prompts that earn their keep, the guardrails that keep client work clean, and the practices that survive contact with a real Friday deadline.",
+    tags: ['Agency workflow', 'Best practices', 'Web dev', 'Client work'],
+  },
+  {
+    num: '03',
+    speaker: 'Amit',
+    role: 'Host · 25 min',
+    titleHtml: 'Eight things I built with Claude — <em>walk-through.</em>',
+    blurbHtml:
+      "Everything on this page, live. A course, a hotel pipeline, a portfolio, a Chrome extension, a daily AI digest, a toolkit, three resources, and one experiment. Stack chips, proof of revenue, and the parts that broke first.",
+    tags: ['ccforsf', 'Hotel AI', 'amit.so', 'BetterSkillsMD', 'Cowork', 'Toolkit'],
+  },
+];
+
 export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 14, 2026';
 export const BUILT_HERO_TITLE = 'Eight things<br />I built with <em>Claude.</em>';
 export const BUILT_HERO_INTRO =

@@ -11,6 +11,7 @@ import {
   TOOLKIT_BLOAT_FIX,
   RESOURCE_CARDS,
   FUTURE_SELF_PROMPTS,
+  AGENDA,
 } from '../data/built';
 import '../styles/built.css';
 
@@ -93,6 +94,40 @@ const jsonLd = JSON.stringify({
         </ul>
         <p class="hero-updated">Updated {updatedLabel}</p>
       </header>
+
+      <section class="agenda" aria-labelledby="agenda-h">
+        <div class="agenda-head">
+          <p class="agenda-eyebrow">Tonight · Frisco · Plano</p>
+          <h2 id="agenda-h" class="agenda-title">The <em>agenda.</em></h2>
+          <p class="agenda-sub">Three talks. One night. Tap a row to expand.</p>
+        </div>
+        <ul class="agenda-list" role="list">
+          {AGENDA.map((a, i) => (
+            <li class={`agenda-item ${a.defaultOpen ? 'is-open' : ''}`} style={`--i:${i}`}>
+              <details open={a.defaultOpen}>
+                <summary>
+                  <span class="agenda-num" aria-hidden="true">{a.num}</span>
+                  <span class="agenda-id">
+                    <span class="agenda-speaker">{a.speaker}</span>
+                    <span class="agenda-role">{a.role}</span>
+                  </span>
+                  <span class="agenda-title-line" set:html={a.titleHtml} />
+                  <span class="agenda-toggle" aria-hidden="true">
+                    <span class="t-h"></span>
+                    <span class="t-v"></span>
+                  </span>
+                </summary>
+                <div class="agenda-body">
+                  <p class="agenda-blurb" set:html={a.blurbHtml} />
+                  <ul class="agenda-tags" role="list">
+                    {a.tags.map((t) => <li>{t}</li>)}
+                  </ul>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {BUILT_SECTIONS.map((s) => (
         <section
@@ -420,6 +455,44 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
         if (visible.length) setCurrent(visible[0].target.id);
       }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
       sections.forEach(function (s) { obs.observe(s); });
+
+      var details = document.querySelectorAll('.agenda details');
+      var agendaList = document.querySelector('.agenda-list');
+      function moveRail() {
+        var open = document.querySelector('.agenda-item.is-open');
+        if (!open || !agendaList) return;
+        var listRect = agendaList.getBoundingClientRect();
+        var openRect = open.getBoundingClientRect();
+        var y = openRect.top - listRect.top + 8;
+        agendaList.style.setProperty('--rail-y', y);
+      }
+      details.forEach(function (d) {
+        d.addEventListener('toggle', function () {
+          if (!d.open) {
+            d.parentElement.classList.remove('is-open');
+            moveRail();
+            return;
+          }
+          details.forEach(function (other) {
+            if (other !== d) {
+              other.open = false;
+              other.parentElement.classList.remove('is-open');
+            }
+          });
+          d.parentElement.classList.add('is-open');
+          moveRail();
+        });
+      });
+      moveRail();
+      window.addEventListener('resize', moveRail);
+
+      document.querySelectorAll('.agenda-item').forEach(function (item) {
+        item.addEventListener('mousemove', function (e) {
+          var r = item.getBoundingClientRect();
+          item.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          item.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      });
 
       var btn = document.querySelector('.topnav-menu');
       var list = document.querySelector('.topnav-links');
