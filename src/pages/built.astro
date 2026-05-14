@@ -83,6 +83,24 @@ const jsonLd = JSON.stringify({
     <main class="built-main">
       <header class="hero">
         <p class="hero-eyebrow">{BUILT_HERO_EYEBROW}</p>
+        <a
+          class="sponsor"
+          href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sponsored by 25N Coworking in Frisco — view meeting rooms"
+        >
+          <span class="sponsor-label">Sponsored by</span>
+          <img
+            class="sponsor-logo"
+            src="/built/25n-logo.webp"
+            alt="25N Coworking"
+            width="180"
+            height="48"
+            loading="eager"
+          />
+          <span class="sponsor-loc"><span aria-hidden="true">·</span> Frisco, TX</span>
+        </a>
         <h1 class="hero-title" set:html={BUILT_HERO_TITLE} />
         <p class="hero-intro">{BUILT_HERO_INTRO}</p>
         <ul class="hero-pills" role="list">
@@ -118,10 +136,21 @@ const jsonLd = JSON.stringify({
                   </span>
                 </summary>
                 <div class="agenda-body">
-                  <p class="agenda-blurb" set:html={a.blurbHtml} />
-                  <ul class="agenda-tags" role="list">
-                    {a.tags.map((t) => <li>{t}</li>)}
-                  </ul>
+                  <div class="agenda-body-grid">
+                    <div class="agenda-body-copy">
+                      <p class="agenda-blurb" set:html={a.blurbHtml} />
+                      <ul class="agenda-tags" role="list">
+                        {a.tags.map((t) => <li>{t}</li>)}
+                      </ul>
+                    </div>
+                    <figure class="agenda-qr">
+                      <img src={a.qr} alt={`LinkedIn QR code for ${a.speaker}`} loading="lazy" width="180" height="180" />
+                      <figcaption>
+                        <span class="qr-line">Scan to connect</span>
+                        <span class="qr-name">{a.speaker} on LinkedIn</span>
+                      </figcaption>
+                    </figure>
+                  </div>
                 </div>
               </details>
             </li>

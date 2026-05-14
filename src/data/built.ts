@@ -43,6 +43,7 @@ export type AgendaItem = {
   titleHtml: string;
   blurbHtml: string;
   tags: string[];
+  qr: string; // path to LinkedIn QR PNG
   defaultOpen?: boolean;
 };
 
@@ -50,21 +51,23 @@ export const AGENDA: AgendaItem[] = [
   {
     num: '01',
     speaker: 'Anjan',
-    role: 'Opening · 15 min',
+    role: 'Guest Speaker · 15 min',
     titleHtml: 'Claude Cowork and <em>Markdown vs HTML.</em>',
     blurbHtml:
       "How Cowork changes the loop between you and the model — and why Markdown beats HTML as the contract between humans and LLMs for almost every workflow you'd reach for a frontend to build.",
     tags: ['Claude Cowork', 'Markdown', 'HTML', 'Workflow design'],
+    qr: '/built/qr-anjan.png',
     defaultOpen: true,
   },
   {
     num: '02',
     speaker: 'Anjal',
-    role: 'Builder · 15 min',
+    role: 'Host · 15 min',
     titleHtml: 'Claude best practices, <em>shipping at agency speed.</em>',
     blurbHtml:
       "How a working web-dev agency wires Claude into the daily build — prompts that earn their keep, the guardrails that keep client work clean, and the practices that survive contact with a real Friday deadline.",
     tags: ['Agency workflow', 'Best practices', 'Web dev', 'Client work'],
+    qr: '/built/qr-anjal.png',
   },
   {
     num: '03',
@@ -74,6 +77,7 @@ export const AGENDA: AgendaItem[] = [
     blurbHtml:
       "Everything on this page, live. A course, a hotel pipeline, a portfolio, a Chrome extension, a daily AI digest, a toolkit, three resources, and one experiment. Stack chips, proof of revenue, and the parts that broke first.",
     tags: ['ccforsf', 'Hotel AI', 'amit.so', 'BetterSkillsMD', 'Cowork', 'Toolkit'],
+    qr: '/built/qr-amit.png',
   },
 ];
 
