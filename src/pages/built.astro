@@ -3,8 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   BUILT_SECTIONS,
   BUILT_LAST_UPDATED,
-  BUILT_INTRO,
+  BUILT_HERO_EYEBROW,
+  BUILT_HERO_TITLE,
+  BUILT_HERO_INTRO,
   BUILT_CLOSING,
+  TOOLKIT_CARDS,
+  TOOLKIT_BLOAT_FIX,
+  RESOURCE_CARDS,
+  FUTURE_SELF_PROMPTS,
 } from '../data/built';
 import '../styles/built.css';
 
@@ -16,28 +22,18 @@ const updatedLabel = updatedDate.toLocaleDateString('en-US', {
   timeZone: 'UTC',
 });
 
-const num = (i: number) => String(i + 1).padStart(2, '0');
-
 const isExternal = (href: string) => /^https?:\/\//i.test(href);
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Built with Claude',
+  name: 'Eight things I built with Claude',
   url: 'https://amit.so/built',
   description:
-    "A living doc of what Amit Arora has shipped using Claude across chat, Claude Code, Cowork, Artifacts, and MCP.",
+    "A living doc of eight things Amit Arora shipped using Claude — a course, a hotel pipeline, a portfolio, a Chrome extension, a daily AI digest, a toolkit, resources, and a future-self experiment.",
   dateModified: BUILT_LAST_UPDATED,
-  isPartOf: {
-    '@type': 'WebSite',
-    name: 'Amit Arora',
-    url: 'https://amit.so',
-  },
-  author: {
-    '@type': 'Person',
-    name: 'Amit Arora',
-    url: 'https://amit.so',
-  },
+  isPartOf: { '@type': 'WebSite', name: 'Amit Arora', url: 'https://amit.so' },
+  author: { '@type': 'Person', name: 'Amit Arora', url: 'https://amit.so' },
   hasPart: BUILT_SECTIONS.map((s, i) => ({
     '@type': 'CreativeWork',
     position: i + 1,
@@ -47,101 +43,357 @@ const jsonLd = JSON.stringify({
 });
 ---
 <BaseLayout
-  title="Built with Claude | Amit Arora"
-  description="A living doc of what Amit Arora has shipped with Claude across chat, Claude Code, Cowork, Artifacts, and MCP. Courses, client pipelines, Chrome extensions, agent stacks."
+  title="Eight things I built with Claude | Amit Arora"
+  description="A living doc of work Amit Arora shipped with Claude — a Salesforce admin course, a hotel AI pipeline, a Chrome extension, a daily Cowork loop, and the toolkit behind it all."
   canonical="https://amit.so/built"
   jsonLd={jsonLd}
+  showFloatingCta={false}
 >
-  <div class="grain"></div>
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    slot="head"
+    href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
 
-  <nav class="built-topnav">
-    <a href="/" class="nav-brand">amit.so</a>
-    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
-  </nav>
-
-  <main class="built-page">
-    <aside class="section-nav" aria-label="Section navigation">
-      <span class="section-nav-label">On this page</span>
-      <ol>
-        {BUILT_SECTIONS.map((s, i) => (
+  <div class="built-root">
+    <nav class="built-topnav" aria-label="Section navigation">
+      <a href="/" class="brand">amit <span aria-hidden="true">·</span> meetup</a>
+      <ol class="topnav-links" role="list">
+        {BUILT_SECTIONS.map((s) => (
           <li>
             <a href={`#${s.id}`} data-section={s.id}>
-              <span class="num">{num(i)}</span>
-              <span>{s.navLabel}</span>
+              <span class="num">{s.num}</span>
+              <span class="label">{s.navLabel}</span>
             </a>
           </li>
         ))}
       </ol>
-    </aside>
-
-    <nav class="section-nav-mobile" aria-label="Section navigation (mobile)">
-      {BUILT_SECTIONS.map((s, i) => (
-        <a href={`#${s.id}`} data-section={s.id}>
-          <span class="num">{num(i)}</span>
-          <span>{s.navLabel}</span>
-        </a>
-      ))}
+      <button class="topnav-menu" type="button" aria-label="Toggle section menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
 
-    <div class="built-content">
-      <header class="built-header">
-        <span class="built-eyebrow">Living doc</span>
-        <h1 class="built-title">Built with <em>Claude</em></h1>
-        <p class="built-intro">{BUILT_INTRO}</p>
-        <span class="built-updated">Updated {updatedLabel}</span>
+    <main class="built-main">
+      <header class="hero">
+        <p class="hero-eyebrow">{BUILT_HERO_EYEBROW}</p>
+        <h1 class="hero-title" set:html={BUILT_HERO_TITLE} />
+        <p class="hero-intro">{BUILT_HERO_INTRO}</p>
+        <ul class="hero-pills" role="list">
+          {BUILT_SECTIONS.map((s, i) => (
+            <li>
+              <a href={`#${s.id}`} class={i === 0 ? 'is-first' : ''} data-section={s.id}>{s.pillLabel}</a>
+            </li>
+          ))}
+        </ul>
+        <p class="hero-updated">Updated {updatedLabel}</p>
       </header>
 
-      {BUILT_SECTIONS.map((s, i) => (
-        <section id={s.id} class="built-section">
-          <div class="built-section-head">
-            <span class="built-section-num">{num(i)}</span>
-            <span class="built-section-eyebrow">{s.eyebrow}</span>
+      {BUILT_SECTIONS.map((s) => (
+        <section
+          id={s.id}
+          class={`section section--${s.visual} section--${s.visualSide}`}
+          aria-labelledby={`${s.id}-title`}
+        >
+          <div class="section-num" aria-hidden="true">{s.num}</div>
+          <div class="section-grid">
+            <div class="section-copy">
+              {s.warning && <span class="warning-pill">{s.warning}</span>}
+              <p class="section-eyebrow">{s.eyebrow}</p>
+              <h2 id={`${s.id}-title`} class="section-title" set:html={s.titleHtml} />
+              {s.paragraphs.map((p) => <p class="section-p" set:html={p} />)}
+
+              {s.stack && s.stack.length > 0 && (
+                <ul class="section-chips" aria-label="Stack" role="list">
+                  {s.stack.map((t) => <li>{t}</li>)}
+                </ul>
+              )}
+
+              {s.link && (
+                <div class="section-link-wrap">
+                  <p class="section-live">Live at</p>
+                  <a
+                    class="section-link"
+                    href={s.link.href}
+                    target={isExternal(s.link.href) ? '_blank' : undefined}
+                    rel={isExternal(s.link.href) ? 'noopener noreferrer' : undefined}
+                  >
+                    <span>{s.link.label}</span>
+                    <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              )}
+
+              {s.id === 'ccforsf' && (
+                <figure class="proof">
+                  <figcaption class="proof-cap">
+                    <span class="proof-label">Proof · ThriveCart</span>
+                    <span class="proof-meta">$348.40 gross · 19 transactions</span>
+                  </figcaption>
+                  <img
+                    src="/built/thrivecart-proof.png"
+                    alt="ThriveCart Pro+ dashboard showing $348.40 gross revenue, $335.00 net revenue, and 19 total transactions for ccforsf.com"
+                    loading="lazy"
+                    width="1031"
+                    height="640"
+                  />
+                </figure>
+              )}
+            </div>
+
+            <aside class="section-visual" aria-hidden="true">
+              {s.visual === 'stack' && (
+                <div class="mock mock-stack">
+                  <p class="mock-eyebrow">The stack</p>
+                  <ol class="stack-list">
+                    <li class="is-active">
+                      <span class="stack-n">1</span>
+                      <span class="stack-body"><strong>Claude Code + Cursor IDE</strong><em>Build</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">2</span>
+                      <span class="stack-body"><strong>GitHub</strong><em>Push</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">3</span>
+                      <span class="stack-body"><strong>Vercel</strong><em>Deploy</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">4</span>
+                      <span class="stack-body"><strong>Systeme.io</strong><em>Host course</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">5</span>
+                      <span class="stack-body"><strong>ThriveCart</strong><em>Collect $</em></span>
+                    </li>
+                  </ol>
+                </div>
+              )}
+
+              {s.visual === 'hotel' && (
+                <div class="mock mock-hotel">
+                  <div class="mock-hotel-head">
+                    <span>Daily morning report · Auto-generated</span>
+                    <span class="dot" aria-hidden="true"></span>
+                  </div>
+                  <div class="hotel-grid">
+                    <div class="hotel-tile"><strong>$48.2K</strong><span class="hotel-label">Revenue</span><span class="hotel-delta good">+12%</span></div>
+                    <div class="hotel-tile"><strong>187</strong><span class="hotel-label">Rooms sold</span><span class="hotel-delta good">+8</span></div>
+                    <div class="hotel-tile"><strong>84%</strong><span class="hotel-label">Occupancy</span><span class="hotel-delta bad">−2pt</span></div>
+                    <div class="hotel-tile"><strong>$258</strong><span class="hotel-label">ADR</span><span class="hotel-delta good">+$14</span></div>
+                    <div class="hotel-tile"><strong>$217</strong><span class="hotel-label">RevPAR</span><span class="hotel-delta good">+$9</span></div>
+                    <div class="hotel-tile"><strong>21/21</strong><span class="hotel-label">PDFs parsed</span><span class="hotel-delta auto">auto</span></div>
+                  </div>
+                  <div class="mock-hotel-foot">
+                    <span>n8n · AgentMail · Claude</span>
+                    <span>05:47 am CT</span>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'portfolio' && (
+                <div class="mock mock-browser">
+                  <div class="browser-bar">
+                    <span class="dots"><span></span><span></span><span></span></span>
+                    <span class="addr">amit.so</span>
+                  </div>
+                  <div class="browser-body">
+                    <span class="portfolio-badge"><span class="dot" aria-hidden="true"></span> Open to opportunities</span>
+                    <p class="portfolio-name">Amit Arora</p>
+                    <p class="portfolio-sub">Strategic GTM Consultant · Salesforce Architect · AI Workflow Builder</p>
+                    <div class="portfolio-stats">
+                      <div><strong>10+</strong><span>Years</span></div>
+                      <div><strong>8×</strong><span>SF Certified</span></div>
+                      <div><strong>25%</strong><span>Forecast +</span></div>
+                      <div><strong>A &amp; B</strong><span>Startup</span></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'extension' && (
+                <div class="mock mock-extension">
+                  <div class="ext-head">
+                    <span class="ext-brand"><span class="ext-mark">B</span>BetterSkillsMD</span>
+                    <span class="ext-status"><span class="dot" aria-hidden="true"></span> streaming</span>
+                  </div>
+                  <pre class="ext-code"><code><span class="c-h"># design.md</span>
+<span class="c-q">&gt; generated from screenshot · gpt-4o</span>
+
+<span class="c-h">## overview</span>
+modern saas landing · cream + coral
+generous whitespace · serif display
+
+<span class="c-h">## palette</span>
+<span class="c-s">`#FAF9F6`</span> background
+<span class="c-s">`#1F1F1D`</span> text
+<span class="c-s">`#DA7756`</span> accent
+
+<span class="c-h">## typography</span>
+display: Elms Sans
+sub:     Victor Mono
+body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
+                  <div class="ext-buttons">
+                    <button type="button" class="ext-btn ext-btn-primary">Copy</button>
+                    <button type="button" class="ext-btn">Download .md</button>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'cowork' && (
+                <div class="mock mock-email">
+                  <div class="email-head">
+                    <span>cowork@anthropic <span aria-hidden="true">·</span> aroramit.17@gmail.com</span>
+                    <span>05:42 am</span>
+                  </div>
+                  <div class="email-hero">
+                    <p class="email-title">🤖 Daily AI Feed — May 13, 2026</p>
+                    <p class="email-sub">📊 Slide deck saved to workspace: AI_Digest_2026-05-13.pptx</p>
+                  </div>
+                  <div class="email-body">
+                    <div class="email-src">
+                      <p class="email-src-h">@claudeai — Claude (Anthropic)</p>
+                      <ul><li><strong>Weekly limits +50%</strong> through Jul 13 — live now</li><li>New <strong>agent view</strong>: all sessions, inline reply</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@OpenAI — OpenAI</p>
+                      <ul><li><strong>Enterprise Codex push</strong>: 2 free months for new users</li><li>Introducing <strong>Daybreak</strong>: frontier AI for cyber defenders</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@GeminiApp — Google Gemini</p>
+                      <ul><li><strong>Google I/O May 19–20</strong> — major announcements imminent</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@MatthewBerman — Matthew Berman</p>
+                      <ul><li>Breakdown: <strong>AI-powered cyber attacks escalating</strong></li></ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'toolkit' && (
+                <div class="toolkit-wrap">
+                  <div class="toolkit-grid">
+                    {TOOLKIT_CARDS.map((c) => (
+                      <article class={`tool-card ${c.warn ? 'tool-card--warn' : ''}`}>
+                        <p class="tool-eyebrow">{c.eyebrow}</p>
+                        <h3 class="tool-title">{c.title}</h3>
+                        <p class="tool-body">{c.body}</p>
+                        {c.code && <pre class="tool-code"><code>{c.code}</code></pre>}
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'resources' && (
+                <div class="resources-wrap">
+                  {RESOURCE_CARDS.map((r) => (
+                    <a class="resource-card" href={r.link.href} target="_blank" rel="noopener noreferrer">
+                      <span class="resource-arrow" aria-hidden="true">↗</span>
+                      <p class="resource-eyebrow">{r.eyebrow}</p>
+                      <h3 class="resource-title">{r.title}</h3>
+                      <p class="resource-body">{r.body}</p>
+                      <span class="resource-link">{r.link.label} →</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {s.visual === 'research' && (
+                <div class="mock mock-research">
+                  <p class="research-eyebrow">The research</p>
+                  <p class="research-name">Hal Hershfield</p>
+                  <p class="research-org"><em>UCLA Anderson</em></p>
+                  <p class="research-body">
+                    15 years of research on the psychology of future-self continuity. The finding: people who feel emotionally close to their future self save more, eat better, train harder, and pick longer-payoff careers.
+                  </p>
+                  <hr class="research-sep" />
+                  <p class="research-foot">Protocol surfaced by @sukh_saroy <span aria-hidden="true">·</span> May 6, 2026</p>
+                </div>
+              )}
+            </aside>
           </div>
-          <h2 set:html={s.titleHtml} />
-          {s.paragraphs.map((p) => <p>{p}</p>)}
 
-          {s.list && s.list.length > 0 && (
-            <ol class="built-list">
-              {s.list.map((item) => (
-                <li>
-                  {item.title && <span class="li-title">{item.title}</span>}
-                  {item.body && <span class="li-body">{item.body}</span>}
-                </li>
-              ))}
-            </ol>
-          )}
-
-          {s.stack && s.stack.length > 0 && (
-            <div class="built-stack" aria-label="Stack">
-              {s.stack.map((t) => <span class="built-chip">{t}</span>)}
+          {s.id === 'toolkit' && (
+            <div class="toolkit-bloat">
+              <div class="section-grid">
+                <div class="section-copy">
+                  <p class="section-eyebrow">{TOOLKIT_BLOAT_FIX.eyebrow}</p>
+                  <h3 class="section-title" set:html={TOOLKIT_BLOAT_FIX.titleHtml} />
+                  {TOOLKIT_BLOAT_FIX.paragraphs.map((p) => <p class="section-p">{p}</p>)}
+                </div>
+                <aside class="section-visual" aria-hidden="true">
+                  <div class="mock mock-finder">
+                    <div class="finder-head">
+                      <span>~/.claude-mem/</span>
+                      <span class="finder-warn">△ disk pressure</span>
+                    </div>
+                    <div class="finder-cols">
+                      <span>Name</span><span>Date modified</span><span class="finder-size">Size</span>
+                    </div>
+                    <ul class="finder-rows">
+                      <li><span>📁 chroma</span><span>Today at 2:25 PM</span><span>—</span></li>
+                      <li class="is-flag">
+                        <span>📄 claude-mem.db</span>
+                        <span>Today at 2:24 PM</span>
+                        <span class="finder-big">808.53 GB</span>
+                      </li>
+                      <li><span>📄 claude-mem.db-shm</span><span>May 8, 2026</span><span>293.1 MB</span></li>
+                      <li><span>📄 claude-mem.db-wal</span><span>Today at 2:25 PM</span><span>4.2 MB</span></li>
+                      <li><span>📁 corpora</span><span>Apr 20, 2026</span><span>—</span></li>
+                      <li><span>📁 logs</span><span>Yesterday at 10:13 PM</span><span>—</span></li>
+                    </ul>
+                    <p class="finder-note"><strong>1.5 TB</strong> of memory swallowed before I caught it. Old claude-mem versions had a memory leak — the .db file grew indefinitely.</p>
+                  </div>
+                </aside>
+              </div>
             </div>
           )}
 
-          {s.link && (
-            <a
-              class="built-link"
-              href={s.link.href}
-              target={isExternal(s.link.href) ? '_blank' : undefined}
-              rel={isExternal(s.link.href) ? 'noopener noreferrer' : undefined}
-            >
-              <span>{s.link.label}</span>
-              <span class="arrow" aria-hidden="true">&rarr;</span>
-            </a>
+          {s.id === 'future-self' && (
+            <div class="future-prompts">
+              <p class="section-eyebrow">The six prompts · run in order</p>
+              <ol class="prompts-list">
+                {FUTURE_SELF_PROMPTS.map((p, i) => (
+                  <li>
+                    <span class="prompt-n">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 class="prompt-title">{p.title}</h3>
+                      <p class="prompt-body">{p.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           )}
-
-          {s.note && <p class="built-note">{s.note}</p>}
         </section>
       ))}
 
       <div class="built-closing">
         <p>{BUILT_CLOSING}</p>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <footer class="built-footer">
-    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
-  </footer>
+    <footer class="built-footer">
+      <span>&copy; 2026 Amit Arora · <a href="/">amit.so</a></span>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/applying">Applying in Public</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/privacy">Privacy</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+    </footer>
+  </div>
 
   <script is:inline>
     (function () {
@@ -152,9 +404,7 @@ const jsonLd = JSON.stringify({
         var id = a.getAttribute('data-section');
         (byId[id] = byId[id] || []).push(a);
       });
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.built-section'));
-      if (!sections.length) return;
-
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
       function setCurrent(id) {
         Object.keys(byId).forEach(function (k) {
           byId[k].forEach(function (el) {
@@ -163,15 +413,28 @@ const jsonLd = JSON.stringify({
           });
         });
       }
-
       var obs = new IntersectionObserver(function (entries) {
         var visible = entries
           .filter(function (e) { return e.isIntersecting; })
           .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
         if (visible.length) setCurrent(visible[0].target.id);
       }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
-
       sections.forEach(function (s) { obs.observe(s); });
+
+      var btn = document.querySelector('.topnav-menu');
+      var list = document.querySelector('.topnav-links');
+      if (btn && list) {
+        btn.addEventListener('click', function () {
+          var open = list.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        list.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) {
+            list.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
     })();
   </script>
 </BaseLayout>

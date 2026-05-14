@@ -1,29 +1,44 @@
-// Content source for /built — "Built with Claude" living doc.
-// Add new sections by appending to BUILT_SECTIONS. Bump BUILT_LAST_UPDATED
-// when you edit so the page's "Updated" stamp reflects the change.
+// Content source for /built — "Eight things I built with Claude"
+// Add/edit sections by changing BUILT_SECTIONS. Bump BUILT_LAST_UPDATED on edit.
 
 export type BuiltLink = { label: string; href: string };
 
+// `visual` names the stylized mock the page renders to the right of the copy.
+// The .astro file owns the markup for each visual.
+export type BuiltVisual =
+  | 'stack'
+  | 'hotel'
+  | 'portfolio'
+  | 'extension'
+  | 'cowork'
+  | 'toolkit'
+  | 'memory'
+  | 'resources'
+  | 'research';
+
 export type BuiltSection = {
   id: string;
-  eyebrow: string;
-  // Title uses `<em>` HTML to italicize one phrase for emphasis.
+  num: string; // "01"
+  navLabel: string; // for sticky nav
+  pillLabel: string; // for hero pill row
+  eyebrow: string; // "THE COURSE · CCFORSF.COM"
+  // Title uses `<em>` to italicize the accent phrase in coral.
   titleHtml: string;
-  navLabel: string;
   paragraphs: string[];
-  // Optional ordered/numbered list rendered after paragraphs.
-  list?: { title?: string; body?: string }[];
-  // Optional small pill tags ("stack chips").
+  visual: BuiltVisual;
+  // Layout: where the visual sits relative to the copy.
+  visualSide: 'left' | 'right';
   stack?: string[];
   link?: BuiltLink;
-  // Optional closing note rendered after stack/link.
-  note?: string;
+  warning?: string; // small "fair warning" pill above the title
 };
 
 export const BUILT_LAST_UPDATED = '2026-05-14';
 
-export const BUILT_INTRO =
-  "A living doc of the work I've shipped with Claude across chat, Claude Code, Cowork, Artifacts, and MCP. I'll keep adding as new things ship.";
+export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 14, 2026';
+export const BUILT_HERO_TITLE = 'Eight things<br />I built with <em>Claude.</em>';
+export const BUILT_HERO_INTRO =
+  "A course. A hotel pipeline. A portfolio. A Chrome extension. A daily AI digest. A toolkit of tactical wins. A resource list. And one experiment that will reorient how you think about Claude entirely.";
 
 export const BUILT_CLOSING =
   "None of this is about Claude. It's about what one operator ships when the cost of building drops by an order of magnitude.";
@@ -31,170 +46,228 @@ export const BUILT_CLOSING =
 export const BUILT_SECTIONS: BuiltSection[] = [
   {
     id: 'ccforsf',
-    eyebrow: 'Course',
-    titleHtml: 'ccforsf.com — the <em>$97 alternative</em> to Agentforce',
-    navLabel: 'ccforsf.com',
+    num: '01',
+    navLabel: 'Course',
+    pillLabel: '01 · ccforsf',
+    eyebrow: 'The course · ccforsf.com',
+    titleHtml: 'Teaching Salesforce admins to ship <em>without Agentforce.</em>',
     paragraphs: [
-      "Claude Code for Salesforce Admins. The pitch is simple: Agentforce is $125 per user per month. This is $97 once. An admin who finishes the course walks away with the muscle to ship the same automations themselves.",
-      "Built end to end on the same stack I teach in the course: Claude Code and Cursor for the work, GitHub for source, Vercel for the live site, Systeme.io for course hosting, ThriveCart for payments.",
+      "<strong>Claude Code for Salesforce Admins.</strong> A practical course showing admins how to build Flows, Apex, and validation rules from plain English. Pitched as the $97 alternative to a $125/user/month Agentforce license.",
+      "The whole product runs on a five-tool chain. Built with <strong>Claude Code inside Cursor IDE</strong>, pushed to GitHub, deployed on Vercel. Course content lives on Systeme.io. Payments flow through ThriveCart. No CMS. No agency.",
     ],
-    stack: ['Claude Code', 'Cursor', 'GitHub', 'Vercel', 'Systeme.io', 'ThriveCart'],
-    link: { label: 'Visit ccforsf.com', href: 'https://ccforsf.com' },
+    visual: 'stack',
+    visualSide: 'right',
+    stack: ['Claude Code', 'Cursor IDE', 'GitHub', 'Vercel', 'Systeme.io', 'ThriveCart'],
+    link: { label: 'ccforsf.com', href: 'https://ccforsf.com' },
   },
   {
-    id: 'hotel-pipeline',
-    eyebrow: 'Client work',
-    titleHtml: 'Hotel AI Pipeline — <em>20+ nightly PDFs</em> into one dashboard',
-    navLabel: 'Hotel AI Pipeline',
+    id: 'hotel',
+    num: '02',
+    navLabel: 'Hotel',
+    pillLabel: '02 · hotel ai',
+    eyebrow: 'The client work · hotel AI',
+    titleHtml: 'From <em>21 PDFs at 5am</em> to one dashboard at 6.',
     paragraphs: [
-      "A hotel operator hired me to lead their AI research and find cost savings. The first real problem on the table was the nightly audit: 20+ PDFs landing every night from the property management system, read by no one, useful to everyone.",
-      "Now the pipeline runs itself. AgentMail picks up the email intake, Claude Sonnet parses the PDFs, the structured output writes straight into Google Sheets, and a daily dashboard surfaces revenue, rooms sold, occupancy, ADR, and RevPAR. The front desk reads a dashboard. Nobody opens a PDF.",
+      "A hotel operator hired me to lead AI research and find cost savings across their operations. They have a long list of problems worth solving — this one was first up.",
+      "Every night, 20+ audit PDFs hit the inbox from the property management system. Someone used to read all of them by hand. Now they get ingested automatically, parsed by Claude, and rolled into a single daily dashboard.",
+      "Revenue, rooms sold, occupancy, ADR, RevPAR — the metrics hoteliers actually care about, surfaced before the GM's first coffee. Built on n8n with AgentMail handling intake and Claude doing the parsing.",
     ],
+    visual: 'hotel',
+    visualSide: 'left',
     stack: ['n8n', 'AgentMail', 'Claude Sonnet', 'Google Sheets'],
   },
   {
     id: 'amit-so',
-    eyebrow: 'This site',
-    titleHtml: 'amit.so — the doc <em>lives on the site</em> it describes',
-    navLabel: 'amit.so',
+    num: '03',
+    navLabel: 'Amit.so',
+    pillLabel: '03 · amit.so',
+    eyebrow: 'The portfolio · amit.so',
+    titleHtml: 'A portfolio that ships <em>like a product.</em>',
     paragraphs: [
-      "Built end to end with Claude Code and Cursor. No designer, no framework lock-in, no template marketplace. Astro for static output, React islands where things need to move, and a single content file when I want to add a page like this one.",
-      "The animated hero is sourced from motionsites.ai, dropped in as a self-hosted video so it stays fast on mobile and works offline in the editor.",
-      "Meta point: if you're reading this on amit.so, you're inside the artifact. The doc lives on the site it describes.",
+      "<strong>amit.so</strong> — the personal site, built end to end with <strong>Claude Code + Cursor IDE</strong>. Hero, experience, skills, 8 Salesforce certifications, career timeline, side projects, contact. Everything someone hiring a strategic GTM consultant needs to see.",
+      "One detail worth flagging: the animated hero header came from <a href=\"https://motionsites.ai\" target=\"_blank\" rel=\"noopener\" class=\"inline-link\">motionsites.ai</a> — a great example of borrowing a polished component instead of building from zero. Claude handled the rest.",
     ],
-    stack: ['Claude Code', 'Cursor', 'Astro', 'React', 'Vercel', 'motionsites.ai'],
+    visual: 'portfolio',
+    visualSide: 'right',
+    stack: ['Claude Code', 'Cursor IDE', 'motionsites.ai', 'Vercel'],
+    link: { label: 'amit.so', href: 'https://amit.so' },
   },
   {
-    id: 'betterskillsmd',
-    eyebrow: 'Chrome extension',
-    titleHtml: 'BetterSkillsMD — <em>any web page</em> into a paste-ready design.md',
-    navLabel: 'BetterSkillsMD',
+    id: 'extension',
+    num: '04',
+    navLabel: 'Extension',
+    pillLabel: '04 · betterskillsmd',
+    eyebrow: 'The Chrome extension · BetterSkillsMD',
+    titleHtml: 'Screenshot any page. Get a <em>design.md</em> for your LLM.',
     paragraphs: [
-      "Screenshot any web page, get back a clean design.md you can paste straight into your LLM. The model behind it is GPT-4o vision. The API key stays in your browser — BYOK, no server in the middle.",
-      "Four capture modes cover the cases that actually come up: viewport, full page, drag-a-region, and click-an-element. The first five captures are free. After that it's $10 once. No subscription.",
+      "<strong>BetterSkillsMD</strong> fixes the part of vibe-coding that breaks: describing UIs to your LLM. You lose hex codes, spacing, type. You iterate five times. You burn tokens.",
+      "Click the extension. Pick a capture mode — viewport, full page, drag a region, or click an element. GPT-4o vision reads the screenshot. A streaming <code>design.md</code> writes itself in the side panel. Copy. Paste into Claude. Ship.",
+      "5 free captures, then $10 once. Bring your own OpenAI key — screenshots never touch my servers.",
     ],
-    stack: ['GPT-4o vision', 'Chrome MV3', 'BYOK'],
+    visual: 'extension',
+    visualSide: 'left',
+    stack: ['Chrome MV3', 'GPT-4o vision', 'BYOK', 'ExtensionPay', 'Stripe'],
     link: { label: 'betterskillsmd.com', href: 'https://betterskillsmd.com' },
   },
   {
     id: 'cowork',
-    eyebrow: 'Claude Cowork',
-    titleHtml: 'The daily loop — <em>two scheduled sessions</em> that run before I wake up',
-    navLabel: 'Claude Cowork',
+    num: '05',
+    navLabel: 'Cowork',
+    pillLabel: '05 · cowork',
+    eyebrow: 'The daily loop · Claude Cowork',
+    titleHtml: 'Cowork is running <em>my morning routine.</em>',
     paragraphs: [
-      "Cowork is the part of the stack I forget I'm running, which is the point.",
+      "Two scheduled Cowork sessions, both fire before I'm out of bed.",
+      "<strong>The Daily AI Feed.</strong> Cowork monitors my favorite X accounts — Claude, OpenAI, Gemini, Matthew Berman, Peter Steinberger, Tom Dörr, klöss, Alex Finn — pulls the day's signal, and lands a digest in my inbox at 5:42 am. I read it with coffee. No more doomscrolling.",
+      "<strong>The ccforsf social engine.</strong> Cowork drafts <a href=\"https://ccforsf.com\" target=\"_blank\" rel=\"noopener\" class=\"inline-link\">three posts a day</a> promoting <a href=\"https://ccforsf.com\" target=\"_blank\" rel=\"noopener\" class=\"inline-link\">ccforsf.com</a> — different angles, different platforms. I review, schedule them through my scheduling tool, and they ship. Distribution on autopilot.",
     ],
-    list: [
-      {
-        title: 'Session 1 — Daily AI Feed',
-        body:
-          "Digest of the X accounts I actually want to hear from: Claude, OpenAI, Gemini, Matthew Berman, Peter Steinberger, Tom Dörr, klöss, Alex Finn. Lands in my inbox at 5:42am every day. I open it before coffee.",
-      },
-      {
-        title: 'Session 2 — Social drafts for ccforsf',
-        body:
-          "Three posts a day promoting ccforsf.com, scheduled out through my scheduling tool. Cowork drafts, I approve, the queue stays full. No daily blank-page problem.",
-      },
-    ],
+    visual: 'cowork',
+    visualSide: 'right',
+    stack: ['Claude Cowork', 'Daily digest', '3 social posts/day', 'Auto-scheduled'],
   },
   {
     id: 'toolkit',
-    eyebrow: 'The toolkit',
-    titleHtml: 'Tactical wins — <em>small tools</em> that pay back every week',
-    navLabel: 'The Toolkit',
+    num: '06',
+    navLabel: 'Toolkit',
+    pillLabel: '06 · toolkit',
+    eyebrow: 'The toolkit · tactical wins',
+    titleHtml: 'Four small things that are <em>punching way above their weight.</em>',
     paragraphs: [
-      'A short list of the things in my setup that earn their keep.',
+      'The big builds get the airtime, but most of the leverage hides in tiny, well-placed wins. Here are four worth stealing.',
     ],
-    list: [
-      {
-        title: '/goals in Claude Code',
-        body:
-          "Keeps a long task aligned with what I actually want. Update with npm install -g @anthropic-ai/claude-code@latest. Docs at code.claude.com/docs/en/goal.",
-      },
-      {
-        title: 'Playwright skill',
-        body:
-          "Self-QA for the sites I touch. When I push to ccforsf or a client site, the agent drives a real browser, clicks the golden path, and tells me what broke before a visitor finds it.",
-      },
-      {
-        title: 'Hermes — personal agent',
-        body:
-          "My always-on assistant running on the $10/month MiniMax 2.7 token plan. Cheap enough to let it think, smart enough to be useful.",
-      },
-      {
-        title: 'claude-mem — with one caveat',
-        body:
-          "Old versions had a memory bloat bug. Mine grew the .db file to 808 GB on my Mac before I noticed. Fix is one line: npx claude-mem@latest install. My belt-and-suspenders fix: a daily automation exports the claude-mem JSON to Obsidian notes, then deletes the JSON. Memory preserved, disk not eaten alive.",
-      },
-    ],
+    visual: 'toolkit',
+    visualSide: 'right',
   },
   {
     id: 'resources',
-    eyebrow: 'Resources',
-    titleHtml: 'Take these home — <em>three links</em> that shaped my setup',
+    num: '07',
     navLabel: 'Resources',
+    pillLabel: '07 · resources',
+    eyebrow: 'Take these home · resources for the room',
+    titleHtml: 'Three links that will <em>change how you build with Claude.</em>',
     paragraphs: [
-      "The three external pieces that did the most for my workflow this year.",
+      'These are the ones I actively use and recommend without caveats. Bookmark them tonight.',
     ],
-    list: [
-      {
-        title: 'andrej-karpathy-skills',
-        body:
-          "github.com/multica-ai/andrej-karpathy-skills — my default CLAUDE.md for every new project. Drop it in, you start ahead.",
-      },
-      {
-        title: 'paperclip.ing',
-        body:
-          "Agent orchestration runtime. Runs DFW Dad Jokes and the 8-agent pipeline driving my job search. If you have multiple agents that need to coordinate, this is where I'd start.",
-      },
-      {
-        title: 'claude-mem',
-        body:
-          "github.com/thedotmack/claude-mem — persistent memory layer for Claude Code. Heads up on the disk bloat issue noted in The Toolkit. Run the latest installer and you're fine.",
-      },
-    ],
+    visual: 'resources',
+    visualSide: 'right',
   },
   {
     id: 'future-self',
-    eyebrow: 'The experiment',
-    titleHtml: 'Future Self Prompting — the <em>Berkeley protocol</em>',
-    navLabel: 'The Experiment',
+    num: '08',
+    navLabel: 'Experiment',
+    pillLabel: '08 · future self',
+    eyebrow: 'The experiment · future self prompting',
+    titleHtml: "The single most useful thing I've done with Claude <em>in two years.</em>",
     paragraphs: [
-      "Surfaced by @sukh_saroy on X on May 6, 2026. It draws on 15 years of work from Hal Hershfield at UCLA Anderson on how vividly you can picture your future self.",
-      "Six prompts, run in sequence, with the same chat. The thread does the work.",
+      "A Berkeley psychologist published a protocol called <strong>Future Self Prompting.</strong> The premise is simple. You write a letter to yourself from the version 10 years ahead — the one who already has what you're chasing today. Then you let that version do the talking.",
+      "The research underneath it is real. UCLA's Hal Hershfield spent 15 years proving one thing: <strong>the more vividly you connect to your future self, the better every decision you make today gets.</strong> Money. Health. Relationships. Career.",
+      "Six prompts. Run them in order. The first one took me 20 minutes to sit with. The second one is brutal — it shows you the version of yourself you'll become if nothing changes. The sixth one ended up taped to my monitor.",
     ],
-    list: [
-      {
-        title: 'Gratitude / regret split',
-        body:
-          "Your 10-year future self names 3 things you're doing today they're grateful you didn't quit, and 3 things they wish you'd stopped sooner.",
-      },
-      {
-        title: 'The version you almost became',
-        body:
-          "Life at 45 if nothing changes. And the story you told yourself to make settling feel okay.",
-      },
-      {
-        title: 'An ordinary Tuesday',
-        body:
-          "Your future self walks you through a regular day, wake to bed. Boring parts included. Especially the boring parts.",
-      },
-      {
-        title: "The decision I'm stuck on",
-        body:
-          "Future self tells you what you chose, and what you would have lost on the other path.",
-      },
-      {
-        title: 'The story I had to drop',
-        body:
-          "The piece of self-belief that's no longer true for the future version of you.",
-      },
-      {
-        title: 'One sentence for the monitor',
-        body:
-          "The line you'll most need to hear on a day you want to quit. Tape it where you'll see it.",
-      },
-    ],
-    note: "Fair warning: this will get emotional. That's the point.",
+    visual: 'research',
+    visualSide: 'right',
+    warning: '△ Fair warning — this will hit you',
+  },
+];
+
+// Toolkit cards rendered inside section 06.
+export const TOOLKIT_CARDS = [
+  {
+    eyebrow: 'Claude Code feature',
+    title: '/goals — turn intent into checklists',
+    body:
+      "Type /goals in Claude Code, describe the outcome, and Claude breaks it into a tracked plan. Update Claude Code first or you won't see it.",
+    code: 'npm install -g @anthropic-ai/claude-code@latest\n# then inside claude: /goals',
+  },
+  {
+    eyebrow: 'Skill · QA',
+    title: "Playwright as Claude's QA",
+    body:
+      "When I update ccforsf or build client sites, I attach the Playwright skill so Claude can browse its own output, run interactions, and confirm the page actually works before handing it back.",
+    code: "# in claude: 'qa this page with playwright'",
+  },
+  {
+    eyebrow: 'My own agent',
+    title: 'Hermes on MiniMax 2.7',
+    body:
+      "Personal agent running on the $10/month MiniMax 2.7 token plan. Cheap, fast, and good enough for the long-running glue work I don't want eating Claude tokens.",
+  },
+  {
+    eyebrow: '△ Warning · claude-mem',
+    title: 'The 808 GB disaster',
+    body:
+      "Old claude-mem versions had a memory bloat bug — mine grew to over 800 GB before I noticed. If you installed it months ago, fix it today.",
+    code: 'npx claude-mem@latest install',
+    warn: true,
+  },
+];
+
+export const TOOLKIT_BLOAT_FIX = {
+  eyebrow: 'My fix for the bloat',
+  titleHtml: 'Preserve the memory. <em>Stop the bloat.</em>',
+  paragraphs: [
+    "Even with the fix in place, I didn't want to trust the cleanup. So I built a daily automation: it reads the claude-mem JSON, converts every entry into an Obsidian note, then deletes the original JSON from the claude-mem folder.",
+    'My memory survives in a format I actually own. My disk stays alive. Win-win.',
+  ],
+};
+
+// Resource cards rendered inside section 07.
+export const RESOURCE_CARDS = [
+  {
+    eyebrow: 'My default CLAUDE.md',
+    title: 'Andrej Karpathy Skills',
+    body:
+      "Every new project I spin up starts with this CLAUDE.md. It encodes Karpathy's principles into a project-level system prompt — and the difference in output quality is immediate.",
+    link: {
+      label: 'github.com/multica-ai/andrej-karpathy-skills',
+      href: 'https://github.com/multica-ai/andrej-karpathy-skills',
+    },
+  },
+  {
+    eyebrow: 'Agent orchestration',
+    title: 'Paperclip',
+    body:
+      'The agent runtime behind DFW Dad Jokes and my 8-agent job search pipeline. AGENTS.md as the contract. Heartbeats, budgets, governance — built in.',
+    link: { label: 'paperclip.ing', href: 'https://paperclip.ing' },
+  },
+  {
+    eyebrow: 'Memory layer (with caveats)',
+    title: 'claude-mem by thedotmack',
+    body:
+      "Persistent memory across Claude Code sessions. Critical fix: run `npx claude-mem@latest install` if you installed an old version. See chapter 06 for the disk bloat story.",
+    link: { label: 'github.com/thedotmack/claude-mem', href: 'https://github.com/thedotmack/claude-mem' },
+  },
+];
+
+// Future self prompts rendered as a list inside section 08 (kept for SEO depth).
+export const FUTURE_SELF_PROMPTS = [
+  {
+    title: 'Gratitude / regret split',
+    body:
+      "Your 10-year future self names 3 things you're doing today they're grateful you didn't quit, and 3 they wish you'd stopped sooner.",
+  },
+  {
+    title: 'The version you almost became',
+    body:
+      "Life at 45 if nothing changes. And the story you told yourself to make settling feel okay.",
+  },
+  {
+    title: 'An ordinary Tuesday',
+    body:
+      "Wake to bed, your future self walks you through a regular day. Boring parts included. Especially the boring parts.",
+  },
+  {
+    title: "The decision I'm stuck on",
+    body:
+      'Future self tells you what you chose, and what you would have lost on the other path.',
+  },
+  {
+    title: 'The story I had to drop',
+    body:
+      "The piece of self-belief that's no longer true for the future version of you.",
+  },
+  {
+    title: 'One sentence for the monitor',
+    body:
+      "The line you'll most need to hear on a day you want to quit. Tape it where you'll see it.",
   },
 ];
