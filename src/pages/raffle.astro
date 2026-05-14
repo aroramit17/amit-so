@@ -180,10 +180,11 @@ const jsonLd = JSON.stringify({
         <h2 id="raffle-h" class="r-h2">Enter the raffle</h2>
         <p class="r-raffle-sub">Drop your name in for a chance to win some swag at the meetup.</p>
 
-        <div class="r-qs-wrap">
-          <div id="qs-embed-6a0649e68241da4fee61439f" class="r-qs-embed"></div>
+        <div class="r-qs-launch">
+          <a id="qs-embed-6a064bb27764fa860b996787-btn" href="https://form.questionscout.com/6a0377faa812b1dffda0db08" target="_blank" rel="noopener noreferrer">Enter the raffle</a>
+          <p class="r-qs-hint">Opens the entry form in a popup. Takes about 60 seconds.</p>
         </div>
-        <script is:inline id="qs-embed-6a0649e68241da4fee61439f">(function(p){var s=window.document.createElement('script');s.src=p.a;s.setAttribute('data-form-id',p.b);s.setAttribute('data-url-params',p.c);s.setAttribute('data-runner-id',p.d);s.setAttribute('data-css',p.e);s.setAttribute('data-size','full');window.document.head.appendChild(s);})({"a":"https://form.questionscout.com/qs-form-script.min.js","b":"6a0377faa812b1dffda0db08","c":"[]","d":"qs-embed-6a0649e68241da4fee61439f","e":""})</script>
+        <script is:inline id="qs-embed-6a064bb27764fa860b996787">(function(p){var s=window.document.createElement('script');s.src=p.a;s.setAttribute('data-form-id',p.b);s.setAttribute('data-url-params',p.c);s.setAttribute('data-runner-id',p.d);s.setAttribute('data-css',p.e);s.setAttribute('data-button',true);window.document.head.appendChild(s);})({"a":"https://form.questionscout.com/qs-form-script.min.js","b":"6a0377faa812b1dffda0db08","c":"[]","d":"qs-embed-6a064bb27764fa860b996787","e":""})</script>
       </section>
 
       <section class="r-hosts" aria-labelledby="hosts-h">
@@ -495,16 +496,42 @@ const jsonLd = JSON.stringify({
 
     .r-raffle { margin-bottom: 4rem; }
     .r-raffle-sub { color: var(--r-mute); margin-bottom: 1.5rem; }
-    .r-qs-wrap {
-      padding: 1rem 1rem 0.75rem;
-      border: 1px solid var(--r-line);
-      border-radius: 16px;
-      background: var(--r-card);
-      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04);
-      max-width: 720px;
+    .r-qs-launch { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-start; }
+    /* Override the Questscout-injected button styles so the launcher matches
+       the coral pill aesthetic. Body-prefix wins specificity vs QS's `#id`. */
+    body #qs-embed-6a064bb27764fa860b996787-btn,
+    body a#qs-embed-6a064bb27764fa860b996787-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.65rem;
+      border-radius: 999px;
+      background: var(--r-accent);
+      color: var(--r-bg);
+      font-family: var(--r-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border: 1px solid var(--r-accent);
+      box-shadow: 0 14px 30px -16px rgba(217, 119, 87, 0.55);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
-    .r-qs-embed { min-height: 300px; }
-    .r-qs-embed iframe { width: 100%; border: 0; display: block; }
+    body #qs-embed-6a064bb27764fa860b996787-btn:hover {
+      transform: translateY(-1px);
+      background: #c66948;
+      border-color: #c66948;
+      box-shadow: 0 18px 32px -16px rgba(217, 119, 87, 0.7);
+    }
+    body #qs-embed-6a064bb27764fa860b996787-btn:active { transform: translateY(0); }
+    .r-qs-hint {
+      font-family: var(--r-mono);
+      font-size: 0.78rem;
+      color: var(--r-mute);
+      letter-spacing: 0.02em;
+    }
 
     .r-hosts { margin-bottom: 4rem; }
     .r-hosts-grid {
