@@ -236,16 +236,20 @@ em.italic-accent {
   margin-bottom: 2.5rem;
 }
 .hero-pills {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.75rem;
   list-style: none;
   margin-bottom: 2.25rem;
+  max-width: 880px;
 }
+.hero-pills li { display: flex; }
 .hero-pills a {
+  flex: 1;
   display: inline-flex;
   align-items: center;
-  padding: 0.55rem 1.05rem;
+  justify-content: center;
+  padding: 0.6rem 0.95rem;
   border: 1px solid var(--ink-faint);
   border-radius: 999px;
   background: transparent;
@@ -254,6 +258,8 @@ em.italic-accent {
   font-size: 0.82rem;
   letter-spacing: 0.02em;
   text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 .hero-pills a:hover { background: var(--card); border-color: var(--ink); }
@@ -261,6 +267,12 @@ em.italic-accent {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--bg);
+}
+@media (max-width: 720px) {
+  .hero-pills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 360px) {
+  .hero-pills { grid-template-columns: 1fr; }
 }
 .hero-updated {
   font-family: var(--mono);
@@ -1019,7 +1031,6 @@ em.italic-accent {
   display: flex;
   flex-direction: column;
 }
-.tool-card:nth-child(4) { grid-column: 1 / 2; }
 .tool-card--warn { border-color: var(--accent-mid); background: var(--card); }
 .tool-eyebrow {
   font-family: var(--mono);
@@ -1061,13 +1072,22 @@ em.italic-accent {
   color: var(--accent);
 }
 
-.toolkit-bloat {
+/* ─── Section 06b: Claude Mem (dedicated) ─── */
+.section--claude-mem .section-num { color: var(--accent); }
+.section--claude-mem .section-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }
+.cm-warn { margin-top: 1.75rem; max-width: 100%; }
+.cm-bloat {
   margin-top: 4rem;
   padding-top: 3rem;
   border-top: 1px solid var(--line);
 }
-.toolkit-bloat .section-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }
-.toolkit-bloat .section-title { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+.cm-bloat .section-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.cm-bloat .section-title { font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
+.cm-bloat .section-copy { max-width: 760px; }
+@media (max-width: 880px) {
+  .section--claude-mem .section-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .cm-bloat { padding-top: 2rem; margin-top: 2.5rem; }
+}
 
 /* ─── Mock: finder (memory bloat) ─── */
 .mock-finder { padding: 0; overflow: hidden; font-family: var(--sans); }
@@ -1349,7 +1369,7 @@ em.italic-accent {
   .section--left .section-visual { grid-column: 1; grid-row: auto; }
   .toolkit-grid { grid-template-columns: 1fr; }
   .tool-card:nth-child(4) { grid-column: auto; }
-  .toolkit-bloat .section-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  /* (claude-mem mobile handled by .section--claude-mem rule above) */
   .portfolio-stats { grid-template-columns: repeat(2, 1fr); }
   .hero-pills { gap: 0.5rem; }
   .hero-pills a { padding: 0.45rem 0.85rem; font-size: 0.76rem; }

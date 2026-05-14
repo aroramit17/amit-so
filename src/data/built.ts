@@ -82,9 +82,8 @@ export const AGENDA: AgendaItem[] = [
 ];
 
 export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 14, 2026';
-export const BUILT_HERO_TITLE = 'Eight things<br />I built with <em>Claude.</em>';
-export const BUILT_HERO_INTRO =
-  "A course. A hotel pipeline. A portfolio. A Chrome extension. A daily AI digest. A toolkit of tactical wins. A resource list. And one experiment that will reorient how you think about Claude entirely.";
+export const BUILT_HERO_TITLE = 'Building with <em>Claude.</em>';
+export const BUILT_HERO_INTRO = '';
 
 export const BUILT_CLOSING =
   "None of this is about Claude. It's about what one operator ships when the cost of building drops by an order of magnitude.";
@@ -174,12 +173,12 @@ export const BUILT_SECTIONS: BuiltSection[] = [
   {
     id: 'toolkit',
     num: '06',
-    navLabel: 'Toolkit',
-    pillLabel: '06 · toolkit',
-    eyebrow: 'The toolkit · tactical wins',
-    titleHtml: 'Four small things that are <em>punching way above their weight.</em>',
+    navLabel: 'Experiments',
+    pillLabel: '06 · experiments',
+    eyebrow: 'In progress · tactical wins',
+    titleHtml: "Things I'm <em>experimenting with</em> in Claude.",
     paragraphs: [
-      'The big builds get the airtime, but most of the leverage hides in tiny, well-placed wins. Here are four worth stealing.',
+      "Live experiments — small enough to swap out, useful enough to keep using. These three earn their keep every week.",
     ],
     visual: 'toolkit',
     visualSide: 'right',
@@ -215,7 +214,7 @@ export const BUILT_SECTIONS: BuiltSection[] = [
   },
 ];
 
-// Toolkit cards rendered inside section 06.
+// Toolkit cards rendered inside section 06 (experiments).
 export const TOOLKIT_CARDS = [
   {
     eyebrow: 'Claude Code feature',
@@ -237,23 +236,32 @@ export const TOOLKIT_CARDS = [
     body:
       "Personal agent running on the $10/month MiniMax 2.7 token plan. Cheap, fast, and good enough for the long-running glue work I don't want eating Claude tokens.",
   },
-  {
+];
+
+// Dedicated claude-mem beat — rendered as its own section below the toolkit
+// (no pill in the hero; appears immediately after section 06).
+export const CLAUDE_MEM = {
+  id: 'claude-mem',
+  num: '06b',
+  eyebrow: 'Persistent memory · claude-mem',
+  titleHtml: 'The <em>claude-mem</em> story.',
+  intro:
+    "claude-mem gives Claude Code session-spanning memory. It's been one of the most useful upgrades to my setup — and also the one that nearly ate my disk. Here's what happened, and how I run it now.",
+  warningCard: {
     eyebrow: '△ Warning · claude-mem',
     title: 'The 808 GB disaster',
     body:
       "Old claude-mem versions had a memory bloat bug — mine grew to over 800 GB before I noticed. If you installed it months ago, fix it today.",
     code: 'npx claude-mem@latest install',
-    warn: true,
   },
-];
-
-export const TOOLKIT_BLOAT_FIX = {
-  eyebrow: 'My fix for the bloat',
-  titleHtml: 'Preserve the memory. <em>Stop the bloat.</em>',
-  paragraphs: [
-    "Even with the fix in place, I didn't want to trust the cleanup. So I built a daily automation: it reads the claude-mem JSON, converts every entry into an Obsidian note, then deletes the original JSON from the claude-mem folder.",
-    'My memory survives in a format I actually own. My disk stays alive. Win-win.',
-  ],
+  bloatFix: {
+    eyebrow: 'My fix for the bloat',
+    titleHtml: 'Preserve the memory. <em>Stop the bloat.</em>',
+    paragraphs: [
+      "Even with the fix in place, I didn't want to trust the cleanup. So I built a daily automation: it reads the claude-mem JSON, converts every entry into an Obsidian note, then deletes the original JSON from the claude-mem folder.",
+      'My memory survives in a format I actually own. My disk stays alive. Win-win.',
+    ],
+  },
 };
 
 // Resource cards rendered inside section 07.

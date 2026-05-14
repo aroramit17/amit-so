@@ -8,7 +8,7 @@ import {
   BUILT_HERO_INTRO,
   BUILT_CLOSING,
   TOOLKIT_CARDS,
-  TOOLKIT_BLOAT_FIX,
+  CLAUDE_MEM,
   RESOURCE_CARDS,
   FUTURE_SELF_PROMPTS,
   AGENDA,
@@ -103,7 +103,6 @@ const jsonLd = JSON.stringify({
           <span class="sponsor-loc"><span aria-hidden="true">·</span> Frisco, TX</span>
         </a>
         <h1 class="hero-title" set:html={BUILT_HERO_TITLE} />
-        <p class="hero-intro">{BUILT_HERO_INTRO}</p>
         <ul class="hero-pills" role="list">
           {BUILT_SECTIONS.map((s, i) => (
             <li>
@@ -160,6 +159,7 @@ const jsonLd = JSON.stringify({
       </section>
 
       {BUILT_SECTIONS.map((s) => (
+        <>
         <section
           id={s.id}
           class={`section section--${s.visual} section--${s.visualSide}`}
@@ -389,42 +389,6 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
             </aside>
           </div>
 
-          {s.id === 'toolkit' && (
-            <div class="toolkit-bloat">
-              <div class="section-grid">
-                <div class="section-copy">
-                  <p class="section-eyebrow">{TOOLKIT_BLOAT_FIX.eyebrow}</p>
-                  <h3 class="section-title" set:html={TOOLKIT_BLOAT_FIX.titleHtml} />
-                  {TOOLKIT_BLOAT_FIX.paragraphs.map((p) => <p class="section-p">{p}</p>)}
-                </div>
-                <aside class="section-visual" aria-hidden="true">
-                  <div class="mock mock-finder">
-                    <div class="finder-head">
-                      <span>~/.claude-mem/</span>
-                      <span class="finder-warn">△ disk pressure</span>
-                    </div>
-                    <div class="finder-cols">
-                      <span>Name</span><span>Date modified</span><span class="finder-size">Size</span>
-                    </div>
-                    <ul class="finder-rows">
-                      <li><span>📁 chroma</span><span>Today at 2:25 PM</span><span>—</span></li>
-                      <li class="is-flag">
-                        <span>📄 claude-mem.db</span>
-                        <span>Today at 2:24 PM</span>
-                        <span class="finder-big">808.53 GB</span>
-                      </li>
-                      <li><span>📄 claude-mem.db-shm</span><span>May 8, 2026</span><span>293.1 MB</span></li>
-                      <li><span>📄 claude-mem.db-wal</span><span>Today at 2:25 PM</span><span>4.2 MB</span></li>
-                      <li><span>📁 corpora</span><span>Apr 20, 2026</span><span>—</span></li>
-                      <li><span>📁 logs</span><span>Yesterday at 10:13 PM</span><span>—</span></li>
-                    </ul>
-                    <p class="finder-note"><strong>1.5 TB</strong> of memory swallowed before I caught it. Old claude-mem versions had a memory leak — the .db file grew indefinitely.</p>
-                  </div>
-                </aside>
-              </div>
-            </div>
-          )}
-
           {s.id === 'future-self' && (
             <div class="future-prompts">
               <p class="section-eyebrow">The six prompts · run in order</p>
@@ -442,6 +406,65 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
             </div>
           )}
         </section>
+
+        {s.id === 'toolkit' && (
+          <section
+            id={CLAUDE_MEM.id}
+            class="section section--memory section--right section--claude-mem"
+            aria-labelledby="claude-mem-title"
+          >
+            <div class="section-num" aria-hidden="true">{CLAUDE_MEM.num}</div>
+            <div class="section-grid">
+              <div class="section-copy">
+                <p class="section-eyebrow">{CLAUDE_MEM.eyebrow}</p>
+                <h2 id="claude-mem-title" class="section-title" set:html={CLAUDE_MEM.titleHtml} />
+                <p class="section-p">{CLAUDE_MEM.intro}</p>
+
+                <article class="tool-card tool-card--warn cm-warn">
+                  <p class="tool-eyebrow">{CLAUDE_MEM.warningCard.eyebrow}</p>
+                  <h3 class="tool-title">{CLAUDE_MEM.warningCard.title}</h3>
+                  <p class="tool-body">{CLAUDE_MEM.warningCard.body}</p>
+                  <pre class="tool-code"><code>{CLAUDE_MEM.warningCard.code}</code></pre>
+                </article>
+              </div>
+              <aside class="section-visual" aria-hidden="true">
+                <div class="mock mock-finder">
+                  <div class="finder-head">
+                    <span>~/.claude-mem/</span>
+                    <span class="finder-warn">△ disk pressure</span>
+                  </div>
+                  <div class="finder-cols">
+                    <span>Name</span><span>Date modified</span><span class="finder-size">Size</span>
+                  </div>
+                  <ul class="finder-rows">
+                    <li><span>📁 chroma</span><span>Today at 2:25 PM</span><span>—</span></li>
+                    <li class="is-flag">
+                      <span>📄 claude-mem.db</span>
+                      <span>Today at 2:24 PM</span>
+                      <span class="finder-big">808.53 GB</span>
+                    </li>
+                    <li><span>📄 claude-mem.db-shm</span><span>May 8, 2026</span><span>293.1 MB</span></li>
+                    <li><span>📄 claude-mem.db-wal</span><span>Today at 2:25 PM</span><span>4.2 MB</span></li>
+                    <li><span>📁 corpora</span><span>Apr 20, 2026</span><span>—</span></li>
+                    <li><span>📁 logs</span><span>Yesterday at 10:13 PM</span><span>—</span></li>
+                  </ul>
+                  <p class="finder-note"><strong>1.5 TB</strong> of memory swallowed before I caught it. Old claude-mem versions had a memory leak — the .db file grew indefinitely.</p>
+                </div>
+              </aside>
+            </div>
+
+            <div class="cm-bloat">
+              <div class="section-grid">
+                <div class="section-copy">
+                  <p class="section-eyebrow">{CLAUDE_MEM.bloatFix.eyebrow}</p>
+                  <h3 class="section-title" set:html={CLAUDE_MEM.bloatFix.titleHtml} />
+                  {CLAUDE_MEM.bloatFix.paragraphs.map((p) => <p class="section-p">{p}</p>)}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+        </>
       ))}
 
       <div class="built-closing">
