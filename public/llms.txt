@@ -9,6 +9,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 - [Homepage](https://amit.so/): Overview of Amit's work and positioning
 - [Interview with Amit](https://amit.so/interview): Book a call if you're hiring
 - [Applying in Public](https://amit.so/applying): Live documentation of the job search
+- [Built with Claude](https://amit.so/built): Living doc of work Amit has shipped using Claude across chat, Claude Code, Cowork, Artifacts, and MCP
 - Based in Aubrey, Texas; 10+ years across Revenue Operations, GTM systems, and Salesforce consulting
 - 8× Salesforce Certified — Administrator, Advanced Administrator, Sales Cloud, Service Cloud, Experience Cloud, AI Associate, Agentforce Specialist, Salesforce Maps
 

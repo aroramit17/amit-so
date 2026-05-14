@@ -46,7 +46,8 @@ function Nav() {
   }, []);
   const links = [
     ['About', '#about'], ['Experience', '#experience'], ['Skills', '#skills'],
-    ['Projects', '#projects'], ['Contact', '#contact'],
+    ['Projects', '#projects'], ['Built with Claude', '/built'],
+    ['Contact', '#contact'],
     ['Applying in Public', '/applying']
   ];
   return (
@@ -441,6 +442,8 @@ function Footer() {
   return (
     <footer className="site-footer">
       <span>© 2026 Amit Arora · amit.so</span>
+      <span className="footer-sep"> · </span>
+      <a href="/built" className="footer-link">Built with Claude</a>
       <span className="footer-sep"> · </span>
       <a href="/llms.txt" className="footer-link">llms.txt</a>
       <span className="footer-sep"> · </span>

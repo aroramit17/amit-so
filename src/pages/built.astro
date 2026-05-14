@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  BUILT_SECTIONS,
+  BUILT_LAST_UPDATED,
+  BUILT_INTRO,
+  BUILT_CLOSING,
+} from '../data/built';
+import '../styles/built.css';
+
+const updatedDate = new Date(BUILT_LAST_UPDATED + 'T00:00:00Z');
+const updatedLabel = updatedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const num = (i: number) => String(i + 1).padStart(2, '0');
+
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Built with Claude',
+  url: 'https://amit.so/built',
+  description:
+    "A living doc of what Amit Arora has shipped using Claude across chat, Claude Code, Cowork, Artifacts, and MCP.",
+  dateModified: BUILT_LAST_UPDATED,
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Amit Arora',
+    url: 'https://amit.so',
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Amit Arora',
+    url: 'https://amit.so',
+  },
+  hasPart: BUILT_SECTIONS.map((s, i) => ({
+    '@type': 'CreativeWork',
+    position: i + 1,
+    name: s.navLabel,
+    url: `https://amit.so/built#${s.id}`,
+  })),
+});
+---
+<BaseLayout
+  title="Built with Claude | Amit Arora"
+  description="A living doc of what Amit Arora has shipped with Claude across chat, Claude Code, Cowork, Artifacts, and MCP. Courses, client pipelines, Chrome extensions, agent stacks."
+  canonical="https://amit.so/built"
+  jsonLd={jsonLd}
+>
+  <div class="grain"></div>
+
+  <nav class="built-topnav">
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main class="built-page">
+    <aside class="section-nav" aria-label="Section navigation">
+      <span class="section-nav-label">On this page</span>
+      <ol>
+        {BUILT_SECTIONS.map((s, i) => (
+          <li>
+            <a href={`#${s.id}`} data-section={s.id}>
+              <span class="num">{num(i)}</span>
+              <span>{s.navLabel}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </aside>
+
+    <nav class="section-nav-mobile" aria-label="Section navigation (mobile)">
+      {BUILT_SECTIONS.map((s, i) => (
+        <a href={`#${s.id}`} data-section={s.id}>
+          <span class="num">{num(i)}</span>
+          <span>{s.navLabel}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="built-content">
+      <header class="built-header">
+        <span class="built-eyebrow">Living doc</span>
+        <h1 class="built-title">Built with <em>Claude</em></h1>
+        <p class="built-intro">{BUILT_INTRO}</p>
+        <span class="built-updated">Updated {updatedLabel}</span>
+      </header>
+
+      {BUILT_SECTIONS.map((s, i) => (
+        <section id={s.id} class="built-section">
+          <div class="built-section-head">
+            <span class="built-section-num">{num(i)}</span>
+            <span class="built-section-eyebrow">{s.eyebrow}</span>
+          </div>
+          <h2 set:html={s.titleHtml} />
+          {s.paragraphs.map((p) => <p>{p}</p>)}
+
+          {s.list && s.list.length > 0 && (
+            <ol class="built-list">
+              {s.list.map((item) => (
+                <li>
+                  {item.title && <span class="li-title">{item.title}</span>}
+                  {item.body && <span class="li-body">{item.body}</span>}
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {s.stack && s.stack.length > 0 && (
+            <div class="built-stack" aria-label="Stack">
+              {s.stack.map((t) => <span class="built-chip">{t}</span>)}
+            </div>
+          )}
+
+          {s.link && (
+            <a
+              class="built-link"
+              href={s.link.href}
+              target={isExternal(s.link.href) ? '_blank' : undefined}
+              rel={isExternal(s.link.href) ? 'noopener noreferrer' : undefined}
+            >
+              <span>{s.link.label}</span>
+              <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          )}
+
+          {s.note && <p class="built-note">{s.note}</p>}
+        </section>
+      ))}
+
+      <div class="built-closing">
+        <p>{BUILT_CLOSING}</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="built-footer">
+    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  </footer>
+
+  <script is:inline>
+    (function () {
+      var links = document.querySelectorAll('[data-section]');
+      if (!links.length) return;
+      var byId = {};
+      links.forEach(function (a) {
+        var id = a.getAttribute('data-section');
+        (byId[id] = byId[id] || []).push(a);
+      });
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.built-section'));
+      if (!sections.length) return;
+
+      function setCurrent(id) {
+        Object.keys(byId).forEach(function (k) {
+          byId[k].forEach(function (el) {
+            if (k === id) el.classList.add('is-current');
+            else el.classList.remove('is-current');
+          });
+        });
+      }
+
+      var obs = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+        if (visible.length) setCurrent(visible[0].target.id);
+      }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
+
+      sections.forEach(function (s) { obs.observe(s); });
+    })();
+  </script>
+</BaseLayout>
