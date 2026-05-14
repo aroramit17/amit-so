@@ -3,6 +3,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    { "source": "/case-studies/case-study-1", "destination": "/webai-case-study", "permanent": true },
+    { "source": "/case-studies/case-study-2", "destination": "/dhi-case-study", "permanent": true },
     { "source": "/built-with-claude", "destination": "/built", "permanent": true }
   ]
 }

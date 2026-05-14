@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SITE_DATA from '../data/site.js';
+import '../styles/case-study.css';
+
+const caseStudies = SITE_DATA.caseStudies || [];
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Case Studies",
+  "url": "https://amit.so/case-studies",
+  "description": "Selected case studies from Amit Arora's Revenue Operations and GTM engineering work — each with context, approach, and outcomes.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "hasPart": caseStudies.map((c) => ({
+    "@type": "CreativeWork",
+    "name": c.title,
+    "url": `https://amit.so/${c.slug}`,
+    "about": c.tag
+  }))
+});
+---
+<BaseLayout
+  title="Case Studies | Amit Arora"
+  description="Selected case studies from Amit Arora's Revenue Operations and GTM engineering work — each with the context, approach, and outcomes."
+  canonical="https://amit.so/case-studies"
+  jsonLd={jsonLd}
+>
+  <div class="grain"></div>
+
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main>
+    <div class="eyebrow">Selected Work</div>
+    <h1>Case Studies</h1>
+    <p class="cs-sub">A deeper look at a few engagements — the context, the approach, and the outcome. New studies added as they're written up.</p>
+
+    <div class="cs-list">
+      {caseStudies.map((c) => (
+        <a href={`/${c.slug}`} class="cs-list-card">
+          <span class="cs-list-tag">{c.tag}</span>
+          <h2 class="cs-list-title">{c.title}</h2>
+          <p class="cs-list-blurb">{c.blurb}</p>
+          <span class="cs-list-arrow">Read the story &rarr;</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="cs-cta">
+      <h3>Have a similar problem?</h3>
+      <p>If any of these engagements map to work you're scoping — in RevOps, GTM engineering, or Claude Code workflows — let's talk.</p>
+      <a href="/interview" class="cs-cta-btn">Book a Call &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+  </footer>
+</BaseLayout>

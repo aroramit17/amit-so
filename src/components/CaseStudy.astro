@@ -1,0 +1,93 @@
+---
+import FlowDiagram from './FlowDiagram.astro';
+
+export interface Props {
+  study: {
+    slug: string;
+    title: string;
+    tag: string;
+    blurb: string;
+    role: string;
+    company: string;
+    timeline: string;
+    stack: string[];
+    outcome: string;
+    context: string[];
+    flow?: {
+      title: string;
+      overview: string;
+      nodes: { id: string; label: string; role: string; x: number; y: number; width?: number }[];
+      edges: { from: string; to: string; label: string; curvature?: number }[];
+    };
+    approachSteps: { n: number; title: string; body: string }[];
+    result: string[];
+  };
+}
+const { study } = Astro.props;
+---
+<div class="grain"></div>
+
+<nav>
+  <a href="/" class="nav-brand">amit.so</a>
+  <a href="/case-studies" class="nav-back">&larr; All case studies</a>
+</nav>
+
+<main>
+  <div class="eyebrow">{study.tag}</div>
+  <h1>{study.title}</h1>
+  <p class="cs-sub">{study.blurb}</p>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <span class="cs-meta-label">Role</span>
+      <span class="cs-meta-value">{study.role}</span>
+    </div>
+    <div class="cs-meta-item">
+      <span class="cs-meta-label">Company</span>
+      <span class="cs-meta-value">{study.company}</span>
+    </div>
+    <div class="cs-meta-item">
+      <span class="cs-meta-label">Timeline</span>
+      <span class="cs-meta-value">{study.timeline}</span>
+    </div>
+    <div class="cs-meta-item">
+      <span class="cs-meta-label">Stack</span>
+      <span class="cs-meta-value">{study.stack.join(' · ')}</span>
+    </div>
+    <div class="cs-meta-item cs-meta-outcome">
+      <span class="cs-meta-label">Outcome</span>
+      <span class="cs-meta-value">{study.outcome}</span>
+    </div>
+  </div>
+
+  <h2>Context</h2>
+  {study.context.map((p) => <p>{p}</p>)}
+
+  {study.flow && <FlowDiagram flow={study.flow} />}
+
+  <h2>Approach</h2>
+  <ol class="cs-steps">
+    {study.approachSteps.map((step) => (
+      <li class="cs-step">
+        <span class="cs-step-num">{step.n}</span>
+        <div class="cs-step-body">
+          <h3 class="cs-step-title">{step.title}</h3>
+          <p class="cs-step-text">{step.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <h2>Result</h2>
+  {study.result.map((p) => <p>{p}</p>)}
+
+  <div class="cs-cta">
+    <h3>Want to talk through your own version of this?</h3>
+    <p>Happy to trade notes or scope an engagement — whichever is more useful.</p>
+    <a href="/interview" class="cs-cta-btn">Book a Call &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  &copy; 2026 Amit Arora &middot; <a href="/">amit.so</a> &middot; <a href="/case-studies">Case Studies</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+</footer>
