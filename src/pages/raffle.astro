@@ -14,6 +14,53 @@ Got to learn about Claude and network with some cool people.
 
 #FriscoTech #Coworking #Networking`;
 
+// Attendee toast — rotating "first name <verb>... at the meetup" social-proof
+// pulled from the live Luma RSVP list. First names only, normalized.
+const ATTENDEES = [
+  'Anish','Sandra','Manish','Atul','Ahmed','John','Joelle','Jrb','Giri','Fayyaz',
+  'Prasad','Lexi','Juan','Vivek','Sudheer','Deependra','Thomas','Prince','Shaquita',
+  'Sharon','Kevin','Karina','Shaiba','Kenny','Dan','Muthukumaran','Pallavi','Pavan',
+  'Balaje','Eli','Rama','Vaibhav','Saurabh','Venkatesan','Mark','Sparsh','Harshul',
+  'Pranav','Kinny','Neeraj','Nathan','Olga','Mike','Miriam','Chen','Dennis','Aslihan',
+  'Christine','Qianru','Carol','Cassie','Sanjay','Vishnu','Sudeep','Tania','Keerthi',
+  'Aaditya','Brian','Abhishek','Tyler','Anjal','Amit'
+];
+
+const VERBS = [
+  'accomplishing','actioning','actualizing','architecting','baking','beaming',
+  "beboppin'",'befuddling','billowing','blanching','bloviating','boogieing',
+  'boondoggling','booping','bootstrapping','brewing','bunning','burrowing',
+  'calculating','canoodling','caramelizing','cascading','catapulting','cerebrating',
+  'channeling','channelling','choreographing','churning','clauding','coalescing',
+  'cogitating','combobulating','composing','computing','concocting','considering',
+  'contemplating','cooking','crafting','creating','crunching','crystallizing',
+  'cultivating','deciphering','deliberating','determining','dilly-dallying',
+  'discombobulating','doing','doodling','drizzling','ebbing','effecting',
+  'elucidating','embellishing','enchanting','envisioning','evaporating','fermenting',
+  'fiddle-faddling','finagling','flambéing','flibbertigibbeting','flowing','flummoxing',
+  'fluttering','forging','forming','frolicking','frosting','gallivanting','galloping',
+  'garnishing','generating','gesticulating','germinating','gitifying','grooving',
+  'gusting','harmonizing','hashing','hatching','herding','honking','hullaballooing',
+  'hyperspacing','ideating','imagining','improvising','incubating','inferring',
+  'infusing','ionizing','jitterbugging','julienning','kneading','leavening',
+  'levitating','lollygagging','manifesting','marinating','meandering','metamorphosing',
+  'misting','moonwalking','moseying','mulling','mustering','musing','nebulizing',
+  'nesting','newspapering','noodling','nucleating','orbiting','orchestrating',
+  'osmosing','perambulating','percolating','perusing','philosophising',
+  'photosynthesizing','pollinating','pondering','pontificating','pouncing',
+  'precipitating','prestidigitating','processing','proofing','propagating','puttering',
+  'puzzling','quantumizing','razzle-dazzling','razzmatazzing','recombobulating',
+  'reticulating','roosting','ruminating','sautéing','scampering','schlepping',
+  'scurrying','seasoning','shenaniganing','shimmying','simmering','skedaddling',
+  'sketching','slithering','smooshing','sock-hopping','spelunking','spinning',
+  'sprouting','stewing','sublimating','swirling','swooping','symbioting',
+  'synthesizing','tempering','thinking','thundering','tinkering','tomfoolering',
+  'topsy-turvying','transfiguring','transmuting','twisting','undulating','unfurling',
+  'unravelling','vibing','waddling','wandering','warping','whatchamacalliting',
+  'whirlpooling','whirring','whisking','wibbling','working','wrangling','zesting',
+  'zigzagging'
+];
+
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Event',
@@ -171,6 +218,14 @@ const jsonLd = JSON.stringify({
       </section>
     </main>
 
+    <aside class="r-toast" id="r-toast" aria-live="polite" aria-label="Latest attendee activity">
+      <span class="r-toast-dot" aria-hidden="true"></span>
+      <div class="r-toast-body">
+        <span class="r-toast-line" id="r-toast-line">…</span>
+        <span class="r-toast-meta">live · attendees</span>
+      </div>
+    </aside>
+
     <footer class="r-footer">
       <span>Built with Claude <span aria-hidden="true">·</span> Presented by ClawPlex</span>
       <span class="r-footer-sep" aria-hidden="true">·</span>
@@ -180,8 +235,35 @@ const jsonLd = JSON.stringify({
     </footer>
   </div>
 
-  <script is:inline>
+  <script is:inline define:vars={{ ATTENDEES, VERBS }}>
     (function () {
+      var line = document.getElementById('r-toast-line');
+      var toast = document.getElementById('r-toast');
+      if (line && toast && Array.isArray(ATTENDEES) && Array.isArray(VERBS)) {
+        var lastName = '';
+        var lastVerb = '';
+        function pick(arr, prev) {
+          if (arr.length < 2) return arr[0];
+          var v = prev;
+          while (v === prev) v = arr[Math.floor(Math.random() * arr.length)];
+          return v;
+        }
+        function show() {
+          lastName = pick(ATTENDEES, lastName);
+          lastVerb = pick(VERBS, lastVerb);
+          while (line.firstChild) line.removeChild(line.firstChild);
+          var bold = document.createElement('strong');
+          bold.textContent = lastName;
+          line.appendChild(bold);
+          line.appendChild(document.createTextNode(' ' + lastVerb + '… at the meetup'));
+          toast.classList.remove('is-in');
+          void toast.offsetWidth;
+          toast.classList.add('is-in');
+        }
+        setTimeout(show, 900);
+        setInterval(show, 4200);
+      }
+
       var copyBtn = document.getElementById('copy-btn');
       if (copyBtn) {
         copyBtn.addEventListener('click', function () {
@@ -474,7 +556,78 @@ const jsonLd = JSON.stringify({
     .r-footer a:hover { color: var(--r-accent); }
     .r-footer .r-footer-sep { color: var(--r-line); }
 
+    /* ─── Social-proof attendee toast (bottom-left) ─── */
+    .r-toast {
+      position: fixed;
+      left: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      max-width: min(360px, calc(100vw - 2.5rem));
+      padding: 0.7rem 0.95rem 0.7rem 0.85rem;
+      background: var(--r-card);
+      border: 1px solid var(--r-line);
+      border-radius: 14px;
+      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04), 0 22px 50px -24px rgba(42, 37, 32, 0.35);
+      opacity: 0;
+      transform: translate3d(-14px, 6px, 0) scale(0.985);
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0, 1);
+      pointer-events: none;
+    }
+    .r-toast.is-in {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      pointer-events: auto;
+    }
+    .r-toast-dot {
+      position: relative;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--r-accent);
+      flex: none;
+      box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.55);
+      animation: r-pulse 1.8s ease-out infinite;
+    }
+    @keyframes r-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.55); }
+      75%  { box-shadow: 0 0 0 14px rgba(217, 119, 87, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(217, 119, 87, 0); }
+    }
+    .r-toast-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+    .r-toast-line {
+      font-family: var(--r-sans);
+      font-size: 0.9rem;
+      line-height: 1.35;
+      color: var(--r-ink);
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .r-toast-line strong { font-weight: 700; color: var(--r-ink); }
+    .r-toast-meta {
+      font-family: var(--r-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--r-mute);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .r-toast { transition: opacity 0.2s ease; }
+      .r-toast-dot { animation: none; }
+    }
+
     @media (max-width: 780px) {
+      .r-toast {
+        left: 0.75rem; bottom: 0.75rem;
+        padding: 0.55rem 0.85rem 0.55rem 0.7rem;
+        max-width: calc(100vw - 1.5rem);
+      }
+      .r-toast-line { font-size: 0.82rem; }
       .r-nav { padding: 0.85rem 1.25rem; }
       .r-main { padding: 2rem 1.25rem 3rem; }
       .r-hero { margin-bottom: 2.5rem; padding: 1rem 0 2rem; }
