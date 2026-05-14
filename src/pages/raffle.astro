@@ -117,6 +117,15 @@ const jsonLd = JSON.stringify({
           <a href="#share" class="r-btn">Share on LinkedIn</a>
         </div>
 
+        <a href="#raffle" class="r-qr-card" aria-label="Scan to open the raffle entry form">
+          <img src="/raffle/raffle-qr.png" alt="QR code linking to the raffle entry form" width="220" height="220" loading="eager" />
+          <div class="r-qr-body">
+            <span class="r-qr-eyebrow">Scan to enter</span>
+            <span class="r-qr-line">Point your camera at the code — it opens the raffle form below.</span>
+            <span class="r-qr-link">Or tap to jump → <span aria-hidden="true">↓</span></span>
+          </div>
+        </a>
+
         <figure class="r-hero-figure">
           <img src="/raffle/hero-meetup.jpg" alt="Claude Meetup poster art" width="1200" height="800" loading="eager" />
         </figure>
@@ -171,27 +180,10 @@ const jsonLd = JSON.stringify({
         <h2 id="raffle-h" class="r-h2">Enter the raffle</h2>
         <p class="r-raffle-sub">Drop your name in for a chance to win some swag at the meetup.</p>
 
-        <form class="r-form" id="raffle-form" novalidate>
-          <label class="r-field">
-            <span>Your name</span>
-            <input type="text" name="name" required autocomplete="name" placeholder="Amit Arora" />
-          </label>
-          <label class="r-field">
-            <span>Email</span>
-            <input type="email" name="email" required autocomplete="email" placeholder="you@domain.com" />
-          </label>
-          <label class="r-field r-field-file">
-            <span>LinkedIn screenshot</span>
-            <input type="file" name="screenshot" accept="image/*" required />
-          </label>
-          <button type="submit" class="r-btn r-btn-primary">Enter raffle</button>
-          <p class="r-form-note" id="form-note" hidden>Thanks! You're in. We'll draw at the event.</p>
-        </form>
-
-        <p class="r-live" aria-hidden="true">
-          <span>// live activity</span>
-          <span class="r-live-line">&gt; Vishnu stewing... at the event</span>
-        </p>
+        <div class="r-qs-wrap">
+          <div id="qs-embed-6a0649228241da4fee614391" class="r-qs-embed"></div>
+        </div>
+        <script is:inline id="qs-embed-6a0649228241da4fee614391">(function(p){var s=window.document.createElement('script');s.src=p.a;s.setAttribute('data-form-id',p.b);s.setAttribute('data-url-params',p.c);s.setAttribute('data-runner-id',p.d);s.setAttribute('data-css',p.e);s.setAttribute('data-dimensions',p.f);window.document.head.appendChild(s);})({"a":"https://form.questionscout.com/qs-form-script.min.js","b":"6a0377faa812b1dffda0db08","c":"[]","d":"qs-embed-6a0649228241da4fee614391","e":"","f":"[\"100%\",\"300px\"]"})</script>
       </section>
 
       <section class="r-hosts" aria-labelledby="hosts-h">
@@ -275,27 +267,17 @@ const jsonLd = JSON.stringify({
             copyBtn.innerText = 'Copied ✓';
             setTimeout(function () { copyBtn.innerText = orig; }, 1800);
           };
+          function fallback(text, cb) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); cb(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(t).then(done, function () { fallback(t, done); });
           } else { fallback(t, done); }
-        });
-        function fallback(text, done) {
-          var ta = document.createElement('textarea');
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          try { document.execCommand('copy'); done(); } catch (e) {}
-          document.body.removeChild(ta);
-        }
-      }
-      var form = document.getElementById('raffle-form');
-      var note = document.getElementById('form-note');
-      if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          if (!form.checkValidity()) { form.reportValidity(); return; }
-          if (note) note.hidden = false;
-          form.querySelector('button[type="submit"]').disabled = true;
         });
       }
     })();
@@ -391,6 +373,54 @@ const jsonLd = JSON.stringify({
     .r-btn-primary { background: var(--r-accent); color: var(--r-bg); border-color: var(--r-accent); }
     .r-btn-primary:hover { background: #c66948; border-color: #c66948; }
 
+    .r-qr-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.1rem 1.4rem 1.1rem 1.1rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--r-line);
+      border-radius: 18px;
+      background: var(--r-card);
+      text-decoration: none;
+      color: var(--r-ink);
+      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04), 0 26px 50px -30px rgba(217, 119, 87, 0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      max-width: 620px;
+    }
+    .r-qr-card:hover { transform: translateY(-2px); border-color: var(--r-accent); }
+    .r-qr-card img {
+      display: block;
+      width: 180px; height: 180px;
+      border-radius: 12px;
+      background: #fff;
+      padding: 0.45rem;
+      border: 1px solid var(--r-line);
+    }
+    .r-qr-body { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
+    .r-qr-eyebrow {
+      font-family: var(--r-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--r-accent);
+      font-weight: 700;
+    }
+    .r-qr-line {
+      font-family: var(--r-sans);
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: var(--r-ink);
+    }
+    .r-qr-link {
+      font-family: var(--r-mono);
+      font-size: 0.82rem;
+      color: var(--r-accent);
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+
     .r-hero-figure {
       margin: 0 0 0;
       border: 1px solid var(--r-line);
@@ -465,42 +495,16 @@ const jsonLd = JSON.stringify({
 
     .r-raffle { margin-bottom: 4rem; }
     .r-raffle-sub { color: var(--r-mute); margin-bottom: 1.5rem; }
-    .r-form {
-      display: grid; gap: 0.85rem;
-      padding: 1.5rem 1.6rem 1.75rem;
+    .r-qs-wrap {
+      padding: 1rem 1rem 0.75rem;
       border: 1px solid var(--r-line);
       border-radius: 16px;
       background: var(--r-card);
-      max-width: 560px;
+      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04);
+      max-width: 720px;
     }
-    .r-field { display: grid; gap: 0.35rem; }
-    .r-field > span { font-family: var(--r-mono); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--r-mute); }
-    .r-field input {
-      font-family: var(--r-sans);
-      font-size: 0.95rem;
-      padding: 0.65rem 0.85rem;
-      border: 1px solid var(--r-line);
-      border-radius: 10px;
-      background: var(--r-bg);
-      color: var(--r-ink);
-    }
-    .r-field input:focus-visible {
-      outline: 2px solid var(--r-accent);
-      outline-offset: 1px;
-      background: var(--r-card);
-    }
-    .r-field-file input { padding: 0.5rem 0.6rem; background: var(--r-bg); }
-    .r-form button[type="submit"] { justify-self: start; margin-top: 0.25rem; }
-    .r-form-note { color: var(--r-accent); font-family: var(--r-mono); font-size: 0.85rem; }
-
-    .r-live {
-      margin-top: 1.5rem;
-      font-family: var(--r-mono);
-      font-size: 0.8rem;
-      color: var(--r-mute);
-      display: flex; flex-direction: column; gap: 0.25rem;
-    }
-    .r-live-line { color: var(--r-accent); }
+    .r-qs-embed { min-height: 300px; }
+    .r-qs-embed iframe { width: 100%; border: 0; display: block; }
 
     .r-hosts { margin-bottom: 4rem; }
     .r-hosts-grid {
@@ -629,6 +633,8 @@ const jsonLd = JSON.stringify({
       }
       .r-toast-line { font-size: 0.82rem; }
       .r-nav { padding: 0.85rem 1.25rem; }
+      .r-qr-card { grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
+      .r-qr-card img { width: 160px; height: 160px; justify-self: center; }
       .r-main { padding: 2rem 1.25rem 3rem; }
       .r-hero { margin-bottom: 2.5rem; padding: 1rem 0 2rem; }
       .r-steps-grid { grid-template-columns: 1fr; }
