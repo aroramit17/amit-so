@@ -198,9 +198,9 @@ export const BUILT_SECTIONS: BuiltSection[] = [
   },
   {
     id: 'future-self',
-    num: '08',
+    num: '09',
     navLabel: 'Experiment',
-    pillLabel: '08 · future self',
+    pillLabel: '09 · future self',
     eyebrow: 'The experiment · future self prompting',
     titleHtml: "The single most useful thing I've done with Claude <em>in two years.</em>",
     paragraphs: [
@@ -220,7 +220,7 @@ export const TOOLKIT_CARDS = [
     eyebrow: 'Claude Code feature',
     title: '/goals — turn intent into checklists',
     body:
-      "Type /goals in Claude Code, describe the outcome, and Claude breaks it into a tracked plan. Update Claude Code first or you won't see it.",
+      "Type /goals in Claude Code, describe the outcome, and Claude breaks it into a tracked plan. Update Claude Code first or you don't see it.",
     code: 'npm install -g @anthropic-ai/claude-code@latest\n# then inside claude: /goals',
   },
   {
@@ -235,6 +235,7 @@ export const TOOLKIT_CARDS = [
     title: 'Hermes on MiniMax 2.7',
     body:
       "Personal agent running on the $10/month MiniMax 2.7 token plan. Cheap, fast, and good enough for the long-running glue work I don't want eating Claude tokens.",
+    code: 'curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash',
   },
 ];
 
@@ -242,7 +243,7 @@ export const TOOLKIT_CARDS = [
 // (no pill in the hero; appears immediately after section 06).
 export const CLAUDE_MEM = {
   id: 'claude-mem',
-  num: '06b',
+  num: '07b',
   eyebrow: 'Persistent memory · claude-mem',
   titleHtml: 'The <em>claude-mem</em> story.',
   intro:
@@ -296,7 +297,7 @@ export const RESOURCE_CARDS = [
 // at the bottom of /built as section 09, no hero pill (keeps the 2x4 grid).
 export const SKILLS_SECTION = {
   id: 'skills',
-  num: '09',
+  num: '08',
   eyebrow: 'Skills · CLAUDE.md packages',
   titleHtml: "Skills I've <em>shipped to Claude.</em>",
   intro:
