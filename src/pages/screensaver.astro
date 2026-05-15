@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Claude in the Wild meetup — Screensaver',
+  url: 'https://amit.so/screensaver',
+});
+---
+<BaseLayout
+  title="Claude in the Wild meetup · Screensaver"
+  description="A DVD-style screensaver for the Claude in the Wild meetup. The little guy bounces. Don't think about it."
+  canonical="https://amit.so/screensaver"
+  jsonLd={jsonLd}
+  showFloatingCta={false}
+>
+  <div class="screensaver">
+    <!-- Faint circuit lines, drawn in CSS via repeating-linear-gradient + dots -->
+    <div class="screensaver-bg" aria-hidden="true">
+      <span class="dot-cluster dc-1" aria-hidden="true"></span>
+      <span class="dot-cluster dc-2" aria-hidden="true"></span>
+      <span class="dot-cluster dc-3" aria-hidden="true"></span>
+      <span class="dot-cluster dc-4" aria-hidden="true"></span>
+    </div>
+
+    <!-- Bouncing creature -->
+    <div class="bouncer" id="bouncer" aria-hidden="true">
+      <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" class="creature">
+        <defs>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="6" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#glow)">
+          <!-- Left ear -->
+          <rect x="2" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <!-- Right ear -->
+          <rect x="178" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <!-- Main head/body -->
+          <rect x="32" y="22" width="156" height="118" rx="6" fill="#d97757" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
+          <!-- Left foot -->
+          <rect x="58" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <!-- Right foot -->
+          <rect x="140" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <!-- Left eye: > pointing right -->
+          <path d="M70 65 L90 80 L70 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+          <!-- Right eye: < pointing left -->
+          <path d="M150 65 L130 80 L150 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Center text overlay -->
+    <div class="screensaver-center" aria-label="Claude in the Wild meetup">
+      <p class="ss-eyebrow">Frisco · 25N · May 15</p>
+      <h1 class="ss-title">
+        <span class="ss-line">Claude in the Wild</span>
+        <span class="ss-line ss-line--accent">meetup</span>
+      </h1>
+      <p class="ss-foot">amit.so/built &nbsp;·&nbsp; amit.so/raffle</p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var bouncer = document.getElementById('bouncer');
+      if (!bouncer) return;
+
+      // Honor reduced-motion: park the creature in a corner.
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Palette swap on each wall hit (DVD-screensaver vibe)
+      var palette = ['#d97757', '#f5b04a', '#ffd166', '#a7e3a5', '#7fb3ff', '#cf9bff', '#ff7fb3'];
+      var paletteIdx = 0;
+      function setColor(c) {
+        var rects = bouncer.querySelectorAll('rect');
+        for (var i = 0; i < rects.length; i++) rects[i].setAttribute('fill', c);
+        bouncer.style.filter = 'drop-shadow(0 0 18px ' + c + '88) drop-shadow(0 0 4px ' + c + 'ff)';
+      }
+      setColor(palette[0]);
+
+      var w = bouncer.offsetWidth || 180;
+      var h = bouncer.offsetHeight || 148;
+      var maxX = window.innerWidth - w;
+      var maxY = window.innerHeight - h;
+
+      var x = Math.random() * Math.max(1, maxX);
+      var y = Math.random() * Math.max(1, maxY);
+      var vx = 1.6;
+      var vy = 1.1;
+      // Randomize starting direction
+      if (Math.random() < 0.5) vx = -vx;
+      if (Math.random() < 0.5) vy = -vy;
+
+      function onResize() {
+        w = bouncer.offsetWidth;
+        h = bouncer.offsetHeight;
+        maxX = Math.max(0, window.innerWidth - w);
+        maxY = Math.max(0, window.innerHeight - h);
+        if (x > maxX) x = maxX;
+        if (y > maxY) y = maxY;
+      }
+      window.addEventListener('resize', onResize);
+
+      function bumpColor() {
+        paletteIdx = (paletteIdx + 1) % palette.length;
+        setColor(palette[paletteIdx]);
+      }
+
+      if (reduce) {
+        bouncer.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+        return;
+      }
+
+      function tick() {
+        x += vx;
+        y += vy;
+        var hit = false;
+        if (x <= 0) { x = 0; vx = Math.abs(vx); hit = true; }
+        else if (x >= maxX) { x = maxX; vx = -Math.abs(vx); hit = true; }
+        if (y <= 0) { y = 0; vy = Math.abs(vy); hit = true; }
+        else if (y >= maxY) { y = maxY; vy = -Math.abs(vy); hit = true; }
+        if (hit) bumpColor();
+        bouncer.style.transform = 'translate3d(' + Math.round(x) + 'px, ' + Math.round(y) + 'px, 0)';
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+  </script>
+
+  <style is:global>
+    html, body { background: #0a0a0a; }
+    body { overflow: hidden; }
+    .floating-cta { display: none !important; }
+
+    .screensaver {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(217, 119, 87, 0.18), transparent 60%),
+        #0a0a0a;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    /* Circuit-style faint lines using gradients */
+    .screensaver-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.6;
+      background-image:
+        linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(217, 119, 87, 0.18) 100%),
+        linear-gradient(0deg, transparent 0, transparent calc(100% - 1px), rgba(217, 119, 87, 0.18) 100%),
+        radial-gradient(circle at 12% 80%, rgba(217, 119, 87, 0.18) 0, transparent 18%),
+        radial-gradient(circle at 88% 22%, rgba(217, 119, 87, 0.18) 0, transparent 18%);
+      background-size: 80px 80px, 80px 80px, 100% 100%, 100% 100%;
+    }
+
+    .dot-cluster {
+      position: absolute;
+      width: 90px; height: 60px;
+      background-image: radial-gradient(circle, rgba(217,119,87,0.55) 1.5px, transparent 2px);
+      background-size: 12px 12px;
+      opacity: 0.55;
+    }
+    .dc-1 { top: 8%;  left: 6%; }
+    .dc-2 { top: 12%; right: 5%; }
+    .dc-3 { bottom: 9%; left: 8%; }
+    .dc-4 { bottom: 6%; right: 7%; }
+
+    /* Centered title overlay */
+    .screensaver-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 4;
+      pointer-events: none;
+      padding: 0 1.5rem;
+      max-width: 90vw;
+    }
+    .ss-eyebrow {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(217, 119, 87, 0.85);
+      margin-bottom: 1.25rem;
+    }
+    .ss-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 8vw, 7rem);
+      line-height: 0.98;
+      letter-spacing: -0.015em;
+      color: #f5efe6;
+      margin: 0;
+      text-shadow:
+        0 0 22px rgba(217, 119, 87, 0.45),
+        0 0 4px rgba(255, 255, 255, 0.25);
+    }
+    .ss-line { display: block; }
+    .ss-line--accent {
+      font-style: italic;
+      color: #d97757;
+      text-shadow:
+        0 0 24px rgba(217, 119, 87, 0.75),
+        0 0 6px rgba(217, 119, 87, 0.6);
+    }
+    .ss-foot {
+      margin-top: 1.5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 230, 0.45);
+    }
+
+    /* Bouncing creature */
+    .bouncer {
+      position: absolute;
+      top: 0; left: 0;
+      width: clamp(120px, 14vw, 200px);
+      height: auto;
+      z-index: 3;
+      will-change: transform;
+      transition: filter 0.4s ease;
+    }
+    .bouncer .creature {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bouncer { transition: none; }
+    }
+
+    /* Tiny hint to escape (mostly for non-fullscreen users) */
+    .screensaver::after {
+      content: '/screensaver · press esc anytime';
+      position: absolute;
+      left: 1.2rem; bottom: 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 230, 0.18);
+      pointer-events: none;
+    }
+  </style>
+</BaseLayout>
