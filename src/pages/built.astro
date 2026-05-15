@@ -11,6 +11,7 @@ import {
   CLAUDE_MEM,
   RESOURCE_CARDS,
   FUTURE_SELF_PROMPTS,
+  FUTURE_SELF_X_URL,
   AGENDA,
   SKILLS_SECTION,
   SKILLS,
@@ -369,7 +370,10 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
                     15 years of research on the psychology of future-self continuity. The finding: people who feel emotionally close to their future self save more, eat better, train harder, and pick longer-payoff careers.
                   </p>
                   <hr class="research-sep" />
-                  <p class="research-foot">Protocol surfaced by @sukh_saroy <span aria-hidden="true">·</span> May 6, 2026</p>
+                  <a class="research-foot research-link" href={FUTURE_SELF_X_URL} target="_blank" rel="noopener noreferrer">
+                    <span>Protocol surfaced by @sukh_saroy <span aria-hidden="true">·</span> May 6, 2026</span>
+                    <span class="research-link-arrow" aria-hidden="true">↗</span>
+                  </a>
                 </div>
               )}
             </aside>
@@ -377,17 +381,35 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
 
           {s.id === 'future-self' && (
             <div class="future-prompts">
-              <p class="section-eyebrow">The six prompts · run in order</p>
+              <p class="section-eyebrow">The six prompts · run in order · click to expand &amp; copy</p>
               <ol class="prompts-list">
-                {FUTURE_SELF_PROMPTS.map((p, i) => (
-                  <li>
-                    <span class="prompt-n">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3 class="prompt-title">{p.title}</h3>
-                      <p class="prompt-body">{p.body}</p>
-                    </div>
-                  </li>
-                ))}
+                {FUTURE_SELF_PROMPTS.map((p, i) => {
+                  const idx = String(i + 1).padStart(2, '0');
+                  return (
+                    <li class="prompt-row">
+                      <details class="prompt-acc">
+                        <summary>
+                          <span class="prompt-n">{idx}</span>
+                          <span class="prompt-head">
+                            <span class="prompt-title">{p.title}</span>
+                            <span class="prompt-summary">{p.summary}</span>
+                          </span>
+                          <span class="prompt-toggle" aria-hidden="true">
+                            <span class="t-h"></span>
+                            <span class="t-v"></span>
+                          </span>
+                        </summary>
+                        <div class="prompt-body-wrap">
+                          <pre class="prompt-text" id={`prompt-text-${i}`}>{p.prompt}</pre>
+                          <button type="button" class="prompt-copy" data-copy-target={`prompt-text-${i}`}>
+                            <span class="prompt-copy-icon" aria-hidden="true">⧉</span>
+                            <span class="prompt-copy-label">Copy prompt</span>
+                          </button>
+                        </div>
+                      </details>
+                    </li>
+                  );
+                })}
               </ol>
             </div>
           )}
@@ -550,6 +572,40 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
           var r = item.getBoundingClientRect();
           item.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
           item.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      });
+
+      // Copy-prompt buttons (section 09 future-self accordion)
+      function fallbackCopy(text, done) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('.prompt-copy'), function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var id = btn.getAttribute('data-copy-target');
+          var el = document.getElementById(id);
+          if (!el) return;
+          var text = el.textContent;
+          var label = btn.querySelector('.prompt-copy-label');
+          var orig = label ? label.textContent : 'Copy prompt';
+          function done() {
+            btn.classList.add('is-copied');
+            if (label) label.textContent = 'Copied';
+            setTimeout(function () {
+              btn.classList.remove('is-copied');
+              if (label) label.textContent = orig;
+            }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+          } else {
+            fallbackCopy(text, done);
+          }
         });
       });
 

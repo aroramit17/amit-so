@@ -202,7 +202,7 @@ export const BUILT_SECTIONS: BuiltSection[] = [
     navLabel: 'Experiment',
     pillLabel: '09 · future self',
     eyebrow: 'The experiment · future self prompting',
-    titleHtml: "The single most useful thing I've done with Claude <em>in two years.</em>",
+    titleHtml: "Self-reflection <em>with Claude.</em>",
     paragraphs: [
       "A Berkeley psychologist published a protocol called <strong>Future Self Prompting.</strong> The premise is simple. You write a letter to yourself from the version 10 years ahead — the one who already has what you're chasing today. Then you let that version do the talking.",
       "The research underneath it is real. UCLA's Hal Hershfield spent 15 years proving one thing: <strong>the more vividly you connect to your future self, the better every decision you make today gets.</strong> Money. Health. Relationships. Career.",
@@ -315,36 +315,40 @@ export const SKILLS = [
   { name: 'salesforce-mcp-setup', desc: 'Walks through connecting Claude Code to a Salesforce org via MCP.' },
 ];
 
-// Future self prompts rendered as a list inside section 08 (kept for SEO depth).
+// Future self prompts — accordion entries with the full text to paste into
+// Claude. Run them in order, same chat.
 export const FUTURE_SELF_PROMPTS = [
   {
     title: 'Gratitude / regret split',
-    body:
-      "Your 10-year future self names 3 things you're doing today they're grateful you didn't quit, and 3 they wish you'd stopped sooner.",
+    summary: "Your 10-year future self names 3 things you're doing today they're grateful you didn't quit, and 3 they wish you'd stopped sooner.",
+    prompt: "You are me, 10 years from now. You already have everything I'm working toward right now. You're writing me a letter from that future.\n\nTell me 3 things I'm currently doing that you're grateful I didn't quit. Tell me 3 things I'm doing right now that you wish I'd stopped sooner. Be specific. Be honest. Don't be polite.",
   },
   {
     title: 'The version you almost became',
-    body:
-      "Life at 45 if nothing changes. And the story you told yourself to make settling feel okay.",
+    summary: "Life at 45 if nothing changes. And the story you told yourself to make settling feel okay.",
+    prompt: "Same future self. Tell me about the version of me you almost became. The one who didn't make the changes. What does his life look like at 45? What did he settle for? What did he tell himself to make the settling feel okay?",
   },
   {
     title: 'An ordinary Tuesday',
-    body:
-      "Wake to bed, your future self walks you through a regular day. Boring parts included. Especially the boring parts.",
+    summary: "Wake to bed, your future self walks you through a regular day. Boring parts included. Especially the boring parts.",
+    prompt: "Future self, walk me through one ordinary Tuesday in your life. Wake up to bedtime. Don't skip the boring parts. I want to feel what it's like to be you.",
   },
   {
     title: "The decision I'm stuck on",
-    body:
-      'Future self tells you what you chose, and what you would have lost on the other path.',
+    summary: 'Future self tells you what you chose, and what you would have lost on the other path.',
+    prompt: "Future self, I'm currently stuck on [specific decision]. You already know how this turned out. Tell me what I chose, why I chose it, and what I'd be losing right now if I'd picked the other path.",
   },
   {
     title: 'The story I had to drop',
-    body:
-      "The piece of self-belief that's no longer true for the future version of you.",
+    summary: "The piece of self-belief that's no longer true for the future version of you.",
+    prompt: "Future self, what does the version of me right now believe about himself that's no longer true for you? What story did I have to drop to become you?",
   },
   {
     title: 'One sentence for the monitor',
-    body:
-      "The line you'll most need to hear on a day you want to quit. Tape it where you'll see it.",
+    summary: "The line you'll most need to hear on a day you want to quit. Tape it where you'll see it.",
+    prompt: "Future self, write me one sentence I should tape to my monitor for the next 12 months. One sentence. Make it the one I'll most need to hear on the days I want to quit.",
   },
 ];
+
+// X (Twitter) link to the original post where this protocol surfaced.
+export const FUTURE_SELF_X_URL = 'https://x.com/sukh_saroy/status/2051972267480100869';
