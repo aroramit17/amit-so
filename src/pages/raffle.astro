@@ -106,7 +106,13 @@ const jsonLd = JSON.stringify({
     <nav class="built-topnav raffle-nav">
       <a href="/built" class="brand">Claude in the Wild <span aria-hidden="true">·</span> meetup</a>
       <a href="#raffle" class="raffle-btn raffle-btn--hero">🎟 Enter the raffle</a>
-      <a href="/built" class="raffle-back">← Back to /built</a>
+      <div class="raffle-right">
+        <a href="/screensaver" class="ss-toggle" aria-label="Enable screensaver" title="Enable screensaver">
+          <span class="ss-toggle-track" aria-hidden="true"><span class="ss-toggle-thumb"></span></span>
+          <span class="ss-toggle-label">Screensaver</span>
+        </a>
+        <a href="/built" class="raffle-back">← Back to /built</a>
+      </div>
     </nav>
 
     <main class="built-main raffle-main">
@@ -230,13 +236,13 @@ const jsonLd = JSON.stringify({
         </div>
       </section>
 
-      <section id="hosts" class="section section--centered" aria-labelledby="hosts-title">
-        <div class="section-num section-num--centered" aria-hidden="true">04</div>
-        <div class="section-grid section-grid--solo">
-          <div class="section-copy section-copy--wide section-copy--centered">
-            <p class="section-eyebrow">Hosted by</p>
+      <section id="hosts" class="section" aria-labelledby="hosts-title">
+        <div class="section-num" aria-hidden="true">04</div>
+        <div class="combo-grid">
+          <div class="combo-hosts">
+            <p class="section-eyebrow">Hosted by ClawPlex</p>
             <h2 id="hosts-title" class="section-title">Your <em>operators</em> for the afternoon.</h2>
-            <ul class="hosts-grid hosts-grid--centered" role="list">
+            <ul class="hosts-2x2" role="list">
               {hosts.map((h) => (
                 <li>
                   <a class="host-card" href={h.li} target="_blank" rel="noopener noreferrer">
@@ -249,29 +255,20 @@ const jsonLd = JSON.stringify({
               ))}
             </ul>
           </div>
-        </div>
-      </section>
-
-      <section id="sponsor" class="section section--right" aria-labelledby="sponsor-title">
-        <div class="section-num" aria-hidden="true">05</div>
-        <div class="section-grid">
-          <div class="section-copy">
+          <div class="combo-sponsor">
             <p class="section-eyebrow">Sponsored by</p>
-            <h2 id="sponsor-title" class="section-title">Our <em>home</em> for the meetup.</h2>
-            <p class="section-p">
-              25N Coworking Frisco gives us the room, the wi-fi, the coffee, and the projector. They're our reason this meetup has a roof and a screen.
-            </p>
-            <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="hero-cta hero-cta--ghost">Visit 25N Frisco ↗</a>
-          </div>
-          <aside class="section-visual" aria-hidden="true">
-            <div class="mock sponsor-mock">
-              <div class="sponsor-mock-logo">
-                <img src="/built/25n-logo.webp" alt="25N Coworking" width="220" height="60" />
+            <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="sponsor-card">
+              <div class="sponsor-card-logo">
+                <img src="/built/25n-logo.webp" alt="25N Coworking" width="240" height="70" />
               </div>
-              <p class="sponsor-mock-line">25N Coworking Frisco</p>
-              <p class="sponsor-mock-sub">9355 John W. Elliott Dr #25 · Frisco, TX</p>
-            </div>
-          </aside>
+              <p class="sponsor-card-line">25N Coworking Frisco</p>
+              <p class="sponsor-card-sub">9355 John W. Elliott Dr #25 · Frisco, TX</p>
+              <p class="sponsor-card-blurb">
+                The room, the wi-fi, the coffee, and the projector. Our reason this meetup has a roof and a screen.
+              </p>
+              <span class="sponsor-card-cta">Visit 25N Frisco ↗</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -556,13 +553,88 @@ const jsonLd = JSON.stringify({
       color: var(--ink-mute);
     }
 
-    /* Hosts grid (section 04) — centered layout */
-    .section--centered .section-grid { justify-items: center; text-align: center; }
-    .section-num--centered { width: 100%; text-align: center; }
-    .section-copy--centered { max-width: 880px; text-align: center; }
-    .section-copy--centered .section-title { margin-left: auto; margin-right: auto; }
-    .section-copy--centered .section-p { margin-left: auto; margin-right: auto; }
-    .hosts-grid--centered { justify-content: center; margin-left: auto; margin-right: auto; max-width: 960px; }
+    /* ─── Hosts + Sponsor combo (section 04) ─── */
+    .combo-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .combo-hosts .section-title { margin-bottom: 1.75rem; }
+    .hosts-2x2 {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+      padding: 0;
+    }
+    .combo-sponsor { display: flex; flex-direction: column; gap: 1rem; padding-top: 0.4rem; }
+    .sponsor-card {
+      display: block;
+      padding: 1.5rem 1.6rem 1.6rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      text-decoration: none;
+      color: var(--ink);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 26px 50px -30px rgba(217, 119, 87, 0.3);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sponsor-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 28px 52px -28px rgba(217, 119, 87, 0.55);
+    }
+    .sponsor-card-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card-warm);
+      margin-bottom: 1.1rem;
+    }
+    .sponsor-card-logo img { display: block; height: 44px; width: auto; }
+    .sponsor-card-line {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .sponsor-card-sub {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 1rem;
+    }
+    .sponsor-card-blurb {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .sponsor-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    @media (max-width: 880px) {
+      .combo-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .sponsor-card-logo img { height: 36px; }
+    }
+    @media (max-width: 480px) {
+      .hosts-2x2 { grid-template-columns: 1fr; }
+    }
     .hosts-grid {
       list-style: none; padding: 0;
       display: grid;

@@ -65,22 +65,15 @@ const jsonLd = JSON.stringify({
   />
 
   <div class="built-root">
-    <nav class="built-topnav" aria-label="Section navigation">
+    <nav class="built-topnav built-topnav--simple" aria-label="Page navigation">
       <a href="/" class="brand">Claude in the Wild <span aria-hidden="true">·</span> meetup</a>
-      <a href="/raffle" class="raffle-btn">🎟 Enter the raffle</a>
-      <ol class="topnav-links" role="list">
-        {BUILT_SECTIONS.map((s) => (
-          <li>
-            <a href={`#${s.id}`} data-section={s.id}>
-              <span class="num">{s.num}</span>
-              <span class="label">{s.navLabel}</span>
-            </a>
-          </li>
-        ))}
-      </ol>
-      <button class="topnav-menu" type="button" aria-label="Toggle section menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="topnav-right">
+        <a href="/screensaver" class="ss-toggle" aria-label="Enable screensaver" title="Enable screensaver">
+          <span class="ss-toggle-track" aria-hidden="true"><span class="ss-toggle-thumb"></span></span>
+          <span class="ss-toggle-label">Screensaver</span>
+        </a>
+        <a href="/raffle" class="raffle-btn">🎟 Enter the raffle</a>
+      </div>
     </nav>
 
     <main class="built-main">
