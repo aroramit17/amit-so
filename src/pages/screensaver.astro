@@ -10,13 +10,12 @@ const jsonLd = JSON.stringify({
 ---
 <BaseLayout
   title="Claude in the Wild meetup · Screensaver"
-  description="A DVD-style screensaver for the Claude in the Wild meetup. The little guy bounces. Don't think about it."
+  description="DVD-style screensaver for the Claude in the Wild meetup. A bouncing creature dodges two slow ships shooting from below."
   canonical="https://amit.so/screensaver"
   jsonLd={jsonLd}
   showFloatingCta={false}
 >
   <div class="screensaver">
-    <!-- Faint circuit lines, drawn in CSS via repeating-linear-gradient + dots -->
     <div class="screensaver-bg" aria-hidden="true">
       <span class="dot-cluster dc-1" aria-hidden="true"></span>
       <span class="dot-cluster dc-2" aria-hidden="true"></span>
@@ -26,7 +25,7 @@ const jsonLd = JSON.stringify({
 
     <!-- Bouncing creature -->
     <div class="bouncer" id="bouncer" aria-hidden="true">
-      <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" class="creature">
+      <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" class="creature" id="creature">
         <defs>
           <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="6" result="b" />
@@ -37,25 +36,32 @@ const jsonLd = JSON.stringify({
           </filter>
         </defs>
         <g filter="url(#glow)">
-          <!-- Left ear -->
           <rect x="2" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <!-- Right ear -->
           <rect x="178" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <!-- Main head/body -->
           <rect x="32" y="22" width="156" height="118" rx="6" fill="#d97757" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
-          <!-- Left foot -->
           <rect x="58" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <!-- Right foot -->
           <rect x="140" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <!-- Left eye: > pointing right -->
-          <path d="M70 65 L90 80 L70 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-          <!-- Right eye: < pointing left -->
-          <path d="M150 65 L130 80 L150 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Normal face: > < eyes -->
+          <g class="face-normal">
+            <path d="M70 65 L90 80 L70 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M150 65 L130 80 L150 95" fill="none" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+
+          <!-- Sad face: round wide eyes + frown -->
+          <g class="face-sad">
+            <circle cx="80" cy="78" r="13" fill="#1a1a1a" />
+            <circle cx="140" cy="78" r="13" fill="#1a1a1a" />
+            <circle cx="84" cy="74" r="3.5" fill="#ffffff" />
+            <circle cx="144" cy="74" r="3.5" fill="#ffffff" />
+            <!-- droopy mouth -->
+            <path d="M85 116 Q110 100 135 116" fill="none" stroke="#1a1a1a" stroke-width="7" stroke-linecap="round" />
+          </g>
         </g>
       </svg>
     </div>
 
-    <!-- Center text overlay -->
+    <!-- Center title overlay -->
     <div class="screensaver-center" aria-label="Claude in the Wild meetup">
       <p class="ss-eyebrow">Frisco · 25N · May 15</p>
       <h1 class="ss-title">
@@ -74,32 +80,129 @@ const jsonLd = JSON.stringify({
         <span class="ss-foot-line">Hosted by ClawPlex</span>
       </p>
     </div>
+
+    <!-- Two ships at the bottom -->
+    <div class="ship" id="ship-left" aria-hidden="true">
+      <svg viewBox="0 0 36 22" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="16" y="2" width="4" height="4" fill="#7fb3ff" />
+          <rect x="11" y="6" width="14" height="4" fill="#7fb3ff" />
+          <rect x="5" y="10" width="26" height="6" fill="#7fb3ff" />
+          <rect x="1" y="14" width="6" height="6" fill="#7fb3ff" />
+          <rect x="29" y="14" width="6" height="6" fill="#7fb3ff" />
+          <rect x="14" y="14" width="3" height="4" fill="#0a0a0a" />
+          <rect x="19" y="14" width="3" height="4" fill="#0a0a0a" />
+        </g>
+      </svg>
+    </div>
+    <div class="ship" id="ship-right" aria-hidden="true">
+      <svg viewBox="0 0 36 22" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="16" y="2" width="4" height="4" fill="#cf9bff" />
+          <rect x="11" y="6" width="14" height="4" fill="#cf9bff" />
+          <rect x="5" y="10" width="26" height="6" fill="#cf9bff" />
+          <rect x="1" y="14" width="6" height="6" fill="#cf9bff" />
+          <rect x="29" y="14" width="6" height="6" fill="#cf9bff" />
+          <rect x="14" y="14" width="3" height="4" fill="#0a0a0a" />
+          <rect x="19" y="14" width="3" height="4" fill="#0a0a0a" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Knobs (analog firing-rate dials) -->
+    <div class="knob-cluster knob-left">
+      <p class="knob-label">Left ship · fire rate</p>
+      <div class="knob" id="knob-left" tabindex="0" role="slider" aria-label="Left ship fire rate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="36" fill="#0e0e0e" stroke="rgba(217,119,87,0.45)" stroke-width="1.5" />
+          <circle cx="40" cy="40" r="28" fill="#161616" stroke="rgba(245,239,230,0.08)" stroke-width="1" />
+          <!-- tick marks -->
+          <g stroke="rgba(245,239,230,0.35)" stroke-width="1.2" stroke-linecap="round">
+            <line x1="40" y1="6" x2="40" y2="11" />
+            <line x1="14" y1="14" x2="17" y2="17" transform="rotate(-45 40 40)" />
+            <line x1="66" y1="14" x2="63" y2="17" transform="rotate(45 40 40)" />
+            <line x1="6" y1="40" x2="11" y2="40" />
+            <line x1="74" y1="40" x2="69" y2="40" />
+            <line x1="14" y1="66" x2="17" y2="63" transform="rotate(45 40 40)" />
+            <line x1="66" y1="66" x2="63" y2="63" transform="rotate(-45 40 40)" />
+          </g>
+          <!-- indicator -->
+          <g class="knob-indicator" transform="rotate(-135 40 40)">
+            <rect x="38.5" y="10" width="3" height="16" rx="1.5" fill="#7fb3ff" />
+          </g>
+          <circle cx="40" cy="40" r="3" fill="#7fb3ff" />
+        </svg>
+      </div>
+      <div class="knob-range">
+        <span>slow</span><span>fast</span>
+      </div>
+    </div>
+
+    <div class="knob-cluster knob-right">
+      <p class="knob-label">Right ship · fire rate</p>
+      <div class="knob" id="knob-right" tabindex="0" role="slider" aria-label="Right ship fire rate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="36" fill="#0e0e0e" stroke="rgba(217,119,87,0.45)" stroke-width="1.5" />
+          <circle cx="40" cy="40" r="28" fill="#161616" stroke="rgba(245,239,230,0.08)" stroke-width="1" />
+          <g stroke="rgba(245,239,230,0.35)" stroke-width="1.2" stroke-linecap="round">
+            <line x1="40" y1="6" x2="40" y2="11" />
+            <line x1="14" y1="14" x2="17" y2="17" transform="rotate(-45 40 40)" />
+            <line x1="66" y1="14" x2="63" y2="17" transform="rotate(45 40 40)" />
+            <line x1="6" y1="40" x2="11" y2="40" />
+            <line x1="74" y1="40" x2="69" y2="40" />
+            <line x1="14" y1="66" x2="17" y2="63" transform="rotate(45 40 40)" />
+            <line x1="66" y1="66" x2="63" y2="63" transform="rotate(-45 40 40)" />
+          </g>
+          <g class="knob-indicator" transform="rotate(-135 40 40)">
+            <rect x="38.5" y="10" width="3" height="16" rx="1.5" fill="#cf9bff" />
+          </g>
+          <circle cx="40" cy="40" r="3" fill="#cf9bff" />
+        </svg>
+      </div>
+      <div class="knob-range">
+        <span>slow</span><span>fast</span>
+      </div>
+    </div>
+
+    <p class="ss-esc">esc to exit</p>
   </div>
 
   <script is:inline>
     (function () {
-      var bouncer = document.getElementById('bouncer');
-      if (!bouncer) return;
+      // ESC routes back to the previous page. Falls back to /built if no
+      // history entry exists (e.g., user opened the screensaver directly).
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+          e.preventDefault();
+          if (window.history.length > 1) window.history.back();
+          else window.location.href = '/built';
+        }
+      });
+    })();
 
-      // Honor reduced-motion: park the creature in a corner.
+    (function () {
+      var bouncer = document.getElementById('bouncer');
+      var creature = document.getElementById('creature');
+      var shipL = document.getElementById('ship-left');
+      var shipR = document.getElementById('ship-right');
+      if (!bouncer || !creature || !shipL || !shipR) return;
+
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Palette swap on each wall hit (DVD-screensaver vibe). Each color
-      // change also randomly tints ONE word in the headline to match.
+      // ── Color palette swap (still happens on wall bounce) ──
       var palette = ['#d97757', '#f5b04a', '#ffd166', '#a7e3a5', '#7fb3ff', '#cf9bff', '#ff7fb3'];
       var paletteIdx = 0;
       var words = Array.prototype.slice.call(document.querySelectorAll('.ss-word'));
       var lastWord = null;
       function setColor(c) {
-        var rects = bouncer.querySelectorAll('rect');
-        for (var i = 0; i < rects.length; i++) rects[i].setAttribute('fill', c);
+        var rects = creature.querySelectorAll('rect');
+        for (var i = 0; i < rects.length; i++) {
+          // Only color the body rects (those with stroke), not the eye-bg circles.
+          if (rects[i].getAttribute('stroke')) rects[i].setAttribute('fill', c);
+        }
         bouncer.style.filter = 'drop-shadow(0 0 18px ' + c + '88) drop-shadow(0 0 4px ' + c + 'ff)';
-
         if (words.length) {
-          if (lastWord) {
-            lastWord.style.color = '';
-            lastWord.style.textShadow = '';
-          }
+          if (lastWord) { lastWord.style.color = ''; lastWord.style.textShadow = ''; }
           var next = words[Math.floor(Math.random() * words.length)];
           if (next === lastWord && words.length > 1) {
             next = words[(words.indexOf(lastWord) + 1) % words.length];
@@ -110,50 +213,196 @@ const jsonLd = JSON.stringify({
         }
       }
       setColor(palette[0]);
-
-      var w = bouncer.offsetWidth || 180;
-      var h = bouncer.offsetHeight || 148;
-      var maxX = window.innerWidth - w;
-      var maxY = window.innerHeight - h;
-
-      var x = Math.random() * Math.max(1, maxX);
-      var y = Math.random() * Math.max(1, maxY);
-      var vx = 1.6;
-      var vy = 1.1;
-      // Randomize starting direction
-      if (Math.random() < 0.5) vx = -vx;
-      if (Math.random() < 0.5) vy = -vy;
-
-      function onResize() {
-        w = bouncer.offsetWidth;
-        h = bouncer.offsetHeight;
-        maxX = Math.max(0, window.innerWidth - w);
-        maxY = Math.max(0, window.innerHeight - h);
-        if (x > maxX) x = maxX;
-        if (y > maxY) y = maxY;
-      }
-      window.addEventListener('resize', onResize);
-
       function bumpColor() {
         paletteIdx = (paletteIdx + 1) % palette.length;
         setColor(palette[paletteIdx]);
       }
 
+      // ── Creature state ──
+      var cw = bouncer.offsetWidth || 180;
+      var ch = bouncer.offsetHeight || 148;
+      var maxX = window.innerWidth - cw;
+      var maxY = window.innerHeight - ch - 90; // leave room for ships below
+      var cx = Math.random() * Math.max(1, maxX);
+      var cy = Math.random() * Math.max(1, maxY);
+      var cvx = 1.6, cvy = 1.1;
+      if (Math.random() < 0.5) cvx = -cvx;
+      if (Math.random() < 0.5) cvy = -cvy;
+
+      // ── Hit / sad-face state ──
+      var hitUntil = 0;
+      function markHit() {
+        hitUntil = performance.now() + 1100;
+        creature.classList.add('is-hit');
+        bouncer.classList.add('is-hit');
+      }
+      function maybeClearHit(t) {
+        if (hitUntil && t >= hitUntil) {
+          hitUntil = 0;
+          creature.classList.remove('is-hit');
+          bouncer.classList.remove('is-hit');
+        }
+      }
+
+      // ── Ship state ──
+      var shipW = 42, shipH = 26;
+      var ships = [
+        { el: shipL, x: 40,                 y: 0, vx: 0.55, lastFire: 0, intervalMs: 7000, knobPct: 0, bulletColor: '#7fb3ff' },
+        { el: shipR, x: window.innerWidth - shipW - 40, y: 0, vx: -0.42, lastFire: 0, intervalMs: 7500, knobPct: 0, bulletColor: '#cf9bff' }
+      ];
+      function placeShips() {
+        var y = window.innerHeight - shipH - 100; // above the knob row
+        ships[0].y = y;
+        ships[1].y = y;
+        ships[0].el.style.transform = 'translate3d(' + ships[0].x + 'px,' + y + 'px,0)';
+        ships[1].el.style.transform = 'translate3d(' + ships[1].x + 'px,' + y + 'px,0)';
+      }
+      placeShips();
+
+      // ── Bullets ──
+      var bullets = [];
+      var bulletLayer = document.querySelector('.screensaver');
+
+      function spawnBullet(ship) {
+        var b = document.createElement('div');
+        b.className = 'bullet';
+        b.style.background = ship.bulletColor;
+        b.style.boxShadow = '0 0 8px ' + ship.bulletColor + 'cc, 0 0 16px ' + ship.bulletColor + '99';
+        var startX = ship.x + shipW / 2 - 2;
+        var startY = ship.y - 4;
+        // Aim at creature's current center
+        var targetX = cx + cw / 2;
+        var targetY = cy + ch / 2;
+        var dx = targetX - startX;
+        var dy = targetY - startY;
+        var len = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+        var speed = 2.2; // even at max knob, bullets are slow
+        var vx = (dx / len) * speed;
+        var vy = (dy / len) * speed;
+        bullets.push({ el: b, x: startX, y: startY, vx: vx, vy: vy });
+        b.style.transform = 'translate3d(' + startX + 'px,' + startY + 'px,0)';
+        bulletLayer.appendChild(b);
+      }
+
+      // ── Knobs ──
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function attachKnob(knobEl, ship) {
+        var indicator = knobEl.querySelector('.knob-indicator');
+        var angle = -135; // -135 = slow (left), +135 = fast (right). 270° sweep.
+        function setAngle(a) {
+          angle = Math.max(-135, Math.min(135, a));
+          var pct = (angle + 135) / 270; // 0..1
+          ship.knobPct = pct;
+          // Slow even at max: 8s → 3s between shots
+          ship.intervalMs = lerp(8000, 3000, pct);
+          indicator.setAttribute('transform', 'rotate(' + angle + ' 40 40)');
+          knobEl.setAttribute('aria-valuenow', Math.round(pct * 100));
+        }
+        setAngle(angle);
+
+        var dragging = false;
+        var startY = 0;
+        var startAngle = 0;
+        function onDown(e) {
+          dragging = true;
+          startY = e.clientY;
+          startAngle = angle;
+          knobEl.setPointerCapture && knobEl.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        }
+        function onMove(e) {
+          if (!dragging) return;
+          var dy = startY - e.clientY; // up = increase
+          setAngle(startAngle + dy * 1.4);
+        }
+        function onUp() { dragging = false; }
+        knobEl.addEventListener('pointerdown', onDown);
+        knobEl.addEventListener('pointermove', onMove);
+        knobEl.addEventListener('pointerup', onUp);
+        knobEl.addEventListener('pointercancel', onUp);
+        // Click-to-step fallback / keyboard
+        knobEl.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { setAngle(angle + 15); e.preventDefault(); }
+          else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { setAngle(angle - 15); e.preventDefault(); }
+        });
+        // Mouse wheel
+        knobEl.addEventListener('wheel', function (e) {
+          setAngle(angle + (e.deltaY < 0 ? 12 : -12));
+          e.preventDefault();
+        }, { passive: false });
+      }
+      attachKnob(document.getElementById('knob-left'), ships[0]);
+      attachKnob(document.getElementById('knob-right'), ships[1]);
+
+      // ── Resize ──
+      window.addEventListener('resize', function () {
+        cw = bouncer.offsetWidth;
+        ch = bouncer.offsetHeight;
+        maxX = Math.max(0, window.innerWidth - cw);
+        maxY = Math.max(0, window.innerHeight - ch - 90);
+        if (cx > maxX) cx = maxX;
+        if (cy > maxY) cy = maxY;
+        // Re-place ships
+        ships[1].x = window.innerWidth - shipW - 40;
+        placeShips();
+      });
+
       if (reduce) {
-        bouncer.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+        bouncer.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
         return;
       }
 
-      function tick() {
-        x += vx;
-        y += vy;
-        var hit = false;
-        if (x <= 0) { x = 0; vx = Math.abs(vx); hit = true; }
-        else if (x >= maxX) { x = maxX; vx = -Math.abs(vx); hit = true; }
-        if (y <= 0) { y = 0; vy = Math.abs(vy); hit = true; }
-        else if (y >= maxY) { y = maxY; vy = -Math.abs(vy); hit = true; }
-        if (hit) bumpColor();
-        bouncer.style.transform = 'translate3d(' + Math.round(x) + 'px, ' + Math.round(y) + 'px, 0)';
+      // ── Main animation loop ──
+      function tick(t) {
+        // Creature movement
+        cx += cvx; cy += cvy;
+        var bounced = false;
+        if (cx <= 0) { cx = 0; cvx = Math.abs(cvx); bounced = true; }
+        else if (cx >= maxX) { cx = maxX; cvx = -Math.abs(cvx); bounced = true; }
+        if (cy <= 0) { cy = 0; cvy = Math.abs(cvy); bounced = true; }
+        else if (cy >= maxY) { cy = maxY; cvy = -Math.abs(cvy); bounced = true; }
+        if (bounced) bumpColor();
+        bouncer.style.transform = 'translate3d(' + Math.round(cx) + 'px,' + Math.round(cy) + 'px,0)';
+
+        // Hit timer
+        maybeClearHit(t);
+
+        // Ships
+        for (var s = 0; s < ships.length; s++) {
+          var sh = ships[s];
+          sh.x += sh.vx;
+          // wrap to opposite side
+          if (sh.x > window.innerWidth + 10) sh.x = -shipW - 10;
+          else if (sh.x < -shipW - 10) sh.x = window.innerWidth + 10;
+          sh.el.style.transform = 'translate3d(' + Math.round(sh.x) + 'px,' + sh.y + 'px,0)';
+          if (t - sh.lastFire >= sh.intervalMs) {
+            sh.lastFire = t;
+            spawnBullet(sh);
+          }
+        }
+
+        // Bullets
+        for (var i = bullets.length - 1; i >= 0; i--) {
+          var b = bullets[i];
+          b.x += b.vx; b.y += b.vy;
+          b.el.style.transform = 'translate3d(' + Math.round(b.x) + 'px,' + Math.round(b.y) + 'px,0)';
+          // Off-screen?
+          if (b.y < -20 || b.x < -20 || b.x > window.innerWidth + 20 || b.y > window.innerHeight + 20) {
+            b.el.remove(); bullets.splice(i, 1); continue;
+          }
+          // Hit creature? AABB overlap (with creature bbox shrunk a bit)
+          var bx = b.x, by = b.y, bw = 4, bh = 10;
+          var pad = 18;
+          if (bx + bw > cx + pad && bx < cx + cw - pad && by + bh > cy + pad && by < cy + ch - pad) {
+            markHit();
+            // tiny spark: flash bullet to white then remove
+            b.el.style.background = '#fff';
+            b.el.style.boxShadow = '0 0 14px #fff, 0 0 28px #fff';
+            (function (el) { setTimeout(function () { el.remove(); }, 100); })(b.el);
+            bullets.splice(i, 1);
+          }
+        }
+
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -175,10 +424,8 @@ const jsonLd = JSON.stringify({
       cursor: none;
     }
 
-    /* Circuit-style faint lines using gradients */
     .screensaver-bg {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       pointer-events: none;
       opacity: 0.6;
       background-image:
@@ -188,7 +435,6 @@ const jsonLd = JSON.stringify({
         radial-gradient(circle at 88% 22%, rgba(217, 119, 87, 0.18) 0, transparent 18%);
       background-size: 80px 80px, 80px 80px, 100% 100%, 100% 100%;
     }
-
     .dot-cluster {
       position: absolute;
       width: 90px; height: 60px;
@@ -198,11 +444,10 @@ const jsonLd = JSON.stringify({
     }
     .dc-1 { top: 8%;  left: 6%; }
     .dc-2 { top: 12%; right: 5%; }
-    .dc-3 { bottom: 9%; left: 8%; }
-    .dc-4 { bottom: 6%; right: 7%; }
+    .dc-3 { bottom: 18%; left: 8%; }
+    .dc-4 { bottom: 18%; right: 7%; }
 
-    /* Centered title overlay — flex-based so it always perfectly centers
-       horizontally AND vertically regardless of content width. */
+    /* Centered title */
     .screensaver-center {
       position: absolute;
       inset: 0;
@@ -241,14 +486,11 @@ const jsonLd = JSON.stringify({
       display: inline-block;
       transition: color 0.5s ease, text-shadow 0.5s ease;
     }
-    /* Restore between-word spacing that disappears with inline-block whitespace */
     .ss-line .ss-word + .ss-word { margin-left: 0.28em; }
     .ss-line--accent {
       font-style: italic;
       color: #d97757;
-      text-shadow:
-        0 0 24px rgba(217, 119, 87, 0.75),
-        0 0 6px rgba(217, 119, 87, 0.6);
+      text-shadow: 0 0 24px rgba(217, 119, 87, 0.75), 0 0 6px rgba(217, 119, 87, 0.6);
     }
     .ss-foot {
       margin-top: 1.75rem;
@@ -264,35 +506,111 @@ const jsonLd = JSON.stringify({
 
     /* Bouncing creature */
     .bouncer {
-      position: absolute;
-      top: 0; left: 0;
+      position: absolute; top: 0; left: 0;
       width: clamp(120px, 14vw, 200px);
       height: auto;
       z-index: 3;
       will-change: transform;
       transition: filter 0.4s ease;
     }
-    .bouncer .creature {
-      width: 100%;
-      height: auto;
-      display: block;
+    .bouncer.is-hit { animation: shake 0.4s ease; }
+    @keyframes shake {
+      0%, 100% { filter: hue-rotate(0deg); }
+      20% { transform-origin: center; }
+    }
+    .bouncer .creature { width: 100%; height: auto; display: block; }
+
+    /* Face swap on hit */
+    .creature .face-sad { opacity: 0; transition: opacity 0.18s ease; }
+    .creature .face-normal { opacity: 1; transition: opacity 0.18s ease; }
+    .creature.is-hit .face-sad { opacity: 1; }
+    .creature.is-hit .face-normal { opacity: 0; }
+
+    /* Ships */
+    .ship {
+      position: absolute; top: 0; left: 0;
+      width: 42px; height: auto;
+      z-index: 3;
+      will-change: transform;
+    }
+    .ship svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 6px rgba(127, 179, 255, 0.45)); }
+    #ship-right svg { filter: drop-shadow(0 0 6px rgba(207, 155, 255, 0.45)); }
+
+    /* Bullets */
+    .bullet {
+      position: absolute; top: 0; left: 0;
+      width: 4px; height: 10px;
+      border-radius: 2px;
+      z-index: 3;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /* Knobs */
+    .knob-cluster {
+      position: absolute;
+      bottom: 1.25rem;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      pointer-events: auto;
+    }
+    .knob-left  { left: 1.25rem; }
+    .knob-right { right: 1.25rem; }
+    .knob-label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 230, 0.55);
+    }
+    .knob {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      cursor: grab;
+      touch-action: none;
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(245,239,230,0.04), 0 14px 32px -16px rgba(0,0,0,0.8);
+    }
+    .knob:active { cursor: grabbing; }
+    .knob:focus-visible { box-shadow: 0 0 0 2px rgba(217,119,87,0.65), 0 14px 32px -16px rgba(0,0,0,0.8); }
+    .knob svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+    .knob-indicator { transition: transform 0.06s linear; }
+    .knob-range {
+      display: flex; justify-content: space-between;
+      width: 78px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 230, 0.35);
+    }
+
+    .ss-esc {
+      position: absolute;
+      left: 50%; bottom: 1.25rem;
+      transform: translateX(-50%);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 230, 0.22);
+      z-index: 5;
+      pointer-events: none;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .bouncer { transition: none; }
+      .bouncer { transition: none; animation: none; }
+      .knob-indicator { transition: none; }
     }
 
-    /* Tiny hint to escape (mostly for non-fullscreen users) */
-    .screensaver::after {
-      content: '/screensaver · press esc anytime';
-      position: absolute;
-      left: 1.2rem; bottom: 1rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(245, 239, 230, 0.18);
-      pointer-events: none;
+    @media (max-width: 480px) {
+      .knob { width: 52px; height: 52px; }
+      .knob-cluster { bottom: 0.75rem; }
+      .knob-left { left: 0.75rem; }
+      .knob-right { right: 0.75rem; }
     }
   </style>
 </BaseLayout>
