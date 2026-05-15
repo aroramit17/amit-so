@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/built.css';
 
 const hosts = [
-  { name: 'Amit Arora', img: '/raffle/host-amit.webp', li: 'https://www.linkedin.com/in/amit-arora17' },
-  { name: 'Tyler Delano', img: '/raffle/host-tyler.webp', li: 'https://www.linkedin.com/in/tylerpdelano/' },
-  { name: 'Anjal Parikh', img: '/raffle/host-anjal.webp', li: 'https://www.linkedin.com/in/anjal-parikh/' },
-  { name: 'Jonathon Hasling', img: '/raffle/host-jonny.webp', li: 'https://www.linkedin.com/in/jonathon-h-0266a2409/' },
+  { name: 'Amit Arora', img: '/raffle/host-amit.webp', li: 'https://www.linkedin.com/in/amit-arora17', role: 'Host · Frisco' },
+  { name: 'Tyler Delano', img: '/raffle/host-tyler.webp', li: 'https://www.linkedin.com/in/tylerpdelano/', role: 'Host · ClawPlex' },
+  { name: 'Anjal Parikh', img: '/raffle/host-anjal.webp', li: 'https://www.linkedin.com/in/anjal-parikh/', role: 'Host · Agency' },
+  { name: 'Jonathon Hasling', img: '/raffle/host-jonny.webp', li: 'https://www.linkedin.com/in/jonathon-h-0266a2409/', role: 'Host · ClawPlex' },
 ];
 
 const linkedInPost = `Thrilled to be at this amazing meetup hosted by @ClawPlex at @25N Coworking in Frisco! 🚀
@@ -14,8 +15,6 @@ Got to learn about Claude and network with some cool people.
 
 #FriscoTech #Coworking #Networking`;
 
-// Attendee toast — rotating "first name <verb>... at the meetup" social-proof
-// pulled from the live Luma RSVP list. First names only, normalized.
 const ATTENDEES = [
   'Anish','Sandra','Manish','Atul','Ahmed','John','Joelle','Jrb','Giri','Fayyaz',
   'Prasad','Lexi','Juan','Vivek','Sudheer','Deependra','Thomas','Prince','Shaquita',
@@ -31,16 +30,16 @@ const VERBS = [
   "beboppin'",'befuddling','billowing','blanching','bloviating','boogieing',
   'boondoggling','booping','bootstrapping','brewing','bunning','burrowing',
   'calculating','canoodling','caramelizing','cascading','catapulting','cerebrating',
-  'channeling','channelling','choreographing','churning','clauding','coalescing',
-  'cogitating','combobulating','composing','computing','concocting','considering',
-  'contemplating','cooking','crafting','creating','crunching','crystallizing',
-  'cultivating','deciphering','deliberating','determining','dilly-dallying',
-  'discombobulating','doing','doodling','drizzling','ebbing','effecting',
-  'elucidating','embellishing','enchanting','envisioning','evaporating','fermenting',
-  'fiddle-faddling','finagling','flambéing','flibbertigibbeting','flowing','flummoxing',
-  'fluttering','forging','forming','frolicking','frosting','gallivanting','galloping',
-  'garnishing','generating','gesticulating','germinating','gitifying','grooving',
-  'gusting','harmonizing','hashing','hatching','herding','honking','hullaballooing',
+  'channeling','choreographing','churning','clauding','coalescing','cogitating',
+  'combobulating','composing','computing','concocting','considering','contemplating',
+  'cooking','crafting','creating','crunching','crystallizing','cultivating',
+  'deciphering','deliberating','determining','dilly-dallying','discombobulating',
+  'doing','doodling','drizzling','ebbing','effecting','elucidating','embellishing',
+  'enchanting','envisioning','evaporating','fermenting','fiddle-faddling','finagling',
+  'flambéing','flibbertigibbeting','flowing','flummoxing','fluttering','forging',
+  'forming','frolicking','frosting','gallivanting','galloping','garnishing',
+  'generating','gesticulating','germinating','gitifying','grooving','gusting',
+  'harmonizing','hashing','hatching','herding','honking','hullaballooing',
   'hyperspacing','ideating','imagining','improvising','incubating','inferring',
   'infusing','ionizing','jitterbugging','julienning','kneading','leavening',
   'levitating','lollygagging','manifesting','marinating','meandering','metamorphosing',
@@ -85,131 +84,239 @@ const jsonLd = JSON.stringify({
 });
 ---
 <BaseLayout
-  title="Claude In The Wild Meetup — Frisco, May 15"
-  description="Unofficial Claude meetup in Frisco, hosted by ClawPlex and sponsored by 25N Coworking. Friday, May 15 · 2:00 – 4:00 PM CDT. Enter the raffle."
+  title="Claude In The Wild — raffle | Amit Arora"
+  description="Unofficial Claude meetup in Frisco, hosted by ClawPlex. Friday, May 15 · 2:00 – 4:00 PM CDT at 25N Coworking. Scan the QR or tap to enter the raffle."
   canonical="https://amit.so/raffle"
   jsonLd={jsonLd}
   showFloatingCta={false}
 >
-  <div class="raffle-root">
-    <nav class="r-nav" aria-label="Raffle page navigation">
-      <a href="/built" class="r-brand">amit <span aria-hidden="true">·</span> meetup</a>
-      <a href="/built" class="r-back">← Back to /built</a>
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    slot="head"
+    href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <div class="built-root raffle-root">
+    <nav class="built-topnav raffle-nav">
+      <a href="/built" class="brand">amit <span aria-hidden="true">·</span> meetup</a>
+      <a href="#raffle" class="raffle-btn raffle-btn--hero">🎟 Enter the raffle</a>
+      <a href="/built" class="raffle-back">← Back to /built</a>
     </nav>
 
-    <main class="r-main">
-      <header class="r-hero">
-        <span class="r-badge">Featured in Dallas</span>
-        <h1 class="r-title">
-          <span>Claude</span>
-          <span>In The Wild</span>
-          <span>Meetup</span>
-        </h1>
-        <p class="r-sub">Unofficial. Hosted by ClawPlex. Sponsored by 25N Coworking Frisco.</p>
-
-        <div class="r-event">
-          <p class="r-event-when">Friday, May 15 <span aria-hidden="true">·</span> 2:00 – 4:00 PM CDT</p>
-          <p class="r-event-where">25N Coworking Frisco <span aria-hidden="true">·</span> 9355 John W. Elliott Dr #25, Frisco, TX</p>
-        </div>
-
-        <div class="r-cta-row">
-          <a href="#raffle" class="r-btn r-btn-primary">Enter the raffle</a>
-          <a href="#share" class="r-btn">Share on LinkedIn</a>
-        </div>
-
-        <a href="#raffle" class="r-qr-card" aria-label="Scan to open the raffle entry form">
-          <img src="/raffle/raffle-qr.png" alt="QR code linking to the raffle entry form" width="220" height="220" loading="eager" />
-          <div class="r-qr-body">
-            <span class="r-qr-eyebrow">Scan to enter</span>
-            <span class="r-qr-line">Point your camera at the code — it opens the raffle form below.</span>
-            <span class="r-qr-link">Or tap to jump → <span aria-hidden="true">↓</span></span>
-          </div>
+    <main class="built-main raffle-main">
+      <header class="hero">
+        <p class="hero-eyebrow">Frisco · Plano · Claude Meetup · May 15, 2026</p>
+        <a
+          class="sponsor"
+          href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sponsored by 25N Coworking in Frisco — view meeting rooms"
+        >
+          <span class="sponsor-label">Sponsored by</span>
+          <img class="sponsor-logo" src="/built/25n-logo.webp" alt="25N Coworking" width="180" height="48" loading="eager" />
+          <span class="sponsor-loc"><span aria-hidden="true">·</span> Frisco, TX</span>
         </a>
+        <h1 class="hero-title">Claude in the wild. <em>Win some swag.</em></h1>
+        <p class="hero-intro">
+          Unofficial meetup, hosted by ClawPlex. Three talks, one room, a couple of hours.
+          Share the meetup on LinkedIn, scan the QR, drop your name into the raffle.
+        </p>
 
-        <figure class="r-hero-figure">
-          <img src="/raffle/hero-meetup.jpg" alt="Claude Meetup poster art" width="1200" height="800" loading="eager" />
-        </figure>
+        <ul class="event-meta" role="list">
+          <li>
+            <span class="event-meta-eyebrow">Date</span>
+            <span class="event-meta-value">Friday, May 15</span>
+          </li>
+          <li>
+            <span class="event-meta-eyebrow">Time</span>
+            <span class="event-meta-value">2:00 – 4:00 PM CDT</span>
+          </li>
+          <li>
+            <span class="event-meta-eyebrow">Venue</span>
+            <span class="event-meta-value">25N Coworking Frisco</span>
+            <span class="event-meta-sub">9355 John W. Elliott Dr #25, Frisco, TX</span>
+          </li>
+        </ul>
+
+        <div class="hero-actions">
+          <a href="#raffle" class="hero-cta hero-cta--primary">Enter the raffle <span aria-hidden="true">↓</span></a>
+          <a href="#share" class="hero-cta hero-cta--ghost">Share on LinkedIn</a>
+        </div>
       </header>
 
-      <section class="r-about" aria-labelledby="about-h">
-        <h2 id="about-h" class="r-h2">About the meetup</h2>
-        <p>Join us for an informal Claude meetup in Frisco, where people are putting the model to work on real projects and sharing what actually helps in day-to-day use.</p>
-        <p>We'll hear from a few heavy token users who are deep in it — building workflows, automations, research helpers, writing tools, and other practical setups — plus plenty of conversation about what works, what breaks, and how to get better results from Claude.</p>
-        <p>Expect a relaxed afternoon with useful examples, honest takeaways, and a chance to connect with people experimenting with Claude in the wild.</p>
-      </section>
-
-      <section class="r-steps" aria-labelledby="steps-h">
-        <h2 id="steps-h" class="r-h2">How to enter the raffle</h2>
-        <p class="r-steps-sub">Two quick steps and you're in.</p>
-
-        <div class="r-steps-grid">
-          <article class="r-step">
-            <span class="r-step-n">1</span>
-            <h3 class="r-step-h">Share on LinkedIn</h3>
-            <p>Copy the post below, paste it into a new LinkedIn post, and publish. Take a screenshot of your published post.</p>
-            <a href="#share" class="r-step-link">Go to post →</a>
-          </article>
-          <article class="r-step">
-            <span class="r-step-n">2</span>
-            <h3 class="r-step-h">Upload your screenshot</h3>
-            <p>Submit your screenshot through the raffle form so we can verify your entry. That's it — you're entered to win.</p>
-            <a href="#raffle" class="r-step-link">Go to form →</a>
-          </article>
+      <section id="scan" class="section section--scan section--right" aria-labelledby="scan-title">
+        <div class="section-num" aria-hidden="true">01</div>
+        <div class="section-grid">
+          <div class="section-copy">
+            <p class="section-eyebrow">Fastest path · scan to enter</p>
+            <h2 id="scan-title" class="section-title">Point your camera. <em>You're in.</em></h2>
+            <p class="section-p">
+              Open the camera, frame the code, tap the link, drop your name. Sixty seconds, end to end.
+            </p>
+            <p class="section-p">
+              Prefer to use the keyboard? Scroll down — the same form sits at section 04.
+            </p>
+            <ul class="section-chips" aria-label="Steps" role="list">
+              <li>Scan QR</li>
+              <li>LinkedIn share</li>
+              <li>Win swag</li>
+            </ul>
+          </div>
+          <aside class="section-visual" aria-hidden="true">
+            <div class="mock qr-mock">
+              <p class="mock-eyebrow">Scan to enter</p>
+              <img src="/raffle/raffle-qr.png" alt="QR code linking to the raffle entry form" width="320" height="320" loading="eager" />
+              <p class="qr-mock-foot">amit.so/raffle</p>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section id="share" class="r-share" aria-labelledby="share-h">
-        <div class="r-share-grid">
-          <div class="r-share-copy">
-            <p class="r-step-tag">Step 1</p>
-            <h2 id="share-h" class="r-h2">Share the meetup on LinkedIn</h2>
-            <pre class="r-share-post" id="li-post">{linkedInPost}</pre>
-            <div class="r-cta-row">
-              <button type="button" class="r-btn r-btn-primary" data-copy-target="li-post" id="copy-btn">Copy post</button>
-              <a href="https://www.linkedin.com/feed/?shareActive=true" target="_blank" rel="noopener noreferrer" class="r-btn">Open LinkedIn</a>
+      <section id="about" class="section section--right" aria-labelledby="about-title">
+        <div class="section-num" aria-hidden="true">02</div>
+        <div class="section-grid section-grid--solo">
+          <div class="section-copy section-copy--wide">
+            <p class="section-eyebrow">What this is · about the meetup</p>
+            <h2 id="about-title" class="section-title">An informal gathering of <em>token-heavy users.</em></h2>
+            <p class="section-p">
+              Join us for an informal Claude meetup in Frisco, where people are putting the model to work on real projects and sharing what actually helps in day-to-day use.
+            </p>
+            <p class="section-p">
+              We'll hear from a few heavy token users who are deep in it — building workflows, automations, research helpers, writing tools, and other practical setups — plus plenty of conversation about what works, what breaks, and how to get better results from Claude.
+            </p>
+            <p class="section-p">
+              Expect a relaxed afternoon with useful examples, honest takeaways, and a chance to connect with people experimenting with Claude in the wild.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="share" class="section section--left" aria-labelledby="share-title">
+        <div class="section-num" aria-hidden="true">03</div>
+        <div class="section-grid">
+          <div class="section-copy">
+            <p class="section-eyebrow">Step one · share</p>
+            <h2 id="share-title" class="section-title">Share the post on <em>LinkedIn.</em></h2>
+            <p class="section-p">
+              Copy the post on the right, paste it into a new LinkedIn post, and publish. Take a screenshot of the published post — you'll attach it in step two.
+            </p>
+            <div class="hero-actions">
+              <button type="button" class="hero-cta hero-cta--primary" id="copy-btn" data-copy-target="li-post">Copy post</button>
+              <a href="https://www.linkedin.com/feed/?shareActive=true" target="_blank" rel="noopener noreferrer" class="hero-cta hero-cta--ghost">Open LinkedIn ↗</a>
             </div>
           </div>
-          <figure class="r-share-figure">
-            <img src="/raffle/raffle-share.gif" alt="Animated example of sharing the meetup post on LinkedIn" loading="lazy" />
-          </figure>
+          <aside class="section-visual" aria-hidden="true">
+            <div class="mock post-mock">
+              <div class="post-mock-head">
+                <span class="post-mock-dot" aria-hidden="true"></span>
+                <span>linkedin · new post</span>
+              </div>
+              <pre class="post-mock-body" id="li-post">{linkedInPost}</pre>
+              <div class="post-mock-foot">
+                <span>Tag · #FriscoTech #Coworking #Networking</span>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section id="raffle" class="r-raffle" aria-labelledby="raffle-h">
-        <p class="r-step-tag">Step 2</p>
-        <h2 id="raffle-h" class="r-h2">Enter the raffle</h2>
-        <p class="r-raffle-sub">Drop your name in for a chance to win some swag at the meetup.</p>
-
-        <div class="r-qs-launch">
-          <a id="qs-embed-6a064bb27764fa860b996787-btn" href="https://form.questionscout.com/6a0377faa812b1dffda0db08" target="_blank" rel="noopener noreferrer">Enter the raffle</a>
-          <p class="r-qs-hint">Opens the entry form in a popup. Takes about 60 seconds.</p>
+      <section id="raffle" class="section section--right" aria-labelledby="raffle-title">
+        <div class="section-num" aria-hidden="true">04</div>
+        <div class="section-grid">
+          <div class="section-copy">
+            <p class="section-eyebrow">Step two · enter</p>
+            <h2 id="raffle-title" class="section-title">Drop your name <em>in the hat.</em></h2>
+            <p class="section-p">
+              Click below to open the entry form in a popup. Paste your LinkedIn screenshot, hit submit, and you're entered. We draw at the event.
+            </p>
+            <div class="qs-launch">
+              <a
+                id="qs-embed-6a064bb27764fa860b996787-btn"
+                href="https://form.questionscout.com/6a0377faa812b1dffda0db08"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Enter the raffle</a>
+              <p class="qs-hint">Popup. About 60 seconds. Bring your screenshot.</p>
+            </div>
+          </div>
+          <aside class="section-visual" aria-hidden="true">
+            <div class="mock prize-mock">
+              <p class="mock-eyebrow">The prize</p>
+              <div class="prize-mock-body">
+                <div class="prize-icon" aria-hidden="true">🎟</div>
+                <p class="prize-mock-title">Some genuinely useful swag</p>
+                <p class="prize-mock-sub">Picked for people who actually ship with Claude. Drawn live at the meetup.</p>
+              </div>
+              <p class="prize-mock-foot">No purchase necessary · Must be present-ish to win</p>
+            </div>
+          </aside>
         </div>
-        <script is:inline id="qs-embed-6a064bb27764fa860b996787">(function(p){var s=window.document.createElement('script');s.src=p.a;s.setAttribute('data-form-id',p.b);s.setAttribute('data-url-params',p.c);s.setAttribute('data-runner-id',p.d);s.setAttribute('data-css',p.e);s.setAttribute('data-button',true);window.document.head.appendChild(s);})({"a":"https://form.questionscout.com/qs-form-script.min.js","b":"6a0377faa812b1dffda0db08","c":"[]","d":"qs-embed-6a064bb27764fa860b996787","e":""})</script>
       </section>
 
-      <section class="r-hosts" aria-labelledby="hosts-h">
-        <h2 id="hosts-h" class="r-h2">Hosted by</h2>
-        <ul class="r-hosts-grid" role="list">
-          {hosts.map((h) => (
-            <li class="r-host">
-              <a href={h.li} target="_blank" rel="noopener noreferrer">
-                <img src={h.img} alt={h.name} loading="lazy" width="160" height="160" />
-                <span class="r-host-name">{h.name}</span>
-                <span class="r-host-li">LinkedIn ↗</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+      <section id="hosts" class="section" aria-labelledby="hosts-title">
+        <div class="section-num" aria-hidden="true">05</div>
+        <div class="section-grid section-grid--solo">
+          <div class="section-copy section-copy--wide">
+            <p class="section-eyebrow">Hosted by</p>
+            <h2 id="hosts-title" class="section-title">Your <em>operators</em> for the afternoon.</h2>
+            <ul class="hosts-grid" role="list">
+              {hosts.map((h) => (
+                <li>
+                  <a class="host-card" href={h.li} target="_blank" rel="noopener noreferrer">
+                    <img src={h.img} alt={h.name} loading="lazy" width="120" height="120" />
+                    <span class="host-name">{h.name}</span>
+                    <span class="host-role">{h.role}</span>
+                    <span class="host-link">LinkedIn ↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <section class="r-sponsor" aria-labelledby="sponsor-h">
-        <p class="r-step-tag">Sponsored by</p>
-        <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="r-sponsor-card">
-          <img src="/raffle/sponsor-25n.png" alt="25N Coworking" width="320" height="100" />
-          <p class="r-sponsor-line">25N Coworking Frisco — our home for the meetup.</p>
-        </a>
+      <section id="sponsor" class="section section--right" aria-labelledby="sponsor-title">
+        <div class="section-num" aria-hidden="true">06</div>
+        <div class="section-grid">
+          <div class="section-copy">
+            <p class="section-eyebrow">Sponsored by</p>
+            <h2 id="sponsor-title" class="section-title">Our <em>home</em> for the meetup.</h2>
+            <p class="section-p">
+              25N Coworking Frisco gives us the room, the wi-fi, the coffee, and the projector. They're our reason this meetup has a roof and a screen.
+            </p>
+            <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="hero-cta hero-cta--ghost">Visit 25N Frisco ↗</a>
+          </div>
+          <aside class="section-visual" aria-hidden="true">
+            <div class="mock sponsor-mock">
+              <div class="sponsor-mock-logo">
+                <img src="/built/25n-logo.webp" alt="25N Coworking" width="220" height="60" />
+              </div>
+              <p class="sponsor-mock-line">25N Coworking Frisco</p>
+              <p class="sponsor-mock-sub">9355 John W. Elliott Dr #25 · Frisco, TX</p>
+            </div>
+          </aside>
+        </div>
       </section>
+
+      <div class="built-closing">
+        <p>See you at 25N. Bring questions, bring a build, bring your laptop.</p>
+      </div>
     </main>
+
+    <footer class="built-footer">
+      <span>&copy; 2026 Amit Arora · <a href="/">amit.so</a></span>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/built">/built</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <span>Built with Claude · Presented by ClawPlex</span>
+    </footer>
 
     <aside class="r-toast" id="r-toast" aria-live="polite" aria-label="Latest attendee activity">
       <span class="r-toast-dot" aria-hidden="true"></span>
@@ -218,15 +325,9 @@ const jsonLd = JSON.stringify({
         <span class="r-toast-meta">live · attendees</span>
       </div>
     </aside>
-
-    <footer class="r-footer">
-      <span>Built with Claude <span aria-hidden="true">·</span> Presented by ClawPlex</span>
-      <span class="r-footer-sep" aria-hidden="true">·</span>
-      <a href="/built">/built</a>
-      <span class="r-footer-sep" aria-hidden="true">·</span>
-      <a href="/">amit.so</a>
-    </footer>
   </div>
+
+  <script is:inline id="qs-embed-6a064bb27764fa860b996787">(function(p){var s=window.document.createElement('script');s.src=p.a;s.setAttribute('data-form-id',p.b);s.setAttribute('data-url-params',p.c);s.setAttribute('data-runner-id',p.d);s.setAttribute('data-css',p.e);s.setAttribute('data-button',true);window.document.head.appendChild(s);})({"a":"https://form.questionscout.com/qs-form-script.min.js","b":"6a0377faa812b1dffda0db08","c":"[]","d":"qs-embed-6a064bb27764fa860b996787","e":""})</script>
 
   <script is:inline define:vars={{ ATTENDEES, VERBS }}>
     (function () {
@@ -285,237 +386,192 @@ const jsonLd = JSON.stringify({
   </script>
 
   <style is:global>
+    /* ─── Raffle-specific styles on top of built.css ─── */
     .raffle-root .grain { display: none; }
-    .raffle-root {
-      --r-bg: #faf8f2;
-      --r-card: #ffffff;
-      --r-ink: #2a2520;
-      --r-ink-soft: #4d4640;
-      --r-mute: #7a7167;
-      --r-line: rgba(42, 37, 32, 0.12);
-      --r-line-soft: rgba(42, 37, 32, 0.06);
-      --r-accent: #d97757;
-      --r-accent-soft: rgba(217, 119, 87, 0.10);
-      --r-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-      --r-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: var(--r-bg);
-      color: var(--r-ink);
-      font-family: var(--r-sans);
-      line-height: 1.55;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-    .raffle-root *, .raffle-root *::before, .raffle-root *::after { box-sizing: border-box; }
-
-    .r-nav {
-      position: sticky; top: 0; z-index: 30;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2.5rem;
-      background: rgba(250, 248, 242, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--r-line-soft);
-    }
-    .r-brand { font-family: var(--r-mono); font-weight: 700; color: var(--r-ink); text-decoration: none; font-size: 1rem; }
-    .r-brand span { color: var(--r-accent); padding: 0 0.3rem; }
-    .r-back { font-family: var(--r-mono); font-size: 0.82rem; color: var(--r-mute); text-decoration: none; }
-    .r-back:hover { color: var(--r-accent); }
-
-    .r-main { max-width: 980px; margin: 0 auto; padding: 3.5rem 2rem 4rem; }
-
-    .r-hero { padding: 2rem 0 3rem; border-bottom: 1px solid var(--r-line); margin-bottom: 4rem; }
-    .r-badge {
-      display: inline-block;
-      font-family: var(--r-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
+    .raffle-nav { grid-template-columns: auto 1fr auto !important; }
+    .raffle-back {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--ink-mute);
+      text-decoration: none;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--r-accent);
-      padding: 0.35rem 0.85rem;
-      border: 1px solid var(--r-accent);
-      border-radius: 999px;
-      margin-bottom: 2rem;
     }
-    .r-title {
-      font-family: var(--r-mono);
-      font-weight: 700;
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      line-height: 0.98;
-      letter-spacing: -0.02em;
-      color: var(--r-ink);
-      margin-bottom: 1.25rem;
+    .raffle-back:hover { color: var(--accent); }
+    .raffle-btn--hero {
+      justify-self: end;
+    }
+    @media (max-width: 720px) {
+      .raffle-nav { grid-template-columns: auto auto !important; }
+      .raffle-back { display: none; }
+    }
+
+    .raffle-main .hero {
+      padding-bottom: 3rem;
+    }
+
+    /* Hero event meta tiles */
+    .event-meta {
+      list-style: none; padding: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin: 0.5rem 0 2rem;
+      max-width: 880px;
+    }
+    .event-meta li {
+      padding: 1rem 1.1rem 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
       display: flex;
       flex-direction: column;
+      gap: 0.2rem;
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.03);
     }
-    .r-title span { display: block; }
-    .r-sub { font-size: 1.05rem; color: var(--r-ink-soft); margin-bottom: 1.75rem; max-width: 640px; }
-    .r-event { font-family: var(--r-mono); font-size: 0.9rem; color: var(--r-ink); margin-bottom: 2rem; }
-    .r-event-when { font-weight: 700; margin-bottom: 0.25rem; }
-    .r-event-where { color: var(--r-mute); }
-    .r-event span { color: var(--r-mute); padding: 0 0.4rem; }
+    .event-meta-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+    .event-meta-value {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .event-meta-sub {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--ink-mute);
+      line-height: 1.45;
+    }
+    @media (max-width: 720px) {
+      .event-meta { grid-template-columns: 1fr; }
+    }
 
-    .r-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
-    .r-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 0.75rem 1.4rem;
+    /* Hero CTAs (also reused in section 03) */
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.25rem; }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
       border-radius: 999px;
-      font-family: var(--r-mono);
+      font-family: var(--mono);
       font-size: 0.88rem;
       font-weight: 700;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
       text-decoration: none;
-      border: 1px solid var(--r-line);
-      background: var(--r-card);
-      color: var(--r-ink);
+      border: 1px solid transparent;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
-    .r-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px -18px rgba(42, 37, 32, 0.25); border-color: var(--r-ink); }
-    .r-btn-primary { background: var(--r-accent); color: var(--r-bg); border-color: var(--r-accent); }
-    .r-btn-primary:hover { background: #c66948; border-color: #c66948; }
+    .hero-cta--primary {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      box-shadow: 0 14px 28px -16px rgba(217, 119, 87, 0.6);
+    }
+    .hero-cta--primary:hover { transform: translateY(-1px); background: #c66948; border-color: #c66948; }
+    .hero-cta--ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink-faint);
+    }
+    .hero-cta--ghost:hover { transform: translateY(-1px); border-color: var(--ink); }
 
-    .r-qr-card {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
+    /* Solo section grid (single column) */
+    .section-grid--solo { grid-template-columns: minmax(0, 1fr) !important; }
+    .section-copy--wide { max-width: 820px; }
+
+    /* QR mock (section 01) */
+    .qr-mock {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1.5rem;
-      padding: 1.1rem 1.4rem 1.1rem 1.1rem;
-      margin-bottom: 2rem;
-      border: 1px solid var(--r-line);
-      border-radius: 18px;
-      background: var(--r-card);
-      text-decoration: none;
-      color: var(--r-ink);
-      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04), 0 26px 50px -30px rgba(217, 119, 87, 0.4);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      max-width: 620px;
+      gap: 1rem;
+      padding: 1.5rem;
     }
-    .r-qr-card:hover { transform: translateY(-2px); border-color: var(--r-accent); }
-    .r-qr-card img {
+    .qr-mock img {
       display: block;
-      width: 180px; height: 180px;
+      width: 100%;
+      max-width: 320px;
+      height: auto;
       border-radius: 12px;
       background: #fff;
-      padding: 0.45rem;
-      border: 1px solid var(--r-line);
+      padding: 0.65rem;
+      border: 1px solid var(--line);
     }
-    .r-qr-body { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
-    .r-qr-eyebrow {
-      font-family: var(--r-mono);
+    .qr-mock-foot {
+      font-family: var(--mono);
       font-size: 0.72rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--r-accent);
-      font-weight: 700;
-    }
-    .r-qr-line {
-      font-family: var(--r-sans);
-      font-size: 0.98rem;
-      line-height: 1.5;
-      color: var(--r-ink);
-    }
-    .r-qr-link {
-      font-family: var(--r-mono);
-      font-size: 0.82rem;
-      color: var(--r-accent);
-      font-weight: 700;
-      margin-top: 0.15rem;
+      color: var(--ink-mute);
     }
 
-    .r-hero-figure {
-      margin: 0 0 0;
-      border: 1px solid var(--r-line);
-      border-radius: 18px;
-      overflow: hidden;
-      background: var(--r-card);
-      box-shadow: 0 24px 50px -28px rgba(42, 37, 32, 0.25);
+    /* LinkedIn post mock (section 03) */
+    .post-mock { padding: 0; overflow: hidden; }
+    .post-mock-head {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 1rem;
+      background: var(--card-warm);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
     }
-    .r-hero-figure img { display: block; width: 100%; height: auto; }
-
-    .r-h2 {
-      font-family: var(--r-mono);
-      font-weight: 700;
-      font-size: clamp(1.7rem, 3vw, 2.3rem);
-      letter-spacing: -0.01em;
-      color: var(--r-ink);
-      margin-bottom: 1.25rem;
+    .post-mock-dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
     }
-    .r-about { margin-bottom: 4rem; }
-    .r-about p { color: var(--r-ink-soft); margin-bottom: 1rem; font-size: 1.02rem; line-height: 1.7; max-width: 720px; }
-
-    .r-steps { margin-bottom: 4rem; }
-    .r-steps-sub { color: var(--r-mute); margin-bottom: 1.75rem; }
-    .r-steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .r-step {
-      padding: 1.5rem 1.6rem 1.75rem;
-      border: 1px solid var(--r-line);
-      border-radius: 16px;
-      background: var(--r-card);
-      box-shadow: 0 1px 0 rgba(42,37,32,0.03);
+    .post-mock-body {
+      padding: 1.1rem 1.25rem;
+      font-family: var(--sans);
+      font-size: 0.96rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: var(--ink);
+      margin: 0;
     }
-    .r-step-n {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--r-accent); color: var(--r-bg);
-      font-family: var(--r-mono); font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .r-step-h { font-family: var(--r-mono); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
-    .r-step p { color: var(--r-ink-soft); margin-bottom: 1rem; }
-    .r-step-link {
-      font-family: var(--r-mono); font-size: 0.85rem; color: var(--r-accent);
-      text-decoration: none; font-weight: 700;
-    }
-    .r-step-link:hover { text-decoration: underline; }
-
-    .r-step-tag {
-      font-family: var(--r-mono);
-      font-size: 0.78rem;
+    .post-mock-foot {
+      padding: 0.65rem 1rem;
+      border-top: 1px solid var(--line);
+      background: var(--card-warm);
+      font-family: var(--mono);
+      font-size: 0.7rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--r-mute);
-      margin-bottom: 0.65rem;
+      color: var(--accent);
     }
 
-    .r-share { margin-bottom: 4rem; }
-    .r-share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
-    .r-share-post {
-      font-family: var(--r-mono);
-      font-size: 0.9rem;
-      line-height: 1.55;
-      color: var(--r-ink);
-      padding: 1.1rem 1.25rem;
-      border: 1px solid var(--r-line);
-      border-radius: 12px;
-      background: var(--r-card);
-      white-space: pre-wrap;
-      margin-bottom: 1rem;
-    }
-    .r-share-figure { margin: 0; border: 1px solid var(--r-line); border-radius: 16px; overflow: hidden; background: var(--r-card); }
-    .r-share-figure img { display: block; width: 100%; height: auto; }
-
-    .r-raffle { margin-bottom: 4rem; }
-    .r-raffle-sub { color: var(--r-mute); margin-bottom: 1.5rem; }
-    .r-qs-launch { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-start; }
-    /* Override the Questscout-injected button styles so the launcher matches
-       the coral pill aesthetic. Body-prefix wins specificity vs QS's `#id`. */
+    /* QS popup button (section 04) — match coral pill aesthetic */
+    .qs-launch { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1.5rem; align-items: flex-start; }
     body #qs-embed-6a064bb27764fa860b996787-btn,
     body a#qs-embed-6a064bb27764fa860b996787-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 0.5rem;
-      padding: 0.85rem 1.65rem;
+      padding: 0.95rem 1.75rem;
       border-radius: 999px;
-      background: var(--r-accent);
-      color: var(--r-bg);
-      font-family: var(--r-mono);
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--mono);
       font-size: 0.92rem;
       font-weight: 700;
       letter-spacing: 0.02em;
       text-decoration: none;
-      border: 1px solid var(--r-accent);
-      box-shadow: 0 14px 30px -16px rgba(217, 119, 87, 0.55);
+      border: 1px solid var(--accent);
+      box-shadow: 0 14px 28px -16px rgba(217, 119, 87, 0.6);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
@@ -523,71 +579,148 @@ const jsonLd = JSON.stringify({
       transform: translateY(-1px);
       background: #c66948;
       border-color: #c66948;
-      box-shadow: 0 18px 32px -16px rgba(217, 119, 87, 0.7);
+      box-shadow: 0 18px 32px -16px rgba(217, 119, 87, 0.75);
     }
     body #qs-embed-6a064bb27764fa860b996787-btn:active { transform: translateY(0); }
-    .r-qs-hint {
-      font-family: var(--r-mono);
-      font-size: 0.78rem;
-      color: var(--r-mute);
-      letter-spacing: 0.02em;
+    .qs-hint {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mute);
     }
 
-    .r-hosts { margin-bottom: 4rem; }
-    .r-hosts-grid {
+    /* Prize mock (section 04 right) */
+    .prize-mock {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem 1.6rem 1.4rem;
+    }
+    .prize-mock-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.2rem 1.25rem 1.3rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card-warm);
+    }
+    .prize-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .prize-mock-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+    }
+    .prize-mock-sub {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--ink-mute);
+    }
+    .prize-mock-foot {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    /* Hosts grid (section 05) */
+    .hosts-grid {
       list-style: none; padding: 0;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1rem;
+      margin-top: 2rem;
     }
-    .r-host a {
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      padding: 1.2rem 1rem 1.3rem;
-      border: 1px solid var(--r-line);
+    .host-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 1.25rem 1rem 1.35rem;
+      border: 1px solid var(--line);
       border-radius: 16px;
-      background: var(--r-card);
-      color: var(--r-ink);
+      background: var(--card);
       text-decoration: none;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      color: var(--ink);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .r-host a:hover { border-color: var(--r-accent); transform: translateY(-2px); }
-    .r-host img {
-      width: 88px; height: 88px; border-radius: 50%;
+    .host-card:hover {
+      border-color: var(--accent-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 24px 50px -32px rgba(217, 119, 87, 0.35);
+    }
+    .host-card img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--r-line);
+      border: 2px solid var(--line);
+      margin-bottom: 0.35rem;
     }
-    .r-host-name { font-family: var(--r-mono); font-weight: 700; font-size: 0.92rem; }
-    .r-host-li { font-family: var(--r-mono); font-size: 0.75rem; color: var(--r-accent); }
-
-    .r-sponsor { margin-bottom: 4rem; }
-    .r-sponsor-card {
-      display: flex; align-items: center; gap: 1.5rem;
-      padding: 1.5rem 1.6rem;
-      border: 1px solid var(--r-line);
-      border-radius: 16px;
-      background: var(--r-card);
-      text-decoration: none;
-      color: var(--r-ink);
-      transition: border-color 0.2s ease;
+    .host-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
     }
-    .r-sponsor-card:hover { border-color: var(--r-accent); }
-    .r-sponsor-card img { width: 180px; height: auto; flex: none; }
-    .r-sponsor-line { color: var(--r-ink-soft); }
-
-    .r-footer {
-      max-width: 980px; margin: 0 auto;
-      padding: 2rem 2rem 3rem;
-      font-family: var(--r-mono);
-      font-size: 0.82rem;
-      color: var(--r-mute);
-      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
-      border-top: 1px solid var(--r-line);
+    .host-role {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
     }
-    .r-footer a { color: var(--r-mute); text-decoration: none; }
-    .r-footer a:hover { color: var(--r-accent); }
-    .r-footer .r-footer-sep { color: var(--r-line); }
+    .host-link {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--accent);
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 880px) {
+      .hosts-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .hosts-grid { grid-template-columns: 1fr; }
+    }
 
-    /* ─── Social-proof attendee toast (bottom-left) ─── */
+    /* Sponsor mock (section 06) */
+    .sponsor-mock {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      padding: 1.6rem 1.75rem;
+      align-items: flex-start;
+    }
+    .sponsor-mock-logo {
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--card-warm);
+    }
+    .sponsor-mock-logo img { display: block; height: 40px; width: auto; }
+    .sponsor-mock-line {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .sponsor-mock-sub {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    /* Bottom-left attendee toast — matched to /built tokens */
     .r-toast {
       position: fixed;
       left: 1.25rem;
@@ -598,14 +731,15 @@ const jsonLd = JSON.stringify({
       gap: 0.75rem;
       max-width: min(360px, calc(100vw - 2.5rem));
       padding: 0.7rem 0.95rem 0.7rem 0.85rem;
-      background: var(--r-card);
-      border: 1px solid var(--r-line);
+      background: var(--card);
+      border: 1px solid var(--line);
       border-radius: 14px;
-      box-shadow: 0 1px 0 rgba(42, 37, 32, 0.04), 0 22px 50px -24px rgba(42, 37, 32, 0.35);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 22px 50px -24px rgba(31, 31, 29, 0.35);
       opacity: 0;
       transform: translate3d(-14px, 6px, 0) scale(0.985);
       transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0, 1);
       pointer-events: none;
+      font-family: var(--sans);
     }
     .r-toast.is-in {
       opacity: 1;
@@ -616,7 +750,7 @@ const jsonLd = JSON.stringify({
       position: relative;
       width: 10px; height: 10px;
       border-radius: 50%;
-      background: var(--r-accent);
+      background: var(--accent);
       flex: none;
       box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.55);
       animation: r-pulse 1.8s ease-out infinite;
@@ -628,48 +762,33 @@ const jsonLd = JSON.stringify({
     }
     .r-toast-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
     .r-toast-line {
-      font-family: var(--r-sans);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       line-height: 1.35;
-      color: var(--r-ink);
+      color: var(--ink);
       letter-spacing: -0.005em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 100%;
     }
-    .r-toast-line strong { font-weight: 700; color: var(--r-ink); }
+    .r-toast-line strong { font-weight: 700; color: var(--ink); }
     .r-toast-meta {
-      font-family: var(--r-mono);
+      font-family: var(--mono);
       font-size: 0.62rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--r-mute);
+      color: var(--ink-mute);
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .r-toast { transition: opacity 0.2s ease; }
-      .r-toast-dot { animation: none; }
-    }
-
     @media (max-width: 780px) {
       .r-toast {
         left: 0.75rem; bottom: 0.75rem;
         padding: 0.55rem 0.85rem 0.55rem 0.7rem;
-        max-width: calc(100vw - 1.5rem);
       }
-      .r-toast-line { font-size: 0.82rem; }
-      .r-nav { padding: 0.85rem 1.25rem; }
-      .r-qr-card { grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
-      .r-qr-card img { width: 160px; height: 160px; justify-self: center; }
-      .r-main { padding: 2rem 1.25rem 3rem; }
-      .r-hero { margin-bottom: 2.5rem; padding: 1rem 0 2rem; }
-      .r-steps-grid { grid-template-columns: 1fr; }
-      .r-share-grid { grid-template-columns: 1fr; }
-      .r-hosts-grid { grid-template-columns: repeat(2, 1fr); }
-      .r-sponsor-card { flex-direction: column; align-items: flex-start; }
-      .r-sponsor-card img { width: 140px; }
-      .r-footer { padding: 1.5rem 1.25rem 2.5rem; }
+      .r-toast-line { font-size: 0.84rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .r-toast { transition: opacity 0.2s ease; }
+      .r-toast-dot { animation: none; }
     }
   </style>
 </BaseLayout>
