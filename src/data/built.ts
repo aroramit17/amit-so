@@ -220,7 +220,7 @@ export const TOOLKIT_CARDS = [
     eyebrow: 'Claude Code feature',
     title: '/goals — turn intent into checklists',
     body:
-      "Type /goals in Claude Code, describe the outcome, and Claude breaks it into a tracked plan. Update Claude Code first or you don't see it.",
+      "Type /goals in Claude Code, describe the outcome, and Claude breaks it into a tracked plan. If you don't see the goals command, make sure Claude is updated to the latest version.",
     code: 'npm install -g @anthropic-ai/claude-code@latest\n# then inside claude: /goals',
   },
   {

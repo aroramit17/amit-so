@@ -236,52 +236,53 @@ const jsonLd = JSON.stringify({
         </div>
       </section>
 
-      <section id="hosts" class="section" aria-labelledby="hosts-title">
+      <section id="sponsor" class="section" aria-labelledby="sponsor-title">
         <div class="section-num" aria-hidden="true">04</div>
-
         <header class="combo-header">
-          <p class="section-eyebrow">Hosted by ClawPlex <span aria-hidden="true">·</span> Sponsored by 25N Coworking</p>
-          <h2 id="hosts-title" class="section-title">Your <em>operators</em> &amp; our <em>home</em>.</h2>
+          <p class="section-eyebrow">Sponsored by</p>
+          <h2 id="sponsor-title" class="section-title">Our <em>home</em> for the meetup.</h2>
         </header>
 
-        <div class="combo-grid">
-          <div class="combo-hosts">
-            <p class="combo-sub">Four operators on stage tonight.</p>
-            <ul class="hosts-2x2" role="list">
-              {hosts.map((h) => (
-                <li>
-                  <a class="host-card" href={h.li} target="_blank" rel="noopener noreferrer">
-                    <img src={h.img} alt={h.name} loading="lazy" width="120" height="120" />
-                    <span class="host-name">{h.name}</span>
-                    <span class="host-role">{h.role}</span>
-                    <span class="host-link">LinkedIn ↗</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+        <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="sponsor-wide">
+          <div class="sponsor-wide-logo">
+            <img src="/built/25n-logo.webp" alt="25N Coworking" width="280" height="80" />
           </div>
-
-          <a href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms" target="_blank" rel="noopener noreferrer" class="sponsor-card sponsor-card--tall">
-            <p class="combo-sub">The room that makes it possible.</p>
-            <div class="sponsor-card-logo">
-              <img src="/built/25n-logo.webp" alt="25N Coworking" width="260" height="70" />
-            </div>
-            <div class="sponsor-card-body">
-              <p class="sponsor-card-line">25N Coworking Frisco</p>
-              <p class="sponsor-card-sub">9355 John W. Elliott Dr #25 · Frisco, TX</p>
-              <p class="sponsor-card-blurb">
-                The room, the wi-fi, the coffee, and the projector. Our reason this meetup has a roof and a screen.
-              </p>
-              <ul class="sponsor-feats" role="list">
-                <li>Meeting rooms</li>
-                <li>Hot desks</li>
-                <li>Private offices</li>
-                <li>Day passes</li>
-              </ul>
-            </div>
+          <div class="sponsor-wide-body">
+            <p class="sponsor-card-line">25N Coworking Frisco</p>
+            <p class="sponsor-card-sub">9355 John W. Elliott Dr #25 <span aria-hidden="true">·</span> Frisco, TX</p>
+            <p class="sponsor-card-blurb">
+              The room, the wi-fi, the coffee, and the projector. Our reason this meetup has a roof and a screen.
+            </p>
+            <ul class="sponsor-feats" role="list">
+              <li>Meeting rooms</li>
+              <li>Hot desks</li>
+              <li>Private offices</li>
+              <li>Day passes</li>
+            </ul>
             <span class="sponsor-card-cta">Visit 25N Frisco ↗</span>
-          </a>
-        </div>
+          </div>
+        </a>
+      </section>
+
+      <section id="hosts" class="section" aria-labelledby="hosts-title">
+        <div class="section-num" aria-hidden="true">05</div>
+        <header class="combo-header combo-header--centered">
+          <p class="section-eyebrow">Hosted by</p>
+          <h2 id="hosts-title" class="section-title">We are <em>ClawPlex.</em></h2>
+          <p class="combo-sub combo-sub--centered">A small operator collective shipping with Claude.</p>
+        </header>
+        <ul class="hosts-row" role="list">
+          {hosts.map((h) => (
+            <li>
+              <a class="host-card" href={h.li} target="_blank" rel="noopener noreferrer">
+                <img src={h.img} alt={h.name} loading="lazy" width="120" height="120" />
+                <span class="host-name">{h.name}</span>
+                <span class="host-role">{h.role}</span>
+                <span class="host-link">LinkedIn ↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
 
     </main>
@@ -565,12 +566,82 @@ const jsonLd = JSON.stringify({
       color: var(--ink-mute);
     }
 
-    /* ─── Hosts + Sponsor combo (section 04) ─── */
+    /* ─── Sponsor (section 04) + Hosts (section 05) ─── */
     .combo-header {
       max-width: 880px;
       margin-bottom: 2.5rem;
     }
-    .combo-header .section-eyebrow span { color: var(--ink-faint); padding: 0 0.4em; }
+    .combo-header--centered {
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .combo-sub--centered { display: block; margin-top: 0.85rem; }
+    .combo-header .section-eyebrow span,
+    .sponsor-card-sub span { color: var(--ink-faint); padding: 0 0.4em; }
+
+    /* Wide sponsor card (section 04) */
+    .sponsor-wide {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+      padding: 1.75rem 2rem 1.85rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      text-decoration: none;
+      color: var(--ink);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 28px 60px -30px rgba(217, 119, 87, 0.32);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sponsor-wide:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 32px 64px -28px rgba(217, 119, 87, 0.55);
+    }
+    .sponsor-wide-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card-warm);
+    }
+    .sponsor-wide-logo img { display: block; height: 56px; width: auto; }
+    .sponsor-wide-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .sponsor-wide-body .sponsor-card-blurb { margin-top: 0.2rem; }
+    .sponsor-wide-body .sponsor-feats { margin-top: 0.5rem; }
+    .sponsor-wide-body .sponsor-card-cta { margin-top: 0.4rem; padding-top: 0; border-top: 0; }
+
+    @media (max-width: 720px) {
+      .sponsor-wide { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.4rem 1.4rem 1.5rem; }
+      .sponsor-wide-logo { padding: 1rem 1.25rem; }
+      .sponsor-wide-logo img { height: 40px; }
+    }
+
+    /* Hosts row (section 05) — 4 across on desktop */
+    .hosts-row {
+      list-style: none; padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .hosts-row li { display: flex; }
+    .hosts-row .host-card { flex: 1; }
+    @media (max-width: 880px) {
+      .hosts-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .hosts-row { grid-template-columns: 1fr; }
+    }
     .combo-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
