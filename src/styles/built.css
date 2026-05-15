@@ -1130,13 +1130,14 @@ em.italic-accent {
 /* ─── Section 09: Skills ─── */
 .section--skills .section-num { color: var(--accent); }
 .section--skills .section-grid--solo { grid-template-columns: minmax(0, 1fr); }
+.section--skills .section-copy--wide { max-width: 100%; }
 .skills-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.85rem;
   margin-top: 2rem;
-  max-width: 980px;
+  max-width: 100%;
 }
 .skill-card {
   display: flex;
@@ -1155,7 +1156,7 @@ em.italic-accent {
 }
 .skill-name {
   font-family: var(--mono);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.01em;
@@ -1164,6 +1165,10 @@ em.italic-accent {
   border: 1px solid var(--accent-mid);
   border-radius: 8px;
   align-self: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .skill-desc {
   font-family: var(--sans);
@@ -1171,7 +1176,10 @@ em.italic-accent {
   line-height: 1.55;
   color: var(--ink);
 }
-@media (max-width: 720px) {
+@media (max-width: 1080px) {
+  .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
   .skills-grid { grid-template-columns: 1fr; }
 }
 

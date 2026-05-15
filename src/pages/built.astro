@@ -97,15 +97,6 @@ const jsonLd = JSON.stringify({
           />
           <span class="sponsor-loc"><span aria-hidden="true">·</span> Frisco, TX</span>
         </a>
-        <h1 class="hero-title" set:html={BUILT_HERO_TITLE} />
-        <ul class="hero-pills" role="list">
-          {BUILT_SECTIONS.map((s, i) => (
-            <li>
-              <a href={`#${s.id}`} class={i === 0 ? 'is-first' : ''} data-section={s.id}>{s.pillLabel}</a>
-            </li>
-          ))}
-        </ul>
-        <p class="hero-updated">Updated {updatedLabel}</p>
       </header>
 
       <section class="agenda" aria-labelledby="agenda-h">
@@ -483,9 +474,6 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
         </>
       ))}
 
-      <div class="built-closing">
-        <p>{BUILT_CLOSING}</p>
-      </div>
     </main>
 
     <footer class="built-footer">

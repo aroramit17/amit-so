@@ -81,7 +81,7 @@ export const AGENDA: AgendaItem[] = [
   },
 ];
 
-export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 14, 2026';
+export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 15, 2026';
 export const BUILT_HERO_TITLE = 'Building with <em>Claude.</em>';
 export const BUILT_HERO_INTRO = '';
 
