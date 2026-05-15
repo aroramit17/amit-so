@@ -59,10 +59,20 @@ const jsonLd = JSON.stringify({
     <div class="screensaver-center" aria-label="Claude in the Wild meetup">
       <p class="ss-eyebrow">Frisco · 25N · May 15</p>
       <h1 class="ss-title">
-        <span class="ss-line">Claude in the Wild</span>
-        <span class="ss-line ss-line--accent">meetup</span>
+        <span class="ss-line">
+          <span class="ss-word">Claude</span>
+          <span class="ss-word">in</span>
+          <span class="ss-word">the</span>
+          <span class="ss-word">Wild</span>
+        </span>
+        <span class="ss-line ss-line--accent">
+          <span class="ss-word">meetup</span>
+        </span>
       </h1>
-      <p class="ss-foot">amit.so/built &nbsp;·&nbsp; amit.so/raffle</p>
+      <p class="ss-foot">
+        <span class="ss-foot-line">Sponsored by 25N Cowork</span>
+        <span class="ss-foot-line">Hosted by ClawPlex</span>
+      </p>
     </div>
   </div>
 
@@ -74,13 +84,30 @@ const jsonLd = JSON.stringify({
       // Honor reduced-motion: park the creature in a corner.
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Palette swap on each wall hit (DVD-screensaver vibe)
+      // Palette swap on each wall hit (DVD-screensaver vibe). Each color
+      // change also randomly tints ONE word in the headline to match.
       var palette = ['#d97757', '#f5b04a', '#ffd166', '#a7e3a5', '#7fb3ff', '#cf9bff', '#ff7fb3'];
       var paletteIdx = 0;
+      var words = Array.prototype.slice.call(document.querySelectorAll('.ss-word'));
+      var lastWord = null;
       function setColor(c) {
         var rects = bouncer.querySelectorAll('rect');
         for (var i = 0; i < rects.length; i++) rects[i].setAttribute('fill', c);
         bouncer.style.filter = 'drop-shadow(0 0 18px ' + c + '88) drop-shadow(0 0 4px ' + c + 'ff)';
+
+        if (words.length) {
+          if (lastWord) {
+            lastWord.style.color = '';
+            lastWord.style.textShadow = '';
+          }
+          var next = words[Math.floor(Math.random() * words.length)];
+          if (next === lastWord && words.length > 1) {
+            next = words[(words.indexOf(lastWord) + 1) % words.length];
+          }
+          next.style.color = c;
+          next.style.textShadow = '0 0 22px ' + c + 'b3, 0 0 6px ' + c + 'cc';
+          lastWord = next;
+        }
       }
       setColor(palette[0]);
 
@@ -210,6 +237,12 @@ const jsonLd = JSON.stringify({
         0 0 4px rgba(255, 255, 255, 0.25);
     }
     .ss-line { display: block; }
+    .ss-word {
+      display: inline-block;
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+    /* Restore between-word spacing that disappears with inline-block whitespace */
+    .ss-line .ss-word + .ss-word { margin-left: 0.28em; }
     .ss-line--accent {
       font-style: italic;
       color: #d97757;
@@ -218,13 +251,16 @@ const jsonLd = JSON.stringify({
         0 0 6px rgba(217, 119, 87, 0.6);
     }
     .ss-foot {
-      margin-top: 1.5rem;
+      margin-top: 1.75rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: clamp(0.7rem, 1.2vw, 0.8rem);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(245, 239, 230, 0.45);
+      color: rgba(245, 239, 230, 0.5);
+      line-height: 1.7;
     }
+    .ss-foot-line { display: block; }
+    .ss-foot-line:first-child { color: rgba(245, 239, 230, 0.65); }
 
     /* Bouncing creature */
     .bouncer {
