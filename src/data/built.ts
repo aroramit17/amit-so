@@ -292,6 +292,28 @@ export const RESOURCE_CARDS = [
   },
 ];
 
+// Skills section — small CLAUDE.md packages I drop into projects. Rendered
+// at the bottom of /built as section 09, no hero pill (keeps the 2x4 grid).
+export const SKILLS_SECTION = {
+  id: 'skills',
+  num: '09',
+  eyebrow: 'Skills · CLAUDE.md packages',
+  titleHtml: "Skills I've <em>shipped to Claude.</em>",
+  intro:
+    'Each one is a small CLAUDE.md package — drops into a project, reshapes Claude\'s defaults for a specific job, then gets out of the way. Stealable from anywhere they help.',
+};
+
+export const SKILLS = [
+  { name: 'amit-voice', desc: "Writes in your voice (no em dashes, no lecturing) for emails, posts, scripts." },
+  { name: 'youtube-video-package', desc: 'Transcript → titles, description, thumbnail prompts, tags.' },
+  { name: 'youtube-video-prep', desc: 'Pre-record talking points and explainer artifacts from a source or transcript.' },
+  { name: 'linkedin-video-post', desc: 'Transcript → viral LinkedIn post + first comment + thumbnail prompt.' },
+  { name: 'ccforsf-lesson-package', desc: 'Lesson transcript → ThriveCart-ready title, description, and metadata.' },
+  { name: 'interview-research', desc: 'Calendar event → company + interviewer research brief.' },
+  { name: 'job-search', desc: 'Tailors your resume to a JD without inventing experience.' },
+  { name: 'salesforce-mcp-setup', desc: 'Walks through connecting Claude Code to a Salesforce org via MCP.' },
+];
+
 // Future self prompts rendered as a list inside section 08 (kept for SEO depth).
 export const FUTURE_SELF_PROMPTS = [
   {

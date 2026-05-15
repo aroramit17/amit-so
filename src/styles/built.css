@@ -1072,6 +1072,54 @@ em.italic-accent {
   color: var(--accent);
 }
 
+/* ─── Section 09: Skills ─── */
+.section--skills .section-num { color: var(--accent); }
+.section--skills .section-grid--solo { grid-template-columns: minmax(0, 1fr); }
+.skills-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 2rem;
+  max-width: 980px;
+}
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.skill-card:hover {
+  border-color: var(--accent-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(31, 31, 29, 0.04), 0 22px 40px -28px rgba(217, 119, 87, 0.3);
+}
+.skill-name {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  padding: 0.25rem 0.55rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-mid);
+  border-radius: 8px;
+  align-self: flex-start;
+}
+.skill-desc {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+@media (max-width: 720px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── Section 06b: Claude Mem (dedicated) ─── */
 .section--claude-mem .section-num { color: var(--accent); }
 .section--claude-mem .section-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }

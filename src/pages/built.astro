@@ -12,6 +12,8 @@ import {
   RESOURCE_CARDS,
   FUTURE_SELF_PROMPTS,
   AGENDA,
+  SKILLS_SECTION,
+  SKILLS,
 } from '../data/built';
 import '../styles/built.css';
 
@@ -64,7 +66,7 @@ const jsonLd = JSON.stringify({
 
   <div class="built-root">
     <nav class="built-topnav" aria-label="Section navigation">
-      <a href="/" class="brand">amit <span aria-hidden="true">·</span> meetup</a>
+      <a href="/" class="brand">Claude in the Wild <span aria-hidden="true">·</span> meetup</a>
       <a href="/raffle" class="raffle-btn">🎟 Enter the raffle</a>
       <ol class="topnav-links" role="list">
         {BUILT_SECTIONS.map((s) => (
@@ -460,6 +462,27 @@ body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
                   <h3 class="section-title" set:html={CLAUDE_MEM.bloatFix.titleHtml} />
                   {CLAUDE_MEM.bloatFix.paragraphs.map((p) => <p class="section-p">{p}</p>)}
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {s.id === 'future-self' && (
+          <section id={SKILLS_SECTION.id} class="section section--skills" aria-labelledby="skills-title">
+            <div class="section-num" aria-hidden="true">{SKILLS_SECTION.num}</div>
+            <div class="section-grid section-grid--solo">
+              <div class="section-copy section-copy--wide">
+                <p class="section-eyebrow">{SKILLS_SECTION.eyebrow}</p>
+                <h2 id="skills-title" class="section-title" set:html={SKILLS_SECTION.titleHtml} />
+                <p class="section-p">{SKILLS_SECTION.intro}</p>
+                <ul class="skills-grid" role="list">
+                  {SKILLS.map((sk) => (
+                    <li class="skill-card">
+                      <code class="skill-name">{sk.name}</code>
+                      <p class="skill-desc">{sk.desc}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </section>
