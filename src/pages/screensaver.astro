@@ -174,16 +174,19 @@ const jsonLd = JSON.stringify({
     .dc-3 { bottom: 9%; left: 8%; }
     .dc-4 { bottom: 6%; right: 7%; }
 
-    /* Centered title overlay */
+    /* Centered title overlay — flex-based so it always perfectly centers
+       horizontally AND vertically regardless of content width. */
     .screensaver-center {
       position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       z-index: 4;
       pointer-events: none;
-      padding: 0 1.5rem;
-      max-width: 90vw;
+      padding: 1.5rem;
     }
     .ss-eyebrow {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -201,6 +204,7 @@ const jsonLd = JSON.stringify({
       letter-spacing: -0.015em;
       color: #f5efe6;
       margin: 0;
+      text-align: center;
       text-shadow:
         0 0 22px rgba(217, 119, 87, 0.45),
         0 0 4px rgba(255, 255, 255, 0.25);
