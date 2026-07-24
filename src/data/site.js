@@ -47,6 +47,36 @@ const SITE_DATA = {
   ],
   experience: [
     {
+      company: "RevShoppe",
+      dates: "Jun 2026 — Present",
+      role: "Fractional GTM Engineer",
+      summary: "Fractional GTM engineering for a B2B AI software client — building the HubSpot CRM infrastructure, lead qualification logic, and enrichment/outbound stack from the ground up. Lifecycle and lead-status sync that keeps sales activity and pipeline reporting in agreement, a Clay pipeline that dedupes accounts before spending enrichment credits, and an Apollo outbound stack wired back into CRM so reps aren't chasing dead records.",
+      categories: [
+        {
+          name: "HubSpot CRM & Lead Qualification",
+          items: [
+            "Built and automated HubSpot CRM infrastructure, including lifecycle stage and lead status sync workflows that keep sales activity and pipeline reporting in agreement without manual cleanup.",
+            "Designed lead qualification logic from the ground up — rule-based MQL gating on firmographic and title signals, territory routing, and round-robin owner assignment across a two-rep sales team.",
+            "Supported LinkedIn lead-gen campaign infrastructure end to end, from lead-form field mapping into HubSpot through the workflows that route and qualify inbound."
+          ]
+        },
+        {
+          name: "Enrichment & Outbound",
+          items: [
+            "Architected a Clay enrichment pipeline on a two-table model that deduplicates companies before enriching, so credit spend scales with accounts rather than contacts.",
+            "Owned the Apollo outbound stack — sequence buildout, HubSpot sync scope, and reply/bounce handling wired back into CRM lead status so reps aren't chasing dead records."
+          ]
+        },
+        {
+          name: "Data Integrity & Reporting",
+          items: [
+            "Audited CRM data integrity and reporting accuracy; found and documented where HubSpot's native campaign reporting undercounts leads, then rebuilt the reports on a list-anchored data source that holds up."
+          ]
+        }
+      ],
+      color: "#3fb8c9"
+    },
+    {
       company: "webAI, Inc.",
       dates: "Mar 2025 — Apr 2026",
       role: "Revenue Operations Manager",
@@ -83,12 +113,12 @@ const SITE_DATA = {
       company: "DHI Group Inc",
       dates: "Oct 2021 — Jul 2024",
       role: "Director, Business Systems",
-      summary: "Owned the full GTM tech stack (Salesforce, HubSpot, Clay) and led a Classic → Lightning migration while re-engineering the lead-to-cash process. Built pipeline and forecasting frameworks from scratch — +25% forecasting accuracy and the board dashboards leadership actually used.",
+      summary: "Owned the full GTM tech stack (Salesforce, HubSpot) and led a Classic → Lightning migration while re-engineering the lead-to-cash process. Built pipeline and forecasting frameworks from scratch — +25% forecasting accuracy and the board dashboards leadership actually used.",
       categories: [
         {
           name: "GTM Tech Stack Ownership",
           items: [
-            "Owned and managed the full revenue tech stack — Salesforce, HubSpot, and Clay — ensuring seamless data flow.",
+            "Owned and managed the full revenue tech stack — Salesforce and HubSpot — ensuring seamless data flow.",
             "Served as strategic bridge between business stakeholders and technical teams.",
             "Evaluated, selected, and integrated new tools into the GTM ecosystem."
           ]
@@ -116,14 +146,14 @@ const SITE_DATA = {
       company: "Slalom LLC",
       dates: "May 2018 — Oct 2021",
       role: "Salesforce Consultant",
-      summary: "Delivered enterprise Salesforce solutions in Financial Services — 98% client satisfaction, 95% project success rate, and Sales/Service/Community Cloud certifications earned on the job. Primary client point of contact on multi-cloud programs.",
+      summary: "Delivered enterprise Salesforce solutions in Financial Services — 98% client satisfaction, 95% project success rate, and Sales, Service, Experience Cloud, and Platform App Builder certifications earned on the job. Primary client point of contact on multi-cloud programs.",
       categories: [
         {
           name: "Enterprise Delivery",
           items: [
             "Led cross-functional teams to a 95% project success rate and 98% client satisfaction rating.",
             "Became primary client point of contact, building trusted executive relationships in Financial Services.",
-            "Earned Sales Cloud, Service Cloud, and Community Cloud certifications."
+            "Earned Sales Cloud, Service Cloud, Experience Cloud, and Platform App Builder certifications."
           ]
         }
       ],

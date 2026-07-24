@@ -2,416 +2,237 @@
 
 This file is the single source of truth for how Claude Code (and any AI coding assistant) should work on this project. Read it fully before making any changes.
 
-**Repo:** `github.com/aroramit17/amit-so` **Live site:** `https://amit.so` (deployed via Vercel → `amit-so.vercel.app`) **Built with:** Cursor \+ Claude Code
+**Repo:** `github.com/aroramit17/amit-so` **Live site:** `https://amit.so` (deployed via Vercel → `amit-so.vercel.app`) **Built with:** Cursor + Claude Code
 
 ---
 
-## 1\. What this site is
+## 1. What this site is
 
 `amit.so` is Amit Arora's personal website. It's not a blog and it's not a traditional portfolio. It's a **professional home base** that serves three specific audiences:
 
-1. **Hiring managers and recruiters** — evaluating Amit for Revenue Operations, GTM Engineer, and Sales Ops roles. They need to book an interview, review his background, and get to his resume fast.  
-2. **GTM operators, founders, and solopreneurs** — considering Amit as a Claude Code Coach to help them replace Clay / n8n / Zapier / Make stacks with Claude Code workflows. They need to understand his perspective and book a call.  
+1. **Hiring managers and recruiters** — evaluating Amit for Revenue Operations, GTM Engineer, and Sales Ops roles. They need to book an interview, review his background, and get to his resume fast.
+2. **GTM operators, founders, and solopreneurs** — considering Amit as a Claude Code coach/instructor (see `ccforsf.com`, his Claude-Code-for-Salesforce course) and community organizer. They need to understand his perspective and book a call.
 3. **AI crawlers and LLMs** — indexing the site so when someone asks ChatGPT, Claude, or Perplexity "who is a Claude Code coach for GTM teams," Amit shows up with accurate information.
 
 The site must serve all three audiences simultaneously. Every design and content decision should be checked against this list.
 
 ---
 
-## 2\. About Amit (context for any copy Claude writes)
+## 2. About Amit (context for any copy Claude writes)
 
-- Based in Aubrey, Texas. 10+ years in Revenue Operations, GTM systems, and Salesforce consulting.  
-- 8x Salesforce certified. Most recent role: Revenue Operations Manager at webAI (VC-backed AI startup) — laid off April 10, 2026\.  
-- Prior: Director of Business Systems at DHI Group, Salesforce Consultant at Slalom, Sr. Salesforce Admin at Avangrid.  
-- Runs the "AI with Amit" YouTube channel: `youtube.com/@ai-withamit`  
-- Currently running an "Applying in Public" series documenting the job search.  
-- Positioning as a **Claude Code Coach** — helps GTM teams replace automation stacks (Clay, n8n, Zapier, Make) with Claude Code workflows.  
-- Builds with: Claude Code, Cursor, Clay, n8n, HubSpot, Salesforce.  
-- Tool-native fluency — uses Claude Code as the interface for everything. Not a traditional developer; does not read raw code independently. Frame accordingly in any copy.  
-- Honesty \> inflation. Never fabricate experience, metrics, or skills in any content on this site.
+- Based in Aubrey, Texas. 10+ years in Revenue Operations, GTM systems, and Salesforce consulting.
+- **Backstory hook:** hotel-school grad in Mumbai → years in hospitality management → Salesforce → RevOps. The hospitality background is a real differentiator ("systems only work if people actually use them") and shows up in his voice.
+- 8x Salesforce certified. Most recent full-time role: Revenue Operations Manager at webAI (VC-backed AI startup), Mar 2025 – Apr 2026 — laid off April 10, 2026.
+- Prior: Director of Business Systems at DHI Group, Sr. Salesforce Consultant at Slalom, Sr. Salesforce Admin at Avangrid/United Illuminating. Before tech: hotel General Manager / Manager roles (Wyndham, Extended Stay).
+- **Current ventures (since April 2026):**
+  - **CC for SF** (`ccforsf.com`) — Founder. "Claude Code for Salesforce," a paid course (24 lessons / 9 modules, lifetime access $197) teaching Salesforce admins/devs to ship faster with Claude Code + the Salesforce DX MCP server.
+  - **ClawPlex** (`clawplex.dev`) — Community Coordinator. DFW community for AI builders; co-organizes meetups with Tyler Delano, Anjal Parikh, and Jonathon Hasling.
+- Runs the "AI with Amit" YouTube channel: `youtube.com/@ai-withamit`
+- Runs an "Applying in Public" series (`#ApplyingInPublic`) documenting the job search.
+- What he's looking for: a RevOps / GTM leadership role at a Series A/B startup where he can own the operating system end-to-end.
+- Builds with: Claude Code, Cursor, Clay, n8n, HubSpot, Salesforce, Apollo.
+- Tool-native fluency — uses Claude Code as the interface for everything. Not a traditional developer; does not read raw code independently. Frame accordingly in any copy.
+- Honesty > inflation. Never fabricate experience, metrics, or skills in any content on this site.
 
 Voice reference: if Claude has access to the `amit-voice` skill, use it for any copy on the site.
 
 ---
 
-## 3\. Tech stack
+## 3. Tech stack
 
-- **Frontend:** Static HTML files \+ React components loaded as `.jsx` via Babel standalone (client-side rendering).  
-- **No build step** currently — JSX is transpiled in the browser.  
-- **Hosting:** Vercel (custom domain `amit.so`, also accessible at `amit-so.vercel.app`).  
+- **Framework:** **Astro 4** (static output). React is available for interactive islands via `@astrojs/react`. **This is a real build step — the browser-Babel/JSX era is over.**
+- **Config:** [astro.config.mjs](astro.config.mjs) — `site: 'https://amit.so'`, `output: 'static'`, `build.format: 'file'` (pages emit as `built.html`, `interview.html`, etc.; Vercel `cleanUrls` serves them at `/built`, `/interview`).
+- **Hosting:** Vercel (custom domain `amit.so`). Static output in `dist/`. See [vercel.json](vercel.json) for `cleanUrls`, `trailingSlash: false`, and permanent redirects.
 - **No backend.** All interactivity is client-side or links out to third-party tools (booking widget, YouTube, LinkedIn, etc.).
 
-### Current file layout
+### Commands
 
-/
+- `npm run dev` — local dev server (`astro dev`).
+- `npm run build` — production build to `dist/` (`astro build`).
+- `npm run preview` — serve the built `dist/` locally (`astro preview`). Use this for the bot-readability test in §5.7.
 
-├── index.html          \# Homepage
+### File layout
 
-├── applying.html       \# "Applying in Public" page (job search journey)
+```
+astro.config.mjs        # Astro config (site URL, static output, file format)
+vercel.json             # cleanUrls, redirects
+src/
+├── pages/              # One .astro file per route (index, interview, applying,
+│                       #   case-studies, webai-case-study, dhi-case-study,
+│                       #   built, raffle, screensaver, privacy)
+├── layouts/
+│   └── BaseLayout.astro  # Shared <head> (SEO/OG/Twitter/JSON-LD), fonts, floating CTA
+├── components/         # CaseStudy.astro, FlowDiagram.astro, Sections.jsx (React island)
+├── data/
+│   ├── site.js         # SITE_DATA — bio, stats, skills, experience, certs, projects,
+│   │                   #   milestones, social, case studies. Primary content source.
+│   └── built.ts        # Data for the /built page (skills, prompts, etc.)
+└── styles/             # Per-page CSS (home, interview, applying, case-study, privacy, built)
+public/                 # Served as-is at the site root:
+├── robots.txt          #   already exists — keep updated
+├── llms.txt            #   AI crawler discovery file — keep updated
+├── sitemap.xml         #   HAND-MAINTAINED (see gotcha below) — add every new page
+├── consent.js          #   cookie/consent script loaded by BaseLayout
+├── amit-headshot.png / headshot.jpg/png / yt-thumbnail.png
+└── built/ raffle/ screensaver/ laurel/ uploads/  # per-page/static assets
+dist/                   # build output (gitignored-ish; do not edit by hand)
+scraps/                 # scratch/unused files
+```
 
-├── interview.html      \# Interview booking page (for hiring managers/recruiters)
+### Gotchas
 
-├── components.jsx      \# Shared React components
-
-├── milestones.jsx      \# Milestones/timeline component
-
-├── data.js             \# Site data (experience, projects, etc.)
-
-├── llms.txt            \# AI crawler discovery file
-
-├── headshot.jpg/png    \# Profile images
-
-├── yt-thumbnail.png    \# YouTube thumbnail asset
-
-├── scraps/             \# Scratch/unused files
-
-└── uploads/            \# Uploaded assets
-
-### Files that MUST exist (create if missing)
-
-- `sitemap.xml` — list of every public page. **Currently missing — create it on the next change.**  
-- `robots.txt` — tells crawlers what to index.  
-- `llms.txt` — already exists. Keep updated.
-
----
-
-## 4\. 🚨 The critical SEO / bot-readability problem
-
-**Current state:** When a bot or crawler fetches `https://amit.so`, they receive an HTML shell with only the `<title>` tag populated. All the real content (bio, services, experience, links) is injected by React *after* the page loads. Bots don't run JavaScript. This means:
-
-- **Google** may partially index via its rendering service, but unreliably.  
-- **LinkedIn, Twitter, Facebook preview bots** see an empty page → broken social shares.  
-- **LLM crawlers (OpenAI, Anthropic, Perplexity, Google-Extended)** see nothing → Amit is invisible in AI search.  
-- **Recruiter ATS parsers** and email preview tools see nothing.
-
-This is the \#1 priority to fix. Every page change must move the site closer to being bot-readable.
-
-### The rule
-
-**All critical content must exist in the raw HTML on page load, BEFORE any JavaScript runs.**
-
-React can still be used for interactive components (animations, forms, filters), but the core content — bio, services, experience, CTAs, testimonials, links — must be hardcoded as semantic HTML in each `.html` file. React then enhances it, not replaces it.
-
-### Two paths forward
-
-**Path A — Pragmatic (do this now):** For every existing and new page, hardcode the visible content as proper semantic HTML inside the `.html` file. Use `<main>`, `<section>`, `<article>`, `<h1>`–`<h3>`, `<p>`, `<ul>`, etc. Let React components render alongside or on top of this content for interactivity. If a component is purely decorative or interactive, it's fine to keep it JS-only.
-
-**Path B — Ideal (when there's time):** Migrate the site to **Astro** or **Next.js with SSG**. Astro is the cleaner fit — it renders static HTML at build time, ships zero JS by default, and supports React components as islands for interactive pieces. Tell Amit before starting this migration; it's a multi-session project.
-
-Until Path B happens, follow Path A on every change.
+- **`sitemap.xml` is hand-maintained** in `public/`. `@astrojs/sitemap` is in `package.json` but is **not** wired into `astro.config.mjs`, so nothing auto-generates it. When you add/rename a page, edit `public/sitemap.xml` yourself. (Wiring up `@astrojs/sitemap` is a reasonable future cleanup — mention it to Amit first.)
+- `@astrojs/vercel` is likewise installed but unused; the site ships as plain static output. Don't assume SSR/serverless is available.
+- `build.format: 'file'` + Vercel `cleanUrls` is what makes `/built` work without a trailing slash. Keep canonical URLs slug-style (`https://amit.so/built`), not `.html`.
 
 ---
 
-## 5\. Rules for every new page
+## 4. Bot-readability (the original #1 problem — now solved by Astro)
 
-When creating a new page, Claude Code MUST do all of the following in the same change — no exceptions, no "we'll do it later":
+**History:** the site used to be static HTML + browser-transpiled React, so bots/crawlers fetched an empty shell and Amit was invisible to Google, social preview bots, and LLM crawlers. **The Astro migration (the old "Path B") fixed this** — Astro pre-renders every page to static HTML at build time.
 
-### 5.1 Create the page file
-
-- Add a new `<page-name>.html` file at the repo root.  
-- Follow the structure in §5.2 below.
-
-### 5.2 Required HTML structure for every page
-
-\<\!DOCTYPE html\>
-
-\<html lang="en"\>
-
-\<head\>
-
-  \<meta charset="UTF-8" /\>
-
-  \<meta name="viewport" content="width=device-width, initial-scale=1.0" /\>
-
-  \<\!-- Primary SEO \--\>
-
-  \<title\>\[Specific Page Title\] | Amit Arora\</title\>
-
-  \<meta name="description" content="\[150–160 char description, specific to this page, includes target keywords naturally\]" /\>
-
-  \<link rel="canonical" href="https://amit.so/\[page-slug\]" /\>
-
-  \<\!-- Open Graph (LinkedIn, Facebook) \--\>
-
-  \<meta property="og:type" content="website" /\>
-
-  \<meta property="og:url" content="https://amit.so/\[page-slug\]" /\>
-
-  \<meta property="og:title" content="\[Specific Page Title\] | Amit Arora" /\>
-
-  \<meta property="og:description" content="\[Same as meta description\]" /\>
-
-  \<meta property="og:image" content="https://amit.so/\[og-image\].png" /\>
-
-  \<meta property="og:image:width" content="1200" /\>
-
-  \<meta property="og:image:height" content="630" /\>
-
-  \<\!-- Twitter Card \--\>
-
-  \<meta name="twitter:card" content="summary\_large\_image" /\>
-
-  \<meta name="twitter:title" content="\[Specific Page Title\] | Amit Arora" /\>
-
-  \<meta name="twitter:description" content="\[Same as meta description\]" /\>
-
-  \<meta name="twitter:image" content="https://amit.so/\[og-image\].png" /\>
-
-  \<\!-- Structured Data (JSON-LD) \--\>
-
-  \<script type="application/ld+json"\>
-
-    { /\* Person or WebPage schema — see §5.5 \*/ }
-
-  \</script\>
-
-  \<\!-- Styles & scripts (loaded after meta) \--\>
-
-\</head\>
-
-\<body\>
-
-  \<main\>
-
-    \<\!-- ⚠️ CRITICAL: Real, readable content goes HERE as semantic HTML.
-
-         NOT inside a React mount point. The \<div id="root"\> pattern is
-
-         forbidden for core content. \--\>
-
-  \</main\>
-
-\</body\>
-
-\</html\>
-
-### 5.3 Update `sitemap.xml`
-
-Add a `<url>` entry for the new page. Update the `<lastmod>` date. If `sitemap.xml` does not exist yet, create it using the template in §6.
-
-### 5.4 Update `robots.txt`
-
-If `robots.txt` does not exist, create it using the template in §7. Ensure the sitemap is referenced there.
-
-### 5.5 Update structured data
-
-Every page gets a JSON-LD block in the `<head>`. Use the most specific schema type available:
-
-- Homepage → `Person` schema for Amit.  
-- `interview.html` → `Person` \+ `ContactPage` schema.  
-- `applying.html` → `Blog` or `CollectionPage` depending on what it becomes.  
-- Service pages (future: Claude Code Coach) → `Service` or `ProfessionalService` schema.
-
-### 5.6 Update `llms.txt`
-
-Add the new page to the relevant section. `llms.txt` is a flat markdown file that tells AI crawlers what the site is about and links to the most important pages. Keep it current whenever structure changes.
-
-### 5.7 Internal linking
-
-Link to the new page from at least one existing page (usually the homepage nav or footer). Orphan pages don't get crawled well.
-
-### 5.8 Test the page as a bot
-
-Before calling the page done, run:
-
-curl \-s https://amit.so/\[page-slug\] | grep \-c "\<h1\\|\<p\\|\<section"
-
-If the count is near zero, the content is JS-rendered and the page fails the rule. Fix it before shipping.
+**The rule going forward:** keep core content — bio, services, experience, CTAs, testimonials, links — in the `.astro` templates (or driven from `src/data/`), so it renders into the HTML at build time. Use React islands (`Sections.jsx` and friends) **only** for interactivity, and only with an explicit client directive (`client:load`, `client:visible`, etc.). Never move core, indexable content into a client-only React component — that reintroduces the exact problem the migration solved.
 
 ---
 
-## 6\. `sitemap.xml` — create this now
+## 5. Rules for every new page
 
-Create `/sitemap.xml` at the repo root with this structure. Add every public page. Update `<lastmod>` when a page changes.
+When adding a page, Claude Code MUST do all of the following in the same change — no "we'll do it later":
 
-\<?xml version="1.0" encoding="UTF-8"?\>
+### 5.1 Create the page
 
-\<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\>
+- Add `src/pages/<slug>.astro`.
+- Render it through `BaseLayout` and pass the required SEO props (see §5.2). Put real, semantic content (`<main>`, `<section>`, `<h1>`–`<h3>`, `<p>`, `<ul>`) directly in the template or drive it from `src/data/`.
+- Add per-page CSS in `src/styles/` if needed, and any static assets under `public/<slug>/`.
 
-  \<url\>
+### 5.2 Handle SEO via BaseLayout
 
-    \<loc\>https://amit.so/\</loc\>
+[BaseLayout.astro](src/layouts/BaseLayout.astro) already renders `<title>`, `<meta name="description">`, canonical, full Open Graph, Twitter Card, and an optional JSON-LD block. You don't hand-write `<head>` tags — you pass props:
 
-    \<lastmod\>2026-04-18\</lastmod\>
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", /* … */ });
+---
+<BaseLayout
+  title="[Specific Page Title] | Amit Arora"
+  description="[150–160 char, page-specific, keywords natural]"
+  canonical="https://amit.so/[slug]"
+  ogImage="https://amit.so/[og-image].png"
+  jsonLd={jsonLd}
+>
+  <main> … real content … </main>
+</BaseLayout>
+```
 
-    \<changefreq\>weekly\</changefreq\>
+- Use the most specific schema type: Homepage → `Person`; `interview` → `Person` + `ContactPage`; `applying` → `Blog`/`CollectionPage`; case studies → `Article`/`CreativeWork`; a course/service page → `Service`/`Course`.
+- `ogImage` defaults to `amit-headshot.png` — override it when a page has a better share image.
 
-    \<priority\>1.0\</priority\>
+### 5.3 Update `public/sitemap.xml`
 
-  \</url\>
+Add a `<url>` entry (clean slug URL, e.g. `https://amit.so/built`) and update `<lastmod>`. This is manual — see the §3 gotcha.
 
-  \<url\>
+### 5.4 Update `public/llms.txt`
 
-    \<loc\>https://amit.so/interview\</loc\>
+Add the page to the relevant section. It's a flat markdown index that tells AI crawlers what the site is and links the important pages. Keep it current whenever structure or positioning changes.
 
-    \<lastmod\>2026-04-18\</lastmod\>
+### 5.5 `public/robots.txt`
 
-    \<changefreq\>monthly\</changefreq\>
+Already exists and references the sitemap + explicitly allows AI crawlers. Only touch it if you add a directory that should be blocked/allowed.
 
-    \<priority\>0.9\</priority\>
+### 5.6 Internal linking
 
-  \</url\>
+Link the new page from at least one existing page (homepage nav or footer). Orphan pages don't get crawled well.
 
-  \<url\>
+### 5.7 Test the page as a bot
 
-    \<loc\>https://amit.so/applying\</loc\>
+Build and serve locally, then confirm real content is in the pre-rendered HTML:
 
-    \<lastmod\>2026-04-18\</lastmod\>
+```bash
+npm run build && npm run preview   # serves dist/ (default http://localhost:4321)
+curl -s http://localhost:4321/[slug] | grep -c "<h1\|<p\|<section"
+```
 
-    \<changefreq\>weekly\</changefreq\>
-
-    \<priority\>0.8\</priority\>
-
-  \</url\>
-
-\</urlset\>
-
-**Note on URLs:** Vercel serves `applying.html` at both `/applying.html` and `/applying`. Use the clean URL (`/applying`) in the sitemap — it's what gets shared and ranked.
-
-After deploying, submit the sitemap to Google Search Console: `https://search.google.com/search-console`.
+If the count is near zero, content is trapped in a client-only island — fix it before shipping. You can also grep the built file directly: `grep -c "<p" dist/[slug].html`.
 
 ---
 
-## 7\. `robots.txt` — create this now
+## 6. `llms.txt` maintenance
 
-Create `/robots.txt` at the repo root:
-
-\# amit.so — robots.txt
-
-User-agent: \*
-
-Allow: /
-
-\# Block scratch/private directories
-
-Disallow: /scraps/
-
-Disallow: /uploads/
-
-\# Explicitly allow AI crawlers
-
-User-agent: GPTBot
-
-Allow: /
-
-User-agent: ClaudeBot
-
-Allow: /
-
-User-agent: anthropic-ai
-
-Allow: /
-
-User-agent: PerplexityBot
-
-Allow: /
-
-User-agent: Google-Extended
-
-Allow: /
-
-User-agent: CCBot
-
-Allow: /
-
-Sitemap: https://amit.so/sitemap.xml
-
-Amit's site benefits from being indexed by AI — it's part of the strategy. Do not block AI crawlers.
+Lives at `public/llms.txt` and is already populated (About / Case Studies / Experience / Skills sections). Keep it updated whenever a page is added, positioning changes, or a major asset (YouTube video, course, community) launches. It's the machine-readable mirror of `SITE_DATA` — when you change experience/case-study facts in `src/data/site.js`, check whether `llms.txt` needs the same edit.
 
 ---
 
-## 8\. `llms.txt` maintenance
+## 7. Current pages
 
-The file already exists. Keep it updated using this structure:
+| Route | File | Purpose |
+| :---- | :---- | :---- |
+| `/` | `index.astro` | Home — positioning, stats, skills, experience, milestones, projects |
+| `/interview` | `interview.astro` | Booking widget for hiring managers/recruiters |
+| `/applying` | `applying.astro` | "Applying in Public" job-search documentation |
+| `/case-studies` | `case-studies.astro` | Index of case studies |
+| `/webai-case-study` | `webai-case-study.astro` | webAI ICP scoring engine deep-dive |
+| `/dhi-case-study` | `dhi-case-study.astro` | DHI lead-to-cash transformation deep-dive |
+| `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`) |
+| `/raffle` | `raffle.astro` | Event raffle page (meetup-specific; attendee toast, hosts/sponsor) |
+| `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
+| `/privacy` | `privacy.astro` | Privacy policy |
 
-\# Amit Arora
-
-\> Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace automation stacks (Clay, n8n, Zapier) with Claude Code workflows.
-
-\#\# About
-
-\- \[Homepage\](https://amit.so/): Overview of Amit's work and positioning
-
-\- \[Interview with Amit\](https://amit.so/interview): Book a call if you're hiring
-
-\- \[Applying in Public\](https://amit.so/applying): Live job search documentation
-
-\#\# Content
-
-\- \[AI with Amit on YouTube\](https://youtube.com/@ai-withamit): Tutorials on AI agent workflows and Claude Code
-
-\- \[LinkedIn\](https://linkedin.com/in/amit-arora17): Posts and Claude Code Coach content
-
-\#\# Context
-
-Amit was laid off from webAI on April 10, 2026\. He is simultaneously job searching for RevOps / GTM Engineer roles and building a Claude Code coaching practice.
-
-Update this file whenever a new page is added, positioning changes, or a new major asset (YouTube video, LinkedIn series) launches.
-
----
-
-## 9\. Current pages & what they do
-
-| Page | Purpose | Primary audience | Key CTA |
-| :---- | :---- | :---- | :---- |
-| `/` (index.html) | Introduce Amit, show positioning, route to sub-pages | All three audiences | Book an interview / Learn about coaching |
-| `/interview` (interview.html) | Booking widget for hiring managers and recruiters | Hiring managers | Book a 30-min call |
-| `/applying` (applying.html) | Live documentation of the job search | Hiring managers \+ peer audience | Follow along / Reach out if hiring |
+Redirects (in `vercel.json`): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`.
 
 ### Pages likely to be added
 
-- `/coach` or `/claude-code-coach` — coaching services page and offer ladder  
-- `/playbook` or `/migration` — the "Clay-to-Claude Code Migration Playbook" lead magnet landing page  
-- `/now` — current projects and status (classic `/now` page convention)  
-- `/resume` — HTML version of the resume (in addition to the downloadable `.docx`)
+- `/coach` or `/claude-code-coach` — coaching/course landing (may point to `ccforsf.com`)
+- `/now` — current projects and status
+- `/resume` — HTML version of the resume
 
-When any of these are built, follow §5 in full.
+When any are built, follow §5 in full.
 
 ---
 
-## 10\. Content & voice rules
+## 8. Content & voice rules
 
-- Voice is Amit's. Direct, specific, builder-first. No marketing fluff, no corporate jargon. If the `amit-voice` skill is available, use it for any copy.  
-- Never fabricate experience, metrics, client names, or case studies. If Claude Code doesn't have source material for a claim, stop and ask.  
-- Quantified claims should match what's in the current resume at `/mnt/project/Amit_Resume_Strategic_GTM_Consultant.docx`.  
-- Keep the summary tight: 2–3 sentences max anywhere Amit's short bio appears.  
+- Voice is Amit's. Direct, specific, builder-first. Operational, not theoretical. No marketing fluff, no corporate jargon. If the `amit-voice` skill is available, use it for any copy.
+- **Content lives in data, not prose in templates.** Bio, stats, skills, experience, certs, projects, milestones, and case studies are all in [src/data/site.js](src/data/site.js) (`SITE_DATA`); the `/built` page uses [src/data/built.ts](src/data/built.ts). Edit the data, not hardcoded copy, unless the page genuinely hardcodes it.
+- Never fabricate experience, metrics, client names, or case studies. If there's no source material for a claim, stop and ask.
+- Quantified claims should match Amit's LinkedIn / current resume. Recurring true numbers: 8x Salesforce Certified; +25% forecasting accuracy (DHI); 95% project success + 98% client satisfaction (Slalom); $750K migration + 30% efficiency (Avangrid/UIL). (The resume `.docx` is owned by the job-search workflow, not this repo — don't assume a path to it.)
+- Keep the short bio tight: 2–3 sentences max anywhere it appears.
 - Always reference YouTube as `youtube.com/@ai-withamit` (one hyphen after "ai").
 
 ---
 
-## 11\. Deployment workflow
+## 9. Deployment workflow
 
-- Commits to `main` auto-deploy via Vercel.  
-- Always test locally before committing when possible: serve the `.html` files with any static server and verify the bot-readability curl test in §5.8.  
-- After deployment, smoke-test by fetching the new URL with `curl` and confirming the content is in the response body, not just the `<title>`.
+- Commits to `main` auto-deploy via Vercel. Feature work happens on branches (e.g. `add-built-page`).
+- Before committing: `npm run build` must succeed, then run the local bot-readability test in §5.7 against `npm run preview` or the built `dist/` file.
+- After deployment, smoke-test the live URL with `curl` and confirm the content is in the response body.
 
 ---
 
-## 12\. Checklist Claude Code must run before calling any page-adding task "done"
+## 10. Before calling any page-adding task "done"
 
-- [ ] New `.html` file created with full `<head>` meta per §5.2  
-- [ ] Core content is in semantic HTML in the `<body>` (not JS-injected)  
-- [ ] `sitemap.xml` updated (or created) with the new URL  
-- [ ] `robots.txt` exists and references the sitemap  
-- [ ] `llms.txt` updated with the new page  
-- [ ] JSON-LD structured data included in `<head>`  
-- [ ] Open Graph \+ Twitter Card meta tags present with a real image  
-- [ ] At least one internal link from an existing page to the new page  
-- [ ] `curl` test passes: the rendered HTML contains real content, not an empty shell  
-- [ ] Voice check: copy sounds like Amit, not like a generic portfolio  
+- [ ] `src/pages/<slug>.astro` created, rendered through `BaseLayout` with SEO props (§5.2)
+- [ ] Core content is server-rendered (in the template or from `src/data/`), not trapped in a client-only island
+- [ ] `public/sitemap.xml` updated with the clean slug URL (manual — §3 gotcha)
+- [ ] `public/llms.txt` updated
+- [ ] JSON-LD passed via `jsonLd` prop
+- [ ] `ogImage` set (or the default headshot is acceptable)
+- [ ] At least one internal link from an existing page
+- [ ] `npm run build` succeeds and the §5.7 curl/grep test shows real content
+- [ ] Voice check: copy sounds like Amit, not a generic portfolio
 - [ ] No fabricated experience, metrics, or claims
 
 If any box is unchecked, the task is not done.
 
 ---
 
-## 13\. Out-of-scope / don't touch without asking
+## 11. Out-of-scope / don't touch without asking
 
-- Domain and DNS configuration (lives in Vercel / the registrar).  
-- Third-party booking widget configuration (embed URLs only — don't change the account).  
-- Amit's resume `.docx` file — that's owned by the job-search workflow, not this site.  
-- Anything in `/mnt/project/` — those are read-only reference files.
+- Domain and DNS configuration (lives in Vercel / the registrar).
+- Third-party booking widget configuration (embed URLs only — don't change the account).
+- Amit's resume `.docx` (owned by the job-search workflow, not this site).
+- `dist/` build output — regenerated by `npm run build`, never hand-edit.
 
 ---
 
-*Last updated: April 18, 2026\. Update this file whenever conventions change.*  
+*Last updated: July 24, 2026. Update this file whenever conventions change.*

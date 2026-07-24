@@ -21,9 +21,10 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Experience
 
+- [RevShoppe](https://amit.so/#experience): Fractional GTM Engineer, Jun 2026 – Present. Builds HubSpot CRM infrastructure, lead qualification logic, and a Clay + Apollo enrichment/outbound stack for a B2B AI software client — lifecycle and lead-status sync, rule-based MQL gating and routing, account-based Clay dedup, and CRM data-integrity/reporting fixes.
 - [webAI, Inc.](https://amit.so/#experience): Revenue Operations Manager, Mar 2025 – Apr 2026. Led the HubSpot → Salesforce CRM transition. Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built Slack-integrated deal alert workflows and JSON-based AI personalization frameworks.
-- [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot, Clay). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
-- [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, and Community Cloud certifications.
+- [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
+- [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, Experience Cloud, and Platform App Builder certifications.
 - [Avangrid](https://amit.so/#experience): Sr. Salesforce Administrator, Jun 2015 – May 2018. Led a $750K Salesforce migration across two gas corporations, lifting operational efficiency 30%.
 
 ## Skills
