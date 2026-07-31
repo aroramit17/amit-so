@@ -1,7 +1,7 @@
 const SITE_DATA = {
   name: "Amit Arora",
-  tagline: "I build the GTM operating system your revenue team is missing.",
-  sub: "10+ years designing Salesforce architecture, pipeline and forecasting frameworks, and AI-powered workflows — for Series A startups through public companies. 8× Salesforce Certified.",
+  tagline: "I fix the systems behind your pipeline.",
+  sub: "Fractional GTM engineering, RevOps, CRM architecture, and lifecycle automation — backed by 10+ years across startups, public companies, and enterprise consulting.",
   about: [
     "Your revenue data is in five places and nobody trusts the forecast. Your pipeline looks healthy on the dashboard but stalls in the board meeting. Sales, Marketing, CS, and Finance each have their own definition of a qualified deal. That is the work I come in and fix.",
     "Deep fluency across Salesforce, HubSpot, Clay, and the modern AI/automation stack — combined with the cross-functional program leadership to align Sales, Marketing, CS, and Finance around one GTM operating model.",
@@ -189,28 +189,28 @@ const SITE_DATA = {
   ],
   projects: [
     {
+      title: "CC for SF",
+      type: "Course & Salesforce Lab",
+      desc: "A 24-lesson course teaching Salesforce admins and developers to build with Claude Code and the Salesforce DX MCP server.",
+      link: "https://ccforsf.com"
+    },
+    {
+      title: "ClawPlex",
+      type: "DFW AI Builder Community",
+      desc: "Hands-on meetups, build nights, and demos for operators, founders, and engineers working with agents and automation.",
+      link: "https://clawplex.dev"
+    },
+    {
       title: "AI with Amit",
       type: "YouTube Channel",
-      desc: "Teaching SMBs and solopreneurs how to implement AI agent workflows using Clay, n8n, Claude Code, and more.",
+      desc: "Practical walkthroughs showing regular people how to build useful AI workflows with Claude Code, Clay, n8n, and more.",
       link: "https://www.youtube.com/@ai-withamit"
     },
     {
       title: "GPTcommands",
-      type: "Blog / Publication",
-      desc: "A Medium publication focused on real-world AI prompting, use-cases, and automation guides for non-developers.",
+      type: "Publication",
+      desc: "A library of practical AI prompting, workflow, and automation guidance written for working operators.",
       link: "https://medium.com/gptcommands"
-    },
-    {
-      title: "The Daily Skill",
-      type: "AI Learning Platform",
-      desc: "An AI-powered platform helping users build one new professional skill every day through bite-sized lessons.",
-      link: "https://thedailyskill.com"
-    },
-    {
-      title: "Job Tracker",
-      type: "Open Source Tool",
-      desc: "A personal job application tracker to organize the job search with status tracking and notes.",
-      link: "https://github.com/aroramit17/job-tracker"
     }
   ],
   milestones: [
