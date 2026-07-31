@@ -36,11 +36,11 @@ const jsonLd = JSON.stringify({
           </filter>
         </defs>
         <g filter="url(#glow)">
-          <rect x="2" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <rect x="178" y="58" width="40" height="42" rx="3" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <rect x="32" y="22" width="156" height="118" rx="6" fill="#d97757" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
-          <rect x="58" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
-          <rect x="140" y="135" width="22" height="32" rx="2" fill="#d97757" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <rect x="2" y="58" width="40" height="42" rx="3" fill="#f26f55" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <rect x="178" y="58" width="40" height="42" rx="3" fill="#f26f55" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <rect x="32" y="22" width="156" height="118" rx="6" fill="#f26f55" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
+          <rect x="58" y="135" width="22" height="32" rx="2" fill="#f26f55" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+          <rect x="140" y="135" width="22" height="32" rx="2" fill="#f26f55" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
 
           <!-- Normal face: > < eyes -->
           <g class="face-normal">
@@ -114,7 +114,7 @@ const jsonLd = JSON.stringify({
       <p class="knob-label">Left ship · fire rate</p>
       <div class="knob" id="knob-left" tabindex="0" role="slider" aria-label="Left ship fire rate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="40" cy="40" r="36" fill="#0e0e0e" stroke="rgba(217,119,87,0.45)" stroke-width="1.5" />
+          <circle cx="40" cy="40" r="36" fill="#111f35" stroke="rgba(242,111,85,0.45)" stroke-width="1.5" />
           <circle cx="40" cy="40" r="28" fill="#161616" stroke="rgba(245,239,230,0.08)" stroke-width="1" />
           <!-- tick marks -->
           <g stroke="rgba(245,239,230,0.35)" stroke-width="1.2" stroke-linecap="round">
@@ -142,7 +142,7 @@ const jsonLd = JSON.stringify({
       <p class="knob-label">Right ship · fire rate</p>
       <div class="knob" id="knob-right" tabindex="0" role="slider" aria-label="Right ship fire rate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="40" cy="40" r="36" fill="#0e0e0e" stroke="rgba(217,119,87,0.45)" stroke-width="1.5" />
+          <circle cx="40" cy="40" r="36" fill="#111f35" stroke="rgba(242,111,85,0.45)" stroke-width="1.5" />
           <circle cx="40" cy="40" r="28" fill="#161616" stroke="rgba(245,239,230,0.08)" stroke-width="1" />
           <g stroke="rgba(245,239,230,0.35)" stroke-width="1.2" stroke-linecap="round">
             <line x1="40" y1="6" x2="40" y2="11" />
@@ -190,7 +190,7 @@ const jsonLd = JSON.stringify({
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // ── Color palette swap (still happens on wall bounce) ──
-      var palette = ['#d97757', '#f5b04a', '#ffd166', '#a7e3a5', '#7fb3ff', '#cf9bff', '#ff7fb3'];
+      var palette = ['#f26f55', '#315efb', '#ffd166', '#4fc99a', '#7fb3ff', '#cf9bff', '#ff7fb3'];
       var paletteIdx = 0;
       var words = Array.prototype.slice.call(document.querySelectorAll('.ss-word'));
       var lastWord = null;
@@ -410,7 +410,7 @@ const jsonLd = JSON.stringify({
   </script>
 
   <style is:global>
-    html, body { background: #0a0a0a; }
+    html, body { background: #111f35; }
     body { overflow: hidden; }
     .floating-cta { display: none !important; }
 
@@ -418,8 +418,8 @@ const jsonLd = JSON.stringify({
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 50%, rgba(217, 119, 87, 0.18), transparent 60%),
-        #0a0a0a;
+        radial-gradient(circle at 50% 50%, rgba(49, 94, 251, 0.24), transparent 60%),
+        #111f35;
       overflow: hidden;
       cursor: none;
     }
@@ -429,16 +429,16 @@ const jsonLd = JSON.stringify({
       pointer-events: none;
       opacity: 0.6;
       background-image:
-        linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(217, 119, 87, 0.18) 100%),
-        linear-gradient(0deg, transparent 0, transparent calc(100% - 1px), rgba(217, 119, 87, 0.18) 100%),
-        radial-gradient(circle at 12% 80%, rgba(217, 119, 87, 0.18) 0, transparent 18%),
-        radial-gradient(circle at 88% 22%, rgba(217, 119, 87, 0.18) 0, transparent 18%);
+        linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(49, 94, 251, 0.18) 100%),
+        linear-gradient(0deg, transparent 0, transparent calc(100% - 1px), rgba(49, 94, 251, 0.18) 100%),
+        radial-gradient(circle at 12% 80%, rgba(49, 94, 251, 0.18) 0, transparent 18%),
+        radial-gradient(circle at 88% 22%, rgba(242, 111, 85, 0.16) 0, transparent 18%);
       background-size: 80px 80px, 80px 80px, 100% 100%, 100% 100%;
     }
     .dot-cluster {
       position: absolute;
       width: 90px; height: 60px;
-      background-image: radial-gradient(circle, rgba(217,119,87,0.55) 1.5px, transparent 2px);
+      background-image: radial-gradient(circle, rgba(49,94,251,0.55) 1.5px, transparent 2px);
       background-size: 12px 12px;
       opacity: 0.55;
     }
@@ -465,20 +465,20 @@ const jsonLd = JSON.stringify({
       font-size: clamp(0.7rem, 1.4vw, 0.9rem);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(217, 119, 87, 0.85);
+      color: #aebcff;
       margin-bottom: 1.25rem;
     }
     .ss-title {
-      font-family: 'Instrument Serif', Georgia, serif;
+      font-family: 'Newsreader', Georgia, serif;
       font-weight: 400;
       font-size: clamp(2.5rem, 8vw, 7rem);
       line-height: 0.98;
       letter-spacing: -0.015em;
-      color: #f5efe6;
+      color: #f8f6f0;
       margin: 0;
       text-align: center;
       text-shadow:
-        0 0 22px rgba(217, 119, 87, 0.45),
+        0 0 22px rgba(49, 94, 251, 0.45),
         0 0 4px rgba(255, 255, 255, 0.25);
     }
     .ss-line { display: block; }
@@ -489,8 +489,8 @@ const jsonLd = JSON.stringify({
     .ss-line .ss-word + .ss-word { margin-left: 0.28em; }
     .ss-line--accent {
       font-style: italic;
-      color: #d97757;
-      text-shadow: 0 0 24px rgba(217, 119, 87, 0.75), 0 0 6px rgba(217, 119, 87, 0.6);
+      color: #f26f55;
+      text-shadow: 0 0 24px rgba(242, 111, 85, 0.65), 0 0 6px rgba(242, 111, 85, 0.5);
     }
     .ss-foot {
       margin-top: 1.75rem;
@@ -575,7 +575,7 @@ const jsonLd = JSON.stringify({
       box-shadow: 0 0 0 1px rgba(245,239,230,0.04), 0 14px 32px -16px rgba(0,0,0,0.8);
     }
     .knob:active { cursor: grabbing; }
-    .knob:focus-visible { box-shadow: 0 0 0 2px rgba(217,119,87,0.65), 0 14px 32px -16px rgba(0,0,0,0.8); }
+    .knob:focus-visible { box-shadow: 0 0 0 2px rgba(49,94,251,0.65), 0 14px 32px -16px rgba(0,0,0,0.8); }
     .knob svg { width: 100%; height: 100%; display: block; pointer-events: none; }
     .knob-indicator { transition: transform 0.06s linear; }
     .knob-range {
