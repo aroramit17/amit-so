@@ -5,6 +5,7 @@
   "redirects": [
     { "source": "/case-studies/case-study-1", "destination": "/webai-case-study", "permanent": true },
     { "source": "/case-studies/case-study-2", "destination": "/dhi-case-study", "permanent": true },
-    { "source": "/built-with-claude", "destination": "/built", "permanent": true }
+    { "source": "/built-with-claude", "destination": "/built", "permanent": true },
+    { "source": "/1-1", "destination": "/1-1-with-amit", "permanent": true }
   ]
 }

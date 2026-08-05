@@ -417,6 +417,7 @@ function Footer() {
     <footer className="site-footer">
       <span>© 2026 Amit Arora · amit.so</span>
       <div>
+        <a href="/1-1-with-amit">1:1 Website Build</a>
         <a href="/built">Built with Claude</a>
         <a href="/applying">Applying in Public</a>
         <a href="/llms.txt">llms.txt</a>

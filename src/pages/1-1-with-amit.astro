@@ -1,0 +1,423 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/intensive.css';
+
+/**
+ * Editable placeholders — nothing below is live yet.
+ *
+ * FORM_ENDPOINT  POST target for the application form. Point this at a webhook
+ *                Amit owns (e.g. a Zapier Catch Hook) that emails the details,
+ *                creates the Zenler contact, and applies the tag below. The page
+ *                itself cannot do any of that — the site is static, no backend.
+ *                The endpoint must allow cross-origin POSTs from https://amit.so
+ *                (Zapier Catch Hooks do). While this is empty the form shows an
+ *                error + mailto fallback instead of a false confirmation.
+ * PAYMENT_LINK   Checkout URL. While empty, every CTA scrolls to the form.
+ * SCHEDULING_LINK  Booking URL sent to qualified applicants after review.
+ */
+const FORM_ENDPOINT = '';
+const PAYMENT_LINK = '';
+const SCHEDULING_LINK = '';
+const APPLICANT_TAG = '1-1-website-build-applicant';
+const PRICE = 297;
+
+const CTA_HREF = PAYMENT_LINK || '#apply';
+
+const outcomes = [
+  { title: 'Plan a new website', body: 'Start from a blank page and leave with structure, copy direction, and a working first build.' },
+  { title: 'Redesign an existing page', body: 'Take a page that is not landing and rework the layout, hierarchy, and message.' },
+  { title: 'Improve a sales or course page', body: 'Sharpen the offer, the proof, and the path to the button.' },
+  { title: 'Fix mobile layout problems', body: 'Find what breaks on a phone and fix it while you watch.' },
+  { title: 'Create a webinar or registration page', body: 'Build the page, the form, and the follow-through in one sitting.' },
+  { title: 'Build a calculator, quiz, planner, or small web app', body: 'Turn an idea into a working interactive tool on your site.' },
+  { title: 'Create the prompts to continue independently', body: 'Leave with the exact prompts that keep the work moving without me.' },
+  { title: 'Develop a publishing and implementation plan', body: 'Know what ships, in what order, and how it goes live.' },
+];
+
+const included = [
+  { title: 'Pre-session project questionnaire', body: 'I read your project before we start so the session opens at full speed.' },
+  { title: 'Private 90-minute working session', body: 'One-to-one. Just you, me, and the project.' },
+  { title: 'Live collaboration on your actual project', body: 'We work on your real site, not a demo or a slide deck.' },
+  { title: 'Personalized website recommendations', body: 'Specific calls on structure, copy, and what to build next.' },
+  { title: 'Custom master prompt', body: 'A prompt built around your project so you can keep going in ChatGPT and Codex.' },
+  { title: 'Recording of the session', body: 'Rewatch every decision and every step.' },
+  { title: 'Seven days of follow-up questions', body: 'You get stuck after the call, you still have me.' },
+];
+
+const steps = [
+  { n: '01', title: 'Tell me about your project', body: 'Complete the short application form.' },
+  { n: '02', title: 'I review your needs', body: 'Amit reviews the website, goal, and requested outcome.' },
+  { n: '03', title: 'We confirm the session', body: 'Qualified applicants receive scheduling and payment information.' },
+  { n: '04', title: 'We build together', body: 'Use the session to make meaningful progress on one priority outcome.' },
+];
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "1:1 AI Website Build Intensive",
+      "serviceType": "Website build working session",
+      "url": "https://amit.so/1-1-with-amit",
+      "description": "A private 90-minute working session with Amit Arora to plan, build, redesign, or improve your website using ChatGPT and Codex. Collaborative, not done-for-you.",
+      "provider": {
+        "@type": "Person",
+        "name": "Amit Arora",
+        "url": "https://amit.so",
+        "sameAs": [
+          "https://linkedin.com/in/amit-arora17",
+          "https://youtube.com/@ai-withamit"
+        ]
+      },
+      "areaServed": "Worldwide",
+      "offers": {
+        "@type": "Offer",
+        "price": String(PRICE),
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/LimitedAvailability",
+        "url": "https://amit.so/1-1-with-amit"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this a done-for-you website build?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This is a collaborative website-building intensive. We focus on one clearly defined priority during the session. It is not a done-for-you agreement to design and deliver an entire website."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens after I apply?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Amit personally reviews every application. Qualified applicants receive availability, pricing, and scheduling information. Submitting an application does not require payment or guarantee a session."
+          }
+        }
+      ]
+    }
+  ]
+});
+---
+<BaseLayout
+  title="1:1 AI Website Build Intensive | Amit Arora"
+  description="A private 90-minute working session with Amit Arora. Plan, build, redesign, or improve your website live using ChatGPT and Codex. Limited availability, applications reviewed personally."
+  canonical="https://amit.so/1-1-with-amit"
+  jsonLd={jsonLd}
+  showFloatingCta={false}
+>
+  <div class="intensive">
+    <nav class="ix-nav">
+      <a href="/" class="ix-brand">amit.so</a>
+      <div class="ix-nav-right">
+        <span class="ix-nav-note">Limited 1:1 sessions</span>
+        <a href={CTA_HREF} class="ix-nav-cta">Apply</a>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ── Hero ─────────────────────────────────────────────── -->
+      <header class="ix-hero">
+        <p class="ix-eyebrow">Limited 1:1 Working Sessions</p>
+        <h1 class="ix-h1">Let&rsquo;s Build Your Website Together</h1>
+        <p class="ix-lede">
+          Bring your website idea, existing page, or unfinished project. During a private working
+          session, we&rsquo;ll use ChatGPT and Codex to turn it into something polished, functional,
+          and ready to move forward.
+        </p>
+        <div class="ix-cta-row">
+          <a href={CTA_HREF} class="ix-btn">Apply for a Session <span aria-hidden="true">&rarr;</span></a>
+          <span class="ix-price-tag">${PRICE} &middot; 90 minutes</span>
+        </div>
+        <p class="ix-note">Limited availability. Applications are reviewed personally by Amit.</p>
+      </header>
+
+      <!-- ── Choose your outcome ──────────────────────────────── -->
+      <section class="ix-section" id="outcomes" aria-labelledby="outcomes-h">
+        <p class="ix-kicker">01 &mdash; Choose your outcome</p>
+        <h2 class="ix-h2" id="outcomes-h">You pick the one thing we build.</h2>
+        <p class="ix-body">
+          Every session is customized. Before we meet, you tell me the single outcome that matters
+          most, and the whole 90 minutes points at it. Here&rsquo;s what people usually choose.
+        </p>
+        <ul class="ix-outcomes">
+          {outcomes.map((item) => (
+            <li class="ix-outcome">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- ── What's included ──────────────────────────────────── -->
+      <section class="ix-section ix-section-dark" id="included" aria-labelledby="included-h">
+        <p class="ix-kicker">02 &mdash; What is included</p>
+        <h2 class="ix-h2" id="included-h">Everything that comes with the session.</h2>
+        <ul class="ix-included">
+          {included.map((item) => (
+            <li>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="ix-price-card">
+          <div>
+            <p class="ix-price-label">The intensive</p>
+            <p class="ix-price-figure">${PRICE}</p>
+            <p class="ix-price-sub">One private 90-minute session, recording, master prompt, and seven days of follow-up.</p>
+          </div>
+          <a href={CTA_HREF} class="ix-btn ix-btn-invert">Apply for a Session <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </section>
+
+      <!-- ── How it works ─────────────────────────────────────── -->
+      <section class="ix-section" id="how" aria-labelledby="how-h">
+        <p class="ix-kicker">03 &mdash; How it works</p>
+        <h2 class="ix-h2" id="how-h">Four steps, start to finish.</h2>
+        <ol class="ix-steps">
+          {steps.map((step) => (
+            <li>
+              <span class="ix-step-n">{step.n}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- ── Expectation setting ──────────────────────────────── -->
+      <section class="ix-section" id="scope" aria-labelledby="scope-h">
+        <div class="ix-scope">
+          <p class="ix-kicker ix-kicker-orange">Read this before you apply</p>
+          <h2 class="ix-h2 ix-h2-scope" id="scope-h">
+            This is a collaborative website-building intensive. We will focus on one clearly defined
+            priority during the session. It is not a done-for-you agreement to design and deliver an
+            entire website.
+          </h2>
+          <p class="ix-body">
+            You leave with real progress on the thing that matters most, plus the prompts and the plan
+            to keep building on your own. You do not leave with a finished website I built for you.
+            If that is what you need, say so in the form and I&rsquo;ll tell you honestly whether this
+            is the right fit.
+          </p>
+          <a href={CTA_HREF} class="ix-btn">Apply for a 1:1 Website Build <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </section>
+
+      <!-- ── Application form ─────────────────────────────────── -->
+      <section class="ix-section ix-section-apply" id="apply" aria-labelledby="apply-h">
+        <p class="ix-kicker">04 &mdash; Apply</p>
+        <h2 class="ix-h2" id="apply-h">Tell me about your project.</h2>
+        <p class="ix-body">
+          Three questions and an email address. I read every one myself.
+        </p>
+
+        <form class="ix-form" id="ix-form" novalidate data-endpoint={FORM_ENDPOINT} data-tag={APPLICANT_TAG}>
+          <div class="ix-field">
+            <label for="ix-email">Email address <span class="ix-req" aria-hidden="true">*</span></label>
+            <input type="email" id="ix-email" name="email" autocomplete="email" placeholder="you@yourcompany.com" required aria-describedby="ix-email-hint ix-email-err" />
+            <p class="ix-hint" id="ix-email-hint">Used for follow-up and scheduling.</p>
+            <p class="ix-err" id="ix-email-err" role="alert" hidden></p>
+          </div>
+
+          <div class="ix-field">
+            <label for="ix-name">What is your name? <span class="ix-req" aria-hidden="true">*</span></label>
+            <input type="text" id="ix-name" name="name" autocomplete="name" placeholder="First and last name" required aria-describedby="ix-name-err" />
+            <p class="ix-err" id="ix-name-err" role="alert" hidden></p>
+          </div>
+
+          <div class="ix-field">
+            <label for="ix-website">What is your existing website? <span class="ix-req" aria-hidden="true">*</span></label>
+            <input type="text" id="ix-website" name="website" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" required aria-describedby="ix-website-hint ix-website-err" />
+            <p class="ix-hint" id="ix-website-hint">If you do not have a website yet, enter &ldquo;No website yet.&rdquo;</p>
+            <p class="ix-err" id="ix-website-err" role="alert" hidden></p>
+          </div>
+
+          <div class="ix-field">
+            <label for="ix-project">What would you like to build or improve? <span class="ix-req" aria-hidden="true">*</span></label>
+            <textarea id="ix-project" name="project" rows="7" required aria-describedby="ix-project-err" placeholder="Tell me what you want to create, what is currently not working, and what you would like to accomplish during our session."></textarea>
+            <p class="ix-err" id="ix-project-err" role="alert" hidden></p>
+          </div>
+
+          <!-- honeypot: hidden from humans, catches naive bots -->
+          <div class="ix-hp" aria-hidden="true">
+            <label for="ix-company">Company</label>
+            <input type="text" id="ix-company" name="company" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="ix-btn ix-btn-submit" id="ix-submit">
+            <span data-label>Apply for a 1:1 Website Build</span>
+            <span class="ix-spinner" aria-hidden="true" hidden></span>
+          </button>
+
+          <p class="ix-form-error" id="ix-form-error" role="alert" hidden>
+            <span id="ix-form-error-text"></span>
+            You can also email me directly at <a href="mailto:me@amit.so">me@amit.so</a>.
+          </p>
+
+          <p class="ix-disclaimer">
+            Submitting this application does not require payment or guarantee a session. I&rsquo;ll
+            review your project and contact you with availability, pricing, and next steps.
+          </p>
+        </form>
+
+        <div class="ix-confirm" id="ix-confirm" role="status" hidden>
+          <p class="ix-kicker ix-kicker-orange">Application received</p>
+          <h2 class="ix-h2">Thanks for telling me about your project.</h2>
+          <p class="ix-body">
+            I&rsquo;ll review your application and contact you with availability and the next steps.
+          </p>
+          <a href="/" class="ix-btn ix-btn-ghost">Back to amit.so <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ix-footer">
+      <span>&copy; 2026 Amit Arora &middot; <a href="/">amit.so</a></span>
+      <span>
+        <a href="/interview">Book a call</a>
+        <a href="/built">Built with Claude</a>
+        <a href="/privacy">Privacy</a>
+      </span>
+    </footer>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var form = document.getElementById('ix-form');
+      if (!form) return;
+
+      var submit = document.getElementById('ix-submit');
+      var label = submit.querySelector('[data-label]');
+      var spinner = submit.querySelector('.ix-spinner');
+      var formError = document.getElementById('ix-form-error');
+      var formErrorText = document.getElementById('ix-form-error-text');
+      var confirmPanel = document.getElementById('ix-confirm');
+      var endpoint = form.dataset.endpoint || '';
+      var tag = form.dataset.tag || '';
+      var sending = false;
+
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      var NO_SITE_RE = /^no\s+website\s+yet\.?$/i;
+      var URL_RE = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/i;
+
+      function setError(name, message) {
+        var field = document.getElementById('ix-' + name);
+        var slot = document.getElementById('ix-' + name + '-err');
+        if (message) {
+          slot.textContent = message;
+          slot.hidden = false;
+          field.setAttribute('aria-invalid', 'true');
+          field.classList.add('invalid');
+        } else {
+          slot.textContent = '';
+          slot.hidden = true;
+          field.removeAttribute('aria-invalid');
+          field.classList.remove('invalid');
+        }
+      }
+
+      function validate(values) {
+        var firstBad = null;
+        var checks = [
+          ['email', !values.email ? 'Enter your email address.' : (!EMAIL_RE.test(values.email) ? 'That email address does not look right.' : '')],
+          ['name', !values.name ? 'Enter your name.' : ''],
+          ['website', !values.website
+            ? 'Enter your website, or "No website yet."'
+            : (NO_SITE_RE.test(values.website) || URL_RE.test(values.website) ? '' : 'Enter a full URL like https://yourwebsite.com, or "No website yet."')],
+          ['project', !values.project ? 'Tell me what you want to build or improve.' : (values.project.length < 20 ? 'A little more detail helps me review this properly.' : '')]
+        ];
+        for (var i = 0; i < checks.length; i++) {
+          setError(checks[i][0], checks[i][1]);
+          if (checks[i][1] && !firstBad) firstBad = checks[i][0];
+        }
+        return firstBad;
+      }
+
+      function setSending(on) {
+        sending = on;
+        submit.disabled = on;
+        submit.classList.toggle('is-sending', on);
+        label.textContent = on ? 'Sending…' : 'Apply for a 1:1 Website Build';
+        spinner.hidden = !on;
+      }
+
+      function fail(message) {
+        formErrorText.textContent = message;
+        formError.hidden = false;
+        setSending(false);
+      }
+
+      // Clear a field's error as soon as the visitor starts fixing it.
+      ['email', 'name', 'website', 'project'].forEach(function (name) {
+        var field = document.getElementById('ix-' + name);
+        field.addEventListener('input', function () {
+          if (field.classList.contains('invalid')) setError(name, '');
+        });
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (sending) return;
+
+        var values = {
+          email: form.email.value.trim(),
+          name: form.name.value.trim(),
+          website: form.website.value.trim(),
+          project: form.project.value.trim()
+        };
+
+        var firstBad = validate(values);
+        if (firstBad) {
+          formError.hidden = true;
+          document.getElementById('ix-' + firstBad).focus();
+          return;
+        }
+
+        // Honeypot: quietly stop bots without telling them why.
+        if (form.company.value) return;
+
+        formError.hidden = true;
+        setSending(true);
+
+        if (!endpoint) {
+          fail('The application form is not connected yet.');
+          return;
+        }
+
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: values.email,
+            name: values.name,
+            website: values.website,
+            project: values.project,
+            tag: tag,
+            offer: '1:1 AI Website Build Intensive',
+            source: 'https://amit.so/1-1-with-amit'
+          })
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            form.hidden = true;
+            confirmPanel.hidden = false;
+            confirmPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (window.dataLayer) {
+              window.dataLayer.push({ event: 'intensive_application_submitted' });
+            }
+          })
+          .catch(function () {
+            fail('Something went wrong sending your application.');
+          });
+      });
+    })();
+  </script>
+</BaseLayout>

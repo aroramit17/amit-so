@@ -174,11 +174,12 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 | `/webai-case-study` | `webai-case-study.astro` | webAI ICP scoring engine deep-dive |
 | `/dhi-case-study` | `dhi-case-study.astro` | DHI lead-to-cash transformation deep-dive |
 | `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`) |
+| `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. `FORM_ENDPOINT`, `PAYMENT_LINK`, `SCHEDULING_LINK` are placeholders in the frontmatter |
 | `/raffle` | `raffle.astro` | Event raffle page (meetup-specific; attendee toast, hosts/sponsor) |
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
 
-Redirects (in `vercel.json`): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`.
+Redirects (in `vercel.json`): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`, `/1-1 → /1-1-with-amit`.
 
 ### Pages likely to be added
 

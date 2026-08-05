@@ -8,6 +8,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 - [Homepage](https://amit.so/): Overview of Amit's work and positioning
 - [Interview with Amit](https://amit.so/interview): Book a call if you're hiring
+- [1:1 AI Website Build Intensive](https://amit.so/1-1-with-amit): Apply for a private 90-minute working session with Amit to plan, build, redesign, or improve your website using ChatGPT and Codex. $297, limited availability, application reviewed personally. Collaborative working session, not a done-for-you website build.
 - [Case Studies](https://amit.so/case-studies): Deeper write-ups of selected engagements
 - [Applying in Public](https://amit.so/applying): Live documentation of the job search
 - [Built with Claude](https://amit.so/built): Living doc of work Amit has shipped using Claude across chat, Claude Code, Cowork, Artifacts, and MCP
