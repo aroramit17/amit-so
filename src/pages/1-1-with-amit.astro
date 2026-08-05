@@ -15,18 +15,25 @@ import '../styles/intensive.css';
  * Supabase stores the application. It does not email Amit and does not touch
  * Zenler — that needs a Database Webhook or an Edge Function on top.
  *
- * PAYMENT_LINK / SCHEDULING_LINK are still placeholders. While PAYMENT_LINK is
- * empty, every CTA scrolls to the application form.
+ * Booking and payment both happen in the Cal.com popup ($297 is collected by
+ * Cal's Stripe app at booking). The application form stays as the second path,
+ * for people who want a look at their project before they pay.
  */
 const SUPABASE_URL = 'https://kqlhafdzbxlxljigqrcr.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_4cZ-E-LRyJf4ha452NSFBg_IFZGkTnD';
 const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/intensive_applications`;
-const PAYMENT_LINK = '';
-const SCHEDULING_LINK = '';
 const APPLICANT_TAG = '1-1-website-build-applicant';
 const PRICE = 297;
 
-const CTA_HREF = PAYMENT_LINK || '#apply';
+// Cal.com element-click embed. Any element carrying these attributes opens the
+// booking popup; the script at the bottom of the page registers the namespace.
+const CAL_LINK = 'amit-arora/website-build-intensive';
+const CAL_NAMESPACE = 'website-build-intensive';
+const calTrigger = {
+  'data-cal-link': CAL_LINK,
+  'data-cal-namespace': CAL_NAMESPACE,
+  'data-cal-config': '{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}',
+};
 
 const outcomes = [
   { title: 'Plan a new website', body: 'Start from a blank page and leave with structure, copy direction, and a working first build.' },
@@ -50,10 +57,10 @@ const included = [
 ];
 
 const steps = [
-  { n: '01', title: 'Tell me about your project', body: 'Complete the short application form.' },
-  { n: '02', title: 'I review your needs', body: 'Amit reviews the website, goal, and requested outcome.' },
-  { n: '03', title: 'We confirm the session', body: 'Qualified applicants receive scheduling and payment information.' },
-  { n: '04', title: 'We build together', body: 'Use the session to make meaningful progress on one priority outcome.' },
+  { n: '01', title: 'Pick your time', body: 'Book the session and pay the $297 in the same step.' },
+  { n: '02', title: 'Tell me about your project', body: 'You get a short questionnaire so I can review your site and your goal before we meet.' },
+  { n: '03', title: 'We build together', body: 'Ninety minutes on your actual project, pointed at one priority outcome.' },
+  { n: '04', title: 'You keep going', body: 'Leave with the recording, a custom master prompt, and seven days of follow-up questions.' },
 ];
 
 const jsonLd = JSON.stringify({
@@ -96,10 +103,10 @@ const jsonLd = JSON.stringify({
         },
         {
           "@type": "Question",
-          "name": "What happens after I apply?",
+          "name": "How do I book a session?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Amit personally reviews every application. Qualified applicants receive availability, pricing, and scheduling information. Submitting an application does not require payment or guarantee a session."
+            "text": "Pick a time on the booking page and pay the $297 in the same step. You then get a short questionnaire so Amit can review your website and your goal before the session. If you would rather have your project looked at before you pay, you can send it through the form on the page instead."
           }
         }
       ]
@@ -109,7 +116,7 @@ const jsonLd = JSON.stringify({
 ---
 <BaseLayout
   title="1:1 AI Website Build Intensive | Amit Arora"
-  description="A private 90-minute working session with Amit Arora. Plan, build, redesign, or improve your website live using ChatGPT and Codex. Limited availability, applications reviewed personally."
+  description="A private 90-minute working session with Amit Arora. Plan, build, redesign, or improve your website live using ChatGPT and Codex. $297, limited availability — book your time directly."
   canonical="https://amit.so/1-1-with-amit"
   jsonLd={jsonLd}
   showFloatingCta={false}
@@ -119,7 +126,7 @@ const jsonLd = JSON.stringify({
       <a href="/" class="ix-brand">amit.so</a>
       <div class="ix-nav-right">
         <span class="ix-nav-note">Limited 1:1 sessions</span>
-        <a href={CTA_HREF} class="ix-nav-cta">Apply</a>
+        <button type="button" class="ix-nav-cta" {...calTrigger}>Book a Session</button>
       </div>
     </nav>
 
@@ -134,10 +141,13 @@ const jsonLd = JSON.stringify({
           and ready to move forward.
         </p>
         <div class="ix-cta-row">
-          <a href={CTA_HREF} class="ix-btn">Apply for a Session <span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="ix-btn" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
           <span class="ix-price-tag">${PRICE} &middot; 90 minutes</span>
         </div>
-        <p class="ix-note">Limited availability. Applications are reviewed personally by Amit.</p>
+        <p class="ix-note">
+          Limited availability &mdash; I only take a few of these a month.
+          Not ready to book? <a href="#apply" class="ix-inline-link">Tell me about your project</a> and I&rsquo;ll take a look first.
+        </p>
       </header>
 
       <!-- ── Choose your outcome ──────────────────────────────── -->
@@ -176,7 +186,7 @@ const jsonLd = JSON.stringify({
             <p class="ix-price-figure">${PRICE}</p>
             <p class="ix-price-sub">One private 90-minute session, recording, master prompt, and seven days of follow-up.</p>
           </div>
-          <a href={CTA_HREF} class="ix-btn ix-btn-invert">Apply for a Session <span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="ix-btn ix-btn-invert" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
         </div>
       </section>
 
@@ -200,7 +210,7 @@ const jsonLd = JSON.stringify({
       <!-- ── Expectation setting ──────────────────────────────── -->
       <section class="ix-section" id="scope" aria-labelledby="scope-h">
         <div class="ix-scope">
-          <p class="ix-kicker ix-kicker-orange">Read this before you apply</p>
+          <p class="ix-kicker ix-kicker-orange">Read this before you book</p>
           <h2 class="ix-h2 ix-h2-scope" id="scope-h">
             This is a collaborative website-building intensive. We will focus on one clearly defined
             priority during the session. It is not a done-for-you agreement to design and deliver an
@@ -209,19 +219,21 @@ const jsonLd = JSON.stringify({
           <p class="ix-body">
             You leave with real progress on the thing that matters most, plus the prompts and the plan
             to keep building on your own. You do not leave with a finished website I built for you.
-            If that is what you need, say so in the form and I&rsquo;ll tell you honestly whether this
-            is the right fit.
+            If that is what you need, don&rsquo;t book yet &mdash; <a href="#apply" class="ix-inline-link">send me your project</a>
+            and I&rsquo;ll tell you honestly whether this is the right fit.
           </p>
-          <a href={CTA_HREF} class="ix-btn">Apply for a 1:1 Website Build <span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="ix-btn" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
         </div>
       </section>
 
       <!-- ── Application form ─────────────────────────────────── -->
       <section class="ix-section ix-section-apply" id="apply" aria-labelledby="apply-h">
-        <p class="ix-kicker">04 &mdash; Apply</p>
-        <h2 class="ix-h2" id="apply-h">Tell me about your project.</h2>
+        <p class="ix-kicker">Not ready to book?</p>
+        <h2 class="ix-h2" id="apply-h">Tell me about your project first.</h2>
         <p class="ix-body">
-          Three questions and an email address. I read every one myself.
+          If you&rsquo;d rather I look at your project before you pay, send it over. Three questions and
+          an email address &mdash; I read every one myself and I&rsquo;ll tell you straight whether a
+          session is the right call.
         </p>
 
         <form class="ix-form" id="ix-form" novalidate data-endpoint={FORM_ENDPOINT} data-key={SUPABASE_PUBLISHABLE_KEY} data-tag={APPLICANT_TAG}>
@@ -258,7 +270,7 @@ const jsonLd = JSON.stringify({
           </div>
 
           <button type="submit" class="ix-btn ix-btn-submit" id="ix-submit">
-            <span data-label>Apply for a 1:1 Website Build</span>
+            <span data-label>Send Me Your Project</span>
             <span class="ix-spinner" aria-hidden="true" hidden></span>
           </button>
 
@@ -268,18 +280,20 @@ const jsonLd = JSON.stringify({
           </p>
 
           <p class="ix-disclaimer">
-            Submitting this application does not require payment or guarantee a session. I&rsquo;ll
-            review your project and contact you with availability, pricing, and next steps.
+            Sending this does not require payment and does not book a session. I&rsquo;ll review your
+            project and come back to you with an honest read and next steps. If you already know you
+            want the session, you can skip this and book above.
           </p>
         </form>
 
         <div class="ix-confirm" id="ix-confirm" role="status" hidden>
-          <p class="ix-kicker ix-kicker-orange">Application received</p>
+          <p class="ix-kicker ix-kicker-orange">Got it</p>
           <h2 class="ix-h2">Thanks for telling me about your project.</h2>
           <p class="ix-body">
-            I&rsquo;ll review your application and contact you with availability and the next steps.
+            I&rsquo;ll review it and come back to you with an honest read and the next steps. If you
+            already know you want the session, you don&rsquo;t have to wait on me &mdash; grab a time now.
           </p>
-          <a href="/" class="ix-btn ix-btn-ghost">Back to amit.so <span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="ix-btn" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
         </div>
       </section>
     </main>
@@ -293,6 +307,16 @@ const jsonLd = JSON.stringify({
       </span>
     </footer>
   </div>
+
+  <!-- Cal.com element-click embed: opens the booking + payment popup for any
+       element carrying data-cal-link / data-cal-namespace (see calTrigger). -->
+  <script is:inline>
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "website-build-intensive", { origin: "https://app.cal.com" });
+    Cal.config = Cal.config || {};
+    Cal.config.forwardQueryParams = true;
+    Cal.ns["website-build-intensive"]("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
+  </script>
 
   <script is:inline>
     (function () {
@@ -351,7 +375,7 @@ const jsonLd = JSON.stringify({
         sending = on;
         submit.disabled = on;
         submit.classList.toggle('is-sending', on);
-        label.textContent = on ? 'Sending…' : 'Apply for a 1:1 Website Build';
+        label.textContent = on ? 'Sending…' : 'Send Me Your Project';
         spinner.hidden = !on;
       }
 

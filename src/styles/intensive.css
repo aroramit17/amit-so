@@ -76,6 +76,9 @@ body {
 }
 
 .ix-nav-cta {
+  border: none;
+  font-family: var(--sans);
+  cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 999px;
   background: var(--ink);
@@ -153,9 +156,18 @@ body {
 
 .ix-note {
   margin: 1.5rem 0 0;
+  max-width: 46ch;
   font-size: 0.9rem;
   color: var(--ink-55);
 }
+
+.ix-inline-link {
+  color: var(--orange);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(204, 78, 40, 0.35);
+}
+.ix-inline-link:hover { border-bottom-color: var(--orange); }
 
 /* ── Buttons ───────────────────────────────────────────────── */
 .ix-btn {

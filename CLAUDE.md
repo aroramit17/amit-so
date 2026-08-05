@@ -174,7 +174,7 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 | `/webai-case-study` | `webai-case-study.astro` | webAI ICP scoring engine deep-dive |
 | `/dhi-case-study` | `dhi-case-study.astro` | DHI lead-to-cash transformation deep-dive |
 | `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`) |
-| `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. Form inserts into Supabase (see §11). `PAYMENT_LINK` / `SCHEDULING_LINK` are still placeholders in the frontmatter |
+| `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. Booking + $297 payment via the Cal.com popup (`amit-arora/website-build-intensive`, element-click embed); the form is the secondary "not ready to book" path and inserts into Supabase (see §11) |
 | `/raffle` | `raffle.astro` | Event raffle page (meetup-specific; attendee toast, hosts/sponsor) |
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
