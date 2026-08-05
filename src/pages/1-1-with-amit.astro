@@ -3,26 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/intensive.css';
 
 /**
- * Applications are written straight from the browser into Supabase
- * (project `amit-so`, table `public.intensive_applications`).
+ * Booking and payment both happen in the Cal.com popup — Cal's Stripe app
+ * collects the $297 at booking, so there is no application step and no form
+ * on this page. Anyone who wants a read before paying is pointed at email.
  *
- * The publishable key below is *meant* to be public — it ships in the page
- * source by design. Everything rests on RLS: `anon` holds a single INSERT
- * policy and there is no SELECT policy, so this key can add an application
- * but cannot read anyone's email or project description back out. If a SELECT
- * policy is ever added to that table, every application becomes world-readable.
- *
- * Supabase stores the application. It does not email Amit and does not touch
- * Zenler — that needs a Database Webhook or an Edge Function on top.
- *
- * Booking and payment both happen in the Cal.com popup ($297 is collected by
- * Cal's Stripe app at booking). The application form stays as the second path,
- * for people who want a look at their project before they pay.
+ * The Supabase table this page used to write to (`amit-so` project,
+ * `public.intensive_applications`) is intentionally left in place but is no
+ * longer referenced from anywhere. Drop it if the form never comes back.
  */
-const SUPABASE_URL = 'https://kqlhafdzbxlxljigqrcr.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_4cZ-E-LRyJf4ha452NSFBg_IFZGkTnD';
-const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/intensive_applications`;
-const APPLICANT_TAG = '1-1-website-build-applicant';
 const PRICE = 297;
 
 // Cal.com element-click embed. Any element carrying these attributes opens the
@@ -106,7 +94,7 @@ const jsonLd = JSON.stringify({
           "name": "How do I book a session?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Pick a time on the booking page and pay the $297 in the same step. You then get a short questionnaire so Amit can review your website and your goal before the session. If you would rather have your project looked at before you pay, you can send it through the form on the page instead."
+            "text": "Pick a time in the booking popup and pay the $297 in the same step. You then get a short questionnaire so Amit can review your website and your goal before the session. If you would rather get a read on whether it is a fit before you pay, email me@amit.so first."
           }
         }
       ]
@@ -146,7 +134,7 @@ const jsonLd = JSON.stringify({
         </div>
         <p class="ix-note">
           Limited availability &mdash; I only take a few of these a month.
-          Not ready to book? <a href="#apply" class="ix-inline-link">Tell me about your project</a> and I&rsquo;ll take a look first.
+          Questions first? <a href="mailto:me@amit.so" class="ix-inline-link">Email me</a> and I&rsquo;ll tell you if it&rsquo;s a fit.
         </p>
       </header>
 
@@ -219,82 +207,29 @@ const jsonLd = JSON.stringify({
           <p class="ix-body">
             You leave with real progress on the thing that matters most, plus the prompts and the plan
             to keep building on your own. You do not leave with a finished website I built for you.
-            If that is what you need, don&rsquo;t book yet &mdash; <a href="#apply" class="ix-inline-link">send me your project</a>
+            If that is what you need, don&rsquo;t book yet &mdash; <a href="mailto:me@amit.so" class="ix-inline-link">email me</a>
             and I&rsquo;ll tell you honestly whether this is the right fit.
           </p>
           <button type="button" class="ix-btn" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
         </div>
       </section>
 
-      <!-- ── Application form ─────────────────────────────────── -->
-      <section class="ix-section ix-section-apply" id="apply" aria-labelledby="apply-h">
-        <p class="ix-kicker">Not ready to book?</p>
-        <h2 class="ix-h2" id="apply-h">Tell me about your project first.</h2>
+      <!-- ── Closing CTA ──────────────────────────────────────── -->
+      <section class="ix-section ix-section-close" id="book" aria-labelledby="book-h">
+        <p class="ix-kicker">Ready when you are</p>
+        <h2 class="ix-h2" id="book-h">Pick a time and let&rsquo;s build.</h2>
         <p class="ix-body">
-          If you&rsquo;d rather I look at your project before you pay, send it over. Three questions and
-          an email address &mdash; I read every one myself and I&rsquo;ll tell you straight whether a
-          session is the right call.
+          Ninety minutes, one priority, your actual project. You&rsquo;ll get a short questionnaire
+          right after booking so we open at full speed.
         </p>
-
-        <form class="ix-form" id="ix-form" novalidate data-endpoint={FORM_ENDPOINT} data-key={SUPABASE_PUBLISHABLE_KEY} data-tag={APPLICANT_TAG}>
-          <div class="ix-field">
-            <label for="ix-email">Email address <span class="ix-req" aria-hidden="true">*</span></label>
-            <input type="email" id="ix-email" name="email" autocomplete="email" placeholder="you@yourcompany.com" required aria-describedby="ix-email-hint ix-email-err" />
-            <p class="ix-hint" id="ix-email-hint">Used for follow-up and scheduling.</p>
-            <p class="ix-err" id="ix-email-err" role="alert" hidden></p>
-          </div>
-
-          <div class="ix-field">
-            <label for="ix-name">What is your name? <span class="ix-req" aria-hidden="true">*</span></label>
-            <input type="text" id="ix-name" name="name" autocomplete="name" placeholder="First and last name" required aria-describedby="ix-name-err" />
-            <p class="ix-err" id="ix-name-err" role="alert" hidden></p>
-          </div>
-
-          <div class="ix-field">
-            <label for="ix-website">What is your existing website? <span class="ix-req" aria-hidden="true">*</span></label>
-            <input type="text" id="ix-website" name="website" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" required aria-describedby="ix-website-hint ix-website-err" />
-            <p class="ix-hint" id="ix-website-hint">If you do not have a website yet, enter &ldquo;No website yet.&rdquo;</p>
-            <p class="ix-err" id="ix-website-err" role="alert" hidden></p>
-          </div>
-
-          <div class="ix-field">
-            <label for="ix-project">What would you like to build or improve? <span class="ix-req" aria-hidden="true">*</span></label>
-            <textarea id="ix-project" name="project" rows="7" required aria-describedby="ix-project-err" placeholder="Tell me what you want to create, what is currently not working, and what you would like to accomplish during our session."></textarea>
-            <p class="ix-err" id="ix-project-err" role="alert" hidden></p>
-          </div>
-
-          <!-- honeypot: hidden from humans, catches naive bots -->
-          <div class="ix-hp" aria-hidden="true">
-            <label for="ix-company">Company</label>
-            <input type="text" id="ix-company" name="company" tabindex="-1" autocomplete="off" />
-          </div>
-
-          <button type="submit" class="ix-btn ix-btn-submit" id="ix-submit">
-            <span data-label>Send Me Your Project</span>
-            <span class="ix-spinner" aria-hidden="true" hidden></span>
-          </button>
-
-          <p class="ix-form-error" id="ix-form-error" role="alert" hidden>
-            <span id="ix-form-error-text"></span>
-            You can also email me directly at <a href="mailto:me@amit.so">me@amit.so</a>.
-          </p>
-
-          <p class="ix-disclaimer">
-            Sending this does not require payment and does not book a session. I&rsquo;ll review your
-            project and come back to you with an honest read and next steps. If you already know you
-            want the session, you can skip this and book above.
-          </p>
-        </form>
-
-        <div class="ix-confirm" id="ix-confirm" role="status" hidden>
-          <p class="ix-kicker ix-kicker-orange">Got it</p>
-          <h2 class="ix-h2">Thanks for telling me about your project.</h2>
-          <p class="ix-body">
-            I&rsquo;ll review it and come back to you with an honest read and the next steps. If you
-            already know you want the session, you don&rsquo;t have to wait on me &mdash; grab a time now.
-          </p>
+        <div class="ix-cta-row">
           <button type="button" class="ix-btn" {...calTrigger}>Book Your Session <span aria-hidden="true">&rarr;</span></button>
+          <span class="ix-price-tag">${PRICE} &middot; 90 minutes</span>
         </div>
+        <p class="ix-note">
+          Not sure it&rsquo;s the right fit? <a href="mailto:me@amit.so" class="ix-inline-link">Email me</a>
+          with what you&rsquo;re working on and I&rsquo;ll tell you straight.
+        </p>
       </section>
     </main>
 
@@ -318,141 +253,4 @@ const jsonLd = JSON.stringify({
     Cal.ns["website-build-intensive"]("ui", { "hideEventTypeDetails": false, "layout": "month_view" });
   </script>
 
-  <script is:inline>
-    (function () {
-      var form = document.getElementById('ix-form');
-      if (!form) return;
-
-      var submit = document.getElementById('ix-submit');
-      var label = submit.querySelector('[data-label]');
-      var spinner = submit.querySelector('.ix-spinner');
-      var formError = document.getElementById('ix-form-error');
-      var formErrorText = document.getElementById('ix-form-error-text');
-      var confirmPanel = document.getElementById('ix-confirm');
-      var endpoint = form.dataset.endpoint || '';
-      var apiKey = form.dataset.key || '';
-      var tag = form.dataset.tag || '';
-      var sending = false;
-
-      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      var NO_SITE_RE = /^no\s+website\s+yet\.?$/i;
-      var URL_RE = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/i;
-
-      function setError(name, message) {
-        var field = document.getElementById('ix-' + name);
-        var slot = document.getElementById('ix-' + name + '-err');
-        if (message) {
-          slot.textContent = message;
-          slot.hidden = false;
-          field.setAttribute('aria-invalid', 'true');
-          field.classList.add('invalid');
-        } else {
-          slot.textContent = '';
-          slot.hidden = true;
-          field.removeAttribute('aria-invalid');
-          field.classList.remove('invalid');
-        }
-      }
-
-      function validate(values) {
-        var firstBad = null;
-        var checks = [
-          ['email', !values.email ? 'Enter your email address.' : (!EMAIL_RE.test(values.email) ? 'That email address does not look right.' : '')],
-          ['name', !values.name ? 'Enter your name.' : ''],
-          ['website', !values.website
-            ? 'Enter your website, or "No website yet."'
-            : (NO_SITE_RE.test(values.website) || URL_RE.test(values.website) ? '' : 'Enter a full URL like https://yourwebsite.com, or "No website yet."')],
-          ['project', !values.project ? 'Tell me what you want to build or improve.' : (values.project.length < 20 ? 'A little more detail helps me review this properly.' : '')]
-        ];
-        for (var i = 0; i < checks.length; i++) {
-          setError(checks[i][0], checks[i][1]);
-          if (checks[i][1] && !firstBad) firstBad = checks[i][0];
-        }
-        return firstBad;
-      }
-
-      function setSending(on) {
-        sending = on;
-        submit.disabled = on;
-        submit.classList.toggle('is-sending', on);
-        label.textContent = on ? 'Sending…' : 'Send Me Your Project';
-        spinner.hidden = !on;
-      }
-
-      function fail(message) {
-        formErrorText.textContent = message;
-        formError.hidden = false;
-        setSending(false);
-      }
-
-      // Clear a field's error as soon as the visitor starts fixing it.
-      ['email', 'name', 'website', 'project'].forEach(function (name) {
-        var field = document.getElementById('ix-' + name);
-        field.addEventListener('input', function () {
-          if (field.classList.contains('invalid')) setError(name, '');
-        });
-      });
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (sending) return;
-
-        var values = {
-          email: form.email.value.trim(),
-          name: form.name.value.trim(),
-          website: form.website.value.trim(),
-          project: form.project.value.trim()
-        };
-
-        var firstBad = validate(values);
-        if (firstBad) {
-          formError.hidden = true;
-          document.getElementById('ix-' + firstBad).focus();
-          return;
-        }
-
-        // Honeypot: quietly stop bots without telling them why.
-        if (form.company.value) return;
-
-        formError.hidden = true;
-        setSending(true);
-
-        if (!endpoint || !apiKey) {
-          fail('The application form is not connected yet.');
-          return;
-        }
-
-        fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': apiKey,
-            'Authorization': 'Bearer ' + apiKey,
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({
-            email: values.email,
-            name: values.name,
-            website: values.website,
-            project: values.project,
-            tag: tag,
-            offer: '1:1 AI Website Build Intensive',
-            source: 'https://amit.so/1-1-with-amit'
-          })
-        })
-          .then(function (res) {
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            form.hidden = true;
-            confirmPanel.hidden = false;
-            confirmPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (window.dataLayer) {
-              window.dataLayer.push({ event: 'intensive_application_submitted' });
-            }
-          })
-          .catch(function () {
-            fail('Something went wrong sending your application.');
-          });
-      });
-    })();
-  </script>
 </BaseLayout>

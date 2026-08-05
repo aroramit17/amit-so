@@ -43,10 +43,6 @@ body {
 .intensive a { color: inherit; }
 .intensive :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 
-/* The UA's [hidden] rule loses to any display declaration below (.ix-form is a
-   grid), so hiding the form on success would leave it on screen. Make it stick. */
-.intensive [hidden] { display: none !important; }
-
 /* ── Nav ───────────────────────────────────────────────────── */
 .ix-nav {
   display: flex;
@@ -392,116 +388,9 @@ body {
 }
 .ix-scope .ix-body { color: rgba(28, 25, 21, 0.75); }
 
-/* ── Form ──────────────────────────────────────────────────── */
-.ix-section-apply { scroll-margin-top: 1.5rem; }
-
-.ix-form {
-  display: grid;
-  gap: 1.5rem;
-  max-width: 38rem;
-  padding: clamp(1.5rem, 4vw, 2.25rem);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: #fff;
-}
-
-.ix-field { display: grid; gap: 0.45rem; }
-
-.ix-field label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-}
-
-.ix-req { color: var(--orange); }
-
-.ix-field input,
-.ix-field textarea {
-  width: 100%;
-  padding: 0.8rem 0.95rem;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--cream);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 1rem; /* 16px keeps iOS from zooming on focus */
-  line-height: 1.5;
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-.ix-field textarea { resize: vertical; min-height: 8rem; }
-
-.ix-field input::placeholder,
-.ix-field textarea::placeholder { color: rgba(28, 25, 21, 0.38); }
-
-.ix-field input:focus,
-.ix-field textarea:focus {
-  border-color: var(--navy);
-  background: #fff;
-  outline: none;
-}
-
-.ix-field input.invalid,
-.ix-field textarea.invalid { border-color: var(--orange); background: #fff5f1; }
-
-.ix-hint { margin: 0; font-size: 0.82rem; color: var(--ink-55); }
-
-.ix-err {
-  margin: 0;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--orange);
-}
-
-/* honeypot — off-screen, never focusable by keyboard */
-.ix-hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.ix-btn-submit { width: 100%; padding: 1.05rem 1.6rem; }
-.ix-btn-submit:disabled { cursor: wait; opacity: 0.75; transform: none; }
-
-.ix-spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 250, 240, 0.4);
-  border-top-color: var(--cream);
-  border-radius: 50%;
-  animation: ix-spin 0.7s linear infinite;
-}
-@keyframes ix-spin { to { transform: rotate(360deg); } }
-
-.ix-form-error {
-  margin: 0;
-  padding: 0.85rem 1rem;
-  border-radius: 10px;
-  background: #fff0eb;
-  border: 1px solid rgba(204, 78, 40, 0.3);
-  font-size: 0.88rem;
-  color: #8f3417;
-}
-.ix-form-error a { font-weight: 600; }
-
-.ix-disclaimer {
-  margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  color: var(--ink-55);
-}
-
-/* ── Confirmation ──────────────────────────────────────────── */
-.ix-confirm {
-  max-width: 38rem;
-  padding: clamp(1.75rem, 5vw, 2.5rem);
-  border: 2px solid var(--ink);
-  border-radius: 18px;
-  background: var(--yellow);
-}
-.ix-confirm .ix-h2 { margin-bottom: 0.75rem; }
-.ix-confirm .ix-body { color: rgba(28, 25, 21, 0.75); }
+/* ── Closing CTA ───────────────────────────────────────────── */
+.ix-section-close { scroll-margin-top: 1.5rem; }
+.ix-section-close .ix-cta-row { margin-top: 2rem; }
 
 /* ── Footer ────────────────────────────────────────────────── */
 .ix-footer {
