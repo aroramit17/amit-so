@@ -1,398 +1,224 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SITE_DATA from '../data/site.js';
 
-// ─── Reveal on scroll hook ───
-// Starts visible so SSR renders content opaque and bots see it. After hydration,
-// if the element is below the fold we hide it and fade it back in when scrolled
-// into view. Above-the-fold elements simply stay visible with no animation.
-function useReveal(threshold = 0.15) {
+function useReveal(threshold = 0.12) {
   const ref = useRef(null);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const belowFold = rect.top > window.innerHeight * 0.85;
-    if (!belowFold) return;
-    setVisible(false);
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); obs.unobserve(el); }
+    const node = ref.current;
+    if (!node) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.unobserve(entry.target);
+      }
     }, { threshold });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [threshold]);
+
   return [ref, visible];
 }
 
 function Reveal({ children, delay = 0, className = '' }) {
-  const [ref, vis] = useReveal();
+  const [ref, visible] = useReveal();
   return (
-    <div ref={ref} className={className} style={{
-      opacity: vis ? 1 : 0,
-      transform: vis ? 'translateY(0)' : 'translateY(32px)',
-      transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`
-    }}>{children}</div>
-  );
-}
-
-// ─── Navigation ───
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', h, { passive: true });
-    return () => window.removeEventListener('scroll', h);
-  }, []);
-  const links = [
-    ['About', '#about'], ['Experience', '#experience'], ['Skills', '#skills'],
-    ['Projects', '#projects'], ['Contact', '#contact'],
-    ['Applying in Public', '/applying']
-  ];
-  return (
-    <nav className={`site-nav ${scrolled ? 'scrolled' : ''}`}>
-      <a href="#hero" className="nav-brand">amit.so</a>
-      <div className={`nav-links ${mobileOpen ? 'open' : ''}`}>
-        {links.map(([label, href]) => (
-          <a key={href} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
-        ))}
-        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Interview Me</a>
-      </div>
-      <button className={`nav-hamburger ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
-        <span /><span /><span />
-      </button>
-    </nav>
-  );
-}
-
-// ─── Hero ───
-function Hero() {
-  const d = SITE_DATA;
-  return (
-    <section id="hero" className="hero">
-      <div className="hero-inner">
-        <Reveal>
-          <div className="hero-badge">Open to opportunities</div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h1 className="hero-name">{d.name}</h1>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <p className="hero-tagline">{d.tagline}</p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="hero-sub">{d.sub}</p>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <div className="hero-actions">
-            <a href="#experience" className="btn-filled">View Experience</a>
-            <a href="#contact" className="btn-outline">Get in Touch</a>
-          </div>
-        </Reveal>
-      </div>
-      <div className="hero-scroll-hint">
-        <span>Scroll</span>
-        <div className="scroll-line" />
-      </div>
-    </section>
-  );
-}
-
-// ─── About ───
-function About() {
-  const d = SITE_DATA;
-  return (
-    <section id="about" className="about-section">
-      <div className="about-inner">
-        <div className="about-text">
-          <Reveal><span className="label">About</span></Reveal>
-          <Reveal delay={0.05}><h2 className="section-heading">10+ years driving GTM transformation</h2></Reveal>
-          {d.about.map((p, i) => <Reveal key={i} delay={0.1 + i * 0.05}><p>{p}</p></Reveal>)}
-        </div>
-        <div className="about-stats">
-          {d.stats.map((s, i) => (
-            <Reveal key={i} delay={i * 0.08}>
-              <div className="stat-card">
-                <div className="stat-num">{s.number}</div>
-                <div className="stat-label">{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Experience ───
-function Experience() {
-  const [openIdx, setOpenIdx] = useState(null);
-  const [openCats, setOpenCats] = useState({});
-  const d = SITE_DATA.experience;
-
-  const toggleCat = (eIdx, cIdx) => {
-    const key = `${eIdx}-${cIdx}`;
-    setOpenCats(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  return (
-    <section id="experience" className="experience-section">
-      <Reveal><span className="label">Career</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Where I've Made Impact</h2></Reveal>
-      <div className="exp-timeline">
-        {d.map((job, eIdx) => (
-          <Reveal key={eIdx} delay={eIdx * 0.08}>
-            <div className={`exp-card ${openIdx === eIdx ? 'expanded' : ''}`} style={{ '--accent': job.color }}>
-              <div className="exp-dot" />
-              <div className="exp-header">
-                <div>
-                  <h3 className="exp-company">{job.company}</h3>
-                  <span className="exp-role">{job.role}</span>
-                </div>
-                <span className="exp-dates">{job.dates}</span>
-              </div>
-              <p className="exp-summary">{job.summary}</p>
-              <button className="exp-toggle" onClick={() => setOpenIdx(openIdx === eIdx ? null : eIdx)}>
-                {openIdx === eIdx ? 'Hide details' : 'Show details'}
-                <span className={`exp-arrow ${openIdx === eIdx ? 'up' : ''}`}>↓</span>
-              </button>
-              {openIdx === eIdx && (
-                <div className="exp-details">
-                  {job.categories.map((cat, cIdx) => {
-                    const isOpen = openCats[`${eIdx}-${cIdx}`];
-                    return (
-                      <div key={cIdx} className="exp-category">
-                        <button className="exp-cat-btn" onClick={() => toggleCat(eIdx, cIdx)}>
-                          <span className={`exp-cat-arrow ${isOpen ? 'open' : ''}`}>›</span>
-                          {cat.name}
-                        </button>
-                        {isOpen && (
-                          <ul className="exp-cat-items">
-                            {cat.items.map((item, iIdx) => <li key={iIdx}>{item}</li>)}
-                          </ul>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Skills ───
-function Skills() {
-  const d = SITE_DATA.skills;
-  return (
-    <section id="skills" className="skills-section">
-      <Reveal><span className="label">Competencies</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">What I Bring to the Table</h2></Reveal>
-      <div className="skills-grid">
-        {d.map((s, i) => (
-          <Reveal key={i} delay={i * 0.06}>
-            <div className="skill-card">
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-              <div className="skill-tags">
-                {s.tags.map((t, j) => <span key={j} className="skill-tag">{t}</span>)}
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Certifications ───
-function Certifications() {
-  const d = SITE_DATA.certifications;
-  return (
-    <section id="certs" className="certs-section">
-      <Reveal><span className="label">Certifications</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">8× Salesforce Certified</h2></Reveal>
-      <div className="certs-grid">
-        {d.map((c, i) => (
-          <Reveal key={i} delay={i * 0.04}>
-            <div className="cert-chip">
-              <div className="cert-icon">SF</div>
-              <span>{c}</span>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Iridescent Milestones ───
-const msCoColors = { avangrid: '#5bdb82', slalom: '#5b9cf5', dhi: '#9b87f5', content: '#d4725c', webai: '#e8657a' };
-const msCoLabels = { avangrid: 'Avangrid', slalom: 'Slalom', dhi: 'DHI Group', content: 'Creator', webai: 'webAI' };
-
-function IridescentCard({ milestone, index, isActive, onClick }) {
-  const cardRef = useRef(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
-  const [isHovering, setIsHovering] = useState(false);
-  const co = msCoColors[milestone.co];
-
-  const handleMouseMove = useCallback((e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const tiltX = (y - 0.5) * 24;
-    const tiltY = (x - 0.5) * -24;
-    setTilt({ x: tiltX, y: tiltY });
-    setGlowPos({ x: x * 100, y: y * 100 });
-  }, []);
-
-  const handleMouseEnter = () => setIsHovering(true);
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setTilt({ x: 0, y: 0 });
-    setGlowPos({ x: 50, y: 50 });
-  };
-
-  const iridAngle = glowPos.x * 3.6;
-  const iridX = glowPos.x;
-  const iridY = glowPos.y;
-
-  return (
-    <div className="irid-card-wrap" style={{ perspective: '800px' }}>
-      <div
-        ref={cardRef}
-        className={`irid-card ${isActive ? 'active' : ''} ${isHovering ? 'hovering' : ''}`}
-        onClick={onClick}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          '--co': co,
-          '--tiltX': `${tilt.x}deg`,
-          '--tiltY': `${tilt.y}deg`,
-          '--glowX': `${glowPos.x}%`,
-          '--glowY': `${glowPos.y}%`,
-          '--iridAngle': `${iridAngle}deg`,
-          transform: isHovering
-            ? `rotateX(var(--tiltX)) rotateY(var(--tiltY)) scale(1.05)`
-            : 'rotateX(0) rotateY(0) scale(1)',
-        }}
-      >
-        <div className="irid-sheen" style={{
-          background: isHovering
-            ? `linear-gradient(${iridAngle}deg,
-                rgba(255,0,150,0.13) 0%,
-                rgba(0,255,200,0.13) 20%,
-                rgba(100,100,255,0.18) 40%,
-                rgba(255,200,0,0.13) 60%,
-                rgba(255,0,100,0.13) 80%,
-                rgba(0,200,255,0.13) 100%)`
-            : 'none',
-          opacity: isHovering ? 1 : 0,
-        }} />
-        <div className="irid-specular" style={{
-          background: `radial-gradient(circle at ${iridX}% ${iridY}%, rgba(255,255,255,${isHovering ? 0.25 : 0}) 0%, transparent 60%)`,
-        }} />
-        <div className="irid-noise" />
-        <div className="irid-content">
-          <div className="irid-top-row">
-            <span className="irid-index">#{String(index + 1).padStart(2, '0')}</span>
-            <span className="irid-co-badge" style={{ '--co': co }}>{msCoLabels[milestone.co]}</span>
-          </div>
-          <div className="irid-dot-row">
-            <span className="irid-dot" style={{ background: co }} />
-            <span className="irid-year">{milestone.role.split('·')[1]?.trim() || ''}</span>
-          </div>
-          <h3 className="irid-title">{milestone.title}</h3>
-          <p className="irid-desc">{milestone.desc}</p>
-          <div className="irid-tags">
-            {milestone.tags.map((t, i) => (
-              <span key={i} className="irid-tag" style={{ '--co': co }}>{t}</span>
-            ))}
-          </div>
-        </div>
-        <div className="irid-edge-glow" style={{
-          boxShadow: isHovering
-            ? `0 0 30px color-mix(in oklch, ${co}, transparent 60%),
-               0 20px 60px rgba(0,0,0,0.4),
-               inset 0 0 60px rgba(255,255,255,0.03)`
-            : '0 4px 20px rgba(0,0,0,0.3)',
-        }} />
-      </div>
+    <div
+      ref={ref}
+      className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
+      style={{ '--reveal-delay': `${delay}s` }}
+    >
+      {children}
     </div>
   );
 }
 
-function IridescentMilestones() {
-  const d = SITE_DATA.milestones;
-  const [active, setActive] = useState(null);
-  const [filter, setFilter] = useState('all');
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const filtered = filter === 'all' ? d : d.filter(m => m.co === filter);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = [
+    ['About', '#about'], ['Case Studies', '#case-studies'],
+    ['Experience', '#experience'], ['Projects', '#projects'],
+    ['Built with Claude', '/built'],
+    ['Applying in Public', '/applying']
+  ];
 
   return (
-    <section id="milestones" className="milestones-section">
-      <Reveal><span className="label">Journey</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Career Milestones</h2></Reveal>
+    <nav className={`site-nav ${scrolled ? 'scrolled' : ''}`} aria-label="Primary navigation">
+      <a href="#hero" className="nav-brand">amit.so</a>
+      <div id="primary-nav-links" className={`nav-links ${mobileOpen ? 'open' : ''}`}>
+        {links.map(([label, href]) => (
+          <a key={href} href={href} onClick={() => setMobileOpen(false)}>{label}</a>
+        ))}
+        <a href="/interview" className="nav-cta" onClick={() => setMobileOpen(false)}>Book a Call</a>
+      </div>
+      <div className="nav-actions">
+        {SITE_DATA.social?.linkedin && (
+          <a
+            href={SITE_DATA.social.linkedin}
+            className="nav-icon-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn profile"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z" />
+            </svg>
+          </a>
+        )}
+        <button
+          className={`nav-hamburger ${mobileOpen ? 'open' : ''}`}
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          aria-expanded={mobileOpen}
+          aria-controls="primary-nav-links"
+        >
+          <span /><span /><span />
+        </button>
+      </div>
+    </nav>
+  );
+}
 
-      <Reveal delay={0.1}>
-        <div className="irid-filters">
-          <button className={`irid-filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
-            All
-          </button>
-          {Object.entries(msCoLabels).map(([k, v]) => (
-            <button key={k}
-              className={`irid-filter-btn ${filter === k ? 'active' : ''}`}
-              onClick={() => setFilter(k)}
-              style={{ '--co': msCoColors[k] }}
-            >
-              <span className="irid-filter-dot" style={{ background: msCoColors[k] }} />
-              {v}
-            </button>
-          ))}
+function IdentityRail() {
+  return (
+    <aside className="identity-rail" aria-label="Amit Arora profile summary">
+      <div className="rail-person">
+        <img
+          src="/amit-headshot.png"
+          alt="Amit Arora"
+          width="88"
+          height="88"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div>
+          <p className="rail-name">Amit Arora</p>
+          <p className="rail-location">Aubrey · Dallas–Fort Worth</p>
+        </div>
+      </div>
+
+      <div className="rail-message">
+        <p className="rail-kicker">Fractional GTM Engineer · RevOps · CRM Architecture</p>
+        <h1>I fix the systems behind your <em>pipeline.</em></h1>
+        <p className="rail-summary">
+          I design the operating layer that keeps revenue teams aligned, data trustworthy, and decisions moving.
+        </p>
+      </div>
+
+      <div className="rail-proof" aria-label="Career highlights">
+        <div><strong>10+</strong><span>Years operating revenue systems</span></div>
+        <div><strong>8×</strong><span>Salesforce certified</span></div>
+        <div><strong>+25%</strong><span>Forecast accuracy</span></div>
+      </div>
+
+      <div className="rail-bottom">
+        <p className="availability"><span /> Open to RevOps and GTM leadership</p>
+        <div className="rail-actions">
+          <a href="/interview" className="primary-link">Book 15 minutes <span>→</span></a>
+          <a href="#case-studies" className="quiet-link">Selected work</a>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+const authoritySignals = [
+  { value: '+25%', label: 'Forecast accuracy', context: 'DHI Group' },
+  { value: '98%', label: 'Client satisfaction', context: 'Slalom' },
+  { value: '$750K', label: 'CRM migration led', context: 'Avangrid' },
+  { value: '10+ hrs', label: 'Saved each week', context: 'webAI' }
+];
+
+function Authority() {
+  return (
+    <section className="story-section authority-section" aria-labelledby="authority-title">
+      <Reveal>
+        <p className="section-index">01 / Recruiter brief</p>
+        <h2 id="authority-title">Revenue systems that teams can trust.</h2>
+        <p className="section-lede">
+          I have delivered enterprise Salesforce programs, owned the GTM stack at a public company,
+          built RevOps from scratch at an AI startup, and now engineer modern HubSpot systems for growing teams.
+        </p>
+      </Reveal>
+      <Reveal delay={0.08}>
+        <div className="authority-line">
+          <span>Series A/B startups</span><i>→</i><span>Public companies</span><i>→</i><span>Enterprise consulting</span>
         </div>
       </Reveal>
-
-      <div className="irid-grid">
-        {filtered.map((m, i) => {
-          const realIdx = d.indexOf(m);
-          return (
-            <Reveal key={realIdx} delay={i * 0.05}>
-              <IridescentCard
-                milestone={m}
-                index={realIdx}
-                isActive={active === realIdx}
-                onClick={() => setActive(active === realIdx ? null : realIdx)}
-              />
-            </Reveal>
-          );
-        })}
+      <div className="authority-grid">
+        {authoritySignals.map((signal, index) => (
+          <Reveal key={signal.label} delay={0.05 + index * 0.04}>
+            <article className="authority-card">
+              <strong>{signal.value}</strong>
+              <span>{signal.label}</span>
+              <small>{signal.context}</small>
+            </article>
+          </Reveal>
+        ))}
       </div>
     </section>
   );
 }
 
-// ─── Projects ───
-function Projects() {
-  const d = SITE_DATA.projects;
+function SelectedWork() {
+  const caseStudies = SITE_DATA.caseStudies || [];
+  const work = [
+    {
+      eyebrow: 'Current · Fractional GTM Engineering',
+      title: 'A cleaner HubSpot operating system at RevShoppe',
+      body: 'Lifecycle and lead-status alignment, qualification and routing logic, account-first Clay enrichment, and an Apollo sync that keeps dead records away from reps.',
+      outcome: 'One reliable path from campaign response to owned opportunity.',
+      href: '#current'
+    },
+    ...caseStudies.map((item) => ({
+      eyebrow: `${item.company} · ${item.tag}`,
+      title: item.title,
+      body: item.blurb,
+      outcome: item.outcome,
+      href: `/${item.slug}`
+    }))
+  ];
+
   return (
-    <section id="projects" className="projects-section">
-      <Reveal><span className="label">Building</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Side Projects & Content</h2></Reveal>
-      <div className="projects-grid">
-        {d.map((p, i) => (
-          <Reveal key={i} delay={i * 0.08}>
-            <a href={p.link} target="_blank" rel="noopener" className="project-card">
-              <span className="project-type">{p.type}</span>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <span className="project-arrow">→</span>
+    <section id="case-studies" className="story-section selected-work" aria-labelledby="work-title">
+      <Reveal>
+        <div className="section-heading-row">
+          <div>
+            <p className="section-index">02 / Selected impact</p>
+            <h2 id="work-title">The work behind the numbers.</h2>
+          </div>
+          <a href="/case-studies" className="section-link">All case studies <span>→</span></a>
+        </div>
+      </Reveal>
+      <div className="work-list">
+        {work.map((item, index) => (
+          <Reveal key={item.title} delay={index * 0.05}>
+            <a className="work-row" href={item.href}>
+              <span className="work-number">0{index + 1}</span>
+              <div className="work-copy">
+                <p>{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <span>{item.body}</span>
+              </div>
+              <div className="work-outcome">
+                <small>Outcome</small>
+                <strong>{item.outcome}</strong>
+                <i aria-hidden="true">↗</i>
+              </div>
             </a>
           </Reveal>
         ))}
@@ -401,71 +227,225 @@ function Projects() {
   );
 }
 
-// ─── Contact ───
-function Contact() {
-  const s = SITE_DATA.social;
-  const links = [
-    { label: 'LinkedIn', href: s.linkedin },
-    { label: 'YouTube', href: s.youtube },
-    { label: 'Medium', href: s.medium },
-    { label: 'The Daily Skill', href: s.dailyskill },
-    { label: 'Email', href: `mailto:${s.email}` }
-  ];
+const currentWork = [
+  {
+    number: '01', title: 'RevShoppe', role: 'Fractional GTM Engineer',
+    copy: 'Building HubSpot infrastructure, lifecycle automation, qualification logic, enrichment, outbound, and reporting for a B2B AI software team.'
+  },
+  {
+    number: '02', title: 'CC for SF', role: 'Founder & Educator',
+    copy: 'Teaching Salesforce professionals to ship Apex, LWCs, automation, and metadata with Claude Code while keeping review and control in their hands.',
+    href: 'https://ccforsf.com'
+  },
+  {
+    number: '03', title: 'ClawPlex', role: 'Community Coordinator',
+    copy: 'Co-organizing hands-on DFW meetups for builders working with agents, Claude Code, n8n, Clay, and Cursor.',
+    href: 'https://clawplex.dev'
+  }
+];
+
+function CurrentWork() {
   return (
-    <section id="contact" className="contact-section">
-      <Reveal><span className="label">Connect</span></Reveal>
-      <Reveal delay={0.05}><h2 className="section-heading">Let's Talk</h2></Reveal>
-      <Reveal delay={0.1}><p className="contact-sub">I'm exploring new opportunities and would love to connect about how I can help your team build a scalable, data-driven go-to-market operation.</p></Reveal>
-      <Reveal delay={0.15}>
-        <div className="contact-links">
-          {links.map((l, i) => (
-            <a key={i} href={l.href} target="_blank" rel="noopener" className="contact-chip">{l.label}</a>
-          ))}
+    <section id="current" className="story-section current-section" aria-labelledby="current-title">
+      <Reveal>
+        <p className="section-index">03 / Now</p>
+        <h2 id="current-title">Building systems—and the people around them.</h2>
+      </Reveal>
+      <div className="current-grid">
+        {currentWork.map((item, index) => {
+          const content = (
+            <>
+              <span className="current-number">{item.number}</span>
+              <h3>{item.title}</h3>
+              <p className="current-role">{item.role}</p>
+              <p>{item.copy}</p>
+              {item.href && <span className="current-arrow">Visit site ↗</span>}
+            </>
+          );
+          return (
+            <Reveal key={item.title} delay={index * 0.05}>
+              {item.href ? (
+                <a className="current-card" href={item.href} target="_blank" rel="noopener noreferrer">{content}</a>
+              ) : (
+                <article className="current-card">{content}</article>
+              )}
+            </Reveal>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="story-section experience-section" aria-labelledby="experience-title">
+      <Reveal>
+        <p className="section-index">04 / Career depth</p>
+        <h2 id="experience-title">From platform ownership to executive confidence.</h2>
+        <p className="section-lede narrow">
+          A decade of increasing scope across administration, consulting, systems leadership, and startup RevOps.
+        </p>
+      </Reveal>
+      <div className="experience-list">
+        {(SITE_DATA.experience || []).map((job, index) => (
+          <Reveal key={`${job.company}-${job.dates}`} delay={index * 0.035}>
+            <article className="experience-row">
+              <div className="experience-dates">{job.dates}</div>
+              <div>
+                <p>{job.company}</p>
+                <h3>{job.role}</h3>
+                <span>{job.summary}</span>
+              </div>
+              <span className="experience-index">0{index + 1}</span>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function OriginStory() {
+  return (
+    <section id="about" className="story-section origin-section" aria-labelledby="origin-title">
+      <Reveal>
+        <p className="section-index light">05 / The operating instinct</p>
+        <blockquote id="origin-title">
+          “Before I built revenue systems, I ran hotels.”
+        </blockquote>
+      </Reveal>
+      <Reveal delay={0.08}>
+        <div className="origin-grid">
+          <p>
+            Hospitality taught me that systems only work when people actually use them. When the lobby is full,
+            nobody cares about the framework—they care about what is happening now and whether you can fix it.
+          </p>
+          <p>
+            That is still how I operate: understand the real workflow, make ownership unmistakable, give leaders
+            numbers they trust, and build a rhythm the team can sustain after launch.
+          </p>
         </div>
       </Reveal>
-      <Reveal delay={0.2}>
-        <a href="/interview" className="btn-filled" style={{ marginTop: '2rem', display: 'inline-flex' }}>Book a Call</a>
+      <Reveal delay={0.12}>
+        <div className="origin-path" aria-label="Career progression">
+          <span>Hospitality leadership</span><i>→</i><span>Salesforce</span><i>→</i><span>Enterprise consulting</span><i>→</i><span>RevOps leadership</span>
+        </div>
       </Reveal>
     </section>
   );
 }
 
-// ─── Footer ───
+function Credentials() {
+  return (
+    <section className="story-section credentials-section" aria-labelledby="credentials-title">
+      <Reveal>
+        <p className="section-index">06 / Technical authority</p>
+        <h2 id="credentials-title">Deep enough to architect. Practical enough to ship.</h2>
+      </Reveal>
+      <div className="capability-grid">
+        {(SITE_DATA.skills || []).map((skill, index) => (
+          <Reveal key={skill.title} delay={index * 0.035}>
+            <article>
+              <span>0{index + 1}</span>
+              <h3>{skill.title}</h3>
+              <p>{skill.desc}</p>
+              <div>{skill.tags.map((tag) => <small key={tag}>{tag}</small>)}</div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delay={0.08}>
+        <div className="certification-band">
+          <strong>8× Salesforce Certified</strong>
+          <div>{(SITE_DATA.certifications || []).map((cert) => <span key={cert}>{cert}</span>)}</div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function Projects() {
+  return (
+    <section id="projects" className="story-section projects-section" aria-labelledby="projects-title">
+      <Reveal>
+        <p className="section-index">07 / Beyond the role</p>
+        <h2 id="projects-title">Teaching, building, and sharing the work.</h2>
+      </Reveal>
+      <div className="project-list">
+        {(SITE_DATA.projects || []).map((project, index) => (
+          <Reveal key={project.title} delay={index * 0.04}>
+            <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-row">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><small>{project.type}</small><h3>{project.title}</h3></div>
+              <p>{project.desc}</p>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" className="story-section contact-section" aria-labelledby="contact-title">
+      <Reveal>
+        <p className="section-index light">08 / Start a conversation</p>
+        <h2 id="contact-title">Have a revenue system people have stopped trusting?</h2>
+        <p>
+          I am open to RevOps and GTM leadership conversations, along with select fractional engagements.
+          Bring the messy version. We can figure out what the system needs next.
+        </p>
+        <div className="contact-actions">
+          <a href="/interview" className="primary-link light-button">Book 15 minutes <span>→</span></a>
+          <a href={`mailto:${SITE_DATA.social.email}`} className="contact-email">{SITE_DATA.social.email}</a>
+          <a href={SITE_DATA.social.linkedin} target="_blank" rel="noopener noreferrer" className="contact-email">LinkedIn ↗</a>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 function Footer() {
-  const handleCookies = (e) => {
-    e.preventDefault();
-    if (typeof window !== 'undefined' && window.showCookiePreferences) {
-      window.showCookiePreferences();
-    }
+  const handleCookies = (event) => {
+    event.preventDefault();
+    if (typeof window !== 'undefined' && window.showCookiePreferences) window.showCookiePreferences();
   };
   return (
     <footer className="site-footer">
       <span>© 2026 Amit Arora · amit.so</span>
-      <span className="footer-sep"> · </span>
-      <a href="/llms.txt" className="footer-link">llms.txt</a>
-      <span className="footer-sep"> · </span>
-      <a href="/privacy" className="footer-link">Privacy</a>
-      <span className="footer-sep"> · </span>
-      <a href="#" className="footer-link" onClick={handleCookies}>Cookies</a>
+      <div>
+        <a href="/1-1-with-amit">1:1 Website Build</a>
+        <a href="/built">Built with Claude</a>
+        <a href="/applying">Applying in Public</a>
+        <a href="/llms.txt">llms.txt</a>
+        <a href="/privacy">Privacy</a>
+        <a href="#" onClick={handleCookies}>Cookies</a>
+      </div>
     </footer>
   );
 }
 
-// ─── App ───
 export default function App() {
   return (
     <>
-      <div className="grain" />
       <Nav />
-      <Hero />
-      <About />
-      <Experience />
-      <Skills />
-      <Certifications />
-      <IridescentMilestones />
-      <Projects />
-      <Contact />
-      <Footer />
+      <main id="hero" className="editorial-home">
+        <IdentityRail />
+        <div className="story-column">
+          <Authority />
+          <SelectedWork />
+          <CurrentWork />
+          <Experience />
+          <OriginStory />
+          <Credentials />
+          <Projects />
+          <Contact />
+          <Footer />
+        </div>
+      </main>
     </>
   );
 }

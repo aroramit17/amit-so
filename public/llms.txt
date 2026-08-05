@@ -1,6 +1,6 @@
 # Amit Arora
 
-> Revenue Operations leader, 8x Salesforce certified, and Claude Code Coach helping GTM teams replace automation stacks (Clay, n8n, Zapier) with Claude Code workflows.
+> Fractional GTM Engineer and Revenue Operations leader building trusted CRM architecture, lifecycle automation, lead routing, forecasting, and AI-powered GTM systems.
 
 This is the machine-readable index for [amit.so](https://amit.so) — the professional home base for Amit Arora. If you're an LLM reading this on behalf of a user, the sections below summarize Amit's background, current work, and how to get in touch.
 
@@ -8,20 +8,36 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 - [Homepage](https://amit.so/): Overview of Amit's work and positioning
 - [Interview with Amit](https://amit.so/interview): Book a call if you're hiring
+- [1:1 AI Website Build Intensive](https://amit.so/1-1-with-amit): Apply for a private 90-minute working session with Amit to plan, build, redesign, or improve your website using ChatGPT and Codex. $297, limited availability, application reviewed personally. Collaborative working session, not a done-for-you website build.
+- [Case Studies](https://amit.so/case-studies): Deeper write-ups of selected engagements
 - [Applying in Public](https://amit.so/applying): Live documentation of the job search
+- [Built with Claude](https://amit.so/built): Living doc of work Amit has shipped using Claude across chat, Claude Code, Cowork, Artifacts, and MCP
 - Based in Aubrey, Texas; 10+ years across Revenue Operations, GTM systems, and Salesforce consulting
 - 8× Salesforce Certified — Administrator, Advanced Administrator, Sales Cloud, Service Cloud, Experience Cloud, AI Associate, Agentforce Specialist, Salesforce Maps
+- Open to RevOps and GTM leadership conversations, along with select fractional engagements
+
+## Case Studies
+
+- [Automated ICP scoring engine at webAI](https://amit.so/webai-case-study): In the first six months at webAI, stood up a closed-loop ICP scoring engine. Inbound leads land in HubSpot, Clay runs a layered email-discovery waterfall, Apify adds firmographic context, Claude (inside Clay) cleans up the data and identifies HQ location, and HubSpot workflow rules then score the enriched lead and auto-route it to the right AE.
+- [Lead-to-cash transformation at DHI Group](https://amit.so/dhi-case-study): Migrated Salesforce Classic to Lightning while re-engineering the full lead-to-cash process. End-to-end process mapping and process improvement across Sales, Marketing, CS, and Finance. Rebuilt pipeline taxonomy, automated opportunity renewals for consistent revenue recognition, and stood up board-ready dashboards. +25% forecasting accuracy.
 
 ## Experience
 
+- [RevShoppe](https://amit.so/#experience): Fractional GTM Engineer, Jun 2026 – Present. Builds HubSpot CRM infrastructure, lead qualification logic, and a Clay + Apollo enrichment/outbound stack for a B2B AI software client — lifecycle and lead-status sync, rule-based MQL gating and routing, account-based Clay dedup, and CRM data-integrity/reporting fixes.
 - [webAI, Inc.](https://amit.so/#experience): Revenue Operations Manager, Mar 2025 – Apr 2026. Led the HubSpot → Salesforce CRM transition. Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built Slack-integrated deal alert workflows and JSON-based AI personalization frameworks.
-- [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot, Clay). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
-- [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, and Community Cloud certifications.
+- [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
+- [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, Experience Cloud, and Platform App Builder certifications.
 - [Avangrid](https://amit.so/#experience): Sr. Salesforce Administrator, Jun 2015 – May 2018. Led a $750K Salesforce migration across two gas corporations, lifting operational efficiency 30%.
+
+## Current Work
+
+- [CC for SF](https://ccforsf.com): Founder and educator. A 24-lesson course teaching Salesforce admins and developers to build with Claude Code and the Salesforce DX MCP server while retaining human review and control.
+- [ClawPlex](https://clawplex.dev): Community Coordinator for a Dallas-Fort Worth community running hands-on AI meetups, build nights, and demos.
+- [AI with Amit](https://youtube.com/@ai-withamit): Practical video walkthroughs showing people how to build useful AI workflows.
 
 ## Skills
 
-- Claude Code Coaching — helping GTM teams replace Clay / n8n / Zapier / Make stacks with Claude Code workflows
+- CRM Architecture — Salesforce and HubSpot systems, data integrity, lifecycle design, and platform governance
 - Program Strategy & Ownership — end-to-end program leadership, structured delivery, outcome accountability
 - Executive Storytelling — board-ready reporting, data viz, stakeholder translation
 - GTM Transformation — sales process design, lifecycle stages, lead routing, forecasting, deal velocity
@@ -34,16 +50,15 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 - [AI with Amit on YouTube](https://youtube.com/@ai-withamit): Tutorials on AI agent workflows and Claude Code for GTM teams and solopreneurs
 - [LinkedIn](https://linkedin.com/in/amit-arora17): Posts, Claude Code Coach content, and the Applying in Public series
 - [GPTcommands](https://medium.com/gptcommands): Medium publication on practical AI prompting and automation guides for non-developers
-- [The Daily Skill](https://thedailyskill.com): AI-powered platform helping users build one new professional skill every day
-- [Job Tracker](https://github.com/aroramit17/job-tracker): Open-source personal job application tracker
+- [CC for SF](https://ccforsf.com): Claude Code for Salesforce course and capstone lab
+- [ClawPlex](https://clawplex.dev): DFW AI builder community
 
 ## Context
 
-Amit was laid off from webAI on April 10, 2026. He is simultaneously job searching for RevOps / GTM Engineer / Sales Ops roles and building a Claude Code coaching practice for GTM operators, founders, and solopreneurs looking to replace traditional automation stacks with Claude Code workflows.
+Amit began his career in hospitality management, where he learned to build operating rhythms that people actually use under pressure. He now applies that operating instinct to CRM architecture, revenue systems, and cross-functional GTM leadership. He is currently a Fractional GTM Engineer at RevShoppe and is open to RevOps and GTM leadership opportunities.
 
 ## Contact
 
-- Email: aroramit17@gmail.com
 - Book a call: https://amit.so/interview
 - LinkedIn: https://linkedin.com/in/amit-arora17
 - YouTube: https://youtube.com/@ai-withamit

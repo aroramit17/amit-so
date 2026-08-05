@@ -1,16 +1,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0e0e0e;
-      --cream: #e8e0d4;
-      --cream-dim: rgba(232, 224, 212, 0.55);
-      --accent: #d4725c;
-      --accent2: #c9965c;
-      --rule: rgba(232, 224, 212, 0.1);
-      --card-bg: rgba(232, 224, 212, 0.04);
-      --card-border: rgba(232, 224, 212, 0.08);
-      --serif: 'Instrument Serif', Georgia, serif;
-      --sans: 'Sora', sans-serif;
+      --bg: #f8f6f0;
+      --cream: #14233b;
+      --cream-dim: #667184;
+      --accent: #315efb;
+      --accent2: #2146d7;
+      --rule: rgba(20, 35, 59, 0.12);
+      --card-bg: #fffefa;
+      --card-border: #dfdbd1;
+      --serif: 'Newsreader', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -26,7 +26,7 @@
 
     .grain {
       position: fixed; inset: 0; z-index: 9999; pointer-events: none;
-      opacity: 0.028;
+      display: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 256px 256px;
     }
@@ -36,7 +36,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 1.25rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(14, 14, 14, 0.85);
+      background: rgba(248, 246, 240, 0.9);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--rule);
     }
@@ -44,7 +44,7 @@
       font-family: var(--serif);
       font-size: 1.6rem;
       font-style: italic;
-      color: var(--accent);
+      color: #14233b;
       text-decoration: none;
       letter-spacing: -0.5px;
     }
@@ -123,12 +123,12 @@
       text-align: center;
       padding: 2.5rem;
       font-size: 0.75rem;
-      color: rgba(232, 224, 212, 0.25);
+      color: rgba(20, 35, 59, 0.45);
       border-top: 1px solid var(--rule);
       position: relative; z-index: 2;
     }
     footer a {
-      color: rgba(232, 224, 212, 0.45);
+      color: rgba(20, 35, 59, 0.65);
       text-decoration: none;
       transition: color 0.3s;
     }

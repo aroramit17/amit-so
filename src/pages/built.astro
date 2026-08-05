@@ -1,0 +1,628 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  BUILT_SECTIONS,
+  BUILT_LAST_UPDATED,
+  BUILT_HERO_EYEBROW,
+  BUILT_HERO_TITLE,
+  BUILT_HERO_INTRO,
+  BUILT_CLOSING,
+  TOOLKIT_CARDS,
+  CLAUDE_MEM,
+  RESOURCE_CARDS,
+  FUTURE_SELF_PROMPTS,
+  FUTURE_SELF_X_URL,
+  AGENDA,
+  SKILLS_SECTION,
+  SKILLS,
+} from '../data/built';
+import '../styles/built.css';
+
+const updatedDate = new Date(BUILT_LAST_UPDATED + 'T00:00:00Z');
+const updatedLabel = updatedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Eight things I built with Claude',
+  url: 'https://amit.so/built',
+  description:
+    "A living doc of eight things Amit Arora shipped using Claude — a course, a hotel pipeline, a portfolio, a Chrome extension, a daily AI digest, a toolkit, resources, and a future-self experiment.",
+  dateModified: BUILT_LAST_UPDATED,
+  isPartOf: { '@type': 'WebSite', name: 'Amit Arora', url: 'https://amit.so' },
+  author: { '@type': 'Person', name: 'Amit Arora', url: 'https://amit.so' },
+  hasPart: BUILT_SECTIONS.map((s, i) => ({
+    '@type': 'CreativeWork',
+    position: i + 1,
+    name: s.navLabel,
+    url: `https://amit.so/built#${s.id}`,
+  })),
+});
+---
+<BaseLayout
+  title="Eight things I built with Claude | Amit Arora"
+  description="A living doc of work Amit Arora shipped with Claude — a Salesforce admin course, a hotel AI pipeline, a Chrome extension, a daily Cowork loop, and the toolkit behind it all."
+  canonical="https://amit.so/built"
+  jsonLd={jsonLd}
+  showFloatingCta={false}
+>
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    slot="head"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <div class="built-root">
+    <nav class="built-topnav built-topnav--simple" aria-label="Page navigation">
+      <a href="/" class="brand">Claude in the Wild <span aria-hidden="true">·</span> meetup</a>
+      <div class="topnav-right">
+        <a href="/screensaver" class="ss-toggle" aria-label="Enable screensaver" title="Enable screensaver">
+          <span class="ss-toggle-track" aria-hidden="true"><span class="ss-toggle-thumb"></span></span>
+          <span class="ss-toggle-label">Screensaver</span>
+        </a>
+        <a href="/raffle" class="raffle-btn">🎟 Enter the raffle</a>
+      </div>
+    </nav>
+
+    <main class="built-main">
+      <header class="hero">
+        <p class="hero-eyebrow">{BUILT_HERO_EYEBROW}</p>
+        <a
+          class="sponsor"
+          href="https://25ncoworking.com/locations/frisco-tx/meeting-rooms"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sponsored by 25N Coworking in Frisco — view meeting rooms"
+        >
+          <span class="sponsor-label">Sponsored by</span>
+          <img
+            class="sponsor-logo"
+            src="/built/25n-logo.webp"
+            alt="25N Coworking"
+            width="180"
+            height="48"
+            loading="eager"
+          />
+          <span class="sponsor-loc"><span aria-hidden="true">·</span> Frisco, TX</span>
+        </a>
+      </header>
+
+      <section class="agenda" aria-labelledby="agenda-h">
+        <div class="agenda-head">
+          <p class="agenda-eyebrow">Tonight · Frisco · Plano</p>
+          <h2 id="agenda-h" class="agenda-title">The <em>agenda.</em></h2>
+          <p class="agenda-sub">Three talks. One night. Tap a row to expand.</p>
+        </div>
+        <ul class="agenda-list" role="list">
+          {AGENDA.map((a, i) => (
+            <li class={`agenda-item ${a.defaultOpen ? 'is-open' : ''}`} style={`--i:${i}`}>
+              <details open={a.defaultOpen}>
+                <summary>
+                  <span class="agenda-num" aria-hidden="true">{a.num}</span>
+                  <span class="agenda-id">
+                    <span class="agenda-speaker">{a.speaker}</span>
+                    <span class="agenda-role">{a.role}</span>
+                  </span>
+                  <span class="agenda-title-line" set:html={a.titleHtml} />
+                  <span class="agenda-toggle" aria-hidden="true">
+                    <span class="t-h"></span>
+                    <span class="t-v"></span>
+                  </span>
+                </summary>
+                <div class="agenda-body">
+                  <div class="agenda-body-grid">
+                    <div class="agenda-body-copy">
+                      <p class="agenda-blurb" set:html={a.blurbHtml} />
+                      <ul class="agenda-tags" role="list">
+                        {a.tags.map((t) => <li>{t}</li>)}
+                      </ul>
+                    </div>
+                    <figure class="agenda-qr">
+                      <img src={a.qr} alt={`LinkedIn QR code for ${a.speaker}`} loading="lazy" width="180" height="180" />
+                      <figcaption>
+                        <span class="qr-line">Scan to connect</span>
+                        <span class="qr-name">{a.speaker} on LinkedIn</span>
+                      </figcaption>
+                    </figure>
+                  </div>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {BUILT_SECTIONS.map((s) => (
+        <>
+        <section
+          id={s.id}
+          class={`section section--${s.visual} section--${s.visualSide}`}
+          aria-labelledby={`${s.id}-title`}
+        >
+          <div class="section-num" aria-hidden="true">{s.num}</div>
+          <div class="section-grid">
+            <div class="section-copy">
+              {s.warning && <span class="warning-pill">{s.warning}</span>}
+              <p class="section-eyebrow">{s.eyebrow}</p>
+              <h2 id={`${s.id}-title`} class="section-title" set:html={s.titleHtml} />
+              {s.paragraphs.map((p) => <p class="section-p" set:html={p} />)}
+
+              {s.stack && s.stack.length > 0 && (
+                <ul class="section-chips" aria-label="Stack" role="list">
+                  {s.stack.map((t) => <li>{t}</li>)}
+                </ul>
+              )}
+
+              {s.link && (
+                <div class="section-link-wrap">
+                  <p class="section-live">Live at</p>
+                  <a
+                    class="section-link"
+                    href={s.link.href}
+                    target={isExternal(s.link.href) ? '_blank' : undefined}
+                    rel={isExternal(s.link.href) ? 'noopener noreferrer' : undefined}
+                  >
+                    <span>{s.link.label}</span>
+                    <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              )}
+
+              {s.id === 'ccforsf' && (
+                <figure class="proof">
+                  <figcaption class="proof-cap">
+                    <span class="proof-label">Proof · ThriveCart</span>
+                    <span class="proof-meta">$348.40 gross · 19 transactions</span>
+                  </figcaption>
+                  <img
+                    src="/built/thrivecart-proof.png"
+                    alt="ThriveCart Pro+ dashboard showing $348.40 gross revenue, $335.00 net revenue, and 19 total transactions for ccforsf.com"
+                    loading="lazy"
+                    width="1031"
+                    height="640"
+                  />
+                </figure>
+              )}
+            </div>
+
+            <aside class="section-visual" aria-hidden="true">
+              {s.visual === 'stack' && (
+                <div class="mock mock-stack">
+                  <p class="mock-eyebrow">The stack</p>
+                  <ol class="stack-list">
+                    <li class="is-active">
+                      <span class="stack-n">1</span>
+                      <span class="stack-body"><strong>Claude Code + Cursor IDE</strong><em>Build</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">2</span>
+                      <span class="stack-body"><strong>GitHub</strong><em>Push</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">3</span>
+                      <span class="stack-body"><strong>Vercel</strong><em>Deploy</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">4</span>
+                      <span class="stack-body"><strong>Systeme.io</strong><em>Host course</em></span>
+                      <span class="stack-down" aria-hidden="true">↓</span>
+                    </li>
+                    <li>
+                      <span class="stack-n">5</span>
+                      <span class="stack-body"><strong>ThriveCart</strong><em>Collect $</em></span>
+                    </li>
+                  </ol>
+                </div>
+              )}
+
+              {s.visual === 'hotel' && (
+                <div class="mock mock-hotel">
+                  <div class="mock-hotel-head">
+                    <span>Daily morning report · Auto-generated</span>
+                    <span class="dot" aria-hidden="true"></span>
+                  </div>
+                  <div class="hotel-grid">
+                    <div class="hotel-tile"><strong>$48.2K</strong><span class="hotel-label">Revenue</span><span class="hotel-delta good">+12%</span></div>
+                    <div class="hotel-tile"><strong>187</strong><span class="hotel-label">Rooms sold</span><span class="hotel-delta good">+8</span></div>
+                    <div class="hotel-tile"><strong>84%</strong><span class="hotel-label">Occupancy</span><span class="hotel-delta bad">−2pt</span></div>
+                    <div class="hotel-tile"><strong>$258</strong><span class="hotel-label">ADR</span><span class="hotel-delta good">+$14</span></div>
+                    <div class="hotel-tile"><strong>$217</strong><span class="hotel-label">RevPAR</span><span class="hotel-delta good">+$9</span></div>
+                    <div class="hotel-tile"><strong>21/21</strong><span class="hotel-label">PDFs parsed</span><span class="hotel-delta auto">auto</span></div>
+                  </div>
+                  <div class="mock-hotel-foot">
+                    <span>n8n · AgentMail · Claude</span>
+                    <span>05:47 am CT</span>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'portfolio' && (
+                <div class="mock mock-browser">
+                  <div class="browser-bar">
+                    <span class="dots"><span></span><span></span><span></span></span>
+                    <span class="addr">amit.so</span>
+                  </div>
+                  <div class="browser-body">
+                    <span class="portfolio-badge"><span class="dot" aria-hidden="true"></span> Open to opportunities</span>
+                    <p class="portfolio-name">Amit Arora</p>
+                    <p class="portfolio-sub">Strategic GTM Consultant · Salesforce Architect · AI Workflow Builder</p>
+                    <div class="portfolio-stats">
+                      <div><strong>10+</strong><span>Years</span></div>
+                      <div><strong>8×</strong><span>SF Certified</span></div>
+                      <div><strong>25%</strong><span>Forecast +</span></div>
+                      <div><strong>A &amp; B</strong><span>Startup</span></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'extension' && (
+                <div class="mock mock-extension">
+                  <div class="ext-head">
+                    <span class="ext-brand"><span class="ext-mark">B</span>BetterSkillsMD</span>
+                    <span class="ext-status"><span class="dot" aria-hidden="true"></span> streaming</span>
+                  </div>
+                  <pre class="ext-code"><code><span class="c-h"># design.md</span>
+<span class="c-q">&gt; generated from screenshot · gpt-4o</span>
+
+<span class="c-h">## overview</span>
+modern saas landing · cream + coral
+generous whitespace · serif display
+
+<span class="c-h">## palette</span>
+<span class="c-s">`#FAF9F6`</span> background
+<span class="c-s">`#1F1F1D`</span> text
+<span class="c-s">`#DA7756`</span> accent
+
+<span class="c-h">## typography</span>
+display: Elms Sans
+sub:     Victor Mono
+body:    Tyykker<span class="cursor" aria-hidden="true">▌</span></code></pre>
+                  <div class="ext-buttons">
+                    <button type="button" class="ext-btn ext-btn-primary">Copy</button>
+                    <button type="button" class="ext-btn">Download .md</button>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'cowork' && (
+                <div class="mock mock-email">
+                  <div class="email-head">
+                    <span>cowork@anthropic <span aria-hidden="true">·</span> aroramit.17@gmail.com</span>
+                    <span>05:42 am</span>
+                  </div>
+                  <div class="email-hero">
+                    <p class="email-title">🤖 Daily AI Feed — May 13, 2026</p>
+                    <p class="email-sub">📊 Slide deck saved to workspace: AI_Digest_2026-05-13.pptx</p>
+                  </div>
+                  <div class="email-body">
+                    <div class="email-src">
+                      <p class="email-src-h">@claudeai — Claude (Anthropic)</p>
+                      <ul><li><strong>Weekly limits +50%</strong> through Jul 13 — live now</li><li>New <strong>agent view</strong>: all sessions, inline reply</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@OpenAI — OpenAI</p>
+                      <ul><li><strong>Enterprise Codex push</strong>: 2 free months for new users</li><li>Introducing <strong>Daybreak</strong>: frontier AI for cyber defenders</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@GeminiApp — Google Gemini</p>
+                      <ul><li><strong>Google I/O May 19–20</strong> — major announcements imminent</li></ul>
+                    </div>
+                    <div class="email-src">
+                      <p class="email-src-h">@MatthewBerman — Matthew Berman</p>
+                      <ul><li>Breakdown: <strong>AI-powered cyber attacks escalating</strong></li></ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'toolkit' && (
+                <div class="toolkit-wrap">
+                  <div class="toolkit-grid">
+                    {TOOLKIT_CARDS.map((c) => (
+                      <article class={`tool-card ${c.warn ? 'tool-card--warn' : ''}`}>
+                        <p class="tool-eyebrow">{c.eyebrow}</p>
+                        <h3 class="tool-title">{c.title}</h3>
+                        <p class="tool-body">{c.body}</p>
+                        {c.code && <pre class="tool-code"><code>{c.code}</code></pre>}
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {s.visual === 'resources' && (
+                <div class="resources-wrap">
+                  {RESOURCE_CARDS.map((r) => (
+                    <a class="resource-card" href={r.link.href} target="_blank" rel="noopener noreferrer">
+                      <span class="resource-arrow" aria-hidden="true">↗</span>
+                      <p class="resource-eyebrow">{r.eyebrow}</p>
+                      <h3 class="resource-title">{r.title}</h3>
+                      <p class="resource-body">{r.body}</p>
+                      <span class="resource-link">{r.link.label} →</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {s.visual === 'research' && (
+                <div class="mock mock-research">
+                  <p class="research-eyebrow">The research</p>
+                  <p class="research-name">Hal Hershfield</p>
+                  <p class="research-org"><em>UCLA Anderson</em></p>
+                  <p class="research-body">
+                    15 years of research on the psychology of future-self continuity. The finding: people who feel emotionally close to their future self save more, eat better, train harder, and pick longer-payoff careers.
+                  </p>
+                  <hr class="research-sep" />
+                  <a class="research-foot research-link" href={FUTURE_SELF_X_URL} target="_blank" rel="noopener noreferrer">
+                    <span>Protocol surfaced by @sukh_saroy <span aria-hidden="true">·</span> May 6, 2026</span>
+                    <span class="research-link-arrow" aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              )}
+            </aside>
+          </div>
+
+          {s.id === 'future-self' && (
+            <div class="future-prompts">
+              <p class="section-eyebrow">The six prompts · run in order · click to expand &amp; copy</p>
+              <ol class="prompts-list">
+                {FUTURE_SELF_PROMPTS.map((p, i) => {
+                  const idx = String(i + 1).padStart(2, '0');
+                  return (
+                    <li class="prompt-row">
+                      <details class="prompt-acc">
+                        <summary>
+                          <span class="prompt-n">{idx}</span>
+                          <span class="prompt-head">
+                            <span class="prompt-title">{p.title}</span>
+                            <span class="prompt-summary">{p.summary}</span>
+                          </span>
+                          <span class="prompt-toggle" aria-hidden="true">
+                            <span class="t-h"></span>
+                            <span class="t-v"></span>
+                          </span>
+                        </summary>
+                        <div class="prompt-body-wrap">
+                          <pre class="prompt-text" id={`prompt-text-${i}`}>{p.prompt}</pre>
+                          <button type="button" class="prompt-copy" data-copy-target={`prompt-text-${i}`}>
+                            <span class="prompt-copy-icon" aria-hidden="true">⧉</span>
+                            <span class="prompt-copy-label">Copy prompt</span>
+                          </button>
+                        </div>
+                      </details>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          )}
+        </section>
+
+        {s.id === 'resources' && (
+          <section
+            id={CLAUDE_MEM.id}
+            class="section section--memory section--right section--claude-mem"
+            aria-labelledby="claude-mem-title"
+          >
+            <div class="section-num" aria-hidden="true">{CLAUDE_MEM.num}</div>
+            <div class="section-grid">
+              <div class="section-copy">
+                <p class="section-eyebrow">{CLAUDE_MEM.eyebrow}</p>
+                <h2 id="claude-mem-title" class="section-title" set:html={CLAUDE_MEM.titleHtml} />
+                <p class="section-p">{CLAUDE_MEM.intro}</p>
+
+                <article class="tool-card tool-card--warn cm-warn">
+                  <p class="tool-eyebrow">{CLAUDE_MEM.warningCard.eyebrow}</p>
+                  <h3 class="tool-title">{CLAUDE_MEM.warningCard.title}</h3>
+                  <p class="tool-body">{CLAUDE_MEM.warningCard.body}</p>
+                  <pre class="tool-code"><code>{CLAUDE_MEM.warningCard.code}</code></pre>
+                </article>
+              </div>
+              <aside class="section-visual" aria-hidden="true">
+                <div class="mock mock-finder">
+                  <div class="finder-head">
+                    <span>~/.claude-mem/</span>
+                    <span class="finder-warn">△ disk pressure</span>
+                  </div>
+                  <div class="finder-cols">
+                    <span>Name</span><span>Date modified</span><span class="finder-size">Size</span>
+                  </div>
+                  <ul class="finder-rows">
+                    <li><span>📁 chroma</span><span>Today at 2:25 PM</span><span>—</span></li>
+                    <li class="is-flag">
+                      <span>📄 claude-mem.db</span>
+                      <span>Today at 2:24 PM</span>
+                      <span class="finder-big">808.53 GB</span>
+                    </li>
+                    <li><span>📄 claude-mem.db-shm</span><span>May 8, 2026</span><span>293.1 MB</span></li>
+                    <li><span>📄 claude-mem.db-wal</span><span>Today at 2:25 PM</span><span>4.2 MB</span></li>
+                    <li><span>📁 corpora</span><span>Apr 20, 2026</span><span>—</span></li>
+                    <li><span>📁 logs</span><span>Yesterday at 10:13 PM</span><span>—</span></li>
+                  </ul>
+                  <p class="finder-note"><strong>1.5 TB</strong> of memory swallowed before I caught it. Old claude-mem versions had a memory leak — the .db file grew indefinitely.</p>
+                </div>
+              </aside>
+            </div>
+
+            <div class="cm-bloat">
+              <div class="section-grid">
+                <div class="section-copy">
+                  <p class="section-eyebrow">{CLAUDE_MEM.bloatFix.eyebrow}</p>
+                  <h3 class="section-title" set:html={CLAUDE_MEM.bloatFix.titleHtml} />
+                  {CLAUDE_MEM.bloatFix.paragraphs.map((p) => <p class="section-p">{p}</p>)}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {s.id === 'resources' && (
+          <section id={SKILLS_SECTION.id} class="section section--skills" aria-labelledby="skills-title">
+            <div class="section-num" aria-hidden="true">{SKILLS_SECTION.num}</div>
+            <div class="section-grid section-grid--solo">
+              <div class="section-copy section-copy--wide">
+                <p class="section-eyebrow">{SKILLS_SECTION.eyebrow}</p>
+                <h2 id="skills-title" class="section-title" set:html={SKILLS_SECTION.titleHtml} />
+                <p class="section-p">{SKILLS_SECTION.intro}</p>
+                <ul class="skills-grid" role="list">
+                  {SKILLS.map((sk) => (
+                    <li class="skill-card">
+                      <code class="skill-name">{sk.name}</code>
+                      <p class="skill-desc">{sk.desc}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+        )}
+        </>
+      ))}
+
+    </main>
+
+    <footer class="built-footer">
+      <span>&copy; 2026 Amit Arora · <a href="/">amit.so</a></span>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/raffle">🎟 Raffle</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/applying">Applying in Public</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/privacy">Privacy</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="#" onclick="event.preventDefault(); window.showCookiePreferences && window.showCookiePreferences();">Cookies</a>
+    </footer>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var links = document.querySelectorAll('[data-section]');
+      if (!links.length) return;
+      var byId = {};
+      links.forEach(function (a) {
+        var id = a.getAttribute('data-section');
+        (byId[id] = byId[id] || []).push(a);
+      });
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+      function setCurrent(id) {
+        Object.keys(byId).forEach(function (k) {
+          byId[k].forEach(function (el) {
+            if (k === id) el.classList.add('is-current');
+            else el.classList.remove('is-current');
+          });
+        });
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+        if (visible.length) setCurrent(visible[0].target.id);
+      }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 1] });
+      sections.forEach(function (s) { obs.observe(s); });
+
+      var details = document.querySelectorAll('.agenda details');
+      var agendaList = document.querySelector('.agenda-list');
+      function moveRail() {
+        var open = document.querySelector('.agenda-item.is-open');
+        if (!open || !agendaList) return;
+        var listRect = agendaList.getBoundingClientRect();
+        var openRect = open.getBoundingClientRect();
+        var y = openRect.top - listRect.top + 8;
+        agendaList.style.setProperty('--rail-y', y);
+      }
+      details.forEach(function (d) {
+        d.addEventListener('toggle', function () {
+          if (!d.open) {
+            d.parentElement.classList.remove('is-open');
+            moveRail();
+            return;
+          }
+          details.forEach(function (other) {
+            if (other !== d) {
+              other.open = false;
+              other.parentElement.classList.remove('is-open');
+            }
+          });
+          d.parentElement.classList.add('is-open');
+          moveRail();
+        });
+      });
+      moveRail();
+      window.addEventListener('resize', moveRail);
+
+      document.querySelectorAll('.agenda-item').forEach(function (item) {
+        item.addEventListener('mousemove', function (e) {
+          var r = item.getBoundingClientRect();
+          item.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          item.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      });
+
+      // Copy-prompt buttons (section 09 future-self accordion)
+      function fallbackCopy(text, done) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('.prompt-copy'), function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var id = btn.getAttribute('data-copy-target');
+          var el = document.getElementById(id);
+          if (!el) return;
+          var text = el.textContent;
+          var label = btn.querySelector('.prompt-copy-label');
+          var orig = label ? label.textContent : 'Copy prompt';
+          function done() {
+            btn.classList.add('is-copied');
+            if (label) label.textContent = 'Copied';
+            setTimeout(function () {
+              btn.classList.remove('is-copied');
+              if (label) label.textContent = orig;
+            }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+          } else {
+            fallbackCopy(text, done);
+          }
+        });
+      });
+
+      var btn = document.querySelector('.topnav-menu');
+      var list = document.querySelector('.topnav-links');
+      if (btn && list) {
+        btn.addEventListener('click', function () {
+          var open = list.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        list.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) {
+            list.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

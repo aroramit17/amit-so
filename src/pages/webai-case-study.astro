@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseStudy from '../components/CaseStudy.astro';
+import SITE_DATA from '../data/site.js';
+import '../styles/case-study.css';
+
+const study = SITE_DATA.caseStudies.find((c) => c.slug === 'webai-case-study');
+if (!study) throw new Error('Missing webai-case-study entry in SITE_DATA.caseStudies');
+
+const url = `https://amit.so/${study.slug}`;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": study.title,
+  "url": url,
+  "description": study.blurb,
+  "about": study.tag,
+  "author": {
+    "@type": "Person",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Amit Arora",
+    "url": "https://amit.so"
+  },
+  "isPartOf": {
+    "@type": "CollectionPage",
+    "name": "Case Studies",
+    "url": "https://amit.so/case-studies"
+  }
+});
+---
+<BaseLayout
+  title={`${study.title} | Case Study | Amit Arora`}
+  description={study.blurb}
+  canonical={url}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <CaseStudy study={study} />
+</BaseLayout>

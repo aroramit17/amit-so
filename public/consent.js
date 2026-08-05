@@ -3,6 +3,7 @@
 
   var CONSENT_KEY = 'cookie-consent-v1';
   var REB2B_KEY = '9NMMZHRYV5NW';
+  var CLARITY_ID = 'wgblz0vvjv';
 
   function getConsent() {
     try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
@@ -20,6 +21,20 @@
     s.src = 'https://ddwl4m2hdecbv.cloudfront.net/b/' + REB2B_KEY + '/' + REB2B_KEY + '.js.gz';
     var first = document.getElementsByTagName('script')[0];
     first.parentNode.insertBefore(s, first);
+  }
+
+  function loadClarity() {
+    if (window.clarity && window.clarity.q) return;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', CLARITY_ID);
+  }
+
+  function loadAccepted() {
+    loadRB2B();
+    loadClarity();
   }
 
   function injectStyles() {
@@ -84,7 +99,7 @@
       var action = target.getAttribute('data-cc-action');
       if (action === 'accept') {
         setConsent('accepted');
-        loadRB2B();
+        loadAccepted();
         hideBanner();
       } else if (action === 'decline') {
         setConsent('declined');
@@ -103,7 +118,7 @@
   function init() {
     var consent = getConsent();
     if (consent === 'accepted') {
-      loadRB2B();
+      loadAccepted();
     } else if (!consent) {
       showBanner();
     }
