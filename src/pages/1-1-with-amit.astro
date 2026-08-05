@@ -3,19 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/intensive.css';
 
 /**
- * Editable placeholders — nothing below is live yet.
+ * Applications are written straight from the browser into Supabase
+ * (project `amit-so`, table `public.intensive_applications`).
  *
- * FORM_ENDPOINT  POST target for the application form. Point this at a webhook
- *                Amit owns (e.g. a Zapier Catch Hook) that emails the details,
- *                creates the Zenler contact, and applies the tag below. The page
- *                itself cannot do any of that — the site is static, no backend.
- *                The endpoint must allow cross-origin POSTs from https://amit.so
- *                (Zapier Catch Hooks do). While this is empty the form shows an
- *                error + mailto fallback instead of a false confirmation.
- * PAYMENT_LINK   Checkout URL. While empty, every CTA scrolls to the form.
- * SCHEDULING_LINK  Booking URL sent to qualified applicants after review.
+ * The publishable key below is *meant* to be public — it ships in the page
+ * source by design. Everything rests on RLS: `anon` holds a single INSERT
+ * policy and there is no SELECT policy, so this key can add an application
+ * but cannot read anyone's email or project description back out. If a SELECT
+ * policy is ever added to that table, every application becomes world-readable.
+ *
+ * Supabase stores the application. It does not email Amit and does not touch
+ * Zenler — that needs a Database Webhook or an Edge Function on top.
+ *
+ * PAYMENT_LINK / SCHEDULING_LINK are still placeholders. While PAYMENT_LINK is
+ * empty, every CTA scrolls to the application form.
  */
-const FORM_ENDPOINT = '';
+const SUPABASE_URL = 'https://kqlhafdzbxlxljigqrcr.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_4cZ-E-LRyJf4ha452NSFBg_IFZGkTnD';
+const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/intensive_applications`;
 const PAYMENT_LINK = '';
 const SCHEDULING_LINK = '';
 const APPLICANT_TAG = '1-1-website-build-applicant';
@@ -219,7 +224,7 @@ const jsonLd = JSON.stringify({
           Three questions and an email address. I read every one myself.
         </p>
 
-        <form class="ix-form" id="ix-form" novalidate data-endpoint={FORM_ENDPOINT} data-tag={APPLICANT_TAG}>
+        <form class="ix-form" id="ix-form" novalidate data-endpoint={FORM_ENDPOINT} data-key={SUPABASE_PUBLISHABLE_KEY} data-tag={APPLICANT_TAG}>
           <div class="ix-field">
             <label for="ix-email">Email address <span class="ix-req" aria-hidden="true">*</span></label>
             <input type="email" id="ix-email" name="email" autocomplete="email" placeholder="you@yourcompany.com" required aria-describedby="ix-email-hint ix-email-err" />
@@ -301,6 +306,7 @@ const jsonLd = JSON.stringify({
       var formErrorText = document.getElementById('ix-form-error-text');
       var confirmPanel = document.getElementById('ix-confirm');
       var endpoint = form.dataset.endpoint || '';
+      var apiKey = form.dataset.key || '';
       var tag = form.dataset.tag || '';
       var sending = false;
 
@@ -387,14 +393,19 @@ const jsonLd = JSON.stringify({
         formError.hidden = true;
         setSending(true);
 
-        if (!endpoint) {
+        if (!endpoint || !apiKey) {
           fail('The application form is not connected yet.');
           return;
         }
 
         fetch(endpoint, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': apiKey,
+            'Authorization': 'Bearer ' + apiKey,
+            'Prefer': 'return=minimal'
+          },
           body: JSON.stringify({
             email: values.email,
             name: values.name,

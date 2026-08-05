@@ -174,7 +174,7 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 | `/webai-case-study` | `webai-case-study.astro` | webAI ICP scoring engine deep-dive |
 | `/dhi-case-study` | `dhi-case-study.astro` | DHI lead-to-cash transformation deep-dive |
 | `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`) |
-| `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. `FORM_ENDPOINT`, `PAYMENT_LINK`, `SCHEDULING_LINK` are placeholders in the frontmatter |
+| `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. Form inserts into Supabase (see §11). `PAYMENT_LINK` / `SCHEDULING_LINK` are still placeholders in the frontmatter |
 | `/raffle` | `raffle.astro` | Event raffle page (meetup-specific; attendee toast, hosts/sponsor) |
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
@@ -227,7 +227,18 @@ If any box is unchecked, the task is not done.
 
 ---
 
-## 11. Out-of-scope / don't touch without asking
+## 11. Supabase (the only backend on this site)
+
+The site is still static — there is no server. The one exception is the `/1-1-with-amit` application form, which writes **directly from the browser** into Supabase.
+
+- **Project:** `amit-so` (ref `kqlhafdzbxlxljigqrcr`, region `us-east-2`, free tier).
+- **Table:** `public.intensive_applications`. Columns: `email`, `name`, `website`, `project`, `tag`, `offer`, `source`, `status` (`new` → `reviewing` → `accepted`/`declined`), plus `id` / `created_at`.
+- **Security model — read this before touching the table.** The publishable key is in the page source on purpose; it is safe *only* because of RLS. `anon` has exactly one policy, `INSERT ... WITH CHECK (true)`. There is deliberately **no SELECT policy** — that's what stops the public key from reading applicants' emails back out. **Adding a SELECT policy to this table makes every application world-readable.** Read applications through the Supabase dashboard or the service role, never by loosening RLS.
+- CHECK constraints mirror the client-side validation (email shape, field lengths, `project` ≥ 20 chars) so a hand-rolled POST can't write junk the form would have rejected.
+- **Supabase only stores the application.** It does not email Amit and does not create the Zenler contact or apply the `1-1-website-build-applicant` tag. Those need a Database Webhook or Edge Function on top — not built yet.
+- After any DDL on this table, run the Supabase security advisors and confirm the lint list is empty.
+
+## 12. Out-of-scope / don't touch without asking
 
 - Domain and DNS configuration (lives in Vercel / the registrar).
 - Third-party booking widget configuration (embed URLs only — don't change the account).
