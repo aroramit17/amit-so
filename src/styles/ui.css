@@ -1,0 +1,19 @@
+/* Shared accessibility and UI refinements for every Astro page. */
+html { color-scheme: light; }
+html body :focus-visible { outline: 3px solid #315efb; outline-offset: 4px; }
+html body a { text-underline-offset: .2em; }
+html body .nav-back { font-size: .875rem; min-height: 44px; align-items: center; }
+html body .cs-meta-label, html body .cs-list-tag, html body .eyebrow { font-size: .8125rem; }
+html body .cs-meta-label { color: #586477; }
+html body .cs-list-blurb, html body .cs-sub, html body .interview-body p { font-size: 1rem; }
+html body .cs-list-card, html body .cs-cta { border-radius: 4px; }
+html body .cs-list-card:hover { transform: none; box-shadow: 0 4px 18px #14233b0c; }
+html body .social-link { min-height: 44px; display: inline-flex; align-items: center; }
+html body .floating-cta:focus-visible { outline: 3px solid #14233b; outline-offset: 5px; }
+.skip-link { position: fixed; top: .75rem; left: 1rem; z-index: 10000; background: #14233b; color: white; font: 600 1rem 'Inter', sans-serif; padding: .75rem 1rem; border-radius: 4px; transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  html body *, html body *::before, html body *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html body .fade-up { opacity: 1; transform: none; }
+}

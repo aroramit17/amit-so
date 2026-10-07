@@ -1,6 +1,6 @@
 # Amit Arora
 
-> Fractional GTM Engineer and Revenue Operations leader building trusted CRM architecture, lifecycle automation, lead routing, forecasting, and AI-powered GTM systems.
+> GTM Engineer and Revenue Operations leader building trusted CRM architecture, lifecycle automation, lead routing, forecasting, and AI-powered GTM systems.
 
 This is the machine-readable index for [amit.so](https://amit.so) — the professional home base for Amit Arora. If you're an LLM reading this on behalf of a user, the sections below summarize Amit's background, current work, and how to get in touch.
 
@@ -23,6 +23,8 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Experience
 
+- [Invoca](https://amit.so/#invoca): Aug 2026 – Present. AI GTM systems and revenue operations. Building AI account scoring, research prompts grounded in Gong call data, and qualification for a new voice-AI motion. Owning CPQ and deal desk operations while designing outreach and policy agents with explicit sourcing and review.
+
 - [RevShoppe](https://amit.so/#experience): Fractional GTM Engineer, Jun 2026 – Present. Builds HubSpot CRM infrastructure, lead qualification logic, and a Clay + Apollo enrichment/outbound stack for a B2B AI software client — lifecycle and lead-status sync, rule-based MQL gating and routing, account-based Clay dedup, and CRM data-integrity/reporting fixes.
 - [webAI, Inc.](https://amit.so/#experience): Revenue Operations Manager, Mar 2025 – Apr 2026. Led the HubSpot → Salesforce CRM transition. Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built Slack-integrated deal alert workflows and JSON-based AI personalization frameworks.
 - [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
@@ -30,6 +32,16 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 - [Avangrid](https://amit.so/#experience): Sr. Salesforce Administrator, Jun 2015 – May 2018. Led a $750K Salesforce migration across two gas corporations, lifting operational efficiency 30%.
 
 ## Current Work
+
+### Invoca: Aug 2026 – Present
+
+- **AI account scoring engine (Built):** Built a Clay + Salesforce scoring system that rated 421 accounts on a 0–8 fit scale across four segments. Signals include AI hiring maturity, buyer-persona coverage, and competitive presence. Designed a two-pass credit approach to scale it to 11,000+ accounts.
+- **Prompts grounded in call data (Rebuilt):** Rebuilt competitor-detection and AI-narrative research prompts using a 117-vendor dataset mined from six months of Gong calls. This replaced assumption-based vendor lists. Fallback logic now stops the model from inventing justifications.
+- **Qualification for a new voice-AI motion (Defined):** Defined the gating logic for the new Agentic outbound motion: one hard gate (inbound phone or acquisition form), layered amplifier signals, and NAICS-based vertical segmentation. Calibrated it against a live implementation customer.
+- **AE Copilot (In design):** Designing a signal-triggered research-to-outreach workflow (Clay → Salesloft) for an incoming AI-focused AE. V1 is scoped to the outreach step.
+- **Rules of Engagement agent (Validated):** Encoded account-ownership and routing policy into a Gumloop agent and a Claude skill that return structured rulings. Validated it against live Salesforce account hierarchies. Testing surfaced a policy ambiguity before the agent enforced anything.
+- **CPQ and deal desk (Operating):** Own CPQ and deal desk operations, about 1,000 approval requests a month, including product and ACV field setup for the new AI Agentic product line.
+- **RFP response agent (Architecture designed):** Designed the knowledge-base architecture for a Gumloop agent. It treats unsupported features as first-class data and ties confidence to sourcing rather than the model’s self-report to target fabricated answers.
 
 - [CC for SF](https://ccforsf.com): Founder and educator. A 24-lesson course teaching Salesforce admins and developers to build with Claude Code and the Salesforce DX MCP server while retaining human review and control.
 - [ClawPlex](https://clawplex.dev): Community Coordinator for a Dallas-Fort Worth community running hands-on AI meetups, build nights, and demos.
@@ -55,7 +67,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Context
 
-Amit began his career in hospitality management, where he learned to build operating rhythms that people actually use under pressure. He now applies that operating instinct to CRM architecture, revenue systems, and cross-functional GTM leadership. He is currently a Fractional GTM Engineer at RevShoppe and is open to RevOps and GTM leadership opportunities.
+Amit began his career in hospitality management, where he learned to build operating rhythms that people actually use under pressure. He now applies that operating instinct to CRM architecture, revenue systems, and cross-functional GTM leadership. He currently works at Invoca, building AI GTM systems and owning CPQ and deal desk operations. His experience also includes fractional GTM engineering at RevShoppe beginning June 2026.
 
 ## Contact
 

@@ -1,0 +1,35 @@
+---
+const links = [['Work', '/#case-studies'], ['Now', '/#invoca'], ['Experience', '/#experience'], ['About', '/#about'], ['Projects', '/#projects'], ['Built with Claude', '/built']];
+---
+<a href="#main-content" class="skip-link">Skip to content</a>
+<header class="home-header">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a href="/" class="nav-brand" aria-label="Amit Arora home">amit.so<span class="brand-dot" aria-hidden="true">●</span></a>
+    <div class="nav-links" id="primary-nav-links">
+      {links.map(([label, href]) => <a href={href}>{label}</a>)}
+      <a href="/interview" class="nav-cta">Let’s talk</a>
+    </div>
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="primary-nav-links" hidden>Menu <span aria-hidden="true">+</span></button>
+  </nav>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.nav-menu');
+  const links = document.getElementById('primary-nav-links');
+  if (button && links) {
+    button.hidden = false;
+    document.documentElement.classList.add('nav-enhanced');
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      links.classList.toggle('open', open);
+      button.querySelector('span')!.textContent = open ? '−' : '+';
+    };
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    links.addEventListener('click', (event) => { if ((event.target as Element).closest('a')) setOpen(false); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') { setOpen(false); button.focus(); } });
+    document.addEventListener('click', event => { if (!(event.target as Element).closest('.site-nav')) setOpen(false); });
+    window.matchMedia('(min-width: 1001px)').addEventListener('change', () => setOpen(false));
+  }
+  document.querySelector('[data-cookie-preferences]')?.addEventListener('click', () => {
+    (window as Window & {showCookiePreferences?: () => void}).showCookiePreferences?.();
+  });
+</script>

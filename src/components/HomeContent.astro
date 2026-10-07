@@ -1,0 +1,232 @@
+---
+import { Image } from "astro:assets";
+import portrait from "../../public/amit-headshot.png";
+import SITE_DATA from "../data/site.js";
+import { authoritySignals, currentWork, selectedWork } from "../data/home.js";
+
+const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
+---
+<main id="main-content">
+<section id="hero" class="home-hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow">Amit Arora / GTM Engineer &amp; RevOps</p>
+    <h1 id="hero-title">I fix the systems<br class="desktop-break" /> behind your <em>pipeline.</em></h1>
+    <p class="hero-summary">{SITE_DATA.sub.replace(' — ', '. ')}</p>
+    <div class="hero-actions">
+      <a href="/interview" class="primary-link">Book 15 minutes</a>
+      <a href="#case-studies" class="secondary-link">Explore my work</a>
+    </div>
+    <p class="hero-location">Aubrey, Texas · Dallas–Fort Worth</p>
+  </div>
+  <figure class="hero-portrait">
+    <div class="portrait-image"><Image src={portrait} alt="Amit Arora" widths={[320, 480, 640, 840]} sizes="(max-width: 640px) 300px, (max-width: 1000px) 35vw, 420px" width={640} height={640} format="webp" quality={85} loading="eager" fetchpriority="high" /></div>
+    <figcaption><span>Operator. Builder. Teacher.</span><span>10+ years · 8× Salesforce certified</span></figcaption>
+  </figure>
+</section>
+<div class="home-brief" aria-label="Quick introduction">
+  <p><strong>Currently at Invoca.</strong> Building GTM systems. Teaching Claude Code. Bringing DFW builders together.</p>
+  <a href="https://ccforsf.com" target="_blank" rel="noopener noreferrer">Learn Claude Code for Salesforce</a>
+</div>
+    <section class="story-section authority-section" aria-labelledby="authority-title">
+      <div>
+        <p class="section-index">01 / Track record</p>
+        <h2 id="authority-title">Revenue systems that teams can trust.</h2>
+        <p class="section-lede">
+          I have delivered enterprise Salesforce programs, owned the GTM stack at a public company,
+          built RevOps from scratch at an AI startup, and now build AI GTM systems at Invoca.
+        </p>
+      </div>
+      <div>
+        <div class="authority-line">
+          <span>Series A/B startups</span><i>→</i><span>Public companies</span><i>→</i><span>Enterprise consulting</span>
+        </div>
+      </div>
+      <div class="authority-grid">
+        {authoritySignals.map((signal, index) => (
+          <div>
+            <article class="authority-card">
+              <strong>{signal.value}</strong>
+              <span>{signal.label}</span>
+              <small>{signal.context}</small>
+            </article>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="case-studies" class="story-section selected-work" aria-labelledby="work-title">
+      <div>
+        <div class="section-heading-row">
+          <div>
+            <p class="section-index">02 / Selected impact</p>
+            <h2 id="work-title">The work behind the numbers.</h2>
+          </div>
+          <a href="/case-studies" class="section-link">All case studies</a>
+        </div>
+      </div>
+      <div class="work-list">
+        {selectedWork.map((item, index) => (
+          <div>
+            <a class="work-row" href={item.href}>
+              <span class="work-number">0{index + 1}</span>
+              <div class="work-copy">
+                <p>{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <span>{item.body}</span>
+              </div>
+              <div class="work-outcome">
+                <small>Outcome</small>
+                <strong>{item.outcome}</strong>
+                <i aria-hidden="true">↗</i>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
+    </section>
+
+<section id="invoca" class="story-section invoca-section" aria-labelledby="invoca-title">
+  <div class="section-heading-row">
+    <div><p class="section-index">Current work / Invoca / Aug 2026 – Present</p><h2 id="invoca-title">AI systems with evidence<br />behind every decision.</h2></div>
+    <p class="invoca-intro">Real account signals. Research grounded in calls. Policies tested before enforcement.</p>
+  </div>
+  <div class="invoca-metrics" aria-label="Invoca project scope">
+    <div><strong>421</strong><span>accounts scored on a 0–8 scale</span></div>
+    <div><strong>117</strong><span>vendors researched from Gong calls</span></div>
+    <div><strong>~1,000</strong><span>deal approvals handled per month</span></div>
+  </div>
+  <div class="invoca-work">{invoca.categories.map((project, index) => (
+    <details class="invoca-detail" open={index === 0}>
+      <summary><span class="detail-number">{String(index + 1).padStart(2, '0')}</span><span>{project.name}</span><small>{project.status}</small><span class="detail-toggle" aria-hidden="true"></span></summary>
+      <div class="detail-body">{project.items.map(item => <p>{item}</p>)}</div>
+    </details>
+  ))}</div>
+</section>
+
+<section id="current" class="story-section current-section" aria-labelledby="current-title">
+  <div class="section-heading-row"><div><p class="section-index">03 / Now</p><h2 id="current-title">Building systems.<br />Teaching the people behind them.</h2></div></div>
+  <div class="current-grid">{currentWork.map(item => (
+    <article class="current-card">
+      <span class="current-number">{item.number}</span><h3>{item.title}</h3>
+      <p class="current-role">{item.role}</p><p>{item.copy}</p>
+      {item.href && <a href={item.href} target="_blank" rel="noopener noreferrer" class="current-arrow">Explore {item.title}</a>}
+    </article>
+  ))}</div>
+</section>
+
+    <section id="experience" class="story-section experience-section" aria-labelledby="experience-title">
+      <div>
+        <p class="section-index">04 / Career depth</p>
+        <h2 id="experience-title">From platform ownership to executive confidence.</h2>
+        <p class="section-lede narrow">
+          A decade of increasing scope across administration, consulting, systems leadership, and startup RevOps.
+        </p>
+      </div>
+      <div class="experience-list">
+        {(SITE_DATA.experience || []).map((job, index) => (
+          <div>
+            <article class="experience-row">
+              <div class="experience-dates">{job.dates}</div>
+              <div>
+                <p>{job.company}</p>
+                <h3>{job.role || job.scope}</h3>
+                <span>{job.summary}</span>
+              </div>
+              <span class="experience-index">0{index + 1}</span>
+            </article>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="about" class="story-section origin-section" aria-labelledby="origin-title">
+      <div>
+        <p class="section-index light">05 / The operating instinct</p>
+        <blockquote id="origin-title">
+          “Before I built revenue systems, I ran hotels.”
+        </blockquote>
+      </div>
+      <div>
+        <div class="origin-grid">
+          <p>
+            Hospitality taught me that systems only work when people actually use them. When the lobby is full,
+            the team needs a clear next step and someone who can fix the problem.
+          </p>
+          <p>
+            That is still how I operate: understand the real workflow, make ownership unmistakable, give leaders
+            numbers they trust, and build a rhythm the team can sustain after launch.
+          </p>
+        </div>
+      </div>
+      <div>
+        <div class="origin-path" aria-label="Career progression">
+          <span>Hospitality leadership</span><i>→</i><span>Salesforce</span><i>→</i><span>Enterprise consulting</span><i>→</i><span>RevOps leadership</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section credentials-section" aria-labelledby="credentials-title">
+      <div>
+        <p class="section-index">06 / Technical authority</p>
+        <h2 id="credentials-title">Deep enough to architect. Practical enough to ship.</h2>
+      </div>
+      <div class="capability-grid">
+        {(SITE_DATA.skills || []).map((skill, index) => (
+          <div>
+            <article>
+              <span>0{index + 1}</span>
+              <h3>{skill.title}</h3>
+              <p>{skill.desc}</p>
+              <div>{skill.tags.map((tag) => <small>{tag}</small>)}</div>
+            </article>
+          </div>
+        ))}
+      </div>
+      <div>
+        <div class="certification-band">
+          <strong>8× Salesforce Certified</strong>
+          <div>{(SITE_DATA.certifications || []).map((cert) => <span>{cert}</span>)}</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="story-section projects-section" aria-labelledby="projects-title">
+      <div>
+        <p class="section-index">07 / Beyond the role</p>
+        <h2 id="projects-title">Teaching, building, and sharing the work.</h2>
+      </div>
+      <div class="project-list">
+        {(SITE_DATA.projects || []).map((project, index) => (
+          <div>
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="project-row">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><small>{project.type}</small><h3>{project.title}</h3></div>
+              <p>{project.desc}</p>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="contact" class="story-section contact-section" aria-labelledby="contact-title">
+      <div>
+        <p class="section-index light">08 / Start a conversation</p>
+        <h2 id="contact-title">Have a revenue system people have stopped trusting?</h2>
+        <p>
+          I am open to RevOps and GTM leadership conversations, along with select fractional engagements.
+          Bring the messy version. We can figure out what the system needs next.
+        </p>
+        <div class="contact-actions">
+          <a href="/interview" class="primary-link light-button">Book 15 minutes</a>
+          <a href={`mailto:${SITE_DATA.social.email}`} class="contact-email">{SITE_DATA.social.email}</a>
+          <a href={SITE_DATA.social.linkedin} target="_blank" rel="noopener noreferrer" class="contact-email">LinkedIn ↗</a>
+        </div>
+      </div>
+    </section>
+</main>
+<footer class="site-footer">
+  <a href="/" class="footer-brand">amit.so</a>
+  <p>© {new Date().getFullYear()} Amit Arora</p>
+  <div><a href="/1-1-with-amit">1:1 Website Build</a><a href="/built">Built with Claude</a><a href="/applying">Applying in Public</a><a href="/llms.txt">llms.txt</a><a href="/privacy">Privacy</a><button type="button" data-cookie-preferences>Cookies</button></div>
+</footer>

@@ -1,7 +1,7 @@
 const SITE_DATA = {
   name: "Amit Arora",
   tagline: "I fix the systems behind your pipeline.",
-  sub: "Fractional GTM engineering, RevOps, CRM architecture, and lifecycle automation — backed by 10+ years across startups, public companies, and enterprise consulting.",
+  sub: "I build revenue systems and AI workflows that teams can trust. 10+ years across Salesforce, RevOps, and GTM engineering, from enterprise consulting to AI startups.",
   about: [
     "Your revenue data is in five places and nobody trusts the forecast. Your pipeline looks healthy on the dashboard but stalls in the board meeting. Sales, Marketing, CS, and Finance each have their own definition of a qualified deal. That is the work I come in and fix.",
     "Deep fluency across Salesforce, HubSpot, Clay, and the modern AI/automation stack — combined with the cross-functional program leadership to align Sales, Marketing, CS, and Finance around one GTM operating model.",
@@ -46,6 +46,63 @@ const SITE_DATA = {
     }
   ],
   experience: [
+    {
+      "company": "Invoca",
+      "dates": "Aug 2026 – Present",
+      "scope": "AI GTM systems & revenue operations",
+      "summary": "Building AI account scoring, research prompts grounded in Gong call data, and qualification for a new voice-AI motion. Owning CPQ and deal desk operations while designing outreach and policy agents with explicit sourcing and review.",
+      "categories": [
+        {
+          "name": "AI account scoring engine",
+          "status": "Built",
+          "items": [
+            "Built a Clay + Salesforce scoring system that rated 421 accounts on a 0–8 fit scale across four segments. Signals include AI hiring maturity, buyer-persona coverage, and competitive presence. Designed a two-pass credit approach to scale it to 11,000+ accounts."
+          ]
+        },
+        {
+          "name": "Prompts grounded in call data",
+          "status": "Rebuilt",
+          "items": [
+            "Rebuilt competitor-detection and AI-narrative research prompts using a 117-vendor dataset mined from six months of Gong calls. This replaced assumption-based vendor lists. Fallback logic now stops the model from inventing justifications."
+          ]
+        },
+        {
+          "name": "Qualification for a new voice-AI motion",
+          "status": "Defined",
+          "items": [
+            "Defined the gating logic for the new Agentic outbound motion: one hard gate (inbound phone or acquisition form), layered amplifier signals, and NAICS-based vertical segmentation. Calibrated it against a live implementation customer."
+          ]
+        },
+        {
+          "name": "AE Copilot",
+          "status": "In design",
+          "items": [
+            "Designing a signal-triggered research-to-outreach workflow (Clay → Salesloft) for an incoming AI-focused AE. V1 is scoped to the outreach step."
+          ]
+        },
+        {
+          "name": "Rules of Engagement agent",
+          "status": "Validated",
+          "items": [
+            "Encoded account-ownership and routing policy into a Gumloop agent and a Claude skill that return structured rulings. Validated it against live Salesforce account hierarchies. Testing surfaced a policy ambiguity before the agent enforced anything."
+          ]
+        },
+        {
+          "name": "CPQ and deal desk",
+          "status": "Operating",
+          "items": [
+            "Own CPQ and deal desk operations, about 1,000 approval requests a month, including product and ACV field setup for the new AI Agentic product line."
+          ]
+        },
+        {
+          "name": "RFP response agent",
+          "status": "Architecture designed",
+          "items": [
+            "Designed the knowledge-base architecture for a Gumloop agent. It treats unsupported features as first-class data and ties confidence to sourcing rather than the model’s self-report to target fabricated answers."
+          ]
+        }
+      ]
+    },
     {
       company: "RevShoppe",
       dates: "Jun 2026 — Present",
