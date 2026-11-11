@@ -43,7 +43,7 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
 ## 3. Tech stack
 
 - **Framework:** **Astro 4** (static output). React is available for interactive islands via `@astrojs/react`. **This is a real build step — the browser-Babel/JSX era is over.**
-- **Config:** [astro.config.mjs](astro.config.mjs) — `site: 'https://amit.so'`, `output: 'static'`, `build.format: 'file'` (pages emit as `built.html`, `interview.html`, etc.; Vercel `cleanUrls` serves them at `/built`, `/interview`).
+- **Config:** [astro.config.mjs](astro.config.mjs) — `site: 'https://amit.so'`, `output: 'static'`, `build.format: 'file'` (pages emit as `built.html`, `interview.html`, etc.; Cloudflare `html_handling: auto-trailing-slash` serves them at `/built`, `/interview`).
 - **Hosting:** Cloudflare Workers with static assets only (no Worker script), config in [wrangler.jsonc](wrangler.jsonc). Moved off Vercel on Nov 11 2026; `vercel.json` is gone.
   - `assets.html_handling: "auto-trailing-slash"` serves `/built` from `built.html` and 307s `/built.html` and `/built/` to `/built` (the old Vercel `cleanUrls` + `trailingSlash: false`).
   - `assets.not_found_handling: "404-page"` serves `dist/404.html` (from `src/pages/404.astro`).
@@ -97,7 +97,7 @@ scraps/                 # scratch/unused files
 
 - **`sitemap.xml` is hand-maintained** in `public/`. `@astrojs/sitemap` is in `package.json` but is **not** wired into `astro.config.mjs`, so nothing auto-generates it. When you add/rename a page, edit `public/sitemap.xml` yourself. (Wiring up `@astrojs/sitemap` is a reasonable future cleanup — mention it to Amit first.)
 - The site ships as plain static output. There's no SSR or serverless code; don't assume either is available.
-- `build.format: 'file'` + Vercel `cleanUrls` is what makes `/built` work without a trailing slash. Keep canonical URLs slug-style (`https://amit.so/built`), not `.html`.
+- `build.format: 'file'` + Cloudflare `html_handling: "auto-trailing-slash"` is what makes `/built` work without a trailing slash. Keep canonical URLs slug-style (`https://amit.so/built`), not `.html`.
 
 ---
 
