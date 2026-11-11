@@ -13,7 +13,6 @@
   "dependencies": {
     "@astrojs/react": "^3.6.2",
     "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/vercel": "^7.8.2",
     "astro": "^4.16.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -22,6 +21,7 @@
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@types/three": "0.186.0"
+    "@types/three": "0.186.0",
+    "wrangler": "4.155.0"
   }
 }

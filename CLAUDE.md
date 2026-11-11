@@ -2,7 +2,7 @@
 
 This file is the single source of truth for how Claude Code (and any AI coding assistant) should work on this project. Read it fully before making any changes.
 
-**Repo:** `github.com/aroramit17/amit-so` **Live site:** `https://amit.so` (deployed via Vercel → `amit-so.vercel.app`) **Built with:** Cursor + Claude Code
+**Repo:** `github.com/aroramit17/amit-so` **Live site:** `https://amit.so` (Cloudflare Workers static assets, Worker `amit-so`) **Built with:** Cursor + Claude Code
 
 ---
 
@@ -23,8 +23,8 @@ The site must serve all three audiences simultaneously. Every design and content
 - Based in **Prosper, Texas** (Dallas–Fort Worth). 10+ years in Revenue Operations, GTM systems, and Salesforce consulting.
 - **Backstory hook:** hotel-school grad in Mumbai → years in hospitality management → Salesforce → RevOps. The hospitality background is a real differentiator ("systems only work if people actually use them") and shows up in his voice.
 - 8x Salesforce certified.
-- **Current role: Invoca (Aug 2026 – present)** — AI GTM systems & revenue operations: building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations. The site does not state an official title; ask Amit before adding one.
-- Also **Fractional GTM Engineer at RevShoppe** (Jun 2026 – present) for a B2B AI software client.
+- **Current role: Senior GTM AI Architect at Invoca (Aug 2026 – present)** — AI GTM systems & revenue operations: building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations.
+- Previously **Fractional GTM Engineer at RevShoppe** (Jun – Oct 2026) for a B2B AI software client. The contract has ended; don't present it as current or advertise fractional availability.
 - Prior: Revenue Operations Manager at webAI (VC-backed AI startup, Mar 2025 – Apr 2026); Director of Business Systems at DHI Group; Salesforce Consultant at Slalom; Sr. Salesforce Admin at Avangrid/United Illuminating. Before tech: hotel General Manager / Manager roles (Wyndham, Extended Stay).
 - **Side ventures:**
   - **CC for SF** (`ccforsf.com`) — Founder. "Claude Code for Salesforce," a paid course (24 lessons / 9 modules, lifetime access $197 — confirmed on ccforsf.com Nov 11, 2026) teaching Salesforce admins/devs to ship faster with Claude Code + the Salesforce DX MCP server.
@@ -44,7 +44,13 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
 
 - **Framework:** **Astro 4** (static output). React is available for interactive islands via `@astrojs/react`. **This is a real build step — the browser-Babel/JSX era is over.**
 - **Config:** [astro.config.mjs](astro.config.mjs) — `site: 'https://amit.so'`, `output: 'static'`, `build.format: 'file'` (pages emit as `built.html`, `interview.html`, etc.; Vercel `cleanUrls` serves them at `/built`, `/interview`).
-- **Hosting:** Vercel (custom domain `amit.so`). Static output in `dist/`. See [vercel.json](vercel.json) for `cleanUrls`, `trailingSlash: false`, and permanent redirects.
+- **Hosting:** Cloudflare Workers with static assets only (no Worker script), config in [wrangler.jsonc](wrangler.jsonc). Moving off Vercel in Nov 2026; until the DNS cutover is done, Vercel still serves production from `main` and `vercel.json` stays in the repo.
+  - `assets.html_handling: "auto-trailing-slash"` serves `/built` from `built.html` and 307s `/built.html` and `/built/` to `/built` (the old Vercel `cleanUrls` + `trailingSlash: false`).
+  - `assets.not_found_handling: "404-page"` serves `dist/404.html` (from `src/pages/404.astro`).
+  - Path redirects live in [public/_redirects](public/_redirects); response headers (incl. 1-year immutable cache on `/_astro/*`) in [public/_headers](public/_headers). Both are copied into `dist/` and are not publicly served.
+  - `www.amit.so → amit.so` is a Cloudflare **Redirect Rule** in the dashboard. `_redirects` can't match hostnames. `amit.so` (apex) is the canonical host.
+  - DNS is on Cloudflare (registrar: Namecheap). The zone also holds Zoho mail records (MX, SPF, verification TXT). Never touch those when changing web records.
+  - Wrangler is pinned in `devDependencies`. Its bundled runtime caps `compatibility_date` (4.155.0 → 2026-10-30); bump both together.
 - **No backend.** All interactivity is client-side or links out to third-party tools (booking widget, YouTube, LinkedIn, etc.).
 
 ### Commands
@@ -52,12 +58,14 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
 - `npm run dev` — local dev server (`astro dev`).
 - `npm run build` — production build to `dist/` (`astro build`).
 - `npm run preview` — serve the built `dist/` locally (`astro preview`). Use this for the bot-readability test in §5.7.
+- `npx wrangler dev` — serve `dist/` through Cloudflare's asset runtime locally. Use it to test redirects, headers, and 404 behavior.
 
 ### File layout
 
 ```
 astro.config.mjs        # Astro config (site URL, static output, file format)
-vercel.json             # cleanUrls, redirects
+wrangler.jsonc          # Cloudflare Workers static-assets config
+vercel.json             # legacy Vercel config — delete after the Cloudflare cutover
 src/
 ├── pages/              # One .astro file per route (index, interview, applying,
 │                       #   case-studies, webai-case-study, dhi-case-study,
@@ -75,6 +83,7 @@ public/                 # Served as-is at the site root:
 ├── robots.txt          #   already exists — keep updated
 ├── llms.txt            #   AI crawler discovery file — keep updated
 ├── sitemap.xml         #   HAND-MAINTAINED (see gotcha below) — add every new page
+├── _redirects / _headers  # Cloudflare path redirects + response headers
 ├── consent.js          #   cookie/consent script loaded by BaseLayout
 ├── amit-headshot.png / headshot.jpg/png / yt-thumbnail.png
 └── built/ raffle/ screensaver/ laurel/ uploads/  # per-page/static assets
@@ -85,7 +94,7 @@ scraps/                 # scratch/unused files
 ### Gotchas
 
 - **`sitemap.xml` is hand-maintained** in `public/`. `@astrojs/sitemap` is in `package.json` but is **not** wired into `astro.config.mjs`, so nothing auto-generates it. When you add/rename a page, edit `public/sitemap.xml` yourself. (Wiring up `@astrojs/sitemap` is a reasonable future cleanup — mention it to Amit first.)
-- `@astrojs/vercel` is likewise installed but unused; the site ships as plain static output. Don't assume SSR/serverless is available.
+- The site ships as plain static output. There's no SSR or serverless code; don't assume either is available.
 - `build.format: 'file'` + Vercel `cleanUrls` is what makes `/built` work without a trailing slash. Keep canonical URLs slug-style (`https://amit.so/built`), not `.html`.
 
 ---
@@ -182,7 +191,7 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
 
-Redirects (in `vercel.json`): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`, `/1-1 → /1-1-with-amit`.
+Redirects (in `public/_redirects`, mirrored in `vercel.json` until cutover): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`, `/1-1 → /1-1-with-amit`.
 
 ### Pages likely to be added
 
@@ -220,8 +229,8 @@ Amit's Nov 11 2026 requirements doc (`Amit_Website_Redesign_Requirements.docx`, 
 
 ## 9. Deployment workflow
 
-- Commits to `main` auto-deploy via Vercel. Feature work happens on branches (e.g. `add-built-page`).
-- **Production must come from `main`.** On Oct 9 2026 the site was deployed via `vercel --prod` from a feature branch while `main` lagged, so the next push to `main` would have rolled the site back. If you CLI-deploy, merge to `main` in the same session.
+- Commits to `main` auto-deploy via Cloudflare Workers Builds (build `npm run build`, deploy `npx wrangler deploy`). Other branches get preview URLs. Feature work happens on branches (e.g. `add-built-page`). Until the cutover is finished, Vercel also deploys `main`.
+- **Production must come from `main`.** On Oct 9 2026 the site was deployed via `vercel --prod` from a feature branch while `main` lagged, so the next push to `main` would have rolled the site back. Don't run a manual `wrangler deploy` from a branch. If you ever must, merge to `main` in the same session.
 - Before committing: `npm run build` must succeed, then run the local bot-readability test in §5.7 against `npm run preview` or the built `dist/` file.
 - After deployment, smoke-test the live URL with `curl` and confirm the content is in the response body.
 
@@ -256,7 +265,7 @@ If any box is unchecked, the task is not done.
 
 ## 12. Out-of-scope / don't touch without asking
 
-- Domain and DNS configuration (lives in Vercel / the registrar).
+- Domain and DNS configuration (Cloudflare zone; registrar Namecheap). Especially the Zoho mail records.
 - Third-party booking widget configuration (embed URLs only — don't change the account).
 - Amit's resume `.docx` (owned by the job-search workflow, not this site).
 - `dist/` build output — regenerated by `npm run build`, never hand-edit.

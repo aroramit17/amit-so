@@ -94,7 +94,7 @@ export const STATIONS = [
     accent: '#101C2D',
     kicker: 'Who runs the workshop',
     summary:
-      'GTM engineer and RevOps leader with 10+ years across Salesforce, revenue operations, and AI GTM systems. Currently at Invoca, building AI GTM systems and owning CPQ and deal desk. Before revenue systems, I ran hotels.',
+      'GTM engineer and RevOps leader with 10+ years across Salesforce, revenue operations, and AI GTM systems. Currently Senior GTM AI Architect at Invoca, building AI GTM systems and owning CPQ and deal desk. Before revenue systems, I ran hotels.',
     items: [
       {
         title: 'Book a 30-minute call',

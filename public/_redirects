@@ -1,0 +1,6 @@
+# Path redirects (Cloudflare Workers static assets). Mirrors the old vercel.json.
+# www.amit.so -> amit.so is a Cloudflare Redirect Rule, not this file (host matching isn't supported here).
+/case-studies/case-study-1 /webai-case-study 301
+/case-studies/case-study-2 /dhi-case-study 301
+/built-with-claude /built 301
+/1-1 /1-1-with-amit 301

@@ -1,0 +1,38 @@
+---
+// Served by Cloudflare for any unknown path (wrangler.jsonc → not_found_handling: "404-page").
+// Not in sitemap.xml or llms.txt.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/privacy.css';
+---
+<BaseLayout
+  title="Page Not Found | Amit Arora"
+  description="This page doesn't exist on amit.so. Head back to Amit Arora's portfolio, case studies, or book a 30-minute call."
+  canonical="https://amit.so/"
+  showFloatingCta={false}
+>
+  <meta slot="head" name="robots" content="noindex" />
+  <div class="grain"></div>
+
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Back to Portfolio</a>
+  </nav>
+
+  <main>
+    <div class="eyebrow">404</div>
+    <h1>This page doesn't exist.</h1>
+    <p>The link may be old, or the page moved. Here's where most people are headed:</p>
+    <ul>
+      <li><a href="/">Portfolio</a>: what I build and where I've done it</li>
+      <li><a href="/case-studies">Case studies</a>: the webAI and DHI write-ups</li>
+      <li><a href="/built">Built with Claude</a>: projects shipped with Claude Code</li>
+      <li><a href="/interview">Book a 30-minute call</a></li>
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  main ul { padding-left: 1.2rem; line-height: 1.9; }
+  main a { color: #14233b; text-underline-offset: 3px; }
+  main a:hover { color: #2146d7; }
+</style>

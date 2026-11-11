@@ -49,13 +49,14 @@ const SITE_DATA = {
     {
       company: "Invoca",
       dates: "Aug 2026 – Present",
+      role: "Senior GTM AI Architect",
       scope: "AI GTM systems & revenue operations",
       summary: "Building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations.",
       color: "#2763ff"
     },
     {
       company: "RevShoppe",
-      dates: "Jun 2026 — Present",
+      dates: "Jun 2026 — Oct 2026",
       role: "Fractional GTM Engineer",
       summary: "Fractional GTM engineering for a B2B AI software client — building the HubSpot CRM infrastructure, lead qualification logic, and enrichment/outbound stack from the ground up. Lifecycle and lead-status sync that keeps sales activity and pipeline reporting in agreement, a Clay pipeline that dedupes accounts before spending enrichment credits, and an Apollo outbound stack wired back into CRM so reps aren't chasing dead records.",
       categories: [
