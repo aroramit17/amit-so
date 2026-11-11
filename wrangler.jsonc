@@ -1,0 +1,15 @@
+// Cloudflare Workers (static assets only — no Worker script).
+// Workers Builds runs `npm run build` then `npx wrangler deploy` on pushes to main.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "amit-so",
+  "compatibility_date": "2026-10-30",
+  "assets": {
+    "directory": "./dist",
+    // /built serves built.html; /built.html and /built/ redirect to /built (replaces Vercel cleanUrls + trailingSlash:false)
+    "html_handling": "auto-trailing-slash",
+    // Unknown paths get dist/404.html with a 404 status
+    "not_found_handling": "404-page"
+  }
+  // Custom domains (amit.so) are added at DNS cutover — see CLAUDE.md §9.
+}

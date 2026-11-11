@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 .playwright-mcp/
 built-*.png
+
+# wrangler local state
+.wrangler/
