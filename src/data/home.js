@@ -4,14 +4,14 @@ export const authoritySignals = [
   { value: '+25%', label: 'Forecast accuracy', context: 'DHI Group' },
   { value: '98%', label: 'Client satisfaction', context: 'Slalom' },
   { value: '$750K', label: 'CRM migration led', context: 'Avangrid' },
-  { value: '421', label: 'Accounts scored', context: 'Invoca · 0–8 fit scale' }
+  { value: '8×', label: 'Salesforce certified', context: 'Admin to Agentforce' }
 ];
 
 export const currentWork = [
   {
     number: '01', title: 'Invoca', role: 'AI GTM systems & revenue operations',
-    copy: 'Building account intelligence and AI workflows grounded in real call data, alongside CPQ and deal desk ownership.',
-    href: '#invoca'
+    copy: 'Building AI-assisted GTM systems for the revenue team, alongside CPQ and deal desk ownership.',
+    href: 'https://www.invoca.com'
   },
   {
     number: '02', title: 'CC for SF', role: 'Founder & Educator',
@@ -26,13 +26,6 @@ export const currentWork = [
 ];
 
 export const selectedWork = [
-    {
-      eyebrow: 'Invoca · AI account intelligence',
-      title: 'Account scoring built around real buying signals',
-      body: 'A Clay + Salesforce engine combining AI hiring maturity, buyer-persona coverage, and competitive presence across four segments.',
-      outcome: '421 accounts scored. A two-pass credit approach designed for 11,000+ accounts.',
-      href: '#invoca'
-    },
     ...(SITE_DATA.caseStudies || []).map((item) => ({
       eyebrow: `${item.company} · ${item.tag}`,
       title: item.title,

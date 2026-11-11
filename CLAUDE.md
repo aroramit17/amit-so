@@ -10,8 +10,8 @@ This file is the single source of truth for how Claude Code (and any AI coding a
 
 `amit.so` is Amit Arora's personal website. It's not a blog and it's not a traditional portfolio. It's a **professional home base** that serves three specific audiences:
 
-1. **Hiring managers and recruiters** — evaluating Amit for Revenue Operations, GTM Engineer, and Sales Ops roles. They need to book an interview, review his background, and get to his resume fast.
-2. **GTM operators, founders, and solopreneurs** — considering Amit as a Claude Code coach/instructor (see `ccforsf.com`, his Claude-Code-for-Salesforce course) and community organizer. They need to understand his perspective and book a call.
+1. **Hiring managers, recruiters, and GTM peers** — judging Amit's credibility as a GTM engineer and RevOps leader. They need proof of work (case studies, career history, verified numbers) and a fast way to get in touch. Amit is employed at Invoca and **not job-searching** — never write "hire me", "open to roles", or "book an interview" copy.
+2. **GTM operators, founders, and solopreneurs** — considering Amit as a Claude Code coach/instructor (see `ccforsf.com`, his Claude-Code-for-Salesforce course), the 1:1 intensive, or ClawPlex. They need to understand his perspective and know which route fits: a 30-minute call, the course, the paid intensive, or the community.
 3. **AI crawlers and LLMs** — indexing the site so when someone asks ChatGPT, Claude, or Perplexity "who is a Claude Code coach for GTM teams," Amit shows up with accurate information.
 
 The site must serve all three audiences simultaneously. Every design and content decision should be checked against this list.
@@ -20,16 +20,18 @@ The site must serve all three audiences simultaneously. Every design and content
 
 ## 2. About Amit (context for any copy Claude writes)
 
-- Based in Aubrey, Texas. 10+ years in Revenue Operations, GTM systems, and Salesforce consulting.
+- Based in **Prosper, Texas** (Dallas–Fort Worth). 10+ years in Revenue Operations, GTM systems, and Salesforce consulting.
 - **Backstory hook:** hotel-school grad in Mumbai → years in hospitality management → Salesforce → RevOps. The hospitality background is a real differentiator ("systems only work if people actually use them") and shows up in his voice.
-- 8x Salesforce certified. Most recent full-time role: Revenue Operations Manager at webAI (VC-backed AI startup), Mar 2025 – Apr 2026 — laid off April 10, 2026.
-- Prior: Director of Business Systems at DHI Group, Sr. Salesforce Consultant at Slalom, Sr. Salesforce Admin at Avangrid/United Illuminating. Before tech: hotel General Manager / Manager roles (Wyndham, Extended Stay).
-- **Current ventures (since April 2026):**
-  - **CC for SF** (`ccforsf.com`) — Founder. "Claude Code for Salesforce," a paid course (24 lessons / 9 modules, lifetime access $197) teaching Salesforce admins/devs to ship faster with Claude Code + the Salesforce DX MCP server.
+- 8x Salesforce certified.
+- **Current role: Invoca (Aug 2026 – present)** — AI GTM systems & revenue operations: building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations. The site does not state an official title; ask Amit before adding one.
+- Also **Fractional GTM Engineer at RevShoppe** (Jun 2026 – present) for a B2B AI software client.
+- Prior: Revenue Operations Manager at webAI (VC-backed AI startup, Mar 2025 – Apr 2026); Director of Business Systems at DHI Group; Salesforce Consultant at Slalom; Sr. Salesforce Admin at Avangrid/United Illuminating. Before tech: hotel General Manager / Manager roles (Wyndham, Extended Stay).
+- **Side ventures:**
+  - **CC for SF** (`ccforsf.com`) — Founder. "Claude Code for Salesforce," a paid course (24 lessons / 9 modules, lifetime access $197 — confirmed on ccforsf.com Nov 11, 2026) teaching Salesforce admins/devs to ship faster with Claude Code + the Salesforce DX MCP server.
   - **ClawPlex** (`clawplex.dev`) — Community Coordinator. DFW community for AI builders; co-organizes meetups with Tyler Delano, Anjal Parikh, and Jonathon Hasling.
+  - **1:1 AI Website Build Intensive** (`/1-1-with-amit`) — $297, 90-minute collaborative session booked and paid via Cal.com.
 - Runs the "AI with Amit" YouTube channel: `youtube.com/@ai-withamit`
-- Runs an "Applying in Public" series (`#ApplyingInPublic`) documenting the job search.
-- What he's looking for: a RevOps / GTM leadership role at a Series A/B startup where he can own the operating system end-to-end.
+- "Applying in Public" (`#ApplyingInPublic`) is an **archived** April 2026 series about his job search; the search ended when he joined Invoca. Refer to it in the past tense only.
 - Builds with: Claude Code, Cursor, Clay, n8n, HubSpot, Salesforce, Apollo.
 - Tool-native fluency — uses Claude Code as the interface for everything. Not a traditional developer; does not read raw code independently. Frame accordingly in any copy.
 - Honesty > inflation. Never fabricate experience, metrics, or skills in any content on this site.
@@ -62,8 +64,9 @@ src/
 │                       #   built, raffle, screensaver, privacy)
 ├── layouts/
 │   └── BaseLayout.astro  # Shared <head> (SEO/OG/Twitter/JSON-LD), fonts, floating CTA
-├── components/         # CaseStudy.astro, FlowDiagram.astro, Sections.jsx (React island)
+├── components/         # CaseStudy.astro, FlowDiagram.astro, HomeContent.astro (homepage body), SiteNav.astro
 ├── data/
+│   ├── home.js         # Homepage presentation data (authority signals, current work, selected work)
 │   ├── site.js         # SITE_DATA — bio, stats, skills, experience, certs, projects,
 │   │                   #   milestones, social, case studies. Primary content source.
 │   └── built.ts        # Data for the /built page (skills, prompts, etc.)
@@ -91,7 +94,7 @@ scraps/                 # scratch/unused files
 
 **History:** the site used to be static HTML + browser-transpiled React, so bots/crawlers fetched an empty shell and Amit was invisible to Google, social preview bots, and LLM crawlers. **The Astro migration (the old "Path B") fixed this** — Astro pre-renders every page to static HTML at build time.
 
-**The rule going forward:** keep core content — bio, services, experience, CTAs, testimonials, links — in the `.astro` templates (or driven from `src/data/`), so it renders into the HTML at build time. Use React islands (`Sections.jsx` and friends) **only** for interactivity, and only with an explicit client directive (`client:load`, `client:visible`, etc.). Never move core, indexable content into a client-only React component — that reintroduces the exact problem the migration solved.
+**The rule going forward:** keep core content — bio, services, experience, CTAs, testimonials, links — in the `.astro` templates (or driven from `src/data/`), so it renders into the HTML at build time. Use React islands **only** for interactivity, and only with an explicit client directive (`client:load`, `client:visible`, etc.). Never move core, indexable content into a client-only React component — that reintroduces the exact problem the migration solved.
 
 ---
 
@@ -167,15 +170,15 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 
 | Route | File | Purpose |
 | :---- | :---- | :---- |
-| `/` | `index.astro` | Home — positioning, stats, skills, experience, milestones, projects |
-| `/interview` | `interview.astro` | Booking widget for hiring managers/recruiters |
-| `/applying` | `applying.astro` | "Applying in Public" job-search documentation |
+| `/` | `index.astro` | Home — positioning, verified numbers, case studies, current work, experience, skills, projects, contact routes. Body lives in `HomeContent.astro`, nav in `SiteNav.astro` |
+| `/interview` | `interview.astro` | General **30-minute** call booking (Cal.com `amit-arora/interview-amit`, a 30-min event). Not a job-interview page; the URL is kept for link stability. Points paid-session seekers to `/1-1-with-amit` |
+| `/applying` | `applying.astro` | **Archive** of the April 2026 "Applying in Public" series. Past tense only; no hiring CTA |
 | `/case-studies` | `case-studies.astro` | Index of case studies |
 | `/webai-case-study` | `webai-case-study.astro` | webAI ICP scoring engine deep-dive |
 | `/dhi-case-study` | `dhi-case-study.astro` | DHI lead-to-cash transformation deep-dive |
-| `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`) |
+| `/built` | `built.astro` | "Built with Claude" living doc (data in `built.ts`). Evergreen projects first; the May 15 2026 meetup agenda + sponsor live in a dated `#event-archive` section at the bottom |
 | `/1-1-with-amit` | `1-1-with-amit.astro` | 1:1 AI Website Build Intensive — $297 offer + application form. Styles in `intensive.css`, scoped under `.intensive`. Booking + $297 payment via the Cal.com popup (`amit-arora/website-build-intensive`, element-click embed). No form on the page — the fallback for "is this a fit?" is `mailto:me@amit.so` |
-| `/raffle` | `raffle.astro` | Event raffle page (meetup-specific; attendee toast, hosts/sponsor) |
+| `/raffle` | `raffle.astro` | **Archive** of the May 15 2026 Claude in the Wild meetup. Raffle closed: entry form, QR/share steps, and attendee toast removed; hosts + sponsor kept |
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
 
@@ -185,9 +188,19 @@ Redirects (in `vercel.json`): `/built-with-claude → /built`, `/case-studies/ca
 
 - `/coach` or `/claude-code-coach` — coaching/course landing (may point to `ccforsf.com`)
 - `/now` — current projects and status
+- `/explore` — the "playable workshop" redesign (see below)
 - `/resume` — HTML version of the resume
 
 When any are built, follow §5 in full.
+
+### Redesign in progress: playable workshop
+
+Amit's Nov 11 2026 requirements doc (`Amit_Website_Redesign_Requirements.docx`, not in the repo) specifies a retro arcade → 3D workshop experience (Three.js, stations for Build Lab / Systems Engine / Broadcast Booth / Meet Amit) layered on top of the existing HTML portfolio. Ground rules from that doc:
+
+- The HTML portfolio stays complete and crawlable without the 3D engine. The workshop is an optional layer, never the only route to content or contact.
+- Three.js loads only after the visitor chooses Explore. Respect `prefers-reduced-motion`, keep a Skip control, and keep a WebGL-unavailable fallback.
+- Exhibits use synthetic data only. Never connect to real CRM or employer systems, and label demos and recordings honestly.
+- Build on a preview branch first. Production `/` changes only after Amit approves the slice.
 
 ---
 
@@ -198,6 +211,9 @@ When any are built, follow §5 in full.
 - Never fabricate experience, metrics, client names, or case studies. If there's no source material for a claim, stop and ask.
 - Quantified claims should match Amit's LinkedIn / current resume. Recurring true numbers: 8x Salesforce Certified; +25% forecasting accuracy (DHI); 95% project success + 98% client satisfaction (Slalom); $750K migration + 30% efficiency (Avangrid/UIL). (The resume `.docx` is owned by the job-search workflow, not this repo — don't assume a path to it.)
 - Keep the short bio tight: 2–3 sentences max anywhere it appears.
+- **Invoca stays role-level.** Show it as current work (AI GTM systems & revenue operations, CPQ and deal desk), with no internal metrics, project names, systems, vendors, or policy details unless Amit supplies an approved, publishable case study. Removed details must not be reintroduced in copy, `llms.txt`, JSON-LD, or this file.
+- **Current status:** Amit is not job-searching. Location is Prosper, Texas. The booking call is 30 minutes. The 1:1 intensive is $297 / 90 minutes. Don't change prices or durations without Amit's approval.
+- Past events get dated archive treatment. Never leave "Tonight", "Enter now", or live-sounding activity on an evergreen page.
 - Always reference YouTube as `youtube.com/@ai-withamit` (one hyphen after "ai").
 
 ---
@@ -205,6 +221,7 @@ When any are built, follow §5 in full.
 ## 9. Deployment workflow
 
 - Commits to `main` auto-deploy via Vercel. Feature work happens on branches (e.g. `add-built-page`).
+- **Production must come from `main`.** On Oct 9 2026 the site was deployed via `vercel --prod` from a feature branch while `main` lagged, so the next push to `main` would have rolled the site back. If you CLI-deploy, merge to `main` in the same session.
 - Before committing: `npm run build` must succeed, then run the local bot-readability test in §5.7 against `npm run preview` or the built `dist/` file.
 - After deployment, smoke-test the live URL with `curl` and confirm the content is in the response body.
 
@@ -246,4 +263,4 @@ If any box is unchecked, the task is not done.
 
 ---
 
-*Last updated: July 24, 2026. Update this file whenever conventions change.*
+*Last updated: November 11, 2026. Update this file whenever conventions change.*

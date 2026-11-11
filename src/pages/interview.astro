@@ -7,9 +7,9 @@ const jsonLd = JSON.stringify({
   "@graph": [
     {
       "@type": "ContactPage",
-      "name": "Book an interview with Amit Arora",
+      "name": "Book a call with Amit Arora",
       "url": "https://amit.so/interview",
-      "description": "Book a 15-minute interview with Amit Arora — 8x Salesforce Certified Revenue Operations leader and Claude Code Coach. Pick a time that works for you.",
+      "description": "Book a 30-minute call with Amit Arora, GTM engineer and 8x Salesforce certified RevOps leader, to talk revenue systems, GTM builds, or Claude Code.",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Amit Arora",
@@ -21,7 +21,8 @@ const jsonLd = JSON.stringify({
       "name": "Amit Arora",
       "url": "https://amit.so",
       "image": "https://amit.so/amit-headshot.png",
-      "jobTitle": "Revenue Operations Leader & Claude Code Coach",
+      "jobTitle": "GTM Engineer and Revenue Operations Leader",
+      "worksFor": { "@type": "Organization", "name": "Invoca" },
       "sameAs": [
         "https://linkedin.com/in/amit-arora17",
         "https://youtube.com/@ai-withamit"
@@ -31,8 +32,8 @@ const jsonLd = JSON.stringify({
 });
 ---
 <BaseLayout
-  title="Book an interview with Amit Arora | Amit Arora"
-  description="Book a 15-minute interview with Amit Arora — 8x Salesforce Certified Revenue Operations leader and Claude Code Coach. Pick a time that works for you."
+  title="Book a 30-Minute Call | Amit Arora"
+  description="Book a 30-minute call with Amit Arora, GTM engineer and 8x Salesforce certified RevOps leader, to talk revenue systems, GTM builds, or Claude Code."
   canonical="https://amit.so/interview"
   jsonLd={jsonLd}
   showFloatingCta={false}
@@ -45,12 +46,12 @@ const jsonLd = JSON.stringify({
   </nav>
 
   <main>
-    <div class="interview-badge fade-up">Open to opportunities</div>
+    <div class="interview-badge fade-up">30-minute call</div>
 
     <h1 class="fade-up">Book a call with Amit</h1>
 
     <p class="interview-lede fade-up">
-      If you&rsquo;d like to interview me, feel free to book a time below that works best for you. 15 minutes, no prep on your end &mdash; we&rsquo;ll talk about the role, you can ask anything about my background, and we&rsquo;ll see if it&rsquo;s a fit worth taking further.
+      Pick a time below. 30 minutes, no prep on your end. Bring a revenue system that has stopped working, a GTM build you are scoping, or questions about shipping with Claude Code, and we&rsquo;ll figure out what it needs next. Looking for the paid 90-minute website session instead? That&rsquo;s the <a href="/1-1-with-amit">1:1 AI Website Build Intensive</a>.
     </p>
 
     <div class="cal-embed-wrap fade-up">

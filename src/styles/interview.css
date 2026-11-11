@@ -135,12 +135,12 @@
       margin: 0 0 1rem;
       letter-spacing: -0.2px;
     }
-    .interview-body a {
+    .interview-body a, .interview-lede a {
       color: var(--cream);
       text-decoration: none;
       border-bottom: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
     }
-    .interview-body a:hover { color: var(--accent); border-color: var(--accent); }
+    .interview-body a:hover, .interview-lede a:hover { color: var(--accent); border-color: var(--accent); }
     .interview-body p {
       color: var(--cream-dim);
       font-size: 0.95rem;

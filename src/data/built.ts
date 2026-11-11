@@ -33,7 +33,7 @@ export type BuiltSection = {
   warning?: string; // small "fair warning" pill above the title
 };
 
-export const BUILT_LAST_UPDATED = '2026-05-14';
+export const BUILT_LAST_UPDATED = '2026-11-11';
 
 export type AgendaItem = {
   num: string;
@@ -81,9 +81,10 @@ export const AGENDA: AgendaItem[] = [
   },
 ];
 
-export const BUILT_HERO_EYEBROW = 'Frisco · Plano · Claude Meetup · May 15, 2026';
+export const BUILT_HERO_EYEBROW = 'A living doc · Claude, Claude Code, Cowork, and MCP';
 export const BUILT_HERO_TITLE = 'Building with <em>Claude.</em>';
-export const BUILT_HERO_INTRO = '';
+export const BUILT_HERO_INTRO =
+  "Everything here shipped with Claude: a course, a hotel AI pipeline, this site, a Chrome extension, a daily Cowork loop, and the toolkit and resources behind them. I keep adding to it.";
 
 export const BUILT_CLOSING =
   "None of this is about Claude. It's about what one operator ships when the cost of building drops by an order of magnitude.";
@@ -191,7 +192,7 @@ export const BUILT_SECTIONS: BuiltSection[] = [
     eyebrow: 'Take these home · resources for the room',
     titleHtml: 'Three links that will <em>change how you build with Claude.</em>',
     paragraphs: [
-      'These are the ones I actively use and recommend without caveats. Bookmark them tonight.',
+      'These are the ones I actively use and recommend without caveats. Bookmark them.',
     ],
     visual: 'resources',
     visualSide: 'right',

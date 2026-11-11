@@ -4,7 +4,6 @@ import portrait from "../../public/amit-headshot.png";
 import SITE_DATA from "../data/site.js";
 import { authoritySignals, currentWork, selectedWork } from "../data/home.js";
 
-const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
 ---
 <main id="main-content">
 <section id="hero" class="home-hero" aria-labelledby="hero-title">
@@ -13,10 +12,10 @@ const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
     <h1 id="hero-title">I fix the systems<br class="desktop-break" /> behind your <em>pipeline.</em></h1>
     <p class="hero-summary">{SITE_DATA.sub.replace(' — ', '. ')}</p>
     <div class="hero-actions">
-      <a href="/interview" class="primary-link">Book 15 minutes</a>
+      <a href="/interview" class="primary-link">Book a 30-minute call</a>
       <a href="#case-studies" class="secondary-link">Explore my work</a>
     </div>
-    <p class="hero-location">Aubrey, Texas · Dallas–Fort Worth</p>
+    <p class="hero-location">Prosper, Texas · Dallas–Fort Worth</p>
   </div>
   <figure class="hero-portrait">
     <div class="portrait-image"><Image src={portrait} alt="Amit Arora" widths={[320, 480, 640, 840]} sizes="(max-width: 640px) 300px, (max-width: 1000px) 35vw, 420px" width={640} height={640} format="webp" quality={85} loading="eager" fetchpriority="high" /></div>
@@ -84,24 +83,6 @@ const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
         ))}
       </div>
     </section>
-
-<section id="invoca" class="story-section invoca-section" aria-labelledby="invoca-title">
-  <div class="section-heading-row">
-    <div><p class="section-index">Current work / Invoca / Aug 2026 – Present</p><h2 id="invoca-title">AI systems with evidence<br />behind every decision.</h2></div>
-    <p class="invoca-intro">Real account signals. Research grounded in calls. Policies tested before enforcement.</p>
-  </div>
-  <div class="invoca-metrics" aria-label="Invoca project scope">
-    <div><strong>421</strong><span>accounts scored on a 0–8 scale</span></div>
-    <div><strong>117</strong><span>vendors researched from Gong calls</span></div>
-    <div><strong>~1,000</strong><span>deal approvals handled per month</span></div>
-  </div>
-  <div class="invoca-work">{invoca.categories.map((project, index) => (
-    <details class="invoca-detail" open={index === 0}>
-      <summary><span class="detail-number">{String(index + 1).padStart(2, '0')}</span><span>{project.name}</span><small>{project.status}</small><span class="detail-toggle" aria-hidden="true"></span></summary>
-      <div class="detail-body">{project.items.map(item => <p>{item}</p>)}</div>
-    </details>
-  ))}</div>
-</section>
 
 <section id="current" class="story-section current-section" aria-labelledby="current-title">
   <div class="section-heading-row"><div><p class="section-index">03 / Now</p><h2 id="current-title">Building systems.<br />Teaching the people behind them.</h2></div></div>
@@ -214,11 +195,16 @@ const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
         <p class="section-index light">08 / Start a conversation</p>
         <h2 id="contact-title">Have a revenue system people have stopped trusting?</h2>
         <p>
-          I am open to RevOps and GTM leadership conversations, along with select fractional engagements.
+          Book 30 minutes to talk shop about a revenue system, a GTM build, or what you are shipping with Claude Code.
           Bring the messy version. We can figure out what the system needs next.
         </p>
+        <p class="contact-routes">
+          Want to learn instead? <a href="https://ccforsf.com" target="_blank" rel="noopener noreferrer">Claude Code for Salesforce</a> is the course,
+          the <a href="/1-1-with-amit">1:1 AI Website Build Intensive</a> is a paid 90-minute working session, and
+          <a href="https://clawplex.dev" target="_blank" rel="noopener noreferrer">ClawPlex</a> is where DFW builders meet up.
+        </p>
         <div class="contact-actions">
-          <a href="/interview" class="primary-link light-button">Book 15 minutes</a>
+          <a href="/interview" class="primary-link light-button">Book a 30-minute call</a>
           <a href={`mailto:${SITE_DATA.social.email}`} class="contact-email">{SITE_DATA.social.email}</a>
           <a href={SITE_DATA.social.linkedin} target="_blank" rel="noopener noreferrer" class="contact-email">LinkedIn ↗</a>
         </div>
@@ -228,5 +214,5 @@ const invoca = SITE_DATA.experience.find(job => job.company === "Invoca");
 <footer class="site-footer">
   <a href="/" class="footer-brand">amit.so</a>
   <p>© {new Date().getFullYear()} Amit Arora</p>
-  <div><a href="/1-1-with-amit">1:1 Website Build</a><a href="/built">Built with Claude</a><a href="/applying">Applying in Public</a><a href="/llms.txt">llms.txt</a><a href="/privacy">Privacy</a><button type="button" data-cookie-preferences>Cookies</button></div>
+  <div><a href="/1-1-with-amit">1:1 Website Build</a><a href="/built">Built with Claude</a><a href="/applying">Applying in Public (archive)</a><a href="/llms.txt">llms.txt</a><a href="/privacy">Privacy</a><button type="button" data-cookie-preferences>Cookies</button></div>
 </footer>
