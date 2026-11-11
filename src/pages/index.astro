@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HomeContent from '../components/HomeContent.astro';
-import SiteNav from '../components/SiteNav.astro';
-import '../styles/home.css';
+import HomeRetro from '../components/HomeRetro.astro';
+import '../styles/home-retro.css';
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -44,6 +43,6 @@ const jsonLd = JSON.stringify({
   jsonLd={jsonLd}
   showFloatingCta={false}
 >
-  <SiteNav />
-  <HomeContent />
+  <link slot="head" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=VT323&display=swap" />
+  <HomeRetro />
 </BaseLayout>

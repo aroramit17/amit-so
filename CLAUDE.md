@@ -74,13 +74,13 @@ src/
 │                       #   built, raffle, screensaver, privacy)
 ├── layouts/
 │   └── BaseLayout.astro  # Shared <head> (SEO/OG/Twitter/JSON-LD), fonts, floating CTA
-├── components/         # CaseStudy.astro, FlowDiagram.astro, HomeContent.astro (homepage body), SiteNav.astro
+├── components/         # CaseStudy.astro, FlowDiagram.astro, HomeRetro.astro (homepage body + nav + footer)
 ├── data/
 │   ├── home.js         # Homepage presentation data (authority signals, current work, selected work)
 │   ├── site.js         # SITE_DATA — bio, stats, skills, experience, certs, projects,
 │   │                   #   milestones, social, case studies. Primary content source.
 │   └── built.ts        # Data for the /built page (skills, prompts, etc.)
-└── styles/             # Per-page CSS (home, interview, applying, case-study, privacy, built)
+└── styles/             # Per-page CSS (home-retro, interview, applying, case-study, privacy, built, intensive)
 public/                 # Served as-is at the site root:
 ├── robots.txt          #   already exists — keep updated
 ├── llms.txt            #   AI crawler discovery file — keep updated
@@ -181,7 +181,7 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 
 | Route | File | Purpose |
 | :---- | :---- | :---- |
-| `/` | `index.astro` | Home — positioning, verified numbers, case studies, current work, experience, skills, projects, contact routes. Body lives in `HomeContent.astro`, nav in `SiteNav.astro` |
+| `/` | `index.astro` | Home — retro design (Nov 2026): CRT-monitor hero, scoreboard of verified numbers, case studies, current work as cartridges, career log, origin + certs, projects, contact routes. Body in `HomeRetro.astro`, styles in `home-retro.css` (scoped under `.rt`). Section ids `#case-studies #current #experience #about #projects #contact` are linked from `llms.txt`; keep them |
 | `/interview` | `interview.astro` | General **30-minute** call booking (Cal.com `amit-arora/interview-amit`, a 30-min event). Not a job-interview page; the URL is kept for link stability. Points paid-session seekers to `/1-1-with-amit` |
 | `/applying` | `applying.astro` | **Archive** of the April 2026 "Applying in Public" series. Past tense only; no hiring CTA |
 | `/case-studies` | `case-studies.astro` | Index of case studies |
@@ -224,6 +224,7 @@ Amit's Nov 11 2026 requirements doc (`Amit_Website_Redesign_Requirements.docx`, 
 - Keep the short bio tight: 2–3 sentences max anywhere it appears.
 - **Invoca stays role-level.** Show it as current work (AI GTM systems & revenue operations, CPQ and deal desk), with no internal metrics, project names, systems, vendors, or policy details unless Amit supplies an approved, publishable case study. Removed details must not be reintroduced in copy, `llms.txt`, JSON-LD, or this file.
 - **Current status:** Amit is not job-searching. Location is Prosper, Texas. The booking call is 30 minutes. The 1:1 intensive is $297 / 90 minutes. Don't change prices or durations without Amit's approval.
+- **Homepage retro design:** the pixel font (VT323) is only for the hero headline, scoreboard numbers and a few short labels. Body copy stays in IBM Plex Sans. Retro flavor never replaces a clear label ("Book a 30-minute call", not "Insert coin").
 - Past events get dated archive treatment. Never leave "Tonight", "Enter now", or live-sounding activity on an evergreen page.
 - Always reference YouTube as `youtube.com/@ai-withamit` (one hyphen after "ai").
 

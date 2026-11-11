@@ -1,0 +1,177 @@
+---
+// Homepage body — retro design (late-80s computing). Content comes from src/data/.
+// Section ids (#case-studies, #current, #experience, #about, #projects, #contact) are
+// linked from llms.txt and other pages; keep them stable.
+import SITE_DATA from '../data/site.js';
+import { currentWork } from '../data/home.js';
+
+const scores = [
+  { label: 'Forecast accuracy', value: '+25%', where: 'DHI Group' },
+  { label: 'Client satisfaction', value: '98%', where: 'Slalom' },
+  { label: 'Project success rate', value: '95%', where: 'Slalom' },
+  { label: 'CRM migration led', value: '$750K', where: 'Avangrid' },
+  { label: 'Operational efficiency', value: '+30%', where: 'Avangrid' },
+  { label: 'Salesforce certifications', value: '8×', where: 'Admin to Agentforce' },
+];
+const cartridgeColors = ['#2763FF', '#F07866', '#3FB98C'];
+const current = SITE_DATA.experience[0];
+---
+<div class="rt">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <header class="rt-bar">
+    <a href="/" class="rt-brand" aria-label="Amit Arora home"><span class="rt-stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></span>amit.so</a>
+    <nav aria-label="Primary navigation">
+      <a href="#case-studies">Work</a>
+      <a href="#experience">Career</a>
+      <a href="#projects">Projects</a>
+      <a href="/built">Built with Claude</a>
+      <a href="/interview" class="rt-key rt-key--small">Book a call</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="rt-hero" aria-labelledby="hero-title">
+      <div class="rt-monitor">
+        <div class="rt-glass">
+          <p class="rt-prompt" aria-hidden="true">C:\AMIT&gt; whoami</p>
+          <p class="rt-who">Amit Arora · {current.role}, {current.company}</p>
+          <h1 id="hero-title">I fix the systems behind your pipeline<span class="rt-cursor" aria-hidden="true">_</span></h1>
+        </div>
+        <div class="rt-chin" aria-hidden="true">
+          <span class="rt-badge">AA-1989</span>
+          <span class="rt-knobs"><i></i><i></i></span>
+          <span class="rt-led"></span>
+        </div>
+      </div>
+
+      <aside class="rt-scores" aria-labelledby="scores-title">
+        <h2 id="scores-title">Scoreboard</h2>
+        <dl>
+          {scores.map((s) => (
+            <div class="rt-score">
+              <dt>{s.label}<small>{s.where}</small></dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+
+      <div class="rt-intro">
+        <p>{SITE_DATA.sub}</p>
+        <div class="rt-actions">
+          <a href="/interview" class="rt-key">Book a 30-minute call</a>
+          <a href="#case-studies" class="rt-key rt-key--plain">See the work</a>
+        </div>
+        <p class="rt-where">Prosper, Texas. Dallas–Fort Worth.</p>
+      </div>
+    </section>
+
+    <section id="case-studies" class="rt-section" aria-labelledby="work-title">
+      <h2 id="work-title" class="rt-h2">Case studies</h2>
+      <div class="rt-manuals">
+        {SITE_DATA.caseStudies.map((c) => (
+          <article class="rt-manual">
+            <p class="rt-manual-tag">{c.company}</p>
+            <h3>{c.title}</h3>
+            <p>{c.blurb}</p>
+            <p class="rt-manual-outcome"><strong>Outcome:</strong> {c.outcome}</p>
+            <a href={`/${c.slug}`}>Read the case study</a>
+          </article>
+        ))}
+      </div>
+      <p class="rt-more"><a href="/case-studies">All case studies</a></p>
+    </section>
+
+    <section id="current" class="rt-section" aria-labelledby="now-title">
+      <h2 id="now-title" class="rt-h2">Currently loaded</h2>
+      <ul class="rt-carts" role="list">
+        {currentWork.map((w, i) => (
+          <li>
+            <a class="rt-cart" href={w.href} target="_blank" rel="noopener noreferrer" style={`--c:${cartridgeColors[i % 3]}`}>
+              <span class="rt-cart-label">
+                <span class="rt-cart-title">{w.title}</span>
+                <span class="rt-cart-role">{w.role}</span>
+              </span>
+              <span class="rt-cart-copy">{w.copy}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="experience" class="rt-section" aria-labelledby="career-title">
+      <h2 id="career-title" class="rt-h2">Career log</h2>
+      <ol class="rt-log">
+        {SITE_DATA.experience.map((job) => (
+          <li>
+            <span class="rt-log-date">{job.dates}</span>
+            <div>
+              <h3>{job.company} <span>{job.role || job.scope}</span></h3>
+              <p>{job.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="about" class="rt-origin" aria-labelledby="origin-title">
+      <h2 id="origin-title">Before I built revenue systems, I ran hotels.</h2>
+      <p>
+        Hospitality taught me that systems only work when people actually use them. When the lobby is full,
+        the team needs a clear next step and someone who can fix the problem. That is still how I operate:
+        understand the real workflow, make ownership unmistakable, give leaders numbers they trust, and build
+        a rhythm the team can sustain after launch.
+      </p>
+      <p class="rt-certs"><strong>8× Salesforce certified:</strong> {SITE_DATA.certifications.join(', ')}.</p>
+    </section>
+
+    <section id="projects" class="rt-section" aria-labelledby="projects-title">
+      <h2 id="projects-title" class="rt-h2">Beyond the role</h2>
+      <ul class="rt-projects" role="list">
+        {SITE_DATA.projects.map((p) => (
+          <li>
+            <a href={p.link} target="_blank" rel="noopener noreferrer">
+              <span class="rt-project-title">{p.title}</span>
+              <span class="rt-project-type">{p.type}</span>
+              <span class="rt-project-desc">{p.desc}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="contact" class="rt-contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Have a revenue system people have stopped trusting?</h2>
+      <p>
+        Book 30 minutes to talk shop about a revenue system, a GTM build, or what you are shipping with Claude Code.
+        Bring the messy version.
+      </p>
+      <p>
+        Want to learn instead? <a href="https://ccforsf.com" target="_blank" rel="noopener noreferrer">Claude Code for Salesforce</a> is the course,
+        the <a href="/1-1-with-amit">1:1 AI Website Build Intensive</a> is a paid 90-minute working session, and
+        <a href="https://clawplex.dev" target="_blank" rel="noopener noreferrer">ClawPlex</a> is where DFW builders meet up.
+      </p>
+      <div class="rt-actions">
+        <a href="/interview" class="rt-key">Book a 30-minute call</a>
+        <a href={`mailto:${SITE_DATA.social.email}`} class="rt-link">{SITE_DATA.social.email}</a>
+        <a href={SITE_DATA.social.linkedin} class="rt-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rt-foot">
+    <span>© {new Date().getFullYear()} Amit Arora</span>
+    <a href="/1-1-with-amit">1:1 Website Build</a>
+    <a href="/built">Built with Claude</a>
+    <a href="/applying">Applying in Public (archive)</a>
+    <a href="/llms.txt">llms.txt</a>
+    <a href="/privacy">Privacy</a>
+    <button type="button" class="rt-foot-btn" data-cookie-preferences>Cookies</button>
+  </footer>
+</div>
+
+<script>
+  document.querySelector('[data-cookie-preferences]')?.addEventListener('click', () => {
+    (window as Window & { showCookiePreferences?: () => void }).showCookiePreferences?.();
+  });
+</script>
