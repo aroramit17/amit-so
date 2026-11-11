@@ -135,7 +135,7 @@ export const BUILT_SECTIONS: BuiltSection[] = [
     ],
     visual: 'portfolio',
     visualSide: 'right',
-    stack: ['Claude Code', 'Cursor IDE', 'motionsites.ai', 'Vercel'],
+    stack: ['Claude Code', 'Cursor IDE', 'motionsites.ai', 'Cloudflare'],
     link: { label: 'amit.so', href: 'https://amit.so' },
   },
   {

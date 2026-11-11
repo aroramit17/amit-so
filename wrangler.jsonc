@@ -10,6 +10,9 @@
     "html_handling": "auto-trailing-slash",
     // Unknown paths get dist/404.html with a 404 status
     "not_found_handling": "404-page"
-  }
-  // Custom domains (amit.so) are added at DNS cutover — see CLAUDE.md §9.
+  },
+  // amit.so is the canonical host. www.amit.so → amit.so is a dashboard Redirect Rule (see CLAUDE.md §3).
+  "routes": [
+    { "pattern": "amit.so", "custom_domain": true }
+  ]
 }
