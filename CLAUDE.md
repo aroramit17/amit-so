@@ -44,7 +44,7 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
 
 - **Framework:** **Astro 4** (static output). React is available for interactive islands via `@astrojs/react`. **This is a real build step — the browser-Babel/JSX era is over.**
 - **Config:** [astro.config.mjs](astro.config.mjs) — `site: 'https://amit.so'`, `output: 'static'`, `build.format: 'file'` (pages emit as `built.html`, `interview.html`, etc.; Vercel `cleanUrls` serves them at `/built`, `/interview`).
-- **Hosting:** Cloudflare Workers with static assets only (no Worker script), config in [wrangler.jsonc](wrangler.jsonc). Moving off Vercel in Nov 2026; until the DNS cutover is done, Vercel still serves production from `main` and `vercel.json` stays in the repo.
+- **Hosting:** Cloudflare Workers with static assets only (no Worker script), config in [wrangler.jsonc](wrangler.jsonc). Moved off Vercel on Nov 11 2026; `vercel.json` is gone.
   - `assets.html_handling: "auto-trailing-slash"` serves `/built` from `built.html` and 307s `/built.html` and `/built/` to `/built` (the old Vercel `cleanUrls` + `trailingSlash: false`).
   - `assets.not_found_handling: "404-page"` serves `dist/404.html` (from `src/pages/404.astro`).
   - Path redirects live in [public/_redirects](public/_redirects); response headers (incl. 1-year immutable cache on `/_astro/*`) in [public/_headers](public/_headers). Both are copied into `dist/` and are not publicly served.
@@ -65,8 +65,9 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
 
 ```
 astro.config.mjs        # Astro config (site URL, static output, file format)
-wrangler.jsonc          # Cloudflare Workers static-assets config
-vercel.json             # legacy Vercel config — delete after the Cloudflare cutover
+wrangler.jsonc          # Cloudflare Workers static-assets config (main site)
+workers/www-redirect/   # amit-so-www Worker: www.amit.so → amit.so
+.github/workflows/      # deploy.yml — build + wrangler deploy on push
 src/
 ├── pages/              # One .astro file per route (index, interview, applying,
 │                       #   case-studies, webai-case-study, dhi-case-study,
@@ -192,7 +193,7 @@ Lives at `public/llms.txt` and is already populated (About / Case Studies / Expe
 | `/screensaver` | `screensaver.astro` | Arcade-style kinetic screensaver easter egg |
 | `/privacy` | `privacy.astro` | Privacy policy |
 
-Redirects (in `public/_redirects`, mirrored in `vercel.json` until cutover): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`, `/1-1 → /1-1-with-amit`.
+Redirects (in `public/_redirects`): `/built-with-claude → /built`, `/case-studies/case-study-1 → /webai-case-study`, `/case-studies/case-study-2 → /dhi-case-study`, `/1-1 → /1-1-with-amit`.
 
 ### Pages likely to be added
 
@@ -230,7 +231,7 @@ Amit's Nov 11 2026 requirements doc (`Amit_Website_Redesign_Requirements.docx`, 
 
 ## 9. Deployment workflow
 
-- Commits to `main` auto-deploy to Cloudflare via GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)): `npm ci`, `npm run build`, `npx wrangler deploy`. Other branches run `wrangler versions upload --preview-alias <branch>` → `https://<branch>-amit-so.aroramit-17.workers.dev`, without touching production. Repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Feature work happens on branches (e.g. `add-built-page`). Until Vercel's Git integration is disconnected, Vercel also deploys `main`.
+- Commits to `main` auto-deploy to Cloudflare via GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)): `npm ci`, `npm run build`, `npx wrangler deploy`. Other branches run `wrangler versions upload --preview-alias <branch>` → `https://<branch>-amit-so.aroramit-17.workers.dev`, without touching production. Repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Feature work happens on branches (e.g. `add-built-page`).
 - **Production must come from `main`.** On Oct 9 2026 the site was deployed via `vercel --prod` from a feature branch while `main` lagged, so the next push to `main` would have rolled the site back. Don't run a manual `wrangler deploy` from a branch. If you ever must, merge to `main` in the same session.
 - Before committing: `npm run build` must succeed, then run the local bot-readability test in §5.7 against `npm run preview` or the built `dist/` file.
 - After deployment, smoke-test the live URL with `curl` and confirm the content is in the response body.
