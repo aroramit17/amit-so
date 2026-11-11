@@ -1,0 +1,31 @@
+---
+// Chooser for the two homepage UI options. Preview only (noindex).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/privacy.css';
+---
+<BaseLayout
+  title="Homepage Options | Amit Arora"
+  description="Two design directions for the amit.so homepage, built from the live content."
+  canonical="https://amit.so/options"
+  showFloatingCta={false}
+>
+  <meta slot="head" name="robots" content="noindex" />
+  <div class="grain"></div>
+  <nav>
+    <a href="/" class="nav-brand">amit.so</a>
+    <a href="/" class="nav-back">&larr; Current homepage</a>
+  </nav>
+  <main>
+    <h1>Two homepage options</h1>
+    <p>Both use the same content as the live homepage. Only the design changes.</p>
+    <ul>
+      <li><a href="/options/retro">Option A: Retro</a>. Late-80s computing: a phosphor monitor hero, a scoreboard of results, current work as cartridges.</li>
+      <li><a href="/options/mashup">Option B: Record page</a>. The homepage as a CRM record: highlights panel, career path, a results table, and a conversation section.</li>
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  main ul { padding-left: 1.2rem; line-height: 1.9; }
+  main a { color: #14233b; text-underline-offset: 3px; font-weight: 600; }
+</style>
