@@ -39,6 +39,11 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: npx wrangler deploy --message "${GITHUB_SHA::7} ${GITHUB_REF_NAME}"
 
+      # www.amit.so → amit.so (separate redirect-only Worker; see workers/www-redirect/)
+      - name: Deploy www redirect
+        if: github.ref == 'refs/heads/main'
+        run: npx wrangler deploy --config workers/www-redirect/wrangler.jsonc --message "${GITHUB_SHA::7} ${GITHUB_REF_NAME}"
+
       - name: Upload preview version
         if: github.ref != 'refs/heads/main'
         run: |

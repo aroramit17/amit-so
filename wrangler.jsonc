@@ -11,7 +11,7 @@
     // Unknown paths get dist/404.html with a 404 status
     "not_found_handling": "404-page"
   },
-  // amit.so is the canonical host. www.amit.so → amit.so is a dashboard Redirect Rule (see CLAUDE.md §3).
+  // amit.so is the canonical host. www.amit.so → amit.so is the amit-so-www Worker (workers/www-redirect/).
   "routes": [
     { "pattern": "amit.so", "custom_domain": true }
   ]

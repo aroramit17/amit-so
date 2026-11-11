@@ -48,7 +48,8 @@ Voice reference: if Claude has access to the `amit-voice` skill, use it for any 
   - `assets.html_handling: "auto-trailing-slash"` serves `/built` from `built.html` and 307s `/built.html` and `/built/` to `/built` (the old Vercel `cleanUrls` + `trailingSlash: false`).
   - `assets.not_found_handling: "404-page"` serves `dist/404.html` (from `src/pages/404.astro`).
   - Path redirects live in [public/_redirects](public/_redirects); response headers (incl. 1-year immutable cache on `/_astro/*`) in [public/_headers](public/_headers). Both are copied into `dist/` and are not publicly served.
-  - `www.amit.so → amit.so` is a Cloudflare **Redirect Rule** in the dashboard. `_redirects` can't match hostnames. `amit.so` (apex) is the canonical host.
+  - `www.amit.so → amit.so` (301, path + query kept) is a separate redirect-only Worker, `amit-so-www`, in [workers/www-redirect/](workers/www-redirect/), deployed by the same workflow. `_redirects` can't match hostnames. `amit.so` (apex) is the canonical host.
+  - Custom domains live in `routes` in each wrangler config. **In CI, wrangler silently replaces any existing DNS record for a listed hostname**, so never add a hostname there that's used for something else (blog, funnels, forms, url, mail).
   - DNS is on Cloudflare (registrar: Namecheap). The zone also holds Zoho mail records (MX, SPF, verification TXT). Never touch those when changing web records.
   - Wrangler is pinned in `devDependencies`. Its bundled runtime caps `compatibility_date` (4.155.0 → 2026-10-30); bump both together.
 - **No backend.** All interactivity is client-side or links out to third-party tools (booking widget, YouTube, LinkedIn, etc.).
