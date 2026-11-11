@@ -1,0 +1,46 @@
+# Deploys amit.so to Cloudflare Workers (static assets).
+# - Push to main      → `wrangler deploy` (production, amit.so)
+# - Push to any other branch → `wrangler versions upload --preview-alias <branch>`
+#   (preview URL: https://<branch>-amit-so.aroramit-17.workers.dev; production untouched)
+# Secrets (set with `gh secret set`): CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Deploy production
+        if: github.ref == 'refs/heads/main'
+        run: npx wrangler deploy --message "${GITHUB_SHA::7} ${GITHUB_REF_NAME}"
+
+      - name: Upload preview version
+        if: github.ref != 'refs/heads/main'
+        run: |
+          alias=$(echo "$GITHUB_REF_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | cut -c1-40 | sed 's/-*$//')
+          npx wrangler versions upload --preview-alias "$alias" --message "${GITHUB_SHA::7} ${GITHUB_REF_NAME}"
