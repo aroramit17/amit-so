@@ -9,7 +9,7 @@ export const authoritySignals = [
 
 export const currentWork = [
   {
-    number: '01', title: 'Invoca', role: 'AI GTM systems & revenue operations',
+    number: '01', title: 'Invoca', role: 'Senior GTM AI Architect',
     copy: 'Building AI-assisted GTM systems for the revenue team, alongside CPQ and deal desk ownership.',
     href: 'https://www.invoca.com'
   },

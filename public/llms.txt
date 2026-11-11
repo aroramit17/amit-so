@@ -15,7 +15,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 - [Claude in the Wild meetup archive](https://amit.so/raffle): May 15, 2026 ClawPlex meetup in Frisco. The raffle is closed.
 - Based in Prosper, Texas (Dallas–Fort Worth); 10+ years across Revenue Operations, GTM systems, and Salesforce consulting
 - 8× Salesforce Certified — Administrator, Advanced Administrator, Sales Cloud, Service Cloud, Experience Cloud, AI Associate, Agentforce Specialist, Salesforce Maps
-- Currently at Invoca (Aug 2026 – present), building AI GTM systems and owning CPQ and deal desk operations
+- Currently Senior GTM AI Architect at Invoca (Aug 2026 – present), building AI GTM systems and owning CPQ and deal desk operations
 
 ## Case Studies
 
@@ -24,8 +24,8 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Experience
 
-- [Invoca](https://amit.so/#experience): Aug 2026 – Present. AI GTM systems and revenue operations. Building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations.
-- [RevShoppe](https://amit.so/#experience): Fractional GTM Engineer, Jun 2026 – Present. Builds HubSpot CRM infrastructure, lead qualification logic, and a Clay + Apollo enrichment/outbound stack for a B2B AI software client — lifecycle and lead-status sync, rule-based MQL gating and routing, account-based Clay dedup, and CRM data-integrity/reporting fixes.
+- [Invoca](https://amit.so/#experience): Senior GTM AI Architect, Aug 2026 – Present. AI GTM systems and revenue operations. Building AI-assisted GTM systems and workflows for the revenue team, and owning CPQ and deal desk operations.
+- [RevShoppe](https://amit.so/#experience): Fractional GTM Engineer, Jun 2026 – Oct 2026. Built HubSpot CRM infrastructure, lead qualification logic, and a Clay + Apollo enrichment/outbound stack for a B2B AI software client — lifecycle and lead-status sync, rule-based MQL gating and routing, account-based Clay dedup, and CRM data-integrity/reporting fixes.
 - [webAI, Inc.](https://amit.so/#experience): Revenue Operations Manager, Mar 2025 – Apr 2026. Led the HubSpot → Salesforce CRM transition. Architected an AI-driven outbound engine using Clay, n8n, Instantly, and HeyReach. Built Slack-integrated deal alert workflows and JSON-based AI personalization frameworks.
 - [DHI Group Inc](https://amit.so/#experience): Director, Business Systems, Oct 2021 – Jul 2024. Owned the full GTM tech stack (Salesforce, HubSpot). Designed pipeline and forecasting frameworks from scratch, improving accuracy by 25%. Built automated board-ready dashboards visualizing CAC, LTV, ARR, and funnel metrics.
 - [Slalom LLC](https://amit.so/#experience): Salesforce Consultant, May 2018 – Oct 2021. Delivered enterprise Financial Services engagements with 98% client satisfaction and 95% project success rate. Earned Sales Cloud, Service Cloud, Experience Cloud, and Platform App Builder certifications.
@@ -33,7 +33,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Current Work
 
-- Invoca (Aug 2026 – present): AI GTM systems and revenue operations, including CPQ and deal desk operations.
+- Invoca (Aug 2026 – present): Senior GTM AI Architect. AI GTM systems and revenue operations, including CPQ and deal desk operations.
 - [CC for SF](https://ccforsf.com): Founder and educator. A 24-lesson course teaching Salesforce admins and developers to build with Claude Code and the Salesforce DX MCP server while retaining human review and control.
 - [ClawPlex](https://clawplex.dev): Community Coordinator for a Dallas-Fort Worth community running hands-on AI meetups, build nights, and demos.
 - [AI with Amit](https://youtube.com/@ai-withamit): Practical video walkthroughs showing people how to build useful AI workflows.
@@ -58,7 +58,7 @@ This is the machine-readable index for [amit.so](https://amit.so) — the profes
 
 ## Context
 
-Amit began his career in hospitality management, where he learned to build operating rhythms that people actually use under pressure. He now applies that operating instinct to CRM architecture, revenue systems, and cross-functional GTM leadership. He currently works at Invoca, building AI GTM systems and owning CPQ and deal desk operations. His experience also includes fractional GTM engineering at RevShoppe beginning June 2026.
+Amit began his career in hospitality management, where he learned to build operating rhythms that people actually use under pressure. He now applies that operating instinct to CRM architecture, revenue systems, and cross-functional GTM leadership. He is currently Senior GTM AI Architect at Invoca, building AI GTM systems and owning CPQ and deal desk operations. His experience also includes fractional GTM engineering at RevShoppe from June to October 2026.
 
 ## Contact
 
