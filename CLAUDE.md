@@ -229,7 +229,7 @@ Amit's Nov 11 2026 requirements doc (`Amit_Website_Redesign_Requirements.docx`, 
 
 ## 9. Deployment workflow
 
-- Commits to `main` auto-deploy via Cloudflare Workers Builds (build `npm run build`, deploy `npx wrangler deploy`). Other branches get preview URLs. Feature work happens on branches (e.g. `add-built-page`). Until the cutover is finished, Vercel also deploys `main`.
+- Commits to `main` auto-deploy to Cloudflare via GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)): `npm ci`, `npm run build`, `npx wrangler deploy`. Other branches run `wrangler versions upload --preview-alias <branch>` → `https://<branch>-amit-so.aroramit-17.workers.dev`, without touching production. Repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Feature work happens on branches (e.g. `add-built-page`). Until Vercel's Git integration is disconnected, Vercel also deploys `main`.
 - **Production must come from `main`.** On Oct 9 2026 the site was deployed via `vercel --prod` from a feature branch while `main` lagged, so the next push to `main` would have rolled the site back. Don't run a manual `wrangler deploy` from a branch. If you ever must, merge to `main` in the same session.
 - Before committing: `npm run build` must succeed, then run the local bot-readability test in §5.7 against `npm run preview` or the built `dist/` file.
 - After deployment, smoke-test the live URL with `curl` and confirm the content is in the response body.
